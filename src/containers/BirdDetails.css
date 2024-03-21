@@ -1,0 +1,25 @@
+.details-page .card .card-img {
+	border-radius: 0;
+}
+
+.details-page .card .list-group {
+	border-radius: 0;
+	border-left: none;
+	border-right: none;
+	border-bottom: none;
+}
+
+.details-page .card .list-group-item {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	border-radius: 0;
+	border-left: none;
+	border-right: none;
+}
+
+.details-page .card .list-group-item.list-group-item-owner > span.text-center,
+.details-page .card .list-group-item.list-group-item-species > span.text-center {
+	word-break: break-word;
+	word-wrap: break-word;
+}

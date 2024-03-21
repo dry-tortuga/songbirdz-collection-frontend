@@ -1,0 +1,21 @@
+.listing-page .birds-table td {
+	height: calc(.5rem + 75px);
+}
+
+.listing-page .birds-table td > div {
+	display: flex;
+	align-items: center;
+	height: 100%;
+}
+
+.listing-page .birds-table td .bird-owner {
+	word-break: break-all;
+}
+
+.listing-page .pagination .page-item.active .page-link {
+	background-color: var(--bs-success);
+}
+
+.listing-page .pagination .page-item:not(.active):not(.disabled):hover .page-link {
+	background-color: var(--bs-gray-500);
+}

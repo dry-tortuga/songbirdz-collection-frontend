@@ -1,0 +1,63 @@
+{
+  "name": "Songbirdz Frontend",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Front-End for the Songbirdz NFT Collection",
+  "author": "dry-tortuga",
+  "license": "MIT",
+  "dependencies": {
+    "@headlessui/react": "^1.4.3",
+    "@heroicons/react": "^1.0.5",
+    "@testing-library/jest-dom": "^5.16.2",
+    "@testing-library/react": "^12.1.2",
+    "@testing-library/user-event": "^13.5.0",
+    "@web3-react/coinbase-wallet": "^8.2.3",
+    "@web3-react/core": "^8.2.3",
+    "@web3-react/metamask": "^8.2.4",
+    "@web3-react/walletconnect-v2": "^8.5.1",
+    "bootstrap": "^5.1.3",
+    "bootswatch": "^5.1.3",
+    "buffer": "^6.0.3",
+    "dayjs": "^1.11.9",
+    "ethers": "^5.7.2",
+    "react": "^17.0.2",
+    "react-bootstrap": "^2.4.0",
+    "react-dom": "^17.0.2",
+    "react-router-dom": "^6.2.2",
+    "react-scripts": "5.0.0",
+    "react-select": "^5.7.2",
+    "web3": "^1.7.1"
+  },
+  "devDependencies": {
+    "@babel/plugin-proposal-private-property-in-object": "^7.21.11",
+    "env-cmd": "^10.1.0"
+  },
+  "scripts": {
+    "copy-abi-backend": "cp ../songbirdz-collection-backend/artifacts/contracts/SongBirdz.sol/SongBirdz.json ./src/abi/SongBirdz.json",
+    "start": "npm run copy-abi-backend; react-scripts start",
+    "start:staging": "npm run copy-abi-backend; env-cmd -f .env.staging react-scripts start",
+    "build": "react-scripts build",
+    "build:staging": "env-cmd -f .env.staging npm run build",
+    "build:production": "env-cmd -f .env.production npm run build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject"
+  },
+  "eslintConfig": {
+    "extends": [
+      "react-app",
+      "react-app/jest"
+    ]
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  }
+}
