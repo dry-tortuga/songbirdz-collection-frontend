@@ -5,11 +5,12 @@ import { fetchBird } from "../utils/data";
 const useBird = ({ context, id }) => {
 
 	const [data, setData] = useState(null);
+	const [fetchedId, setFetchedId] = useState(null);
 
 	// Fetch the bird data from the backend contract
 	useEffect(() => {
 
-		if (context.songBirdzContract && context.account && !data) {
+		if (context.songBirdzContract && context.account && id !== fetchedId) {
 
 			const fetch = async () => {
 
@@ -17,6 +18,7 @@ const useBird = ({ context, id }) => {
 
 					const result = await fetchBird(context.songBirdzContract, id);
 
+					setFetchedId(id);
 					setData(result);
 
 				} catch (error) {
@@ -29,7 +31,7 @@ const useBird = ({ context, id }) => {
 
 		}
 
-	}, [context, id, data]);
+	}, [context, id, fetchedId, data]);
 
 	return [data, setData];
 

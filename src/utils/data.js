@@ -55,7 +55,8 @@ async function populateMetadata(data) {
 				const responseData = await response.json();
 
 				finalData.species = responseData.species;
-				finalData.image = responseData.image;
+				finalData.image = responseData.image_onchain;
+				finalData.imageLg = responseData.image;
 
 			}
 
@@ -67,6 +68,7 @@ async function populateMetadata(data) {
 
 			finalData.species = "UNIDENTIFIED";
 			finalData.image = `${process.env.PUBLIC_URL}/images/unidentified.jpg`;
+			finalData.imageLg = `${process.env.PUBLIC_URL}/images/unidentified.jpg`;
 
 		}
 
@@ -74,6 +76,7 @@ async function populateMetadata(data) {
 
 		finalData.species = "UNIDENTIFIED";
 		finalData.image = `${process.env.PUBLIC_URL}/images/unidentified.jpg`;
+		finalData.imageLg = `${process.env.PUBLIC_URL}/images/unidentified.jpg`;
 
 	}
 

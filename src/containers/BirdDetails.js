@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import {
+	Alert,
 	Button,
 	Card,
 	Col,
@@ -21,7 +22,6 @@ import useCurrentUser from "../hooks/useCurrentUser";
 import useBird from "../hooks/useBird";
 import useMintAPI from "../hooks/useMintAPI";
 
-import coinbaseLogo from "../images/coinbase-logomark-blue.svg";
 import openseaLogo from "../images/opensea-logomark-blue.svg";
 
 import { populateMetadata } from "../utils/data";
@@ -85,35 +85,58 @@ const BirdDetails = () => {
 					<>
 						<Row className="mb-3">
 							<Col className="d-flex align-items-center">
-								<h1 className="d-flex align-items-center me-auto">
+								<h1 className="d-flex align-items-center">
 									{bird.name}
 								</h1>
+								{bird.id > 0 &&
+									<Link
+										className="btn btn-outline-primary ms-3"
+										to={`/collection/${bird.id - 1}`}>
+										<svg
+											xmlns="http://www.w3.org/2000/svg"
+											width="16"
+											height="16"
+											fill="currentColor"
+											className="bi bi-arrow-left"
+											viewBox="0 0 16 16">
+											<path
+												fillRule="evenodd"
+												d="M15 8a.5.5 0 0 0-.5-.5H2.707l3.147-3.146a.5.5 0 1 0-.708-.708l-4 4a.5.5 0 0 0 0 .708l4 4a.5.5 0 0 0 .708-.708L2.707 8.5H14.5A.5.5 0 0 0 15 8" />
+										</svg>
+									</Link>
+								}
+								{bird.id < 999 &&
+									<Link
+										className="btn btn-outline-primary ms-3"
+										to={`/collection/${bird.id + 1}`}>
+										<svg
+											xmlns="http://www.w3.org/2000/svg"
+											width="16"
+											height="16"
+											fill="currentColor"
+											className="bi bi-arrow-right"
+											viewBox="0 0 16 16">
+											<path
+												fillRule="evenodd"
+												d="M1 8a.5.5 0 0 1 .5-.5h11.793l-3.147-3.146a.5.5 0 0 1 .708-.708l4 4a.5.5 0 0 1 0 .708l-4 4a.5.5 0 0 1-.708-.708L13.293 8.5H1.5A.5.5 0 0 1 1 8" />
+										</svg>
+									</Link>
+								}
 								{bird.owner
 									? (
-										<>
-											<a
-												className="btn btn-clear"
-												href={`https://opensea.io/assets/base/${context.songBirdzContract.address}/${bird.id}`}
-												rel="noopener noreferrer nofollow"
-												target="_blank">
-												<img
-													alt=""
-													src={openseaLogo}
-													style={{ width: '35px', height: 'auto' }} />
-											</a>
-											<a
-												className="btn btn-clear"
-												href={`https://nft.coinbase.com/nft/base/${context.songBirdzContract.address}/${bird.id}`}
-												rel="noopener noreferrer nofollow"
-												target="_blank">
-												<img
-													alt=""
-													src={coinbaseLogo}
-													style={{ width: '35px', height: 'auto' }} />
-											</a>
-										</>
+										<a
+											className="btn btn-clear ms-auto"
+											href={`https://opensea.io/assets/base/${context.songBirdzContract.address}/${bird.id}`}
+											rel="noopener noreferrer nofollow"
+											target="_blank">
+											<img
+												alt=""
+												src={openseaLogo}
+												style={{ width: '35px', height: 'auto' }} />
+										</a>
 									) : (
 										<Button
+											className="ms-auto"
 											disabled={txMintBird.transaction}
 											variant="success"
 											onClick={() => setIsIdentifyingBird(true)}>
@@ -121,6 +144,20 @@ const BirdDetails = () => {
 										</Button>
 									)
 								}
+							</Col>
+						</Row>
+						<Row className="mb-3">
+							<Col>
+								<Alert variant="info">
+									<b>{'1. '}</b>
+									<span className="me-1">{'Find a bird that is UNIDENTIFIED.'}</span>
+									<b>{'2. '}</b>
+									<span className="me-1">{'Listen to the audio recording of the bird\'s song.'}</span>
+									<b>{'3. '}</b>
+									<span className="me-1">{'Click on the "Identify" button and submit your guess for the correct species of the bird.'}</span>
+									<b>{'4. '}</b>
+									<span>{'If you\'re correct, you\'ll be the new owner of the bird!'}</span>
+								</Alert>
 							</Col>
 						</Row>
 						{(txMintBird.transaction || txMintBird.error) &&
@@ -137,10 +174,12 @@ const BirdDetails = () => {
 								<Card>
 									<Row>
 										<img
-											key={bird.image}
+											key={bird.imageLg}
 											alt=""
 											className="col-12 col-sm-6 col-md-4"
-											src={bird.image} />
+											src={bird.imageLg}
+											srcSet={`${bird.image} 256w, ${bird.imageLg} 768w`}
+											sizes="(max-width: 576px) 256px, 768px" />
 										<Card.Body className="col-12 col-sm-6 col-md-8 d-flex flex-column">
 											<Card.Title
 												as="h2"

@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useLocation } from "react-router-dom";
 import {
+	Alert,
 	Badge,
 	Col,
 	Container,
@@ -84,6 +85,18 @@ const BirdListing = () => {
 							<span>
 								{"Connect your wallet to get started..."}
 							</span>
+						}
+						{birds &&
+							<Alert variant="info">
+								<b>{'1. '}</b>
+								<span className="me-1">{'Find a bird that is UNIDENTIFIED.'}</span>
+								<b>{'2. '}</b>
+								<span className="me-1">{'Listen to the audio recording of the bird\'s song.'}</span>
+								<b>{'3. '}</b>
+								<span className="me-1">{'Click on the "Identify" button and submit your guess for the correct species of the bird.'}</span>
+								<b>{'4. '}</b>
+								<span>{'If you\'re correct, you\'ll be the new owner of the bird!'}</span>
+							</Alert>
 						}
 						{birds &&
 							<Tabs
