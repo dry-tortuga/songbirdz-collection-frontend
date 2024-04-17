@@ -29,7 +29,7 @@ const HomeContainer = () => {
 										className="me-lg-3 mb-4 mb-lg-0 btn btn-success"
 										target="_blank"
 										rel="noopener noreferrer nofollower"
-										href="https://discord.gg/bF8e8CQP">
+										href="https://discord.gg/UKGgRsJXzr">
 										{"Join Discord"}
 									</a>
 									<a
