@@ -64,7 +64,7 @@ const About = () => {
 						<ul>
 							<li>
 								<a
-									href="https://discord.gg/bF8e8CQP"
+									href="https://discord.gg/UKGgRsJXzr"
 									target="_blank"
 									rel="noopener noreferrer nofollower">
 									{"Discord"}
