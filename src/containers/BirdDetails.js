@@ -152,7 +152,7 @@ const BirdDetails = () => {
 									<b>{'1. '}</b>
 									<span className="me-1">{'Find a bird that is UNIDENTIFIED.'}</span>
 									<b>{'2. '}</b>
-									<span className="me-1">{'Listen to the audio recording of the bird\'s song.'}</span>
+									<span className="me-1">{'View the image and listen to the audio recording of the bird\'s song.'}</span>
 									<b>{'3. '}</b>
 									<span className="me-1">{'Click on the "Identify" button and submit your guess for the correct species of the bird.'}</span>
 									<b>{'4. '}</b>
