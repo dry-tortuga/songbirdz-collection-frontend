@@ -55,7 +55,9 @@ const BirdsTable = (props) => {
 											borderRadius: "15%"
 										}} />
 									<div className="d-flex flex-column ms-3">
-										<Link to={`/collection/${bird.id}`}>
+										<Link
+											className="text-info"
+											to={`/collection/${bird.id}`}>
 											{bird.name}
 										</Link>
 										{bird.owner &&
