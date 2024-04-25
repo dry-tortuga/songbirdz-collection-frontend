@@ -49,7 +49,9 @@ const useBirds = ({ context, collection }) => {
 	// Fetch the birds data from the backend contract
 	useEffect(() => {
 
-		if (context.songBirdzContract && context.account) {
+		if (context.songBirdzContract &&
+			context.account &&
+			context.chainId === process.env.REACT_APP_BASE_NETWORK_CHAIN_ID) {
 
 			const startIdxFetch = startIdx + (pagination.current_page * pagination.page_size);
 			const endIdxFetch = startIdx + ((pagination.current_page + 1) * pagination.page_size);

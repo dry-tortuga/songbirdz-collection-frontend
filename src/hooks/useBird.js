@@ -10,7 +10,10 @@ const useBird = ({ context, id }) => {
 	// Fetch the bird data from the backend contract
 	useEffect(() => {
 
-		if (context.songBirdzContract && context.account && id !== fetchedId) {
+		if (context.songBirdzContract &&
+			context.account &&
+			context.chainId === process.env.REACT_APP_BASE_NETWORK_CHAIN_ID &&
+			id !== fetchedId) {
 
 			const fetch = async () => {
 

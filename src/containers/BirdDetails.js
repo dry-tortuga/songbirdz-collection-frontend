@@ -18,7 +18,6 @@ import BirdIdentificationTransactionStatus from "../components/BirdIdentificatio
 
 import { COLLECTIONS } from "../constants";
 
-import useCurrentUser from "../hooks/useCurrentUser";
 import useBird from "../hooks/useBird";
 import useMintAPI from "../hooks/useMintAPI";
 
@@ -34,9 +33,6 @@ const BirdDetails = () => {
 
 	const params = useParams();
 
-	// Get the current user details
-	const [currentUser] = useCurrentUser({ context });
-
 	// Get the bird details
 	const [bird, setBird] = useBird({
 		context,
@@ -51,7 +47,7 @@ const BirdDetails = () => {
 		// Check if the user successfully identified the bird, i.e. is now the owner
 		if (transferEvent) {
 
-			const updatedData = { ...bird, owner: currentUser.account }; 
+			const updatedData = { ...bird, owner: context.account }; 
 
 			const finalData = await populateMetadata(updatedData);
 
@@ -78,10 +74,17 @@ const BirdDetails = () => {
 				{!bird &&
 					<i className="fa-solid fa-spinner fa-spin fa-xl me-2" />
 				}
-				{!currentUser &&
-					<span>{"Connect your wallet to get started..."}</span>
+				{!context.account &&
+					<span>
+						{"Connect your wallet to get started..."}
+					</span>
 				}
-				{currentUser && bird &&
+				{context.chainId !== process.env.REACT_APP_BASE_NETWORK_CHAIN_ID &&
+					<span>
+						{"Double check to make sure you're on the Base network..."}
+					</span>
+				}
+				{bird &&
 					<>
 						<Row className="mb-3">
 							<Col className="d-flex align-items-center">

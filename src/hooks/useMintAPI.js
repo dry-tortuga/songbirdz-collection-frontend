@@ -15,6 +15,10 @@ const useMintAPI = ({ context, cb }) => {
 
 		try {
 
+			if (context.chainId !== process.env.REACT_APP_BASE_NETWORK_CHAIN_ID) {
+				throw new Error('Double check to make sure you\'re on the Base network!');
+			}
+
 			// Build the transaction options, i.e. need to pay ETH to mint
 			const options = {
 				value: utils.parseEther(MINT_PRICE)
