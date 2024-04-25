@@ -12,7 +12,7 @@ const useBird = ({ context, id }) => {
 
 		if (context.songBirdzContract &&
 			context.account &&
-			context.chainId === process.env.REACT_APP_BASE_NETWORK_CHAIN_ID &&
+			context.isOnCorrectChain &&
 			id !== fetchedId) {
 
 			const fetch = async () => {
@@ -35,6 +35,18 @@ const useBird = ({ context, id }) => {
 		}
 
 	}, [context, id, fetchedId, data]);
+
+	// Reset data on chain changes...
+	useEffect(() => {
+
+		if (!context.isOnCorrectChain) {
+
+			setData(null);
+			setFetchedId(null);
+
+		}
+
+	}, [context]);
 
 	return [data, setData];
 

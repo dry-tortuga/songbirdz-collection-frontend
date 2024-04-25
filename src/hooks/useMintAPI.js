@@ -15,7 +15,7 @@ const useMintAPI = ({ context, cb }) => {
 
 		try {
 
-			if (context.chainId !== process.env.REACT_APP_BASE_NETWORK_CHAIN_ID) {
+			if (!context.isOnCorrectChain) {
 				throw new Error('Double check to make sure you\'re on the Base network!');
 			}
 

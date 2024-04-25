@@ -79,7 +79,7 @@ const BirdDetails = () => {
 						{"Connect your wallet to get started..."}
 					</span>
 				}
-				{context.chainId !== process.env.REACT_APP_BASE_NETWORK_CHAIN_ID &&
+				{!context.isOnCorrectChain &&
 					<span>
 						{"Double check to make sure you're on the Base network..."}
 					</span>
