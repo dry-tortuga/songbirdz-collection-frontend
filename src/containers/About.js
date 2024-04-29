@@ -74,7 +74,11 @@ const About = () => {
 								<a
 									href="https://basescan.org/address/0x7C3B795e2174C5E0C4F7d563A2FB34F024C8390B"
 									target="_blank"
-									rel="noopener noreferrer nofollower">
+									rel="noopener noreferrer nofollower"
+									style={{
+										wordBreak: 'break-word',
+										wordWrap: 'break-word',
+									}}>
 									{"Deployed Contract on Base - 0x7C3B795e2174C5E0C4F7d563A2FB34F024C8390B"}
 								</a>
 							</li>

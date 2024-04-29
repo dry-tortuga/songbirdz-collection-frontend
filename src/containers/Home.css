@@ -69,8 +69,8 @@
 
 .masthead {
   background-color: #f8f9fa;
-  padding-top: 9.5rem;
-  padding-bottom: 5rem;
+  padding-top: 3rem;
+  padding-bottom: 3rem;
 }
 .masthead .masthead-main-image {
   display: flex;
@@ -91,6 +91,12 @@
   }
 }
 @media (min-width: 768px) {
+
+  .masthead {
+    padding-top: 9.5rem;
+    padding-bottom: 5rem;
+  }
+
   .masthead .masthead-main-image .image-wrapper {
     max-width: 20rem;
   }

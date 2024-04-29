@@ -114,7 +114,7 @@ const BirdIdentificationModal = (props) => {
 					{"Cancel"}
 				</Button>
 				<Button
-					variant="success"
+					variant="info"
 					onClick={handleSubmit}>
 					{"Submit"}
 				</Button>

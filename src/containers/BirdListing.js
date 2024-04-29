@@ -94,16 +94,11 @@ const BirdListing = () => {
 						}
 						{birds &&
 							<Alert variant="info">
-								<b>{'1. '}</b>
-								<span className="me-1">{'Find a bird that is UNIDENTIFIED.'}</span>
-								<b>{'2. '}</b>
-								<span className="me-1">{'Click on the bird\'s name to see the minting page.'}</span>
-								<b>{'3. '}</b>
-								<span className="me-1">{'View the image and listen to the audio recording of the bird\'s song.'}</span>
-								<b>{'4. '}</b>
-								<span className="me-1">{'Click on the "Identify" button and submit your guess for the correct species of the bird from a list of 5 answer choices.'}</span>
-								<b>{'5. '}</b>
-								<span>{'If you\'re correct, you\'ll be the new owner of the bird!'}</span>
+								<p className="mb-1"><b>{'1. '}</b>{'Find a bird that is UNIDENTIFIED.'}</p>
+								<p className="mb-1"><b>{'2. '}</b>{'Click on the bird\'s name to see the minting page.'}</p>
+								<p className="mb-1"><b>{'3. '}</b>{'View the image and listen to the audio recording of the bird\'s song.'}</p>
+								<p className="mb-1"><b>{'4. '}</b>{'Click on the "Identify" button and submit your guess for the correct species of the bird from a list of 5 answer choices.'}</p>
+								<p className="mb-0"><b>{'5. '}</b>{'If you\'re correct, you\'ll be the new owner of the bird!'}</p>
 							</Alert>
 						}
 						{birds &&

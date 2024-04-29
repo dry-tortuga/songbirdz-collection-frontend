@@ -125,46 +125,31 @@ const BirdDetails = () => {
 										</svg>
 									</Link>
 								}
-								{bird.owner
-									? (
-										<a
-											className="btn btn-clear ms-auto"
-											href={`https://opensea.io/assets/base/${context.songBirdzContract.address}/${bird.id}`}
-											rel="noopener noreferrer nofollow"
-											target="_blank">
-											<img
-												alt=""
-												src={openseaLogo}
-												style={{ width: '35px', height: 'auto' }} />
-										</a>
-									) : (
-										<Button
-											className="ms-auto"
-											disabled={txMintBird.transaction}
-											variant="success"
-											onClick={() => setIsIdentifyingBird(true)}>
-											{"Identify"}
-										</Button>
-									)
+								{bird.owner &&
+									<a
+										className="btn btn-clear ms-auto"
+										href={`https://opensea.io/assets/base/${context.songBirdzContract.address}/${bird.id}`}
+										rel="noopener noreferrer nofollow"
+										target="_blank">
+										<img
+											alt=""
+											src={openseaLogo}
+											style={{ width: '35px', height: 'auto' }} />
+									</a>
 								}
 							</Col>
 						</Row>
-						<Row className="mb-3">
-							<Col>
-								<Alert variant="info">
-									<b>{'1. '}</b>
-									<span className="me-1">{'Find a bird that is UNIDENTIFIED.'}</span>
-									<b>{'2. '}</b>
-									<span className="me-1">{'Click on the bird\'s name to see the minting page.'}</span>
-									<b>{'3. '}</b>
-									<span className="me-1">{'View the image and listen to the audio recording of the bird\'s song.'}</span>
-									<b>{'4. '}</b>
-									<span className="me-1">{'Click on the "Identify" button and submit your guess for the correct species of the bird from a list of 5 answer choices.'}</span>
-									<b>{'5. '}</b>
-									<span>{'If you\'re correct, you\'ll be the new owner of the bird!'}</span>
-								</Alert>
-							</Col>
-						</Row>
+						{!bird.owner &&
+							<Row className="mb-3">
+								<Col>
+									<Alert variant="info">
+										<p className="mb-1"><b>{'1. '}</b>{'View the image and listen to the audio recording of the bird\'s song.'}</p>
+										<p className="mb-1"><b>{'2. '}</b>{'Click on the "Identify" button and submit your guess for the correct species of the bird from a list of 5 answer choices.'}</p>
+										<p className="mb-0"><b>{'3. '}</b>{'If you\'re correct, you\'ll be the new owner of the bird!'}</p>
+									</Alert>
+								</Col>
+							</Row>
+						}
 						{(txMintBird.transaction || txMintBird.error) &&
 							<Row className="mb-3">
 								<Col>
@@ -207,7 +192,7 @@ const BirdDetails = () => {
 												</Card.Text>
 											}
 											<ListGroup
-												className="mt-auto"
+												className="mb-3"
 												variant="flush">
 												<ListGroup.Item className="list-group-item-owner">
 													<span className="w-50 fw-bold">
@@ -234,6 +219,17 @@ const BirdDetails = () => {
 														birdId={bird.id} />
 												</ListGroup.Item>
 											</ListGroup>
+											{!bird.owner &&
+												<div className="d-grid gap-2">
+													<Button
+														disabled={txMintBird.transaction}
+														size="lg"
+														variant="info"
+														onClick={() => setIsIdentifyingBird(true)}>
+														{"Identify"}
+													</Button>
+												</div>
+											}
 										</Card.Body>
 									</Row>
 								</Card>

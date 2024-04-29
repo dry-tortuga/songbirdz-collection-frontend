@@ -14,26 +14,26 @@ const HomeContainer = () => {
 	return (
 		<div className="home-page">
 			<header className="masthead">
-				<div className="container px-5">
+				<div className="container px-md-5">
 					<div className="row gx-5 align-items-center">
 						<div className="col-lg-6">
 							<div className="mb-5 mb-lg-0 text-center text-lg-start">
 								<h1 className="display-1 lh-1 mb-3">
 									{"Songbirdz"}
 								</h1>
-								<p className="lead fw-normal mb-5">
+								<p className="lead fw-normal mb-md-5">
 									{"A collection of 10,000 bird NFTs who love nothing more than to sing a sweet tune. "}
 								</p>
 								<div className="d-flex flex-column flex-lg-row align-items-center">
 									<a
-										className="me-lg-3 mb-4 mb-lg-0 btn btn-success"
+										className="me-lg-3 mb-3 mb-lg-0 btn btn-success"
 										target="_blank"
 										rel="noopener noreferrer nofollower"
 										href="https://discord.gg/UKGgRsJXzr">
 										{"Join Discord"}
 									</a>
 									<a
-										className="me-lg-3 mb-4 mb-lg-0 btn btn-secondary"
+										className="me-lg-3 btn btn-secondary"
 										href="/collection">
 										{"Explore Collection"}
 									</a>
