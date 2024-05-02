@@ -75,14 +75,23 @@ const BirdDetails = () => {
 					<i className="fa-solid fa-spinner fa-spin fa-xl me-2" />
 				}
 				{!context.account &&
-					<span>
+					<span className="me-1">
 						{"Connect your wallet to get started..."}
 					</span>
 				}
 				{!context.isOnCorrectChain &&
-					<span>
+					<span className="me-1">
 						{"Double check to make sure you're on the Base network..."}
 					</span>
+				}
+				{!context.account &&
+					<div className="d-md-none d-flex align-items-center justify-content-center">
+						<Button
+							variant="info"
+							onClick={() => context.onConnectWallet()}>
+							{"Connect Wallet"}
+						</Button>
+					</div>
 				}
 				{bird &&
 					<>
