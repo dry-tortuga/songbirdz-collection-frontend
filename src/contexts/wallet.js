@@ -77,7 +77,6 @@ const WalletProvider = ({ children }) => {
 
 		if (provider === "coinbase-wallet") {
 		
-			// attempt to connect eagerly on mount
 			coinbaseWallet.activate(EXPECTED_CHAIN_ID).catch(() => {
 				console.debug("Failed to connect eagerly to coinbase wallet")
 			});
@@ -86,6 +85,13 @@ const WalletProvider = ({ children }) => {
 
 			metamaskWallet.activate(EXPECTED_CHAIN_ID).catch(() => {
 				console.debug("Failed to connect eagerly to metamask")
+			});
+
+		// Otherwise, fallback to the coinbase wallet as a default
+		} else {
+
+			coinbaseWallet.activate(EXPECTED_CHAIN_ID).catch(() => {
+				console.debug("Failed to connect eagerly to coinbase wallet")
 			});
 
 		}
