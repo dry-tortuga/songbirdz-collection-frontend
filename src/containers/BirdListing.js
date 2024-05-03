@@ -109,7 +109,7 @@ const BirdListing = () => {
 							<Alert
 								variant="info"
 								dismissible
-								onClose={() => setShowInfoAlert(false)}>>
+								onClose={() => setShowInfoAlert(false)}>
 								<p className="mb-1"><b>{'1. '}</b>{'Find a bird that is UNIDENTIFIED.'}</p>
 								<p className="mb-1"><b>{'2. '}</b>{'Click on the bird\'s name to see the minting page.'}</p>
 								<p className="mb-1"><b>{'3. '}</b>{'View the image and listen to the audio recording of the bird\'s song.'}</p>
