@@ -42,6 +42,9 @@ const BirdDetails = () => {
 	// True, if the modal is open
 	const [isIdentifyingBird, setIsIdentifyingBird] = useState(false);
 
+	// Keep track of the state of the info alert
+	const [showInfoAlert, setShowInfoAlert] = useState(true);
+
 	const onMintSuccess = async (idEvent, transferEvent) => {
 
 		// Check if the user successfully identified the bird, i.e. is now the owner
@@ -148,10 +151,13 @@ const BirdDetails = () => {
 								}
 							</Col>
 						</Row>
-						{!bird.owner &&
+						{!bird.owner && showInfoAlert &&
 							<Row className="mb-3">
 								<Col>
-									<Alert variant="info">
+									<Alert
+										variant="info"
+										dismissible
+										onClose={() => setShowInfoAlert(false)}>
 										<p className="mb-1"><b>{'1. '}</b>{'View the image and listen to the audio recording of the bird\'s song.'}</p>
 										<p className="mb-1"><b>{'2. '}</b>{'Click on the "Identify" button and submit your guess for the correct species of the bird from a list of 5 answer choices.'}</p>
 										<p className="mb-0"><b>{'3. '}</b>{'If you\'re correct, you\'ll be the new owner of the bird!'}</p>

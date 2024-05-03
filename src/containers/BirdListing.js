@@ -48,6 +48,9 @@ const BirdListing = () => {
 	// Keep track of the current tab
 	const [tab, setTab] = useState(TAB_AVAILABLE);
 
+	// Keep track of the state of the info alert
+	const [showInfoAlert, setShowInfoAlert] = useState(true);
+
 	console.debug("-------------- BirdListing -----------");
 	console.debug(birds);
 	console.debug(collection);
@@ -102,8 +105,11 @@ const BirdListing = () => {
 								</Button>
 							</div>
 						}
-						{birds &&
-							<Alert variant="info">
+						{birds && showInfoAlert &&
+							<Alert
+								variant="info"
+								dismissible
+								onClose={() => setShowInfoAlert(false)}>>
 								<p className="mb-1"><b>{'1. '}</b>{'Find a bird that is UNIDENTIFIED.'}</p>
 								<p className="mb-1"><b>{'2. '}</b>{'Click on the bird\'s name to see the minting page.'}</p>
 								<p className="mb-1"><b>{'3. '}</b>{'View the image and listen to the audio recording of the bird\'s song.'}</p>
