@@ -78,23 +78,34 @@ const WalletProvider = ({ children }) => {
 		if (provider === "coinbase-wallet") {
 		
 			coinbaseWallet.activate(EXPECTED_CHAIN_ID).catch(() => {
-				console.debug("Failed to connect eagerly to coinbase wallet")
+
+				console.debug("Failed to connect eagerly to coinbase wallet");
+				window.localStorage.removeItem("provider");
+
 			});
 
 		} else if (provider === "metamask-wallet") {
 
 			metamaskWallet.activate(EXPECTED_CHAIN_ID).catch(() => {
+
 				console.debug("Failed to connect eagerly to metamask")
+				window.localStorage.removeItem("provider");
+
 			});
 
 		// Otherwise, fallback to the coinbase wallet as a default
-		} else {
+		}
+
+		/* else {
 
 			coinbaseWallet.activate(EXPECTED_CHAIN_ID).catch(() => {
+
 				console.debug("Failed to connect eagerly to coinbase wallet")
+				window.localStorage.removeItem("provider");
+
 			});
 
-		}
+		} */
 
 	}, []);
 
