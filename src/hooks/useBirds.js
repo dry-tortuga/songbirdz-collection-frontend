@@ -49,7 +49,7 @@ const useBirds = ({ context, collection }) => {
 	// Fetch the birds data from the backend contract
 	useEffect(() => {
 
-		if (context.songBirdzContract && context.account) {
+		if (context.songBirdzContract && context.account && context.isOnCorrectChain) {
 
 			const startIdxFetch = startIdx + (pagination.current_page * pagination.page_size);
 			const endIdxFetch = startIdx + ((pagination.current_page + 1) * pagination.page_size);
@@ -75,6 +75,22 @@ const useBirds = ({ context, collection }) => {
 		}
 
 	}, [context, startIdx, pagination.current_page, pagination.page_size]);
+
+	// Reset data on chain changes...
+	useEffect(() => {
+
+		if (!context.isOnCorrectChain) {
+
+			setData(null);
+			setPagination({
+				page_size: PAGE_SIZE,
+				num_pages: numPages,
+				current_page: 0,
+			});
+
+		}
+
+	}, [context, numPages]);
 
 	return {
 		data,

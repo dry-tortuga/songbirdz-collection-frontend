@@ -10,13 +10,13 @@ import metamaskLogo from "../images/logo-metamask-wallet.png";
 
 import SongBirdzContract from "../abi/SongBirdz.json";
 
-const CHAIN_ID = process.env.REACT_APP_BASE_NETWORK_CHAIN_ID;
+const EXPECTED_CHAIN_ID = parseInt(process.env.REACT_APP_BASE_NETWORK_CHAIN_ID, 10);
 
 const [coinbaseWallet, coinbaseWalletHooks] = initializeConnector((actions) =>
 	new CoinbaseWallet({
 		actions,
 		options: {
-			supportedChainIds: [CHAIN_ID],
+			supportedChainIds: [EXPECTED_CHAIN_ID],
 		},
 	})
 );
@@ -25,7 +25,7 @@ const [metamaskWallet, metamaskWalletHooks] = initializeConnector((actions) =>
 	new MetaMask({
 		actions,
 		options: {
-			supportedChainIds: [CHAIN_ID],
+			supportedChainIds: [EXPECTED_CHAIN_ID],
 		},
 	})
 );
@@ -77,18 +77,35 @@ const WalletProvider = ({ children }) => {
 
 		if (provider === "coinbase-wallet") {
 		
-			// attempt to connect eagerly on mount
-			coinbaseWallet.activate(CHAIN_ID).catch(() => {
-				console.debug("Failed to connect eagerly to coinbase wallet")
+			coinbaseWallet.activate(EXPECTED_CHAIN_ID).catch(() => {
+
+				console.debug("Failed to connect eagerly to coinbase wallet");
+				window.localStorage.removeItem("provider");
+
 			});
 
 		} else if (provider === "metamask-wallet") {
 
-			metamaskWallet.activate(CHAIN_ID).catch(() => {
+			metamaskWallet.activate(EXPECTED_CHAIN_ID).catch(() => {
+
 				console.debug("Failed to connect eagerly to metamask")
+				window.localStorage.removeItem("provider");
+
 			});
 
+		// Otherwise, fallback to the coinbase wallet as a default
 		}
+
+		/* else {
+
+			coinbaseWallet.activate(EXPECTED_CHAIN_ID).catch(() => {
+
+				console.debug("Failed to connect eagerly to coinbase wallet")
+				window.localStorage.removeItem("provider");
+
+			});
+
+		} */
 
 	}, []);
 
@@ -121,6 +138,8 @@ const WalletProvider = ({ children }) => {
 			value={{
 				account,
 				chainId,
+				expectedChainId: EXPECTED_CHAIN_ID,
+				isOnCorrectChain: chainId === EXPECTED_CHAIN_ID,
 				songBirdzContract,
 				onConnectWallet: () => setIsModalOpen(true),
 				onDisconnectWallet: () => {
@@ -151,7 +170,7 @@ const WalletProvider = ({ children }) => {
 						w="100%"
 						onClick={() => {
 
-							coinbaseWallet.activate(CHAIN_ID)
+							coinbaseWallet.activate(EXPECTED_CHAIN_ID)
 								.then(() => {
 
 									setProvider("coinbase-wallet");
@@ -176,7 +195,7 @@ const WalletProvider = ({ children }) => {
 						w="100%"
 						onClick={() => {
 
-							metamaskWallet.activate(CHAIN_ID)
+							metamaskWallet.activate(EXPECTED_CHAIN_ID)
 								.then(() => {
 
 									setProvider("metamask-wallet");

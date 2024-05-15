@@ -1,7 +1,9 @@
 import React, { useState } from "react";
 import { useLocation } from "react-router-dom";
 import {
+	Alert,
 	Badge,
+	Button,
 	Col,
 	Container,
 	Row,
@@ -46,9 +48,13 @@ const BirdListing = () => {
 	// Keep track of the current tab
 	const [tab, setTab] = useState(TAB_AVAILABLE);
 
+	// Keep track of the state of the info alert
+	const [showInfoAlert, setShowInfoAlert] = useState(true);
+
 	console.debug("-------------- BirdListing -----------");
 	console.debug(birds);
 	console.debug(collection);
+	console.debug(context);
 	console.debug("--------------------------------------")
 
 	return (
@@ -81,9 +87,35 @@ const BirdListing = () => {
 							<i className="fa-solid fa-spinner fa-spin fa-xl me-2" />
 						}
 						{!context.account &&
-							<span>
+							<span className="me-1">
 								{"Connect your wallet to get started..."}
 							</span>
+						}
+						{!context.isOnCorrectChain &&
+							<span className="me-1">
+								{"Double check to make sure you're on the Base network..."}
+							</span>
+						}
+						{!context.account &&
+							<div className="d-md-none d-flex align-items-center justify-content-center mt-3">
+								<Button
+									variant="primary"
+									onClick={() => context.onConnectWallet()}>
+									{"Connect Wallet"}
+								</Button>
+							</div>
+						}
+						{birds && showInfoAlert &&
+							<Alert
+								variant="info"
+								dismissible
+								onClose={() => setShowInfoAlert(false)}>
+								<p className="mb-1"><b>{'1. '}</b>{'Find a bird that is UNIDENTIFIED.'}</p>
+								<p className="mb-1"><b>{'2. '}</b>{'Click on the bird\'s name to see the minting page.'}</p>
+								<p className="mb-1"><b>{'3. '}</b>{'View the image and listen to the audio recording of the bird\'s song.'}</p>
+								<p className="mb-1"><b>{'4. '}</b>{'Click on the "Identify" button and submit your guess for the correct species of the bird from a list of 5 answer choices.'}</p>
+								<p className="mb-0"><b>{'5. '}</b>{'If you\'re correct, you\'ll be the new owner of the bird!'}</p>
+							</Alert>
 						}
 						{birds &&
 							<Tabs

@@ -13,7 +13,8 @@ async function fetchBird(contract, id) {
 		name: `Songbird #${id}`,
 		owner: null,
 		species: null,
-		image: null,
+		image: `${process.env.PUBLIC_URL}/images/${id}.jpg`,
+		imageLg: `${process.env.PUBLIC_URL}/images/${id}-lg.jpg`,
 		collection: Math.floor(id / COLLECTION_BIRD_SIZE),
 	};
 
@@ -55,7 +56,8 @@ async function populateMetadata(data) {
 				const responseData = await response.json();
 
 				finalData.species = responseData.species;
-				finalData.image = responseData.image;
+				// finalData.image = responseData.image_onchain;
+				// finalData.imageLg = responseData.image;
 
 			}
 
@@ -66,14 +68,16 @@ async function populateMetadata(data) {
 			console.debug("--------------------------------------");
 
 			finalData.species = "UNIDENTIFIED";
-			finalData.image = `${process.env.PUBLIC_URL}/images/unidentified.jpg`;
+			// finalData.image = `${process.env.PUBLIC_URL}/images/unidentified.jpg`;
+			// finalData.imageLg = `${process.env.PUBLIC_URL}/images/unidentified.jpg`;
 
 		}
 
 	} else {
 
 		finalData.species = "UNIDENTIFIED";
-		finalData.image = `${process.env.PUBLIC_URL}/images/unidentified.jpg`;
+		// finalData.image = `${process.env.PUBLIC_URL}/images/unidentified.jpg`;
+		// finalData.imageLg = `${process.env.PUBLIC_URL}/images/unidentified.jpg`;
 
 	}
 
