@@ -20,7 +20,7 @@ const About = () => {
 				<Row>
 					<Col>
 						<p>
-							{"It is a collection of 10,000 Non-Fungible Tokens (NFTs) on the Ethereum L2 Base Network, which each item in the collection being a species of bird with an associated audio recording and unique image."}
+							{"It is a collection of 10,000 Non-Fungible Tokens (NFTs) on Base (Ethereum L2), which each item in the collection being a species of bird with an associated audio recording and unique image."}
 						</p>
 						<p>
 							{"It has been built using images from "}
@@ -64,10 +64,26 @@ const About = () => {
 						<ul>
 							<li>
 								<a
+									href="https://twitter.com/dry_tortuga"
+									target="_blank"
+									rel="noopener noreferrer nofollower">
+									{"Twitter"}
+								</a>
+							</li>
+							<li>
+								<a
 									href="https://discord.gg/UKGgRsJXzr"
 									target="_blank"
 									rel="noopener noreferrer nofollower">
 									{"Discord"}
+								</a>
+							</li>
+							<li>
+								<a
+									href="mailto:drytortuga67@gmail.com"
+									target="_blank"
+									rel="noopener noreferrer nofollower">
+									{"Email Address: drytortuga67@gmail.com"}
 								</a>
 							</li>
 							<li>
