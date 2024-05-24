@@ -43,11 +43,11 @@ const useMintAPI = ({ context, cb }) => {
 			const responseData = await response.json();
 
 			// Build the transaction to mint the bird
-			const resultTx = await songBirdzContractSigner.publicMint(
+			const resultTx = await context.publicMint(
 				id,
 				responseData.proof,
 				responseData.species_guess,
-				options,
+				MINT_PRICE,
 			);
 
 			// Store the transaction data

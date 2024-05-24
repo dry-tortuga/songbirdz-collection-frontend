@@ -49,7 +49,7 @@ const useBirds = ({ context, collection }) => {
 	// Fetch the birds data from the backend contract
 	useEffect(() => {
 
-		if (context.songBirdzContract && context.account && context.isOnCorrectChain) {
+		if (context.account && context.isOnCorrectChain) {
 
 			const startIdxFetch = startIdx + (pagination.current_page * pagination.page_size);
 			const endIdxFetch = startIdx + ((pagination.current_page + 1) * pagination.page_size);
@@ -60,7 +60,7 @@ const useBirds = ({ context, collection }) => {
 
 				for (let i = startIdxFetch; i < endIdxFetch; i++) {
 
-					const bird = await fetchBird(context.songBirdzContract, i);
+					const bird = await fetchBird(context, i);
 		
 					results.push(bird);
 
