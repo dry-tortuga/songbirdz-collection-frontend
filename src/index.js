@@ -1,22 +1,30 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
-import { Web3ReactProvider } from '@web3-react/core'
+import { createRoot } from 'react-dom/client';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
+import { WagmiProvider } from 'wagmi';
 import { Buffer } from 'buffer';
 
 import App from './App';
-import { WALLET_CONNECTORS } from './contexts/wallet';
+import config from './config';
 
 import 'bootswatch/dist/sketchy/bootstrap.min.css';
 import './index.css';
 
+const queryClient = new QueryClient();
+
 // Polyfill window buffer object for wallet connection logic
 window.Buffer = window.Buffer || Buffer;
 
-ReactDOM.render(
+const container = document.getElementById('root');
+
+const root = createRoot(container);
+
+root.render(
 	<React.StrictMode>
-		<Web3ReactProvider connectors={WALLET_CONNECTORS}>
-			<App />
-		</Web3ReactProvider>
+		 <WagmiProvider config={config}>
+		 	<QueryClientProvider client={queryClient}>
+				<App />
+			</QueryClientProvider>
+		</WagmiProvider>
 	</React.StrictMode>,
-	document.getElementById('root')
 );

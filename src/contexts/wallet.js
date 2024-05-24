@@ -1,44 +1,21 @@
 import React, { useContext, useEffect, useMemo, useState } from "react";
-import { useWeb3React, initializeConnector } from "@web3-react/core";
-import { CoinbaseWallet } from "@web3-react/coinbase-wallet";
-import { MetaMask } from "@web3-react/metamask";
+import {
+	Connector,
+	useAccount,
+	useConnect,
+	useDisconnect,
+	useEnsAvatar,
+	useEnsName,
+} from 'wagmi';
 import { Contract } from "ethers";
 import { Button, Modal } from "react-bootstrap";
+
+import WalletOptions from './walletOptions';
 
 import coinbaseLogo from "../images/logo-coinbase-wallet.png";
 import metamaskLogo from "../images/logo-metamask-wallet.png";
 
-import SongBirdzContract from "../abi/SongBirdz.json";
-
 const EXPECTED_CHAIN_ID = parseInt(process.env.REACT_APP_BASE_NETWORK_CHAIN_ID, 10);
-
-const [coinbaseWallet, coinbaseWalletHooks] = initializeConnector((actions) =>
-	new CoinbaseWallet({
-		actions,
-		options: {
-			supportedChainIds: [EXPECTED_CHAIN_ID],
-		},
-	})
-);
-
-const [metamaskWallet, metamaskWalletHooks] = initializeConnector((actions) =>
-	new MetaMask({
-		actions,
-		options: {
-			supportedChainIds: [EXPECTED_CHAIN_ID],
-		},
-	})
-);
-
-// https://docs.cloud.coinbase.com/wallet-sdk/docs/web3-react
-// https://www.npmjs.com/package/@web3-onboard/core
-
-// https://github.com/Uniswap/web3-react/tree/main#web3-react-beta
-
-export const WALLET_CONNECTORS = [
-	[metamaskWallet, metamaskWalletHooks],
-	[coinbaseWallet, coinbaseWalletHooks],
-];
 
 const WalletContext = React.createContext();
 
@@ -46,23 +23,15 @@ const useWalletContext = () => useContext(WalletContext);
 
 const WalletProvider = ({ children }) => {
 
-	const {
-		// ENSName,
-		// ENSNames,
-		account,
-		// accounts,
-		chainId,
-		connector,
-		// hooks,
-		// isActivating,
-		// isActive,
-		provider,
-	} = useWeb3React();
-
-	// const metamaskData = useMetamaskWallet();
-	// const coinbaseWalletData = useCoinbaseWallet();
+	const { address, chainId, isConnected } = useAccount();
+	const { connectors, connect } = useConnect();
+	const { disconnect } = useDisconnect();
+	const { data: ensName } = useEnsName({ address });
+	const { data: ensAvatar } = useEnsAvatar({ name: ensName });
 
 	const [isModalOpen, setIsModalOpen] = useState(false);
+
+	const account = address;
 
 	const setProvider = (type) => {
 		window.localStorage.setItem("provider", type);
@@ -74,6 +43,8 @@ const WalletProvider = ({ children }) => {
 		const provider = window.localStorage.getItem("provider");
 
 		console.debug(`Attempting to auto-connect to ${provider}...`);
+
+		/*
 
 		if (provider === "coinbase-wallet") {
 		
@@ -96,60 +67,29 @@ const WalletProvider = ({ children }) => {
 		// Otherwise, fallback to the coinbase wallet as a default
 		}
 
-		/* else {
-
-			coinbaseWallet.activate(EXPECTED_CHAIN_ID).catch(() => {
-
-				console.debug("Failed to connect eagerly to coinbase wallet")
-				window.localStorage.removeItem("provider");
-
-			});
-
-		} */
+		*/
 
 	}, []);
-
-	const songBirdzContract = useMemo(() => {
-
-		if (provider) {
-
-			return new Contract(
-				process.env.REACT_APP_SONGBIRDZ_CONTRACT_ADDRESS,
-				SongBirdzContract.abi,
-				provider,
-			);
-
-		}
-
-		return null;
-
-	}, [provider]);
 
 	console.debug("----------------------");
 	console.debug(`account=${account}`);
 	console.debug(`chainId=${chainId}`);
-	console.debug(connector);
-	console.debug(provider);
-	console.debug(songBirdzContract);
+	console.debug(`isConnected=${isConnected}`);
 	console.debug("----------------------");
 
 	return (
 		<WalletContext.Provider
 			value={{
 				account,
+				ensName,
+				ensAvatar,
 				chainId,
 				expectedChainId: EXPECTED_CHAIN_ID,
 				isOnCorrectChain: chainId === EXPECTED_CHAIN_ID,
-				songBirdzContract,
 				onConnectWallet: () => setIsModalOpen(true),
 				onDisconnectWallet: () => {
 
-					if (connector?.deactivate) {
-						connector.deactivate()
-					} else {
-						connector.resetState()
-					}
-
+					disconnect();
 					setProvider(undefined)
 
 				},
@@ -164,6 +104,8 @@ const WalletProvider = ({ children }) => {
 					</Modal.Title>
 				</Modal.Header>
 				<Modal.Body className="d-flex align-items-center">
+					<WalletOptions />
+					{/*
 					<Button
 						className="d-flex align-items-center"
 						variant="outline"
@@ -214,6 +156,7 @@ const WalletProvider = ({ children }) => {
 							style={{ width: 50, height: 50 }} />
 						{"Metamask"}
 					</Button>
+					*/}
 				</Modal.Body>
 			</Modal>
 		</WalletContext.Provider>
