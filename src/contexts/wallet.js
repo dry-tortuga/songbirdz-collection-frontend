@@ -1,4 +1,10 @@
-import React, { useCallback, useContext, useEffect, useMemo, useState } from "react";
+import React, {
+	useCallback,
+	useContext,
+	useEffect,
+	useMemo,
+	useState,
+} from "react";
 import {
 	Connector,
 	useAccount,
@@ -8,7 +14,13 @@ import {
 	useEnsName,
 	useSwitchChain,
 } from 'wagmi';
-import { readContract, simulateContract, writeContract } from "@wagmi/core";
+import { base, baseSepolia, hardhat } from 'wagmi/chains';
+import {
+	readContract,
+	simulateContract,
+	waitForTransactionReceipt,
+	writeContract,
+} from "@wagmi/core";
 import { parseEther } from "viem";
 import { Button, Modal } from "react-bootstrap";
 
@@ -79,7 +91,7 @@ const WalletProvider = ({ children }) => {
 
 	}, []);
 
-	// Callback function to fetch the mint a new bird
+	// Callback function to mint a new bird
 	const publicMint = useCallback(async (id, proof, guess, mintPrice) => {
 
 		try {
@@ -89,15 +101,18 @@ const WalletProvider = ({ children }) => {
 				address: SONGBIRDZ_CONTRACT_ADDRESS,
 				functionName: "publicMint",
 				args: [id, proof, guess],
-				chainId: EXPECTED_CHAIN_ID,
+				chainId: hardhat.id,
 				value: parseEther(mintPrice), 
 			});
 
 			const hash = await writeContract(config, request)
 
-			// TODO: USE waitForTransactionReceipt
+			const txReceipt = await waitForTransactionReceipt(config, {
+				chainId: EXPECTED_CHAIN_ID,
+				hash,
+			})
 
-			return [result, null];
+			return [txReceipt, null];
 
 		} catch (error) {
 

@@ -165,7 +165,7 @@ const BirdDetails = () => {
 								</Col>
 							</Row>
 						}
-						{(txMintBird.transaction || txMintBird.error) &&
+						{(txMintBird.pending || txMintBird.success || txMintBird.error) &&
 							<Row className="mb-3">
 								<Col>
 									<BirdIdentificationTransactionStatus
@@ -237,7 +237,7 @@ const BirdDetails = () => {
 											{!bird.owner &&
 												<div className="d-grid gap-2">
 													<Button
-														disabled={txMintBird.transaction}
+														disabled={txMintBird.pending}
 														size="lg"
 														variant="info"
 														onClick={() => setIsIdentifyingBird(true)}>
