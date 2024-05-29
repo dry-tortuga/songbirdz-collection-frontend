@@ -10,45 +10,53 @@ const useBird = ({ context, id }) => {
 	// Fetch the bird data from the backend contract
 	useEffect(() => {
 
-		if (context.account &&
-			context.isOnCorrectChain &&
-			(!fetchedId || id !== fetchedId)) {
+		if (!context.account) {
+			return;
+		}
 
-			setFetchedId(id);
+		if (!context.isOnCorrectChain) {
+			return;
+		}
 
-			// TODO: Debug duplicate fetchBird call()
+		if (id === fetchedId) {
+			return;
+		}
 
-			const fetch = async () => {
+		const fetch = async () => {
 
-				try {
+			try {
 
-					const result = await fetchBird(context, id);
+				setFetchedId(id);
 
-					setData(result);
+				// Fetch the owner data from the solidity contract
+				const [owner] = await context.actions.ownerOf(id);
 
-				} catch (error) {
-					console.error(error);
-				}
+				// Fetch the meta data from the backend server
+				const result = await fetchBird(id, owner);
 
+				setData(result);
+
+			} catch (error) {
+				console.error(error);
 			}
-
-			fetch();
 
 		}
 
-	}, [context, id, fetchedId]);
+		fetch();
+
+	}, [context.account, context.isOnCorrectChain, context.actions, id, fetchedId]);
 
 	// Reset data on chain changes
 	useEffect(() => {
 
-		if (!context.isOnCorrectChain) {
+		if (data && !context.isOnCorrectChain) {
 
 			setData(null);
 			setFetchedId(null);
 
 		}
 
-	}, [context]);
+	}, [context, data]);
 
 	return [data, setData];
 

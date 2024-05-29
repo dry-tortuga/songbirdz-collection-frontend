@@ -2,7 +2,7 @@ import { http, createConfig } from 'wagmi';
 import { base, baseSepolia, hardhat } from 'wagmi/chains';
 import { metaMask, walletConnect } from 'wagmi/connectors';
 
-const projectId = '<WALLETCONNECT_PROJECT_ID>';
+const walletConnectProjectId = process.env.REACT_APP_WALLET_CONNECT_PROJECT_ID;
 
 let chains = [];
 let transports = {};
@@ -27,7 +27,7 @@ if (process.env.NODE_ENV === 'development') {
 const config = createConfig({
 	chains,
 	connectors: [
-		walletConnect({ projectId }),
+		walletConnect({ projectId: walletConnectProjectId }),
 		metaMask(),
 		// cb wallet is included by default
 	],

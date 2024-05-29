@@ -1,23 +1,18 @@
 import { COLLECTION_BIRD_SIZE } from "../constants";
 
-async function fetchBird(context, id) {
+async function fetchBird(id, owner) {
 
 	console.debug("fetching bird #" + id);
 
 	const data = {
 		id,
 		name: `Songbird #${id}`,
-		owner: null,
+		owner,
 		species: null,
 		image: `${process.env.PUBLIC_URL}/images/${id}.jpg`,
 		imageLg: `${process.env.PUBLIC_URL}/images/${id}-lg.jpg`,
 		collection: Math.floor(id / COLLECTION_BIRD_SIZE),
 	};
-
-	// Fetch the owner data from the solidity contract
-	const [owner] = await context.actions.ownerOf(id);
-
-	data.owner = owner;
 
 	// Fetch the off-chain metadata from the back-end server
 	const finalData = await populateMetadata(data);

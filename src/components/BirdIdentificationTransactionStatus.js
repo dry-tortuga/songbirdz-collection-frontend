@@ -35,8 +35,6 @@ const BirdIdentificationTransactionStatus = (props) => {
 
 	if (tx.success) {
 
-		console.log(tx.idEvent.args.birdId);
-
 		const birdId = tx.idEvent?.args?.birdId;
 		const speciesNameGuess = tx.idEvent?.args?.speciesName;
 

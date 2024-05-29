@@ -68,7 +68,7 @@ const WalletProvider = ({ children }) => {
 	}, [isConnected, isModalOpen, chainId]);
 
 	// Callback function to fetch the owner of a bird
-	const ownerOf = useCallback(async (id) => {
+	const ownerOf = async (id) => {
 
 		try {
 
@@ -90,7 +90,7 @@ const WalletProvider = ({ children }) => {
 
 		}
 
-	}, []);
+	};
 
 	// Callback function to mint a new bird
 	const publicMint = useCallback(async (id, proof, guess, mintPrice) => {
@@ -117,7 +117,6 @@ const WalletProvider = ({ children }) => {
 
 		} catch (error) {
 
-			// Does not have owner yet
 			console.debug(error);
 			return [null, error];
 

@@ -55,8 +55,6 @@ const WalletOption = ({ connector, onClick }) => {
 
 	}
 
-	console.log(connector);
-
 	return (
 		<Button
 			className="d-flex align-items-center"
@@ -76,13 +74,3 @@ const WalletOption = ({ connector, onClick }) => {
 };
 
 export default WalletOptions;
-
-/*
-	<img
-							className="me-3"
-							alt=""
-							src={coinbaseLogo}
-							style={{ width: 50, height: 50 }} />
-						{"Coinbase Wallet"}
-
-						*/

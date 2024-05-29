@@ -60,7 +60,11 @@ const useBirds = ({ context, collection }) => {
 
 				for (let i = startIdxFetch; i < endIdxFetch; i++) {
 
-					const bird = await fetchBird(context, i);
+					// Fetch the owner data from the solidity contract
+					const [owner] = await context.actions.ownerOf(i);
+
+					// Fetch the meta data from the backend server
+					const bird = await fetchBird(i, owner);
 		
 					results.push(bird);
 
@@ -74,12 +78,19 @@ const useBirds = ({ context, collection }) => {
 
 		}
 
-	}, [context, startIdx, pagination.current_page, pagination.page_size]);
+	}, [
+		context.account,
+		context.isOnCorrectChain,
+		context.actions,
+		startIdx,
+		pagination.current_page,
+		pagination.page_size,
+	]);
 
 	// Reset data on chain changes...
 	useEffect(() => {
 
-		if (!context.isOnCorrectChain) {
+		if (data && !context.isOnCorrectChain) {
 
 			setData(null);
 			setPagination({
@@ -90,7 +101,7 @@ const useBirds = ({ context, collection }) => {
 
 		}
 
-	}, [context, numPages]);
+	}, [context, data, numPages]);
 
 	return {
 		data,

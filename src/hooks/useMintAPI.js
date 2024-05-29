@@ -71,10 +71,6 @@ const useMintAPI = ({ context, cb }) => {
 
 			}
 
-			console.debug(txSuccess);
-			console.debug(txError);
-			console.debug(events);
-
 			// Find the event(s) from the back-end
 
 			const idEvent = events.find(
