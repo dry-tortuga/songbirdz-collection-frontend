@@ -140,7 +140,7 @@ const BirdDetails = () => {
 								{bird.owner &&
 									<a
 										className="btn btn-clear ms-auto"
-										href={`https://opensea.io/assets/base/${context.songBirdzContract.address}/${bird.id}`}
+										href={`https://opensea.io/assets/base/${context.contractAddress}/${bird.id}`}
 										rel="noopener noreferrer nofollow"
 										target="_blank">
 										<img

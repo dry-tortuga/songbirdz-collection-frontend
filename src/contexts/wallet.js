@@ -5,6 +5,7 @@ import React, {
 	useMemo,
 	useState,
 } from "react";
+import { Interface } from "ethers";
 import {
 	Connector,
 	useAccount,
@@ -141,6 +142,8 @@ const WalletProvider = ({ children }) => {
 				chainId,
 				expectedChainId: EXPECTED_CHAIN_ID,
 				isOnCorrectChain: chainId === EXPECTED_CHAIN_ID,
+				contractAddress: SONGBIRDZ_CONTRACT_ADDRESS,
+				contractInterface: new Interface(SongBirdzContract.abi),
 				onConnectWallet: () => setIsModalOpen(true),
 				onDisconnectWallet: disconnect,
 				actions: {

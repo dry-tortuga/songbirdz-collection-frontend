@@ -32,15 +32,19 @@ const useMintAPI = ({ context, cb }) => {
 			const responseData = await response.json();
 
 			// Store the pending state for the transaction
-			setTx((prev) => Object.assign({}, prev, {
-				timestamp: null,
-				transaction: null,
-				confirmation: null,
-				pending: true,
-				success: false,
-				error: false,
-				errorMsg: null,
-			}));
+			setTimeout(() => {
+
+				setTx((prev) => Object.assign({}, prev, {
+					timestamp: null,
+					transaction: null,
+					confirmation: null,
+					pending: true,
+					success: false,
+					error: false,
+					errorMsg: null,
+				}));
+
+			}, 250);
 
 			// Build the transaction to mint the bird
 			const [txSuccess, txError] = await context.actions.publicMint(
@@ -50,30 +54,48 @@ const useMintAPI = ({ context, cb }) => {
 				MINT_PRICE,
 			);
 
+			let events = [];
+
+			if (txSuccess) {
+
+				console.debug(`handleMint, gasUsed=${txSuccess.gasUsed}`);
+
+				events = txSuccess.logs.map((log) => {
+
+					return context.contractInterface.parseLog({
+						data: log.data,
+						topics: log.topics,
+					});
+
+				});
+
+			}
+
+			console.debug(txSuccess);
+			console.debug(txError);
+			console.debug(events);
+
+			// Find the event(s) from the back-end
+
+			const idEvent = events.find(
+				(event) => event.name === EVENTS.BIRD_ID
+			);
+
+			const transferEvent = events.find(
+				(event) => event.name === EVENTS.TRANSFER
+			);
+
 			// Store the success/error state for the transaction
 			setTx((prev) => Object.assign({}, prev, {
 				timestamp: new Date(),
 				transaction: txSuccess,
-				confirmation: [],
+				idEvent,
+				transferEvent,
 				pending: false,
 				success: Boolean(txSuccess),
 				error: Boolean(txError),
 				errorMsg: txError,
 			}));
-
-			console.debug(`handleMint, gasUsed=${txSuccess.gasUsed.toNumber()}`);
-			console.debug(txSuccess);
-			console.log(txError);
-
-			// Find the event(s) from the back-end
-
-			const idEvent = txSuccess?.events?.find(
-				(event) => event.event === EVENTS.BIRD_ID
-			);
-
-			const transferEvent = resultTxConfirmation?.events?.find(
-				(event) => event.event === EVENTS.TRANSFER
-			);
 
 			// Notify the front-end of the event(s)
 			cb(idEvent, transferEvent);
