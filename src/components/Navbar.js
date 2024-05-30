@@ -9,6 +9,8 @@ import {
 
 import { useWalletContext } from "../contexts/wallet";
 
+import CreateWalletButton from "./CreateWalletButton";
+
 import "./Navbar.css";
 
 const NavbarHeader = () => {
@@ -55,17 +57,20 @@ const NavbarHeader = () => {
 								<Button
 									variant="primary"
 									onClick={() => onDisconnectWallet()}>
-									{"Disconnect Wallet"}
+									{"Disconnect"}
 								</Button>
 							</>
 						}
 						{!account &&
-							<Button
-								className="ms-md-auto"
-								variant="primary"
-								onClick={() => onConnectWallet()}>
-								{"Connect Wallet"}
-							</Button>
+							<div className="d-flex align-items-center ms-md-auto">
+								<CreateWalletButton />
+								<Button
+									className="ms-4"
+									variant="primary"
+									onClick={() => onConnectWallet()}>
+									{"Connect"}
+								</Button>
+							</div>
 						}
 					</Nav>
 				</Navbar.Collapse>

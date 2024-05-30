@@ -10,7 +10,12 @@ const WalletOptions = () => {
  
 	const { connectors, connect } = useConnect();
 
-	return connectors.map((connector) => (
+	// Filter out the smart wallet from the list of connection options
+	const finalConnectors = connectors.filter(
+		(connector) => connector.id !== "coinbaseWalletSDK"
+	);
+
+	return finalConnectors.map((connector) => (
 		<WalletOption
 			key={connector.uid}
 			connector={connector}

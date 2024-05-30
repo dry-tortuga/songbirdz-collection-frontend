@@ -26,9 +26,8 @@ import { parseEther } from "viem";
 import { Button, Modal } from "react-bootstrap";
 
 import SongBirdzContract from "../abi/SongBirdz.json";
+import WalletOptions from '../components/WalletOptions';
 import config from "../config";
-
-import WalletOptions from './WalletOptions';
 
 const EXPECTED_CHAIN_ID = parseInt(process.env.REACT_APP_BASE_NETWORK_CHAIN_ID, 10);
 const SONGBIRDZ_CONTRACT_ADDRESS = process.env.REACT_APP_SONGBIRDZ_CONTRACT_ADDRESS;
