@@ -14,8 +14,8 @@ import {
 	useEnsAvatar,
 	useEnsName,
 	useSwitchChain,
-} from 'wagmi';
-import { base, baseSepolia, hardhat } from 'wagmi/chains';
+} from "wagmi";
+import { base, baseSepolia, hardhat } from "wagmi/chains";
 import {
 	readContract,
 	simulateContract,
@@ -26,7 +26,7 @@ import { parseEther } from "viem";
 import { Button, Modal } from "react-bootstrap";
 
 import SongBirdzContract from "../abi/SongBirdz.json";
-import WalletOptions from '../components/WalletOptions';
+import WalletOptions from "../components/WalletOptions";
 import config from "../config";
 
 const EXPECTED_CHAIN_ID = parseInt(process.env.REACT_APP_BASE_NETWORK_CHAIN_ID, 10);
@@ -41,8 +41,8 @@ const WalletProvider = ({ children }) => {
 	const { address, chainId, isConnected } = useAccount();
 	const { connectors, connect } = useConnect();
 	const { disconnect } = useDisconnect();
-	const { data: ensName } = useEnsName({ address });
-	const { data: ensAvatar } = useEnsAvatar({ name: ensName });
+	// const { data: ensName } = useEnsName({ address });
+	// const { data: ensAvatar } = useEnsAvatar({ name: ensName });
 	const { switchChain } = useSwitchChain();
 
 	const [isModalOpen, setIsModalOpen] = useState(false);
@@ -58,7 +58,7 @@ const WalletProvider = ({ children }) => {
 		    switchChain({ chainId: EXPECTED_CHAIN_ID });
 	    }
 
-	    // Close the modal once we're connected
+	    // Close the modal once we are connected
 
 	    if (isConnected && isModalOpen) {
 	    	setIsModalOpen(false);
@@ -126,8 +126,8 @@ const WalletProvider = ({ children }) => {
 	console.debug("----------------------");
 	console.debug(`account=${account}`);
 	console.debug(`chainId=${chainId}`);
-	console.debug(`ensName=${ensName}`);
-	console.debug(`ensAvatar=${ensAvatar}`);
+	// console.debug(`ensName=${ensName}`);
+	// console.debug(`ensAvatar=${ensAvatar}`);
 	console.debug(`isConnected=${isConnected}`);
 	console.debug("----------------------");
 
@@ -135,8 +135,8 @@ const WalletProvider = ({ children }) => {
 		<WalletContext.Provider
 			value={{
 				account,
-				ensName,
-				ensAvatar,
+				ensName: null, // TODO
+				ensAvatar: null, // TODO
 				chainId,
 				expectedChainId: EXPECTED_CHAIN_ID,
 				isOnCorrectChain: chainId === EXPECTED_CHAIN_ID,

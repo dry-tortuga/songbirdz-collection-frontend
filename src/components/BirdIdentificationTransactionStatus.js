@@ -101,7 +101,7 @@ const BirdIdentificationTransactionStatus = (props) => {
 								</a>
 							</span>
 							<small>
-								{dayjs(new Date()).fromNow()}
+								{dayjs(tx.timestamp).fromNow()}
 							</small>
 						</>
 					}

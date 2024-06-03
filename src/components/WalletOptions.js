@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState } from "react";
 import { Button } from "react-bootstrap";
-import { Connector, useConnect } from 'wagmi';
+import { Connector, useConnect } from "wagmi";
 
 import coinbaseLogo from "../images/logo-coinbase-wallet.png";
 import metamaskLogo from "../images/logo-metamask-wallet.png";

@@ -37,7 +37,6 @@ const useMintAPI = ({ context, cb }) => {
 				setTx((prev) => Object.assign({}, prev, {
 					timestamp: null,
 					transaction: null,
-					confirmation: null,
 					pending: true,
 					success: false,
 					error: false,
