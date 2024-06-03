@@ -14,8 +14,6 @@ const CreateWalletButton = () => {
 			(connector) => connector.id === "coinbaseWalletSDK"
 		);
 
-		console.log(coinbaseWalletConnector);
-
 		if (coinbaseWalletConnector) {
 			connect({ connector: coinbaseWalletConnector });
 		}

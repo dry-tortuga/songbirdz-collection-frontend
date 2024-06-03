@@ -20,7 +20,7 @@ if (process.env.NODE_ENV === "development") {
 } else if (process.env.NODE_ENV === "production") {
 
 	chains.push(base);
-	transports[base.id] = http();
+	transports[base.id] = http(process.env.REACT_APP_BASE_NETWORK_RPC_URL);
 
 }
 
