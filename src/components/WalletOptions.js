@@ -10,10 +10,22 @@ const WalletOptions = ({ onClick }) => {
  
 	const { connectors } = useConnect();
 
+	// Check if the user is already using the Coinbase Wallet browser extension
+
+	const hasBrowserExtension =
+		connectors.find((connector) => connector.id === "com.coinbase.wallet");
+
 	// Filter out the smart wallet from the list of connection options
-	const finalConnectors = connectors.filter(
-		(connector) => connector.id !== "coinbaseWalletSDK"
-	);
+
+	let finalConnectors = connectors;
+
+	if (hasBrowserExtension) {
+
+		finalConnectors = connectors.filter(
+			(connector) => connector.id !== "coinbaseWalletSDK"
+		);
+
+	}
 
 	return finalConnectors.map((connector) => (
 		<WalletOption
@@ -49,7 +61,10 @@ const WalletOption = ({ connector, onClick }) => {
 
 		icon = metamaskLogo;
 
-	} else if (!icon && connector.id === "com.coinbase.wallet") {
+	} else if (!icon && (
+		connector.id === "com.coinbase.wallet" ||
+		connector.id === "coinbaseWalletSDK"
+	)) {
 
 		icon = coinbaseLogo;
 

@@ -30,7 +30,8 @@ const config = createConfig({
 	connectors: [
 		coinbaseWallet({
 			appName: "Songbirdz",
-			preference: "smartWalletOnly", // TODO
+			appLogoUrl: "https://songbirdz.cc/android-chrome-192x192.png",
+			preference: "eoaOnly", // TODO: Update to "all" once smart wallet is released
 		}),
 		walletConnect({ projectId: walletConnectProjectId }),
 		metaMask(),

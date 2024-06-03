@@ -49,6 +49,8 @@ const WalletProvider = ({ children }) => {
 
 	const account = address;
 
+	console.debug(connectors);
+
 	useEffect(() => {
 
 		// Auto-switch to the preferred chain based on the environment
