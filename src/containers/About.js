@@ -20,7 +20,7 @@ const About = () => {
 				<Row>
 					<Col>
 						<p>
-							{"It is a collection of 10,000 Non-Fungible Tokens (NFTs) on Base (Ethereum L2), which each item in the collection being a species of bird with an associated audio recording and unique image."}
+							{"It is a collection of 10,000 NFTs on Base (Ethereum L2), which each item in the collection being a species of bird with an associated song recording and unique image."}
 						</p>
 						<p>
 							{"It has been built using images from "}
@@ -44,13 +44,13 @@ const About = () => {
 							{"."}
 						</p>
 						<p>
-							{"There will be a total of 10 batches, each consisting of 1,000 birds, which each batch rolled out one-at-a-time and with a distinct set of species and image styling. Starting with the first batch of 1,000 (i.e. the Picasso collection), and ending once we've reached 10,000 total birds in the wild. The next batch of 1,000 birds won't be released until all birds in the previous batch has been successfully identified. The styling of future batches could draw inspiration from Jackson Pollock, Cubism, Popart, Art Deco, etc., and may feature different species of birds, with input from the community."}
+							{"There will be a total of 10 flocks, each consisting of 1,000 birds, which each flock rolled out one-at-a-time and with a distinct set of species, audio, and images. Starting with the first flock of 1,000 (i.e. the Picasso Genesis flock), and ending once we've reached 10,000 total birds in the wild. The next flock of 1,000 birds won't be released until all birds in the previous flock have been successfully identified. The styling of future flocks could draw inspiration from Jackson Pollock, Cubism, Popart, Art Deco, etc., and may feature different species of birds, with input from the community."}
 						</p>
 						<p>
 							{"To start, the species name will be hidden until the bird has been successfully identified, at which point the web application will update to show this information, as well as the owner of the bird."}
 						</p>
 						<p>
-							{"The contract uses a merkle tree to store an onchain hash of the species, image, and audio for each item/batch in the collection. The full merkle tree, species text, audio files, and image files are currently hidden and being served via a back-end web server. Once all the birds in a batch have been successfully identified, the full merkle tree, species text, audio files, and image files will be made publically available in github and will continue to be served by the web server. Once all 10,000 birds in the collection have been identified the merkle trees, species texts, audio files, image files, and web application for the entire collection will be uploaded to a decentralized storage provider such as nft.storage. The contract will then be updated to permanently freeze this metadata, the back-end web server will be shut down, and there will be no more changes to this project."}
+							{"The contract uses a merkle tree to store an onchain hash of the species, image, and audio for each item/flock in the collection. The full merkle tree, species text, audio files, and image files are currently hidden and being served via a back-end web server. Once all the birds in a flock have been successfully identified, the full merkle tree, species text, audio files, and image files will be made publically available in github and will continue to be served by the web server. Once all 10,000 birds in the collection have been identified the merkle trees, species texts, audio files, image files, and web application for the entire collection will be uploaded to a decentralized storage provider such as nft.storage. The contract will then be updated to permanently freeze this metadata, the back-end web server will be shut down, and there will be no more changes to this project."}
 						</p>
 						<p>
 							{"The smart contract governing the NFTs, the back-end code for the web server, and the front-end code for the web application are all open-source (MIT License). Every NFT in the collection is released under the Creative Commons Zero (CC0) license, granting users freedom to use, remix, and share the artworks without any restrictions."}

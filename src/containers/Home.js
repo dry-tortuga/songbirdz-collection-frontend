@@ -22,7 +22,7 @@ const HomeContainer = () => {
 									{"Songbirdz"}
 								</h1>
 								<p className="lead fw-normal mb-md-5">
-									{"A collection of 10,000 bird NFTs who love nothing more than to sing a sweet tune. "}
+									{"A collection of 10,000 based birds who love nothing more than to sing a sweet tune. "}
 								</p>
 								<div className="d-flex flex-column flex-lg-row align-items-center">
 									<a
@@ -57,7 +57,7 @@ const HomeContainer = () => {
 					<div className="row gx-5 justify-content-center">
 						<div className="col-xs-12">
 							<div className="h2 fs-3 text-white mb-4">
-								{"The Songbirdz NFT collection lives on Base. Each bird starts as an unidentified species with its name hidden. Listen to the bird's song, identify it as the correct species, and add it to your birding life list!"}
+								{"The Songbirdz collection lives on Base. Each bird starts as an unidentified species with its name hidden. Listen to the bird's song, identify it as the correct species, and add it to your birding life list!"}
 							</div>
 						</div>
 					</div>
