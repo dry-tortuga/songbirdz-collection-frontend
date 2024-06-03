@@ -101,6 +101,11 @@ const useMintAPI = ({ context, cb }) => {
 
 			setTx((prev) => Object.assign({}, prev, {
 				timestamp: new Date(),
+				transaction: null,
+				idEvent: null,
+				transferEvent: null,
+				pending: false,
+				success: false,
 				error: true,
 				errorMsg: error?.data?.message || "Oops there was an error...",
 			}));

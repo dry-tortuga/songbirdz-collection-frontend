@@ -6,9 +6,9 @@ import coinbaseLogo from "../images/logo-coinbase-wallet.png";
 import metamaskLogo from "../images/logo-metamask-wallet.png";
 import walletConnectLogo from "../images/logo-wallet-connect.svg";
 
-const WalletOptions = () => {
+const WalletOptions = ({ onClick }) => {
  
-	const { connectors, connect } = useConnect();
+	const { connectors } = useConnect();
 
 	// Filter out the smart wallet from the list of connection options
 	const finalConnectors = connectors.filter(
@@ -19,7 +19,7 @@ const WalletOptions = () => {
 		<WalletOption
 			key={connector.uid}
 			connector={connector}
-			onClick={() => connect({ connector })}
+			onClick={() => onClick(connector)}
 		/>
 	));
 

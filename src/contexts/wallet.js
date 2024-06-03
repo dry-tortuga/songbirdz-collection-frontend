@@ -66,8 +66,15 @@ const WalletProvider = ({ children }) => {
 
 	}, [isConnected, isModalOpen, chainId]);
 
+	const onClick = useCallback((selectedConnector) => {
+
+		connect({ connector: selectedConnector });
+		setIsModalOpen(false);
+
+	}, [connect]);
+
 	// Callback function to fetch the owner of a bird
-	const ownerOf = async (id) => {
+	const ownerOf = useCallback(async (id) => {
 
 		try {
 
@@ -89,7 +96,7 @@ const WalletProvider = ({ children }) => {
 
 		}
 
-	};
+	}, []);
 
 	// Callback function to mint a new bird
 	const publicMint = useCallback(async (id, proof, guess, mintPrice) => {
@@ -101,7 +108,7 @@ const WalletProvider = ({ children }) => {
 				address: SONGBIRDZ_CONTRACT_ADDRESS,
 				functionName: "publicMint",
 				args: [id, proof, guess],
-				chainId: hardhat.id,
+				chainId: EXPECTED_CHAIN_ID,
 				value: parseEther(mintPrice), 
 			});
 
@@ -159,7 +166,7 @@ const WalletProvider = ({ children }) => {
 					</Modal.Title>
 				</Modal.Header>
 				<Modal.Body className="d-flex flex-column align-items-center">
-					<WalletOptions />
+					<WalletOptions onClick={onClick} />
 				</Modal.Body>
 			</Modal>
 		</WalletContext.Provider>
