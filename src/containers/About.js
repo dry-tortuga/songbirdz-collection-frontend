@@ -20,7 +20,7 @@ const About = () => {
 				<Row>
 					<Col>
 						<p>
-							{"The Songbirdz collection is bringing bird watching onchain to Base. Each species is hidden until successfully identified based on its image/song."}
+							{"The Songbirdz collection is bringing bird watching onchain to Base. Each species is hidden until successfully identified based on its image and song."}
 						</p>
 						<p>
 							{"There will be a total of 10 flocks, each consisting of 1,000 birds, which each flock rolled out one-at-a-time and with a distinct set of species, song audio, and images. Starting with the first flock of 1,000 (i.e. the Picasso Genesis flock), and ending once we've reached 10,000 total birds in the wild. The next flock of 1,000 birds won't be released until all birds in the previous flock have been successfully identified. The styling of future flocks could draw inspiration from Jackson Pollock, Cubism, Popart, Art Deco, etc., and may feature different species of birds, with input from the community."}
