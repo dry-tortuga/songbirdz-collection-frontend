@@ -22,7 +22,6 @@ const CreateWalletButton = () => {
  
 	return (
 		<Button
-			className="d-none"
 			variant="primary"
 			onClick={createWallet}>
 			<div className="d-flex align-items-center">
