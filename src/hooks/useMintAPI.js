@@ -1,5 +1,3 @@
-import { utils } from "ethers";
-
 import useTransaction from "./useTransaction";
 
 import { EVENTS } from "../constants";
@@ -19,15 +17,6 @@ const useMintAPI = ({ context, cb }) => {
 				throw new Error('Double check to make sure you\'re on the Base network!');
 			}
 
-			// Build the transaction options, i.e. need to pay ETH to mint
-			const options = {
-				value: utils.parseEther(MINT_PRICE)
-			};
-
-			const signer = context.songBirdzContract.provider.getSigner();
-
-			const songBirdzContractSigner = context.songBirdzContract.connect(signer);
-
 			// Fetch the merkle tree proof from the back-end server
 
 			const proofParams = new URLSearchParams({ species_guess: speciesGuess });
@@ -42,44 +31,66 @@ const useMintAPI = ({ context, cb }) => {
 
 			const responseData = await response.json();
 
+			// Store the pending state for the transaction
+			setTimeout(() => {
+
+				setTx((prev) => Object.assign({}, prev, {
+					timestamp: null,
+					transaction: null,
+					pending: true,
+					success: false,
+					error: false,
+					errorMsg: null,
+				}));
+
+			}, 250);
+
 			// Build the transaction to mint the bird
-			const resultTx = await songBirdzContractSigner.publicMint(
+			const [txSuccess, txError] = await context.actions.publicMint(
 				id,
 				responseData.proof,
 				responseData.species_guess,
-				options,
+				MINT_PRICE,
 			);
 
-			// Store the transaction data
-			setTx((prev) => Object.assign({}, prev, {
-				timestamp: new Date(),
-				transaction: resultTx,
-				success: false,
-				error: false,
-			}));
+			let events = [];
 
-			// Wait for the transaction to be confirmed
-			const resultTxConfirmation = await resultTx.wait();
+			if (txSuccess) {
 
-			// Update the transaction status
-			setTx((prev) => Object.assign({}, prev, {
-				timestamp: new Date(),
-				confirmation: resultTxConfirmation,
-				success: true,
-			}));
+				console.debug(`handleMint, gasUsed=${txSuccess.gasUsed}`);
 
-			console.debug(`handleMint, gasUsed=${resultTxConfirmation.gasUsed.toNumber()}`);
-			console.debug(resultTxConfirmation.events);
+				events = txSuccess.logs.map((log) => {
+
+					return context.contractInterface.parseLog({
+						data: log.data,
+						topics: log.topics,
+					});
+
+				});
+
+			}
 
 			// Find the event(s) from the back-end
 
-			const idEvent = resultTxConfirmation.events.find(
-				(event) => event.event === EVENTS.BIRD_ID
+			const idEvent = events.find(
+				(event) => event.name === EVENTS.BIRD_ID
 			);
 
-			const transferEvent = resultTxConfirmation.events.find(
-				(event) => event.event === EVENTS.TRANSFER
+			const transferEvent = events.find(
+				(event) => event.name === EVENTS.TRANSFER
 			);
+
+			// Store the success/error state for the transaction
+			setTx((prev) => Object.assign({}, prev, {
+				timestamp: new Date(),
+				transaction: txSuccess,
+				idEvent,
+				transferEvent,
+				pending: false,
+				success: Boolean(txSuccess),
+				error: Boolean(txError),
+				errorMsg: txError,
+			}));
 
 			// Notify the front-end of the event(s)
 			cb(idEvent, transferEvent);
@@ -90,6 +101,11 @@ const useMintAPI = ({ context, cb }) => {
 
 			setTx((prev) => Object.assign({}, prev, {
 				timestamp: new Date(),
+				transaction: null,
+				idEvent: null,
+				transferEvent: null,
+				pending: false,
+				success: false,
 				error: true,
 				errorMsg: error?.data?.message || "Oops there was an error...",
 			}));

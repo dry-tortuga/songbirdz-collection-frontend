@@ -1,44 +1,36 @@
-import React, { useContext, useEffect, useMemo, useState } from "react";
-import { useWeb3React, initializeConnector } from "@web3-react/core";
-import { CoinbaseWallet } from "@web3-react/coinbase-wallet";
-import { MetaMask } from "@web3-react/metamask";
-import { Contract } from "ethers";
+import React, {
+	useCallback,
+	useContext,
+	useEffect,
+	useMemo,
+	useState,
+} from "react";
+import { Interface } from "ethers";
+import {
+	Connector,
+	useAccount,
+	useConnect,
+	useDisconnect,
+	useEnsAvatar,
+	useEnsName,
+	useSwitchChain,
+} from "wagmi";
+import { base, baseSepolia, hardhat } from "wagmi/chains";
+import {
+	readContract,
+	simulateContract,
+	waitForTransactionReceipt,
+	writeContract,
+} from "@wagmi/core";
+import { parseEther } from "viem";
 import { Button, Modal } from "react-bootstrap";
 
-import coinbaseLogo from "../images/logo-coinbase-wallet.png";
-import metamaskLogo from "../images/logo-metamask-wallet.png";
-
 import SongBirdzContract from "../abi/SongBirdz.json";
+import WalletOptions from "../components/WalletOptions";
+import config from "../config";
 
 const EXPECTED_CHAIN_ID = parseInt(process.env.REACT_APP_BASE_NETWORK_CHAIN_ID, 10);
-
-const [coinbaseWallet, coinbaseWalletHooks] = initializeConnector((actions) =>
-	new CoinbaseWallet({
-		actions,
-		options: {
-			supportedChainIds: [EXPECTED_CHAIN_ID],
-		},
-	})
-);
-
-const [metamaskWallet, metamaskWalletHooks] = initializeConnector((actions) =>
-	new MetaMask({
-		actions,
-		options: {
-			supportedChainIds: [EXPECTED_CHAIN_ID],
-		},
-	})
-);
-
-// https://docs.cloud.coinbase.com/wallet-sdk/docs/web3-react
-// https://www.npmjs.com/package/@web3-onboard/core
-
-// https://github.com/Uniswap/web3-react/tree/main#web3-react-beta
-
-export const WALLET_CONNECTORS = [
-	[metamaskWallet, metamaskWalletHooks],
-	[coinbaseWallet, coinbaseWalletHooks],
-];
+const SONGBIRDZ_CONTRACT_ADDRESS = process.env.REACT_APP_SONGBIRDZ_CONTRACT_ADDRESS;
 
 const WalletContext = React.createContext();
 
@@ -46,112 +38,124 @@ const useWalletContext = () => useContext(WalletContext);
 
 const WalletProvider = ({ children }) => {
 
-	const {
-		// ENSName,
-		// ENSNames,
-		account,
-		// accounts,
-		chainId,
-		connector,
-		// hooks,
-		// isActivating,
-		// isActive,
-		provider,
-	} = useWeb3React();
-
-	// const metamaskData = useMetamaskWallet();
-	// const coinbaseWalletData = useCoinbaseWallet();
+	const { address, chainId, isConnected } = useAccount();
+	const { connectors, connect } = useConnect();
+	const { disconnect } = useDisconnect();
+	// const { data: ensName } = useEnsName({ address });
+	// const { data: ensAvatar } = useEnsAvatar({ name: ensName });
+	const { switchChain } = useSwitchChain();
 
 	const [isModalOpen, setIsModalOpen] = useState(false);
 
-	const setProvider = (type) => {
-		window.localStorage.setItem("provider", type);
-	};
+	const account = address;
 
-	// Attempt to auto-connect to the user's default choice of wallet
+	console.debug(connectors);
+
 	useEffect(() => {
 
-		const provider = window.localStorage.getItem("provider");
+		// Auto-switch to the preferred chain based on the environment
 
-		console.debug(`Attempting to auto-connect to ${provider}...`);
+		if (isConnected && chainId !== EXPECTED_CHAIN_ID) {
+			console.debug(`Switching from chain=${chainId} to chain=${EXPECTED_CHAIN_ID}...`);
+		    switchChain({ chainId: EXPECTED_CHAIN_ID });
+	    }
 
-		if (provider === "coinbase-wallet") {
-		
-			coinbaseWallet.activate(EXPECTED_CHAIN_ID).catch(() => {
+	    // Close the modal once we are connected
 
-				console.debug("Failed to connect eagerly to coinbase wallet");
-				window.localStorage.removeItem("provider");
+	    if (isConnected && isModalOpen) {
+	    	setIsModalOpen(false);
+	    }
 
+	}, [isConnected, isModalOpen, chainId]);
+
+	const onClick = useCallback((selectedConnector) => {
+
+		connect({ connector: selectedConnector });
+		setIsModalOpen(false);
+
+	}, [connect]);
+
+	// Callback function to fetch the owner of a bird
+	const ownerOf = useCallback(async (id) => {
+
+		try {
+
+			const result = await readContract(config, {
+				abi: SongBirdzContract.abi,
+				address: SONGBIRDZ_CONTRACT_ADDRESS,
+				functionName: "ownerOf",
+				args: [id],
+				chainId: EXPECTED_CHAIN_ID,
 			});
 
-		} else if (provider === "metamask-wallet") {
+			return [result, null];
 
-			metamaskWallet.activate(EXPECTED_CHAIN_ID).catch(() => {
+		} catch (error) {
 
-				console.debug("Failed to connect eagerly to metamask")
-				window.localStorage.removeItem("provider");
+			// Does not have owner yet
+			console.debug(error);
+			return [null, error];
 
-			});
-
-		// Otherwise, fallback to the coinbase wallet as a default
 		}
-
-		/* else {
-
-			coinbaseWallet.activate(EXPECTED_CHAIN_ID).catch(() => {
-
-				console.debug("Failed to connect eagerly to coinbase wallet")
-				window.localStorage.removeItem("provider");
-
-			});
-
-		} */
 
 	}, []);
 
-	const songBirdzContract = useMemo(() => {
+	// Callback function to mint a new bird
+	const publicMint = useCallback(async (id, proof, guess, mintPrice) => {
 
-		if (provider) {
+		try {
 
-			return new Contract(
-				process.env.REACT_APP_SONGBIRDZ_CONTRACT_ADDRESS,
-				SongBirdzContract.abi,
-				provider,
-			);
+			const { request } = await simulateContract(config, {
+				abi: SongBirdzContract.abi,
+				address: SONGBIRDZ_CONTRACT_ADDRESS,
+				functionName: "publicMint",
+				args: [id, proof, guess],
+				chainId: EXPECTED_CHAIN_ID,
+				value: parseEther(mintPrice), 
+			});
+
+			const hash = await writeContract(config, request)
+
+			const txReceipt = await waitForTransactionReceipt(config, {
+				chainId: EXPECTED_CHAIN_ID,
+				hash,
+			})
+
+			return [txReceipt, null];
+
+		} catch (error) {
+
+			console.debug(error);
+			return [null, error];
 
 		}
 
-		return null;
-
-	}, [provider]);
+	}, []);
 
 	console.debug("----------------------");
 	console.debug(`account=${account}`);
 	console.debug(`chainId=${chainId}`);
-	console.debug(connector);
-	console.debug(provider);
-	console.debug(songBirdzContract);
+	// console.debug(`ensName=${ensName}`);
+	// console.debug(`ensAvatar=${ensAvatar}`);
+	console.debug(`isConnected=${isConnected}`);
 	console.debug("----------------------");
 
 	return (
 		<WalletContext.Provider
 			value={{
 				account,
+				ensName: null, // TODO
+				ensAvatar: null, // TODO
 				chainId,
 				expectedChainId: EXPECTED_CHAIN_ID,
 				isOnCorrectChain: chainId === EXPECTED_CHAIN_ID,
-				songBirdzContract,
+				contractAddress: SONGBIRDZ_CONTRACT_ADDRESS,
+				contractInterface: new Interface(SongBirdzContract.abi),
 				onConnectWallet: () => setIsModalOpen(true),
-				onDisconnectWallet: () => {
-
-					if (connector?.deactivate) {
-						connector.deactivate()
-					} else {
-						connector.resetState()
-					}
-
-					setProvider(undefined)
-
+				onDisconnectWallet: disconnect,
+				actions: {
+					ownerOf,
+					publicMint,
 				},
 			}}>
 			{children}
@@ -163,57 +167,8 @@ const WalletProvider = ({ children }) => {
 						{"Select Wallet"}
 					</Modal.Title>
 				</Modal.Header>
-				<Modal.Body className="d-flex align-items-center">
-					<Button
-						className="d-flex align-items-center"
-						variant="outline"
-						w="100%"
-						onClick={() => {
-
-							coinbaseWallet.activate(EXPECTED_CHAIN_ID)
-								.then(() => {
-
-									setProvider("coinbase-wallet");
-									setIsModalOpen(false);
-
-								}).catch((error) => {
-									console.debug(error);
-									console.debug("Failed to activate coinbase wallet");
-								});
-
-						}}>
-						<img
-							className="me-3"
-							alt=""
-							src={coinbaseLogo}
-							style={{ width: 50, height: 50 }} />
-						{"Coinbase Wallet"}
-					</Button>
-					<Button
-						className="d-flex align-items-center"
-						variant="outline"
-						w="100%"
-						onClick={() => {
-
-							metamaskWallet.activate(EXPECTED_CHAIN_ID)
-								.then(() => {
-
-									setProvider("metamask-wallet");
-									setIsModalOpen(false);
-
-								}).catch((error) => {
-									console.debug(error);
-									console.debug("Failed to activate metamask wallet");									
-								});
-
-						}}>
-						<img
-							className="me-3"
-							alt=""
-							src={metamaskLogo}
-							style={{ width: 50, height: 50 }} />
-						{"Metamask"}
-					</Button>
+				<Modal.Body className="d-flex flex-column align-items-center">
+					<WalletOptions onClick={onClick} />
 				</Modal.Body>
 			</Modal>
 		</WalletContext.Provider>

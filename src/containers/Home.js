@@ -57,7 +57,7 @@ const HomeContainer = () => {
 					<div className="row gx-5 justify-content-center">
 						<div className="col-xs-12">
 							<div className="h2 fs-3 text-white mb-4">
-								{"The Songbirdz collection lives on Base. Each bird starts as an unidentified species with its name hidden. Listen to the bird's song, identify it as the correct species, and add it to your birding life list!"}
+								{"The Songbirdz collection is bringing bird watching onchain to Base. Each bird starts as an unidentified species with its name hidden. Listen to the bird's song, identify it as the correct species, and add it to your birding life list!"}
 							</div>
 						</div>
 					</div>

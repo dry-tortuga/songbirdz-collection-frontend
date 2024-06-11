@@ -33,62 +33,39 @@ const BirdIdentificationTransactionStatus = (props) => {
 		return null;
 	}
 
-	if (tx.transaction) {
+	if (tx.success) {
 
-		if (tx.success) {
+		const birdId = tx.idEvent?.args?.birdId;
+		const speciesNameGuess = tx.idEvent?.args?.speciesName;
 
-			// Find the event(s) from the back-end
+		// Check if the bird species was successfully identified
+		if (tx.transferEvent) {
 
-			const idEvent = tx.confirmation?.events?.find(
-				(event) => event.event === EVENTS.BIRD_ID
-			);
+			variant = "success";
+			message = `You correctly identified Songbird #${birdId} as a ${speciesNameGuess}. You are now the proud owner!`;
 
-			const transferEvent =  tx.confirmation?.events?.find(
-				(event) => event.event === EVENTS.TRANSFER
-			);
-
-			const birdId = idEvent.args.birdId.toNumber();
-			const speciesNameGuess = idEvent.args.speciesName;
-
-			// Check if the bird species was successfully identified
-			if (transferEvent) {
-
-				variant = "success";
-				message = `You correctly identified Songbird #${birdId} as a ${speciesNameGuess}. You are now the proud owner!`;
-
-			// Otherwise, the bird species was not identified correctly
-			} else {
-
-				variant = "danger";
-				message = `You incorrectly identified Songbird #${birdId} as a ${speciesNameGuess}. Please try again!`;
-
-			}
-
+		// Otherwise, the bird species was not identified correctly
 		} else {
 
-			variant = "info";
-			message = "Hang tight, we're trying to verify your submission!";
+			variant = "danger";
+			message = `You incorrectly identified Songbird #${birdId} as a ${speciesNameGuess}. Please try again!`;
 
 		}
 
-		message = (
-			<>
-				<span>
-					{message}
-				</span>
-			</>
-		);
-
-	} else if (tx.error && tx.errorMsg) {
+	} else if (tx.error) {
 
 		variant = "danger";
-		message = tx.errorMsg;
+		message = `${tx.errorMsg.name}: ${tx.errorMsg.details}`;
+
+	} else if (tx.pending) {
+
+		variant = "info";
+		message = "Hang tight, we're trying to verify your submission!";
 
 	}
 
-	const showCloseButton = Boolean(
-		(tx.transaction && tx.success) || tx.error
-	);
+	// Check if the transaction has been finalized onchain
+	const showCloseButton = tx.success || tx.error;
 
 	return (
 		<ToastContainer
@@ -117,10 +94,10 @@ const BirdIdentificationTransactionStatus = (props) => {
 							<span className="ms-1 me-auto">
 								{" - "}
 								<a
-									href={`${process.env.REACT_APP_BASESCAN_URL}/tx/${tx.transaction.hash}`}
+									href={`${process.env.REACT_APP_BASESCAN_URL}/tx/${tx.transaction.transactionHash}`}
 									target="_blank"
 									rel="noopener noreferrer nofollow">
-									{tx.transaction.hash.slice(0, 8)}
+									{tx.transaction.transactionHash.slice(0, 8)}
 								</a>
 							</span>
 							<small>
@@ -130,10 +107,10 @@ const BirdIdentificationTransactionStatus = (props) => {
 					}
 				</Toast.Header>
 				<Toast.Body className="text-white">
-					{tx.transaction && !tx.success && !tx.error &&
+					{tx.pending &&
 						<i className="fa-solid fa-spinner fa-spin fa-lg me-1" />
 					}
-					{message}
+					<span>{message}</span>
 				</Toast.Body>
 			</Toast>
 		</ToastContainer>

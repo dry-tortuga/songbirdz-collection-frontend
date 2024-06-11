@@ -5,7 +5,7 @@ const useTransaction = () => {
 	const [data, setData] = useState({
 		timestamp: null,
 		transaction: null,
-		confirmation: null,
+		pending: false,
 		success: false,
 		error: false,
 		errorMsg: null,
@@ -14,7 +14,7 @@ const useTransaction = () => {
 	const resetData = useCallback(() => setData({
 		timestamp: null,
 		transaction: null,
-		confirmation: null,
+		pending: false,
 		success: false,
 		error: false,
 		errorMsg: null,
