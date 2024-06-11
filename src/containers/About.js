@@ -77,14 +77,6 @@ const About = () => {
 							</li>
 							<li>
 								<a
-									href="mailto:drytortuga67@gmail.com"
-									target="_blank"
-									rel="noopener noreferrer nofollower">
-									{"Email Address: drytortuga67@gmail.com"}
-								</a>
-							</li>
-							<li>
-								<a
 									href="https://basescan.org/address/0x7C3B795e2174C5E0C4F7d563A2FB34F024C8390B"
 									target="_blank"
 									rel="noopener noreferrer nofollower"
