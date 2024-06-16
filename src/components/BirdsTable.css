@@ -8,10 +8,6 @@
 	height: 100%;
 }
 
-.listing-page .birds-table td .bird-owner {
-	word-break: break-all;
-}
-
 .listing-page .pagination .page-item.active .page-link {
 	background-color: var(--bs-success);
 }

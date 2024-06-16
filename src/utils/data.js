@@ -21,6 +21,34 @@ async function fetchBird(id, owner) {
 
 }
 
+async function fetchLeaderboard(size) {
+
+	let finalData;
+
+	try {
+
+		// Fetch the points data from the back-end server
+		const response = await fetch(
+			`${process.env.REACT_APP_SONGBIRDZ_BACKEND_URL}/birds/leaderboard?limit=${size}`
+		);
+
+		// Parse the points data
+		if (response.status === 200) {
+			finalData = await response.json();
+		}
+
+	} catch (error) {
+
+		console.debug("---- ERROR FETCHING LEADERBOARD DATA ----");
+		console.debug(error);
+		console.debug("--------------------------------------");
+
+	}
+
+	return finalData;
+
+}
+
 async function populateMetadata(data) {
 
 	const finalData = { ...data };
@@ -65,5 +93,6 @@ async function populateMetadata(data) {
 
 export {
 	fetchBird,
+	fetchLeaderboard,
 	populateMetadata,
 };

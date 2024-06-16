@@ -14,6 +14,7 @@ import About from './containers/About';
 import BirdListing from './containers/BirdListing';
 import BirdDetails from './containers/BirdDetails';
 import Home from './containers/Home';
+import Leaderboard from './containers/Leaderboard';
 
 const AppWrapper = (props) => {
 
@@ -44,6 +45,9 @@ const App = () => {
 						<Route
 							path="collection/:id"
 							element={<BirdDetails />} />
+						<Route
+							path="leaderboard"
+							element={<Leaderboard />} />
 						<Route
 							path=""
 							element={<Home />} />

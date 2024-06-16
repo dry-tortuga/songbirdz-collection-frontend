@@ -1,10 +1,8 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import {
-	Pagination,
-	Table,
-} from "react-bootstrap";
+import { Pagination, Table } from "react-bootstrap";
 
+import AccountOwner from "./AccountOwner";
 import BirdAudioFile from "./BirdAudioFile";
 
 import "./BirdsTable.css";
@@ -54,16 +52,16 @@ const BirdsTable = (props) => {
 											height: 50,
 											borderRadius: "15%"
 										}} />
-									<div className="d-flex flex-column ms-3">
+									<div className="d-flex align-items-center ms-3">
 										<Link
 											className="text-info"
 											to={`/collection/${bird.id}`}>
 											{bird.name}
 										</Link>
-										{bird.owner &&
-											<span className="bird-owner">
-												{bird.owner}
-											</span>
+										{true && // TODO: bird.owner
+											<AccountOwner
+												className="ms-3"
+												account={bird.owner || '0xd8dA6BF26964aF9D7eEd9e03E53415D37aA96045'} />
 										}
 									</div>
 								</div>
