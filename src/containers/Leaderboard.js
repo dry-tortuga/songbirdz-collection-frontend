@@ -1,15 +1,17 @@
-import React, { useState } from "react";
+import React, { useCallback, useState } from "react";
 import {
 	Badge,
 	Button,
 	Col,
 	Container,
+	Modal,
 	Row,
 } from "react-bootstrap";
 
 import { useWalletContext } from "../contexts/wallet";
 
 import LeaderboardTable from "../components/LeaderboardTable";
+import LifeListModal from "../components/LifeListModal";
 
 import useLeaderboard from "../hooks/useLeaderboard";
 
@@ -21,6 +23,8 @@ const Leaderboard = () => {
 
 	// Get the list of users in the top 50
 	const { data: users } = useLeaderboard({ context });
+
+	const [lifeListModalAddress, setLifeListModalAddress] = useState(null);
 
 	console.debug("-------------- Leaderboard -----------");
 	console.debug(users);
@@ -66,7 +70,16 @@ const Leaderboard = () => {
 							}
 						*/}
 						{users &&
-							<LeaderboardTable users={users} />
+							<LeaderboardTable
+								users={users}
+								onUserClick={setLifeListModalAddress} />
+						}
+						{users &&
+							<LifeListModal
+								key={lifeListModalAddress}
+								address={lifeListModalAddress}
+								isOpen={Boolean(lifeListModalAddress)}
+								onToggle={() => setLifeListModalAddress(null)} />
 						}
 					</Col>
 				</Row>

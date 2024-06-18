@@ -1,6 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { Table } from "react-bootstrap";
+import { Button, Table } from "react-bootstrap";
 
 import AccountOwner from "./AccountOwner";
 
@@ -8,7 +8,7 @@ import AccountOwner from "./AccountOwner";
 
 const LeaderboardTable = (props) => {
 
-	const { users } = props;
+	const { users, onUserClick } = props;
 
 	return (
 		<Table
@@ -40,7 +40,12 @@ const LeaderboardTable = (props) => {
 							{index + 1}
 						</td>
 						<td>
-							<AccountOwner account={user.address} />
+							<a
+								href="#"
+								title="View Life List"
+								onClick={() => onUserClick(user.address)}>
+								<AccountOwner account={user.address} />
+							</a>
 						</td>
 						<td>
 							{user.total}
