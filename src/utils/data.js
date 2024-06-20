@@ -49,6 +49,34 @@ async function fetchLeaderboard(size) {
 
 }
 
+async function fetchLifeList(address) {
+
+	let finalData;
+
+	try {
+
+		// Fetch the points data from the back-end server
+		const response = await fetch(
+			`${process.env.REACT_APP_SONGBIRDZ_BACKEND_URL}/birds/life-list?address=${address}`
+		);
+
+		// Parse the points data
+		if (response.status === 200) {
+			finalData = await response.json();
+		}
+
+	} catch (error) {
+
+		console.debug("---- ERROR FETCHING LIFE LIST DATA ----");
+		console.debug(error);
+		console.debug("--------------------------------------");
+
+	}
+
+	return finalData;
+
+}
+
 async function populateMetadata(data) {
 
 	const finalData = { ...data };
@@ -94,5 +122,6 @@ async function populateMetadata(data) {
 export {
 	fetchBird,
 	fetchLeaderboard,
+	fetchLifeList,
 	populateMetadata,
 };

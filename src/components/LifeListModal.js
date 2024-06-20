@@ -1,20 +1,26 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { Button, Form, Modal } from "react-bootstrap";
+import { Badge, Button, Form, Modal } from "react-bootstrap";
 import { Name } from "@coinbase/onchainkit/identity";
 
 import { FAMILIES } from "../constants";
+import useLifeList from "../hooks/useLifeList";
 
 import AccountOwner from "./AccountOwner";
 
-// import "./LifeListModal.css";
+import "./LifeListModal.css";
 
 const LifeListModal = (props) => {
 
 	const { address, isOpen, onToggle } = props;
 
+	const { data } = useLifeList({ address });
+
+	console.log(data);
+
 	return (
 		<Modal
+			className="life-list-modal"
 			show={isOpen}
 			onHide={onToggle}>
 			<Modal.Header closeButton>
@@ -33,9 +39,18 @@ const LifeListModal = (props) => {
 						<div>
 							{family.species.map((species) => (
 								<Form.Check
-									id={`disabled-default-${species}`}
+									id={`disabled-default-${species.id}`}
 									type="checkbox"
-									label={species}
+									label={
+										<span>
+											{species.label}
+											<Badge
+												className="ms-1"
+												bg="info">
+												{data?.[species.id]?.amount}
+											</Badge>
+										</span>
+									checked={Boolean(data?.[species.id])}
 									disabled />
 							))}
 						</div>
