@@ -45,7 +45,7 @@ const NavbarHeader = () => {
 							{"Collection"}
 						</Link>
 						<Link
-							className="nav-item nav-link"
+							className="nav-item nav-link d-none"
 							to="/leaderboard"
 							onClick={() => setExpanded(false)}>
 							{"Leaderboard"}

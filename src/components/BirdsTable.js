@@ -58,10 +58,10 @@ const BirdsTable = (props) => {
 											to={`/collection/${bird.id}`}>
 											{bird.name}
 										</Link>
-										{true && // TODO: bird.owner
+										{bird.owner &&
 											<AccountOwner
 												className="ms-3"
-												account={bird.owner || '0xd8dA6BF26964aF9D7eEd9e03E53415D37aA96045'} />
+												account={bird.owner} />
 										}
 									</div>
 								</div>
