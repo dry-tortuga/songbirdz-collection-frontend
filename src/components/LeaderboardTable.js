@@ -4,7 +4,7 @@ import { Button, Table } from "react-bootstrap";
 
 import AccountOwner from "./AccountOwner";
 
-// import "./LeaderboardTable.css";
+import "./LeaderboardTable.css";
 
 const LeaderboardTable = (props) => {
 

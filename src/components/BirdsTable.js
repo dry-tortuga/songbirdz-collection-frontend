@@ -52,7 +52,7 @@ const BirdsTable = (props) => {
 											height: 50,
 											borderRadius: "15%"
 										}} />
-									<div className="d-flex align-items-center ms-3">
+									<div className="d-flex flex-column flex-lg-row align-items-center ms-3">
 										<Link
 											className="text-info"
 											to={`/collection/${bird.id}`}>

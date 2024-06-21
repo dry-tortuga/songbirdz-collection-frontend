@@ -16,6 +16,7 @@ import AccountOwner from "../components/AccountOwner";
 import BirdAudioFile from "../components/BirdAudioFile";
 import BirdIdentificationModal from "../components/BirdIdentificationModal";
 import BirdIdentificationTransactionStatus from "../components/BirdIdentificationTransactionStatus";
+import CreateWalletButton from "../components/CreateWalletButton";
 
 import { COLLECTIONS } from "../constants";
 
@@ -76,7 +77,9 @@ const BirdDetails = () => {
 	return (
 		<div className="details-page">
 			<Container className="my-4">
-				{!bird &&
+				{context.account &&
+					context.isOnCorrectChain &&
+					!bird &&
 					<i className="fa-solid fa-spinner fa-spin fa-xl me-2" />
 				}
 				{!context.account &&
@@ -84,14 +87,16 @@ const BirdDetails = () => {
 						{"Connect your wallet to get started..."}
 					</span>
 				}
-				{!context.isOnCorrectChain &&
+				{context.account && !context.isOnCorrectChain &&
 					<span className="me-1">
 						{"Double check to make sure you're on the Base network..."}
 					</span>
 				}
 				{!context.account &&
 					<div className="d-md-none d-flex align-items-center justify-content-center mt-3">
+						<CreateWalletButton />
 						<Button
+							className="mt-3"
 							variant="primary"
 							onClick={() => context.onConnectWallet()}>
 							{"Connect Wallet"}

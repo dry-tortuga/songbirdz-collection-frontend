@@ -15,6 +15,7 @@ import { useWalletContext } from "../contexts/wallet";
 
 import { COLLECTIONS } from "../constants";
 
+import CreateWalletButton from "../components/CreateWalletButton";
 import BirdsTable from "../components/BirdsTable";
 
 import useBirds from "../hooks/useBirds";
@@ -83,7 +84,9 @@ const BirdListing = () => {
 				</Row>
 				<Row>
 					<Col>
-						{!birds &&
+						{context.account &&
+							context.isOnCorrectChain &&
+							!birds &&
 							<i className="fa-solid fa-spinner fa-spin fa-xl me-2" />
 						}
 						{!context.account &&
@@ -91,14 +94,16 @@ const BirdListing = () => {
 								{"Connect your wallet to get started..."}
 							</span>
 						}
-						{!context.isOnCorrectChain &&
+						{context.account && !context.isOnCorrectChain &&
 							<span className="me-1">
 								{"Double check to make sure you're on the Base network..."}
 							</span>
 						}
 						{!context.account &&
 							<div className="d-md-none d-flex align-items-center justify-content-center mt-3">
+								<CreateWalletButton />
 								<Button
+									className="mt-3"
 									variant="primary"
 									onClick={() => context.onConnectWallet()}>
 									{"Connect Wallet"}
@@ -111,7 +116,7 @@ const BirdListing = () => {
 								dismissible
 								onClose={() => setShowInfoAlert(false)}>
 								<p className="mb-1"><b>{'1. '}</b>{'Find a bird that is UNIDENTIFIED.'}</p>
-								<p className="mb-1"><b>{'2. '}</b>{'Click on the bird\'s name to see the minting page.'}</p>
+								<p className="mb-1"><b>{'2. '}</b>{'Click on the bird\'s name to see the details page.'}</p>
 								<p className="mb-1"><b>{'3. '}</b>{'View the image and listen to the audio recording of the bird\'s song.'}</p>
 								<p className="mb-1"><b>{'4. '}</b>{'Click on the "Identify" button and submit your guess for the correct species of the bird from a list of 5 answer choices.'}</p>
 								<p className="mb-0"><b>{'5. '}</b>{'If you\'re correct, you\'ll be the new owner of the bird!'}</p>

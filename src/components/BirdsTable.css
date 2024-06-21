@@ -8,6 +8,10 @@
 	height: 100%;
 }
 
+.listing-page .birds-table svg[data-testid="ockAvatarDefaultSvg"] {
+	display: none;
+}
+
 .listing-page .pagination .page-item.active .page-link {
 	background-color: var(--bs-success);
 }
