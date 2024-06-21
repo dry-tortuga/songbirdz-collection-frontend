@@ -1,4 +1,15 @@
 .life-list-modal .form-check input,
-.life-list-modal .form-check label {
+.life-list-modal .form-check label,
+.life-list-modal .form-check badge {
 	opacity: 1;
+}
+
+.life-list-modal .form-check [type=checkbox]::before {
+	top: 0;
+}
+
+.life-list-modal .form-check [type=checkbox]:checked::after,
+.life-list-modal .form-check [type=checkbox]:indeterminate::after {
+	top: 0.1em;
+	left: 0.15em;
 }

@@ -36,23 +36,31 @@ const LifeListModal = (props) => {
 				{FAMILIES.map((family) => (
 					<>
 						<h4>{family.name}</h4>
-						<div>
-							{family.species.map((species) => (
-								<Form.Check
-									id={`disabled-default-${species.id}`}
-									type="checkbox"
-									label={
-										<span>
-											{species.label}
-											<Badge
-												className="ms-1"
-												bg="info">
-												{data?.[species.id]?.amount}
-											</Badge>
-										</span>
-									checked={Boolean(data?.[species.id])}
-									disabled />
-							))}
+						<div className="mb-4">
+							{family.species.map((species) => {
+
+								const isIdentified = Boolean(data?.[species.id]);
+
+								return (
+									<Form.Check
+										id={`disabled-default-${species.id}`}
+										type="checkbox"
+										label={isIdentified ? (
+											<div className="flex align-items-center">
+												{species.label}
+												<Badge
+													className="ms-2"
+													bg="info">
+													{data?.[species.id]?.amount}
+													{'x'}
+												</Badge>
+											</div>
+										) : species.label}
+										checked={isIdentified}
+										disabled />
+								);
+
+							})}
 						</div>
 					</>
 				))}
