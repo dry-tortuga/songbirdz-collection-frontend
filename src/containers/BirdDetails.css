@@ -23,7 +23,3 @@
 	word-break: break-word;
 	word-wrap: break-word;
 }
-
-.details-page .card svg[data-testid="ockAvatarDefaultSvg"] {
-	display: none;
-}

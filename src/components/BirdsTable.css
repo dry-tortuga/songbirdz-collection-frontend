@@ -1,5 +1,9 @@
 .listing-page .birds-table td {
 	height: calc(.5rem + 75px);
+	font-size: 14px;
+
+	@media (min-width: 576px) { font-size: 1rem; }
+
 }
 
 .listing-page .birds-table td > div {

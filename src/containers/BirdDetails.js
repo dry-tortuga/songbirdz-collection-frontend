@@ -93,10 +93,9 @@ const BirdDetails = () => {
 					</span>
 				}
 				{!context.account &&
-					<div className="d-md-none d-flex align-items-center justify-content-center mt-3">
+					<div className="d-grid d-md-none gap-3 mt-3">
 						<CreateWalletButton />
 						<Button
-							className="mt-3"
 							variant="primary"
 							onClick={() => context.onConnectWallet()}>
 							{"Connect Wallet"}

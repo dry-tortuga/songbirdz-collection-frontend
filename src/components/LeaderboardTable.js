@@ -4,8 +4,6 @@ import { Button, Table } from "react-bootstrap";
 
 import AccountOwner from "./AccountOwner";
 
-import "./LeaderboardTable.css";
-
 const LeaderboardTable = (props) => {
 
 	const { users, onUserClick } = props;

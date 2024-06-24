@@ -26,10 +26,14 @@ const BirdsTable = (props) => {
 						<th scope="col">
 							{"#"}
 						</th>
-						<th scope="col">
+						<th
+							className="d-none d-md-table-cell text-center"
+							scope="col">
 							{"Song Audio"}
 						</th>
-						<th scope="col">
+						<th
+							className="text-center"
+							scope="col">
 							{"Species"}
 						</th>
 					</tr>
@@ -52,7 +56,7 @@ const BirdsTable = (props) => {
 											height: 50,
 											borderRadius: "15%"
 										}} />
-									<div className="d-flex flex-column flex-lg-row align-items-center ms-3">
+									<div className="d-flex flex-column flex-lg-row align-items-center ms-1 ms-lg-3">
 										<Link
 											className="text-info"
 											to={`/collection/${bird.id}`}>
@@ -60,20 +64,22 @@ const BirdsTable = (props) => {
 										</Link>
 										{bird.owner &&
 											<AccountOwner
-												className="ms-3"
+												className="ms-lg-3"
 												account={bird.owner} />
 										}
 									</div>
 								</div>
 							</td>
-							<td>
-								<div>
+							<td className="d-none d-md-table-cell">
+								<div className="justify-content-center">
 									<BirdAudioFile birdId={bird.id} />
 								</div>
 							</td>
 							<td>
-								<div>
-									{bird.species || "ERROR"}
+								<div className="justify-content-end justify-content-sm-center">
+									<span className="text-end">
+										{bird.species || "ERROR"}
+									</span>
 								</div>
 							</td>
 						</tr>

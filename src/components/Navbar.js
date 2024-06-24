@@ -57,23 +57,21 @@ const NavbarHeader = () => {
 							{"About"}
 						</Link>
 						{account &&
-							<>
-								<AccountOwner
-									className="ms-auto"
-									account={account} />
+							<div className="flex flex-column flex-md-row align-items-center ms-md-auto">
+								<AccountOwner account={account} />
 								<Button
-									className="ms-3"
+									className="ms-md-3"
 									variant="primary"
 									onClick={() => onDisconnectWallet()}>
 									{"Disconnect"}
 								</Button>
-							</>
+							</div>
 						}
 						{!account &&
-							<div className="d-flex align-items-center ms-md-auto">
+							<div className="flex flex-column flex-md-row align-items-center ms-md-auto">
 								<CreateWalletButton />
 								<Button
-									className="ms-4"
+									className="mt-3 mt-md-0 ms-md-4"
 									variant="primary"
 									onClick={() => onConnectWallet()}>
 									{"Connect"}
