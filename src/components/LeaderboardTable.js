@@ -4,6 +4,8 @@ import { Button, Table } from "react-bootstrap";
 
 import AccountOwner from "./AccountOwner";
 
+import "./LeaderboardTable.css";
+
 const LeaderboardTable = (props) => {
 
 	const { users, onUserClick } = props;
@@ -33,7 +35,9 @@ const LeaderboardTable = (props) => {
 					</span>
 				}
 				{users.map((user, index) => (
-					<tr key={index}>
+					<tr
+						key={index}
+						className={index < 10 ? "top-10" : ""}>
 						<td>
 							{index + 1}
 						</td>
