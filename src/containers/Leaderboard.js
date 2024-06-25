@@ -51,9 +51,14 @@ const Leaderboard = () => {
 							<i className="fa-solid fa-spinner fa-spin fa-xl me-2" />
 						}
 						{users &&
-							<LeaderboardTable
-								users={users}
-								onUserClick={setLifeListModalAddress} />
+							<>
+								<LeaderboardTable
+									users={users}
+									onUserClick={setLifeListModalAddress} />
+								<div className="text-center">
+									{"Last confirmed on Jun 25th, 2024 09:15 PM UTC. Leaderboard attempts to update in real-time, but points to be manually confirmed on a weekly basis in case any ERC-721 events are missed."}
+								</div>
+							</>
 						}
 						{users &&
 							<LifeListModal
@@ -151,7 +156,7 @@ const Leaderboard = () => {
 									{"The 10 accounts with the most Birder Points at the end of Onchain Summer will receive 1 free airdrop from each of the upcoming flocks in the Songbirdz collection, i.e. 9 birds each!"}
 								</p>
 								<p>
-									{"In addition to the airdrops, there could always be additional prizes in the future. Not financial advice. DYOR :)"}
+									{"In addition to the airdrops, there could always be additional prizes in the future but this competition is mostly just for fun. Not financial advice. DYOR :)"}
 								</p>
 							</Col>
 						</Row>
