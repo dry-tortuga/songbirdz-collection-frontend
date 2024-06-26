@@ -7,21 +7,16 @@ import {
 	Col,
 	Container,
 	Row,
-	Tab,
-	Tabs,
 } from "react-bootstrap";
 
 import { useWalletContext } from "../contexts/wallet";
 
 import { COLLECTIONS } from "../constants";
 
+import CreateWalletButton from "../components/CreateWalletButton";
 import BirdsTable from "../components/BirdsTable";
 
 import useBirds from "../hooks/useBirds";
-
-import "./BirdListing.css";
-
-const TAB_AVAILABLE = "available";
 
 const BirdListing = () => {
 
@@ -44,9 +39,6 @@ const BirdListing = () => {
 		pagination,
 		onChangePage,
 	} = useBirds({ context, collection });
-
-	// Keep track of the current tab
-	const [tab, setTab] = useState(TAB_AVAILABLE);
 
 	// Keep track of the state of the info alert
 	const [showInfoAlert, setShowInfoAlert] = useState(true);
@@ -81,9 +73,11 @@ const BirdListing = () => {
 						</h1>
 					</Col>
 				</Row>
-				<Row>
+				<Row className="mb-3">
 					<Col>
-						{!birds &&
+						{context.account &&
+							context.isOnCorrectChain &&
+							!birds &&
 							<i className="fa-solid fa-spinner fa-spin fa-xl me-2" />
 						}
 						{!context.account &&
@@ -91,13 +85,14 @@ const BirdListing = () => {
 								{"Connect your wallet to get started..."}
 							</span>
 						}
-						{!context.isOnCorrectChain &&
+						{context.account && !context.isOnCorrectChain &&
 							<span className="me-1">
 								{"Double check to make sure you're on the Base network..."}
 							</span>
 						}
 						{!context.account &&
-							<div className="d-md-none d-flex align-items-center justify-content-center mt-3">
+							<div className="d-grid d-md-none gap-3 mt-3">
+								<CreateWalletButton />
 								<Button
 									variant="primary"
 									onClick={() => context.onConnectWallet()}>
@@ -111,27 +106,17 @@ const BirdListing = () => {
 								dismissible
 								onClose={() => setShowInfoAlert(false)}>
 								<p className="mb-1"><b>{'1. '}</b>{'Find a bird that is UNIDENTIFIED.'}</p>
-								<p className="mb-1"><b>{'2. '}</b>{'Click on the bird\'s name to see the minting page.'}</p>
+								<p className="mb-1"><b>{'2. '}</b>{'Click on the bird\'s name to see the details page.'}</p>
 								<p className="mb-1"><b>{'3. '}</b>{'View the image and listen to the audio recording of the bird\'s song.'}</p>
 								<p className="mb-1"><b>{'4. '}</b>{'Click on the "Identify" button and submit your guess for the correct species of the bird from a list of 5 answer choices.'}</p>
 								<p className="mb-0"><b>{'5. '}</b>{'If you\'re correct, you\'ll be the new owner of the bird!'}</p>
 							</Alert>
 						}
 						{birds &&
-							<Tabs
-								id="listing-page-tabs"
-								activeKey={tab}
-								onSelect={(newValue) => setTab(newValue)}
-								className="pb-3">
-								<Tab
-									eventKey={TAB_AVAILABLE}
-									title="Collections">
-									<BirdsTable
-										birds={birds}
-										pagination={pagination}
-										onChangePage={onChangePage} />
-								</Tab>
-							</Tabs>
+							<BirdsTable
+								birds={birds}
+								pagination={pagination}
+								onChangePage={onChangePage} />
 						}
 					</Col>
 				</Row>

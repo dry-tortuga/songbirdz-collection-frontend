@@ -9,6 +9,7 @@ import {
 
 import { useWalletContext } from "../contexts/wallet";
 
+import AccountOwner from "./AccountOwner";
 import CreateWalletButton from "./CreateWalletButton";
 
 import "./Navbar.css";
@@ -45,27 +46,32 @@ const NavbarHeader = () => {
 						</Link>
 						<Link
 							className="nav-item nav-link"
+							to="/leaderboard"
+							onClick={() => setExpanded(false)}>
+							{"Leaderboard"}
+						</Link>
+						<Link
+							className="nav-item nav-link"
 							to="/about"
 							onClick={() => setExpanded(false)}>
 							{"About"}
 						</Link>
 						{account &&
-							<>
-								<span className="ms-md-auto me-md-3 text-break">
-									{account}
-								</span>
+							<div className="flex flex-column flex-md-row align-items-center ms-md-auto">
+								<AccountOwner account={account} />
 								<Button
+									className="ms-md-3"
 									variant="primary"
 									onClick={() => onDisconnectWallet()}>
 									{"Disconnect"}
 								</Button>
-							</>
+							</div>
 						}
 						{!account &&
-							<div className="d-flex align-items-center ms-md-auto">
+							<div className="flex flex-column flex-md-row align-items-center ms-md-auto">
 								<CreateWalletButton />
 								<Button
-									className="ms-4"
+									className="mt-3 mt-md-0 ms-md-4"
 									variant="primary"
 									onClick={() => onConnectWallet()}>
 									{"Connect"}

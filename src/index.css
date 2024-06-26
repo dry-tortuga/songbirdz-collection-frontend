@@ -18,3 +18,11 @@ code {
 	font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
 	monospace;
 }
+
+svg[data-testid="ockAvatarDefaultSvg"] {
+	display: none;
+}
+
+svg[data-testid="ockAvatarDefaultSvg"] ~ div {
+	margin-left: 0 !important;
+}

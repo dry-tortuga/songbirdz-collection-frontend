@@ -1,4 +1,5 @@
 import ANSWER_CHOICES from './options';
+import FAMILIES from './families';
 
 const NUM_BIRDS_TOTAL = 1000;
 
@@ -18,6 +19,7 @@ const EVENTS = {
 
 export {
 	ANSWER_CHOICES,
+	FAMILIES,
 	NUM_BIRDS_TOTAL,
 	COLLECTION_BIRD_SIZE,
 	COLLECTIONS,

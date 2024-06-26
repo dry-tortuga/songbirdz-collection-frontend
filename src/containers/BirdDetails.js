@@ -12,15 +12,18 @@ import {
 
 import { useWalletContext } from "../contexts/wallet";
 
+import AccountOwner from "../components/AccountOwner";
 import BirdAudioFile from "../components/BirdAudioFile";
 import BirdIdentificationModal from "../components/BirdIdentificationModal";
 import BirdIdentificationTransactionStatus from "../components/BirdIdentificationTransactionStatus";
+import CreateWalletButton from "../components/CreateWalletButton";
 
 import { COLLECTIONS } from "../constants";
 
 import useBird from "../hooks/useBird";
 import useMintAPI from "../hooks/useMintAPI";
 
+import etherscanLogo from "../images/etherscan-logo-circle.svg";
 import openseaLogo from "../images/opensea-logomark-blue.svg";
 
 import { populateMetadata } from "../utils/data";
@@ -74,7 +77,9 @@ const BirdDetails = () => {
 	return (
 		<div className="details-page">
 			<Container className="my-4">
-				{!bird &&
+				{context.account &&
+					context.isOnCorrectChain &&
+					!bird &&
 					<i className="fa-solid fa-spinner fa-spin fa-xl me-2" />
 				}
 				{!context.account &&
@@ -82,13 +87,14 @@ const BirdDetails = () => {
 						{"Connect your wallet to get started..."}
 					</span>
 				}
-				{!context.isOnCorrectChain &&
+				{context.account && !context.isOnCorrectChain &&
 					<span className="me-1">
 						{"Double check to make sure you're on the Base network..."}
 					</span>
 				}
 				{!context.account &&
-					<div className="d-md-none d-flex align-items-center justify-content-center mt-3">
+					<div className="d-grid d-md-none gap-3 mt-3">
+						<CreateWalletButton />
 						<Button
 							variant="primary"
 							onClick={() => context.onConnectWallet()}>
@@ -138,16 +144,28 @@ const BirdDetails = () => {
 									</Link>
 								}
 								{bird.owner &&
-									<a
-										className="btn btn-clear ms-auto"
-										href={`https://opensea.io/assets/base/${context.contractAddress}/${bird.id}`}
-										rel="noopener noreferrer nofollow"
-										target="_blank">
-										<img
-											alt=""
-											src={openseaLogo}
-											style={{ width: '35px', height: 'auto' }} />
-									</a>
+									<div className="flex align-items-center ms-auto">
+										<a
+											className="btn btn-clear"
+											href={`https://opensea.io/assets/base/${context.contractAddress}/${bird.id}`}
+											rel="noopener noreferrer nofollow"
+											target="_blank">
+											<img
+												alt=""
+												src={openseaLogo}
+												style={{ width: '35px', height: 'auto' }} />
+										</a>
+										<a
+											className="btn btn-clear"
+											href={`https://basescan.org/token/${context.contractAddress}?a=${bird.id}`}
+											rel="noopener noreferrer nofollow"
+											target="_blank">
+											<img
+												alt=""
+												src={etherscanLogo}
+												style={{ width: '35px', height: 'auto' }} />
+										</a>
+									</div>
 								}
 							</Col>
 						</Row>
@@ -213,9 +231,14 @@ const BirdDetails = () => {
 													<span className="w-50 fw-bold">
 														{"Owner"}
 													</span>
-													<span className="w-50 text-center">
-														{bird.owner || "None"}
-													</span>
+													{bird.owner
+														?
+															<AccountOwner
+																className="w-50 justify-center"
+																account={bird.owner} />
+														:
+															<span className="w-50 text-center">{"None"}</span>
+													}
 												</ListGroup.Item>
 												<ListGroup.Item className="list-group-item-species">
 													<span className="w-50 fw-bold">

@@ -24,7 +24,7 @@ const CreateWalletButton = () => {
 		<Button
 			variant="primary"
 			onClick={createWallet}>
-			<div className="d-flex align-items-center">
+			<div className="d-flex align-items-center justify-content-center">
 				<CreateWalletLogo containerStyles={{ paddingRight: 10 }} />
 				{"Create Wallet"}
 			</div>
