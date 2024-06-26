@@ -45,7 +45,11 @@ const LeaderboardTable = (props) => {
 							<a
 								href="#"
 								title="View Life List"
-								onClick={() => onUserClick(user.address)}>
+								onClick={() => onUserClick({
+									account: user.address,
+									total: user.total,
+									rank: index + 1,
+								})}>
 								<AccountOwner account={user.address} />
 							</a>
 						</td>
