@@ -1,3 +1,7 @@
-.leaderboard-table .top-ten {
+.leaderboard-table .current-user td,
+.leaderboard-table .current-user tr,
+.leaderboard-table .current-user tr:hover,
+.leaderboard-table .current-user tr:hover td {
 	background-color: var(--bs-success-bg-subtle) !important;
+	--bs-table-bg-state: var(--bs-success-bg-subtle) !important;
 }

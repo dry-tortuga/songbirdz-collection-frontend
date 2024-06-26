@@ -2,6 +2,8 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { Button, Table } from "react-bootstrap";
 
+import { useWalletContext } from "../contexts/wallet";
+
 import AccountOwner from "./AccountOwner";
 
 import "./LeaderboardTable.css";
@@ -9,6 +11,8 @@ import "./LeaderboardTable.css";
 const LeaderboardTable = (props) => {
 
 	const { users, onUserClick } = props;
+
+	const { account } = useWalletContext();
 
 	return (
 		<Table
@@ -37,7 +41,8 @@ const LeaderboardTable = (props) => {
 				{users.map((user, index) => (
 					<tr
 						key={index}
-						className={index < 10 ? "top-10" : ""}>
+						className={
+							(account && user.address.toLowerCase() === account.toLowerCase()) ? "current-user" : ""}>
 						<td>
 							{index + 1}
 						</td>

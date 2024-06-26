@@ -70,7 +70,7 @@ const HomeContainer = () => {
 					</div>
 				</div>
 			</aside>
-			<section className="images-banner p-0">
+			<section className="images-banner m-0 p-0">
 				<div className="row g-0">
 					<div className="col-6 col-md">
 						<img
