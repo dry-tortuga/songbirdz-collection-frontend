@@ -34,7 +34,7 @@ const LifeListModal = (props) => {
 		return null;
 	}
 
-	console.log(data);
+	console.debug(data);
 
 	return (
 		<Modal

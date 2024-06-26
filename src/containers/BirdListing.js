@@ -7,8 +7,6 @@ import {
 	Col,
 	Container,
 	Row,
-	Tab,
-	Tabs,
 } from "react-bootstrap";
 
 import { useWalletContext } from "../contexts/wallet";
@@ -19,10 +17,6 @@ import CreateWalletButton from "../components/CreateWalletButton";
 import BirdsTable from "../components/BirdsTable";
 
 import useBirds from "../hooks/useBirds";
-
-import "./BirdListing.css";
-
-const TAB_AVAILABLE = "available";
 
 const BirdListing = () => {
 
@@ -45,9 +39,6 @@ const BirdListing = () => {
 		pagination,
 		onChangePage,
 	} = useBirds({ context, collection });
-
-	// Keep track of the current tab
-	const [tab, setTab] = useState(TAB_AVAILABLE);
 
 	// Keep track of the state of the info alert
 	const [showInfoAlert, setShowInfoAlert] = useState(true);
@@ -82,7 +73,7 @@ const BirdListing = () => {
 						</h1>
 					</Col>
 				</Row>
-				<Row>
+				<Row className="mb-3">
 					<Col>
 						{context.account &&
 							context.isOnCorrectChain &&
@@ -122,20 +113,10 @@ const BirdListing = () => {
 							</Alert>
 						}
 						{birds &&
-							<Tabs
-								id="listing-page-tabs"
-								activeKey={tab}
-								onSelect={(newValue) => setTab(newValue)}
-								className="pb-3">
-								<Tab
-									eventKey={TAB_AVAILABLE}
-									title="Collections">
-									<BirdsTable
-										birds={birds}
-										pagination={pagination}
-										onChangePage={onChangePage} />
-								</Tab>
-							</Tabs>
+							<BirdsTable
+								birds={birds}
+								pagination={pagination}
+								onChangePage={onChangePage} />
 						}
 					</Col>
 				</Row>
