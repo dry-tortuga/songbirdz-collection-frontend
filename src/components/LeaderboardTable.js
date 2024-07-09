@@ -14,6 +14,15 @@ const LeaderboardTable = (props) => {
 
 	const { account } = useWalletContext();
 
+	const filteredUsers = useMemo(() => {
+
+		return users.filter((user) =>
+			user.address.toLowerCase() !== "0x3fb4920e09493b2bc7e9b7e14ea7585ca8babf21" &&
+			user.address.toLowerCase() !== "0x585d3ef48e12cb1be6837109b0853afe78B5ebe3"
+		)
+
+	}, [users]);
+
 	return (
 		<Table
 			className="leaderboard-table fw-normal"
@@ -33,12 +42,12 @@ const LeaderboardTable = (props) => {
 				</tr>
 			</thead>
 			<tbody>
-				{users.length === 0 &&
+				{filteredUsers.length === 0 &&
 					<span>
 						{"Nothing to show here..."}
 					</span>
 				}
-				{users.map((user, index) => (
+				{filteredUsers.map((user, index) => (
 					<tr
 						key={index}
 						className={
