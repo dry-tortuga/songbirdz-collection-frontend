@@ -1,6 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { Pagination, Table } from "react-bootstrap";
+import { Form, Pagination, Table } from "react-bootstrap";
 
 import AccountOwner from "./AccountOwner";
 import BirdAudioFile from "./BirdAudioFile";
@@ -12,6 +12,8 @@ const BirdsTable = (props) => {
 	const {
 		birds,
 		pagination,
+		showOnlyUnidentifiedBirds,
+		setShowOnlyUnidentifiedBirds,
 		onChangePage,
 	} = props;
 
@@ -24,7 +26,19 @@ const BirdsTable = (props) => {
 				<thead>
 					<tr>
 						<th scope="col">
-							{"#"}
+							<div className="flex">
+								{"#"}
+								{pagination.current_page === 0 &&
+									<Form className="ms-3">
+										<Form.Check
+											type="switch"
+											id="show-only-unidentified-birds"
+											label="Show Only Unidentified Birds"
+											checked={showOnlyUnidentifiedBirds}
+											onChange={(event) => setShowOnlyUnidentifiedBirds(event.target.checked)} />
+									</Form>
+								}
+							</div>
 						</th>
 						<th
 							className="d-none d-md-table-cell text-center"

@@ -24,6 +24,8 @@ const BirdListing = () => {
 
 	const { search } = useLocation();
 
+	const [showOnlyUnidentifiedBirds, setShowOnlyUnidentifiedBirds] = useState(false);
+
 	const queryParams = new URLSearchParams(search);
 
 	// Check if filtering the birds to a single collection
@@ -38,7 +40,7 @@ const BirdListing = () => {
 		data: birds,
 		pagination,
 		onChangePage,
-	} = useBirds({ context, collection });
+	} = useBirds({ context, collection, showOnlyUnidentifiedBirds });
 
 	// Keep track of the state of the info alert
 	const [showInfoAlert, setShowInfoAlert] = useState(true);
@@ -116,6 +118,8 @@ const BirdListing = () => {
 							<BirdsTable
 								birds={birds}
 								pagination={pagination}
+								showOnlyUnidentifiedBirds={showOnlyUnidentifiedBirds}
+								setShowOnlyUnidentifiedBirds={setShowOnlyUnidentifiedBirds}
 								onChangePage={onChangePage} />
 						}
 					</Col>
