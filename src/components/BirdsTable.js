@@ -26,14 +26,14 @@ const BirdsTable = (props) => {
 				<thead>
 					<tr>
 						<th scope="col">
-							<div className="flex">
+							<div className="flex flex-col flex-lg-row">
 								{"#"}
 								{pagination.current_page === 0 &&
-									<Form className="ms-3">
+									<Form className="ms-lg-3">
 										<Form.Check
 											type="switch"
 											id="show-only-unidentified-birds"
-											label="Show Only Unidentified Birds"
+											label="Show Unidentified"
 											checked={showOnlyUnidentifiedBirds}
 											onChange={(event) => setShowOnlyUnidentifiedBirds(event.target.checked)} />
 									</Form>

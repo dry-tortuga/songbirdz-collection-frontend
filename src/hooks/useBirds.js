@@ -98,7 +98,11 @@ function initPaginationState(showOnlyUnidentifiedBirds) {
 
 	for (let i = 0; i < NUM_BIRDS_TOTAL; i++) {
 
-		if (!showOnlyUnidentifiedBirds || !ALREADY_IDENTIFIED_BIRDS[i]) {
+		if (!showOnlyUnidentifiedBirds || (
+			i >= 370 &&
+			i <= 818 &&
+			!ALREADY_IDENTIFIED_BIRDS[i]
+		)) {
 			birdIDsPerPage.push(i);
 		}
 

@@ -28,6 +28,14 @@
 	background-color: #fff;
 }
 
+@media (max-width: 991px) {
+
+	.listing-page .birds-table .form-switch label {
+		font-size: 0.85rem;
+	}
+
+}
+
 .listing-page .pagination .page-item.active .page-link {
 	background-color: var(--bs-success);
 }
