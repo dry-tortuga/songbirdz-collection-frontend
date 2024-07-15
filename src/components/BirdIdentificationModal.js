@@ -8,7 +8,7 @@ import Select from "react-select";
 
 import BirdAudioFile from "./BirdAudioFile";
 
-import { ANSWER_CHOICES } from "../constants";
+import { ANSWER_CHOICES, COLLECTIONS } from "../constants";
 
 import "./BirdIdentificationModal.css";
 
@@ -63,6 +63,11 @@ const BirdIdentificationModal = (props) => {
 		}
 
 	};
+
+	// Extra safety check here to prevent users from submitting invalid transactions...
+	if (bird.id < COLLECTIONS[1].min_id || bird.id > COLLECTIONS[1].max_id) {
+		return null;
+	}
 
 	return (
 

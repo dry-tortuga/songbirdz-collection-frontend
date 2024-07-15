@@ -108,12 +108,36 @@ const BirdListing = () => {
 								dismissible
 								onClose={() => setShowInfoAlert(false)}>
 								<p className="mb-1"><b>{'1. '}</b>{'Find a bird that is UNIDENTIFIED.'}</p>
-								<p className="mb-1"><b>{'2. '}</b>{'Click on the bird\'s name to see the details page.'}</p>
+								<p className="mb-1"><b>{'2. '}</b>{'Click on the bird\'s name to see its details page.'}</p>
 								<p className="mb-1"><b>{'3. '}</b>{'View the image and listen to the audio recording of the bird\'s song.'}</p>
 								<p className="mb-1"><b>{'4. '}</b>{'Click on the "Identify" button and submit your guess for the correct species of the bird from a list of 5 answer choices.'}</p>
 								<p className="mb-0"><b>{'5. '}</b>{'If you\'re correct, you\'ll be the new owner of the bird!'}</p>
 							</Alert>
 						}
+						{/*
+							<Alert variant="success">
+								<p className="mb-1"><b>{'The 1st flock of birds is now 100% identified... but stay tuned for details about the release of the next flock of 1,000 birds!'}</b></p>
+								<p className="mb-1">
+									<span className="me-1">
+										{"Follow on"}
+									</span><a
+									href="https://twitter.com/dry_tortuga"
+									target="_blank"
+									rel="noopener noreferrer nofollower">
+									{"Twitter"}
+								</a></p>
+								<p className="mb-1">
+									<span className="me-1">
+										{"Join the"}
+									</span>
+									<a
+									href="https://discord.gg/UKGgRsJXzr"
+									target="_blank"
+									rel="noopener noreferrer nofollower">
+									{"Discord"}
+								</a></p>
+							</Alert>
+						*/}
 						{birds &&
 							<BirdsTable
 								birds={birds}

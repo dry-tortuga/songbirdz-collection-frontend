@@ -10,15 +10,15 @@ const useBirds = ({ context, collection, showOnlyUnidentifiedBirds }) => {
 	// Keep track of pagination state
 
 	const [data, setData] = useState(null);
-	const [pagination, setPagination] = useState(initPaginationState(showOnlyUnidentifiedBirds));
+	const [pagination, setPagination] = useState(initPaginationState(collection, showOnlyUnidentifiedBirds));
 
 	// Re-calculate pagination state if changing filters
 
 	useEffect(() => {
 
-		setPagination(initPaginationState(showOnlyUnidentifiedBirds));
+		setPagination(initPaginationState(collection, showOnlyUnidentifiedBirds));
 
-	}, [showOnlyUnidentifiedBirds]);
+	}, [collection, showOnlyUnidentifiedBirds]);
 
 	const onChangePage = (newValue) => setPagination((prev) => ({
 		...prev,
@@ -76,11 +76,11 @@ const useBirds = ({ context, collection, showOnlyUnidentifiedBirds }) => {
 		if (data && !context.isOnCorrectChain) {
 
 			setData(null);
-			setPagination(initPaginationState(showOnlyUnidentifiedBirds));
+			setPagination(initPaginationState(collection, showOnlyUnidentifiedBirds));
 
 		}
 
-	}, [context, data, showOnlyUnidentifiedBirds]);
+	}, [context, data, collection, showOnlyUnidentifiedBirds]);
 
 	return {
 		data,
@@ -92,17 +92,22 @@ const useBirds = ({ context, collection, showOnlyUnidentifiedBirds }) => {
 
 export default useBirds;
 
-function initPaginationState(showOnlyUnidentifiedBirds) {
+function initPaginationState(collection, showOnlyUnidentifiedBirds) {
 
 	const birdIDsPerPage = [];
 
-	for (let i = 0; i < NUM_BIRDS_TOTAL; i++) {
+	let startIdx = 0, endIdx = NUM_BIRDS_TOTAL;
 
-		if (!showOnlyUnidentifiedBirds || (
-			i >= 370 &&
-			i <= 818 &&
-			!ALREADY_IDENTIFIED_BIRDS[i]
-		)) {
+	// Check if filtering results for a specific collection
+	if (collection) {
+		startIdx = collection.min_id;
+		endIdx = collection.max_id;
+	}
+
+	for (let i = startIdx; i < endIdx; i++) {
+
+		// Check if filtering results to hide already identified birds
+		if (!showOnlyUnidentifiedBirds) {
 			birdIDsPerPage.push(i);
 		}
 
