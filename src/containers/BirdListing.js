@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
 import {
 	Alert,
@@ -18,6 +18,8 @@ import BirdsTable from "../components/BirdsTable";
 
 import useBirds from "../hooks/useBirds";
 
+import { fetchUnidentifiedList } from "../utils/data";
+
 const BirdListing = () => {
 
 	const context = useWalletContext();
@@ -25,6 +27,8 @@ const BirdListing = () => {
 	const { search } = useLocation();
 
 	const [showOnlyUnidentifiedBirds, setShowOnlyUnidentifiedBirds] = useState(false);
+
+	const [alreadyIdentifiedList, setAlreadyIdentifiedList] = useState({});
 
 	const queryParams = new URLSearchParams(search);
 
@@ -40,10 +44,22 @@ const BirdListing = () => {
 		data: birds,
 		pagination,
 		onChangePage,
-	} = useBirds({ context, collection, showOnlyUnidentifiedBirds });
+	} = useBirds({ context, collection, showOnlyUnidentifiedBirds, alreadyIdentifiedList });
 
 	// Keep track of the state of the info alert
 	const [showInfoAlert, setShowInfoAlert] = useState(true);
+
+	useEffect(() => {
+
+		fetchUnidentifiedList().then((result) => {
+
+			if (result && result.results) {
+				setAlreadyIdentifiedList(result.results);
+			}
+
+		}).catch((error) => console.error(error));
+
+	}, []);
 
 	console.debug("-------------- BirdListing -----------");
 	console.debug(birds);

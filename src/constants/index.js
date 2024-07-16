@@ -11,7 +11,7 @@ const COLLECTIONS = [{
 	min_id: 0,
 	max_id: 999,
 }, {
-	name: "Waterfowl",
+	name: "Deep Blue",
 	count: 1000,
 	min_id: 1000,
 	max_id: 1999,

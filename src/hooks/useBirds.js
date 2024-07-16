@@ -5,20 +5,20 @@ import { fetchBird } from "../utils/data";
 
 const PAGE_SIZE = 10;
 
-const useBirds = ({ context, collection, showOnlyUnidentifiedBirds }) => {
+const useBirds = ({ context, collection, showOnlyUnidentifiedBirds, alreadyIdentifiedList }) => {
 
 	// Keep track of pagination state
 
 	const [data, setData] = useState(null);
-	const [pagination, setPagination] = useState(initPaginationState(collection, showOnlyUnidentifiedBirds));
+	const [pagination, setPagination] = useState(initPaginationState(collection, showOnlyUnidentifiedBirds, alreadyIdentifiedList));
 
 	// Re-calculate pagination state if changing filters
 
 	useEffect(() => {
 
-		setPagination(initPaginationState(collection, showOnlyUnidentifiedBirds));
+		setPagination(initPaginationState(collection, showOnlyUnidentifiedBirds, alreadyIdentifiedList));
 
-	}, [collection, showOnlyUnidentifiedBirds]);
+	}, [collection, showOnlyUnidentifiedBirds, alreadyIdentifiedList]);
 
 	const onChangePage = (newValue) => setPagination((prev) => ({
 		...prev,
@@ -76,11 +76,11 @@ const useBirds = ({ context, collection, showOnlyUnidentifiedBirds }) => {
 		if (data && !context.isOnCorrectChain) {
 
 			setData(null);
-			setPagination(initPaginationState(collection, showOnlyUnidentifiedBirds));
+			setPagination(initPaginationState(collection, showOnlyUnidentifiedBirds, alreadyIdentifiedList));
 
 		}
 
-	}, [context, data, collection, showOnlyUnidentifiedBirds]);
+	}, [context, data, collection, showOnlyUnidentifiedBirds, alreadyIdentifiedList]);
 
 	return {
 		data,
@@ -92,7 +92,7 @@ const useBirds = ({ context, collection, showOnlyUnidentifiedBirds }) => {
 
 export default useBirds;
 
-function initPaginationState(collection, showOnlyUnidentifiedBirds) {
+function initPaginationState(collection, showOnlyUnidentifiedBirds, alreadyIdentifiedList) {
 
 	const birdIDsPerPage = [];
 
@@ -101,14 +101,24 @@ function initPaginationState(collection, showOnlyUnidentifiedBirds) {
 	// Check if filtering results for a specific collection
 	if (collection) {
 		startIdx = collection.min_id;
-		endIdx = collection.max_id;
+		endIdx = collection.max_id + 1;
 	}
 
 	for (let i = startIdx; i < endIdx; i++) {
 
 		// Check if filtering results to hide already identified birds
-		if (!showOnlyUnidentifiedBirds) {
+		if (showOnlyUnidentifiedBirds) {
+
+			if (i >= 1000 && i <= 1999 && (!alreadyIdentifiedList || !alreadyIdentifiedList[i])) {
+
+				birdIDsPerPage.push(i);
+
+			}
+
+		} else {
+
 			birdIDsPerPage.push(i);
+
 		}
 
 	}

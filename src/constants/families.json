@@ -7,6 +7,15 @@
 		"id": 5,
 		"label": "American Coot"
 	}, {
+		"id": 200,
+		"label": "American Flamingo"
+	}, {
+		"id": 201,
+		"label": "American White Pelican"
+	}, {
+		"id": 202,
+		"label": "Arctic Loon"
+	}, {
 		"id": 19,
 		"label": "Barrow's Goldeneye"
 	}, {
@@ -31,6 +40,12 @@
 		"id": 39,
 		"label": "Canada Goose"
 	}, {
+		"id": 206,
+		"label": "Canvasback"
+	}, {
+		"id": 207,
+		"label": "Cinnamon Teal"
+	}, {
 		"id": 52,
 		"label": "Common Eider"
 	}, {
@@ -46,14 +61,41 @@
 		"id": 58,
 		"label": "Common Pochard"
 	}, {
+		"id": 244,
+		"label": "Eurasian Wigeon"
+	}, {
+		"id": 237,
+		"label": "Fulvous Whistling-Duck"
+	}, {
 		"id": 80,
 		"label": "Gadwall"
+	}, {
+		"id": 211,
+		"label": "Greater Scaup"
 	}, {
 		"id": 95,
 		"label": "Green-winged Teal"
 	}, {
+		"id": 212,
+		"label": "Harlequin Duck"
+	}, {
+		"id": 213,
+		"label": "Hooded Merganser"
+	}, {
+		"id": 214,
+		"label": "King Eider"
+	}, {
 		"id": 115,
 		"label": "Mallard"
+	}, {
+		"id": 217,
+		"label": "Mandarin Duck"
+	}, {
+		"id": 248,
+		"label": "Mute Swan"
+	}, {
+		"id": 219,
+		"label": "Northern Pintail"
 	}, {
 		"id": 126,
 		"label": "Northern Shoveler"
@@ -67,11 +109,20 @@
 		"id": 145,
 		"label": "Redhead"
 	}, {
+		"id": 221,
+		"label": "Ring-necked Duck"
+	}, {
 		"id": 160,
 		"label": "Ruddy Duck"
 	}, {
 		"id": 178,
 		"label": "Trumpeter Swan"
+	}, {
+		"id": 222,
+		"label": "Tundra Swan"
+	}, {
+		"id": 223,
+		"label": "Western Grebe"
 	}, {
 		"id": 195,
 		"label": "Wood Duck"
@@ -85,26 +136,68 @@
 		"id": 9,
 		"label": "American Oystercatcher"
 	}, {
+		"id": 203,
+		"label": "Black-bellied Plover"
+	}, {
+		"id": 240,
+		"label": "Black-tailed Godwit"
+	}, {
+		"id": 241,
+		"label": "Black Turnstone"
+	}, {
+		"id": 225,
+		"label": "Black Oystercatcher"
+	}, {
+		"id": 249,
+		"label": "Common Crane"
+	}, {
+		"id": 243,
+		"label": "Dunlin"
+	}, {
+		"id": 233,
+		"label": "Green Sandpiper"
+	}, {
 		"id": 105,
 		"label": "Killdeer"
 	}, {
 		"id": 110,
 		"label": "Limpkin"
 	}, {
+		"id": 245,
+		"label": "Little Stint"
+	}, {
+		"id": 220,
+		"label": "Long-billed Curlew"
+	}, {
+		"id": 239,
+		"label": "Marbled Godwit"
+	}, {
 		"id": 124,
 		"label": "Northern Jacana"
+	}, {
+		"id": 209,
+		"label": "Red Knot"
 	}, {
 		"id": 161,
 		"label": "Ruddy Turnstone"
 	}, {
+		"id": 231,
+		"label": "Sanderling"
+	}, {
 		"id": 163,
 		"label": "Sandhill Crane"
+	}, {
+		"id": 232,
+		"label": "Spotted Sandpiper"
 	}, {
 		"id": 191,
 		"label": "Whooping Crane"
 	}, {
 		"id": 193,
 		"label": "Willet"
+	}, {
+		"id": 215,
+		"label": "Wilson's Phalarope"
 	}, {
 		"id": 194,
 		"label": "Wilson's Snipe"
@@ -114,6 +207,9 @@
 	"species": [{
 		"id": 11,
 		"label": "Anhinga"
+	}, {
+		"id": 208,
+		"label": "Double-crested Cormorant"
 	}, {
 		"id": 87,
 		"label": "Great Cormorant"
@@ -163,11 +259,23 @@
 		"id": 92,
 		"label": "Green Heron"
 	}, {
+		"id": 218,
+		"label": "Little Blue Heron"
+	}, {
+		"id": 210,
+		"label": "Reddish Egret"
+	}, {
 		"id": 155,
 		"label": "Roseate Spoonbill"
 	}, {
 		"id": 169,
 		"label": "Snowy Egret"
+	}, {
+		"id": 216,
+		"label": "Tricolored Heron"
+	}, {
+		"id": 224,
+		"label": "White Ibis"
 	}, {
 		"id": 199,
 		"label": "Yellow-crowned Night-Heron"
@@ -300,6 +408,9 @@
 	}, {
 		"id": 94,
 		"label": "Green Kingfisher"
+	}, {
+		"id": 238,
+		"label": "Ringed Kingfisher"
 	}]
 }, {
 	"name": "Woodpeckers",
@@ -483,6 +594,12 @@
 	"species": [{
 		"id": 13,
 		"label": "Atlantic Puffin"
+	}, {
+		"id": 229,
+		"label": "Black Guillemot"
+	}, {
+		"id": 242,
+		"label": "Dovekie"
 	}]
 }, {
 	"name": "Wrens",
@@ -631,11 +748,32 @@
 }, {
 	"name": "Gulls, Terns, Skimmers, & Allies",
 	"species": [{
+		"id": 204,
+		"label": "Blue-footed Booby"
+	}, {
+		"id": 205,
+		"label": "Brown Booby"
+	}, {
+		"id": 236,
+		"label": "California Gull"
+	}, {
+		"id": 226,
+		"label": "Caspian Tern"
+	}, {
 		"id": 77,
 		"label": "Forster's Tern"
 	}, {
 		"id": 79,
 		"label": "Franklin's Gull"
+	}, {
+		"id": 228,
+		"label": "Great Black-backed Gull"
+	}, {
+		"id": 234,
+		"label": "Great Frigatebird"
+	}, {
+		"id": 235,
+		"label": "Herring Gull"
 	}, {
 		"id": 108,
 		"label": "Laughing Gull"
@@ -643,11 +781,23 @@
 		"id": 114,
 		"label": "Magnificent Frigatebird"
 	}, {
+		"id": 246,
+		"label": "Manx Shearwater"
+	}, {
+		"id": 247,
+		"label": "Northern Gannet"
+	}, {
 		"id": 150,
 		"label": "Ring-billed Gull"
 	}, {
 		"id": 157,
 		"label": "Royal Tern"
+	}, {
+		"id": 227,
+		"label": "Sandwich Tern"
+	}, {
+		"id": 230,
+		"label": "Wilson's Storm-Petrel"
 	}]
 }, {
 	"name": "Kinglets",
