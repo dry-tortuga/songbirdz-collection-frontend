@@ -58,7 +58,7 @@ const About = () => {
 						<h2>
 							{"Resources"}
 						</h2>
-						<ul>
+						<ul style={{ listStyle: 'disc' }}>
 							<li>
 								<a
 									href="https://twitter.com/dry_tortuga"

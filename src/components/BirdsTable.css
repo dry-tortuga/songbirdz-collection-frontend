@@ -1,5 +1,9 @@
 .listing-page .birds-table td {
 	height: calc(.5rem + 75px);
+	font-size: 14px;
+
+	@media (min-width: 576px) { font-size: 1rem; }
+
 }
 
 .listing-page .birds-table td > div {
@@ -8,8 +12,8 @@
 	height: 100%;
 }
 
-.listing-page .birds-table td .bird-owner {
-	word-break: break-all;
+.listing-page .birds-table svg[data-testid="ockAvatarDefaultSvg"] {
+	display: none;
 }
 
 .listing-page .pagination .page-item.active .page-link {

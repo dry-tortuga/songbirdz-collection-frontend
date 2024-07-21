@@ -1,10 +1,8 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import {
-	Pagination,
-	Table,
-} from "react-bootstrap";
+import { Pagination, Table } from "react-bootstrap";
 
+import AccountOwner from "./AccountOwner";
 import BirdAudioFile from "./BirdAudioFile";
 
 import "./BirdsTable.css";
@@ -28,10 +26,14 @@ const BirdsTable = (props) => {
 						<th scope="col">
 							{"#"}
 						</th>
-						<th scope="col">
+						<th
+							className="d-none d-md-table-cell text-center"
+							scope="col">
 							{"Song Audio"}
 						</th>
-						<th scope="col">
+						<th
+							className="text-center"
+							scope="col">
 							{"Species"}
 						</th>
 					</tr>
@@ -54,28 +56,30 @@ const BirdsTable = (props) => {
 											height: 50,
 											borderRadius: "15%"
 										}} />
-									<div className="d-flex flex-column ms-3">
+									<div className="d-flex flex-column flex-lg-row align-items-center ms-1 ms-lg-3">
 										<Link
 											className="text-info"
 											to={`/collection/${bird.id}`}>
 											{bird.name}
 										</Link>
 										{bird.owner &&
-											<span className="bird-owner">
-												{bird.owner}
-											</span>
+											<AccountOwner
+												className="ms-lg-3"
+												account={bird.owner} />
 										}
 									</div>
 								</div>
 							</td>
-							<td>
-								<div>
+							<td className="d-none d-md-table-cell">
+								<div className="justify-content-center">
 									<BirdAudioFile birdId={bird.id} />
 								</div>
 							</td>
 							<td>
-								<div>
-									{bird.species || "ERROR"}
+								<div className="justify-content-end justify-content-sm-center">
+									<span className="text-end">
+										{bird.species || "ERROR"}
+									</span>
 								</div>
 							</td>
 						</tr>
