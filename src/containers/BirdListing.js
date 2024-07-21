@@ -118,7 +118,7 @@ const BirdListing = () => {
 								</Button>
 							</div>
 						}
-						{birds && showInfoAlert &&
+						{/* birds && showInfoAlert &&
 							<Alert
 								variant="info"
 								dismissible
@@ -129,10 +129,10 @@ const BirdListing = () => {
 								<p className="mb-1"><b>{'4. '}</b>{'Click on the "Identify" button and submit your guess for the correct species of the bird from a list of 5 answer choices.'}</p>
 								<p className="mb-0"><b>{'5. '}</b>{'If you\'re correct, you\'ll be the new owner of the bird!'}</p>
 							</Alert>
-						}
-						{/*
+						*/}
+						{
 							<Alert variant="success">
-								<p className="mb-1"><b>{'The 1st flock of birds is now 100% identified... but stay tuned for details about the release of the next flock of 1,000 birds!'}</b></p>
+								<p className="mb-1"><b>{'The "Deep Blue" flock of Songbirdz is now 100% identified... but stay tuned for details about the release of the 3rd flock of 1,000 birds!'}</b></p>
 								<p className="mb-1">
 									<span className="me-1">
 										{"Follow on"}
@@ -153,7 +153,7 @@ const BirdListing = () => {
 									{"Discord"}
 								</a></p>
 							</Alert>
-						*/}
+						}
 						{birds &&
 							<BirdsTable
 								birds={birds}

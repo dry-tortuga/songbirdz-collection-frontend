@@ -169,7 +169,7 @@ const BirdDetails = () => {
 								}
 							</Col>
 						</Row>
-						{!bird.owner && showInfoAlert &&
+						{/* !bird.owner && showInfoAlert &&
 							<Row className="mb-3">
 								<Col>
 									<Alert
@@ -182,33 +182,29 @@ const BirdDetails = () => {
 									</Alert>
 								</Col>
 							</Row>
-						}
-						{/*
-							<Alert variant="success">
-								<p className="mb-1">
-									<b>{'The 1st flock of Songbirdz is now 100% identified... but stay tuned for more details about the release of the next flock of 1,000 birds!'}</b>
-								</p>
-								<p className="mb-1">
-									<span className="me-1">
-										{"Follow on"}
-									</span><a
-									href="https://twitter.com/dry_tortuga"
-									target="_blank"
-									rel="noopener noreferrer nofollower">
-									{"Twitter"}
-								</a></p>
-								<p className="mb-1">
-									<span className="me-1">
-										{"Join the"}
-									</span>
-									<a
-									href="https://discord.gg/UKGgRsJXzr"
-									target="_blank"
-									rel="noopener noreferrer nofollower">
-									{"Discord"}
-								</a></p>
-							</Alert>
 						*/}
+						<Alert variant="success">
+							<p className="mb-1"><b>{'The "Deep Blue" flock of Songbirdz is now 100% identified... but stay tuned for details about the release of the 3rd flock of 1,000 birds!'}</b></p>
+							<p className="mb-1">
+								<span className="me-1">
+									{"Follow on"}
+								</span><a
+								href="https://twitter.com/dry_tortuga"
+								target="_blank"
+								rel="noopener noreferrer nofollower">
+								{"Twitter"}
+							</a></p>
+							<p className="mb-1">
+								<span className="me-1">
+									{"Join the"}
+								</span>
+								<a
+								href="https://discord.gg/UKGgRsJXzr"
+								target="_blank"
+								rel="noopener noreferrer nofollower">
+								{"Discord"}
+							</a></p>
+						</Alert>
 						{(txMintBird.pending || txMintBird.success || txMintBird.error) &&
 							<Row className="mb-3">
 								<Col>
