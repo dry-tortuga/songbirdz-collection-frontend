@@ -130,30 +130,28 @@ const BirdListing = () => {
 								<p className="mb-0"><b>{'5. '}</b>{'If you\'re correct, you\'ll be the new owner of the bird!'}</p>
 							</Alert>
 						*/}
-						{
-							<Alert variant="success">
-								<p className="mb-1"><b>{'The "Deep Blue" flock of Songbirdz is now 100% identified... but stay tuned for details about the release of the 3rd flock of 1,000 birds!'}</b></p>
-								<p className="mb-1">
-									<span className="me-1">
-										{"Follow on"}
-									</span><a
-									href="https://twitter.com/dry_tortuga"
-									target="_blank"
-									rel="noopener noreferrer nofollower">
-									{"Twitter"}
-								</a></p>
-								<p className="mb-1">
-									<span className="me-1">
-										{"Join the"}
-									</span>
-									<a
-									href="https://discord.gg/UKGgRsJXzr"
-									target="_blank"
-									rel="noopener noreferrer nofollower">
-									{"Discord"}
-								</a></p>
-							</Alert>
-						}
+						<Alert variant="success">
+							<p className="mb-1"><b>{'The "Deep Blue" flock of Songbirdz is now 100% identified... but stay tuned for details about the release of the 3rd flock of 1,000 birds!'}</b></p>
+							<p className="mb-1">
+								<span className="me-1">
+									{"Follow on"}
+								</span><a
+								href="https://twitter.com/dry_tortuga"
+								target="_blank"
+								rel="noopener noreferrer nofollower">
+								{"Twitter"}
+							</a></p>
+							<p className="mb-1">
+								<span className="me-1">
+									{"Join the"}
+								</span>
+								<a
+								href="https://discord.gg/UKGgRsJXzr"
+								target="_blank"
+								rel="noopener noreferrer nofollower">
+								{"Discord"}
+							</a></p>
+						</Alert>
 						{birds &&
 							<BirdsTable
 								birds={birds}

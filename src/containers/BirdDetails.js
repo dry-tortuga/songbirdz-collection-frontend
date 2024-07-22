@@ -146,7 +146,17 @@ const BirdDetails = () => {
 								{bird.owner &&
 									<div className="flex align-items-center ms-auto">
 										<a
-											className="btn btn-clear"
+											href={`https://twitter.com/intent/tweet?text=${encodeURIComponent(`Check out this ${bird.species} in the Songbirdz collection on @base!\n`)}`}
+											className="twitter-share-button"
+											data-show-count="false"
+											data-size="large"
+											data-hashtags="basedbirds"
+											data-via="opensea,dry_tortuga"
+											data-url={`https://opensea.io/assets/base/${context.contractAddress}/${bird.id}`}>
+											{"Tweet"}
+										</a>
+										<a
+											className="btn btn-clear ms-3"
 											href={`https://opensea.io/assets/base/${context.contractAddress}/${bird.id}`}
 											rel="noopener noreferrer nofollow"
 											target="_blank">
