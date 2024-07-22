@@ -56,7 +56,7 @@ const Leaderboard = () => {
 									users={users}
 									onUserClick={setLifeListModalAddress} />
 								<div className="text-center">
-									{"Last confirmed on Jun 25th, 2024 09:15 PM UTC. Leaderboard attempts to update in real-time, but points to be manually confirmed on a weekly basis in case any ERC-721 events are missed."}
+									{"Last confirmed on July 14th, 2024 11:00 PM UTC. Leaderboard attempts to update in real-time, but points to be manually confirmed on a weekly basis in case any ERC-721 events are missed."}
 								</div>
 							</>
 						}

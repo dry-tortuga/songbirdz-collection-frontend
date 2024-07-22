@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useMemo } from "react";
 import { Link } from "react-router-dom";
 import { Button, Table } from "react-bootstrap";
 
@@ -13,6 +13,15 @@ const LeaderboardTable = (props) => {
 	const { users, onUserClick } = props;
 
 	const { account } = useWalletContext();
+
+	const filteredUsers = useMemo(() => {
+
+		return users.filter((user) =>
+			user.address.toLowerCase() !== "0x3fb4920e09493b2bc7e9b7e14ea7585ca8babf21" &&
+			user.address.toLowerCase() !== "0x585d3ef48e12cb1be6837109b0853afe78b5ebe3"
+		).slice(0, 50);
+
+	}, [users]);
 
 	return (
 		<Table
@@ -33,12 +42,12 @@ const LeaderboardTable = (props) => {
 				</tr>
 			</thead>
 			<tbody>
-				{users.length === 0 &&
+				{filteredUsers.length === 0 &&
 					<span>
 						{"Nothing to show here..."}
 					</span>
 				}
-				{users.map((user, index) => (
+				{filteredUsers.map((user, index) => (
 					<tr
 						key={index}
 						className={

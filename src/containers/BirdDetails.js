@@ -109,7 +109,7 @@ const BirdDetails = () => {
 								<h1 className="d-flex align-items-center">
 									{bird.name}
 								</h1>
-								{bird.id > 0 &&
+								{bird.id > COLLECTIONS[0].min_id &&
 									<Link
 										className="btn btn-outline-primary ms-3"
 										to={`/collection/${bird.id - 1}`}>
@@ -126,7 +126,7 @@ const BirdDetails = () => {
 										</svg>
 									</Link>
 								}
-								{bird.id < 999 &&
+								{bird.id < COLLECTIONS[1].max_id &&
 									<Link
 										className="btn btn-outline-primary ms-3"
 										to={`/collection/${bird.id + 1}`}>
@@ -183,6 +183,32 @@ const BirdDetails = () => {
 								</Col>
 							</Row>
 						}
+						{/*
+							<Alert variant="success">
+								<p className="mb-1">
+									<b>{'The 1st flock of Songbirdz is now 100% identified... but stay tuned for more details about the release of the next flock of 1,000 birds!'}</b>
+								</p>
+								<p className="mb-1">
+									<span className="me-1">
+										{"Follow on"}
+									</span><a
+									href="https://twitter.com/dry_tortuga"
+									target="_blank"
+									rel="noopener noreferrer nofollower">
+									{"Twitter"}
+								</a></p>
+								<p className="mb-1">
+									<span className="me-1">
+										{"Join the"}
+									</span>
+									<a
+									href="https://discord.gg/UKGgRsJXzr"
+									target="_blank"
+									rel="noopener noreferrer nofollower">
+									{"Discord"}
+								</a></p>
+							</Alert>
+						*/}
 						{(txMintBird.pending || txMintBird.success || txMintBird.error) &&
 							<Row className="mb-3">
 								<Col>

@@ -16,6 +16,26 @@
 	display: none;
 }
 
+.listing-page .birds-table .form-switch .form-check-input:checked::before {
+	background-color: var(--bs-success);
+}
+
+.listing-page .birds-table .form-switch .form-check-input:not(:checked)::after {
+	background-color: #000;
+}
+
+.listing-page .birds-table .form-switch .form-check-input:checked::after {
+	background-color: #fff;
+}
+
+@media (max-width: 991px) {
+
+	.listing-page .birds-table .form-switch label {
+		font-size: 0.85rem;
+	}
+
+}
+
 .listing-page .pagination .page-item.active .page-link {
 	background-color: var(--bs-success);
 }

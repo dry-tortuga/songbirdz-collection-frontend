@@ -8,7 +8,7 @@ import Select from "react-select";
 
 import BirdAudioFile from "./BirdAudioFile";
 
-import { ANSWER_CHOICES } from "../constants";
+import { ANSWER_CHOICES, COLLECTIONS } from "../constants";
 
 import "./BirdIdentificationModal.css";
 
@@ -27,7 +27,13 @@ const BirdIdentificationModal = (props) => {
 
 	const options = useMemo(() => {
 
-		const result = ANSWER_CHOICES[bird.id].options.map((name) => ({
+		const collection =
+			COLLECTIONS.find((temp) => bird.id >= temp.min_id && bird.id <= temp.max_id);
+
+		// Get the bird's final index relative to ONLY the current collection
+		const finalIndex = bird.id - collection.min_id;
+
+		const result = ANSWER_CHOICES[finalIndex].options.map((name) => ({
 			label: name,
 			value: name,
 		}));
@@ -63,6 +69,11 @@ const BirdIdentificationModal = (props) => {
 		}
 
 	};
+
+	// Extra safety check here to prevent users from submitting invalid transactions...
+	if (bird.id < COLLECTIONS[1].min_id || bird.id > COLLECTIONS[1].max_id) {
+		return null;
+	}
 
 	return (
 
