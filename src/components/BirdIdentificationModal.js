@@ -71,7 +71,7 @@ const BirdIdentificationModal = (props) => {
 	};
 
 	// Extra safety check here to prevent users from submitting invalid transactions...
-	if (bird.id < COLLECTIONS[1].min_id || bird.id > COLLECTIONS[1].max_id) {
+	if (bird.id < COLLECTIONS[2].min_id || bird.id > COLLECTIONS[2].max_id) {
 		return null;
 	}
 
@@ -116,7 +116,7 @@ const BirdIdentificationModal = (props) => {
 						{"PRICE: 0.0015 ETH"}
 					</Form.Text>
 					<Form.Text className="text-muted d-block">
-						{"NOTE: If you submit an incorrect guess, you will be refunded 0.00125 ETH."}
+						{"NOTE: If you submit an incorrect guess, you will be automatically refunded 0.00125 ETH."}
 					</Form.Text>
 				</Form>
 			</Modal.Body>

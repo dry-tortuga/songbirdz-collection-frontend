@@ -1,7 +1,7 @@
-import ANSWER_CHOICES from './waterfowl-1-options';
+import ANSWER_CHOICES from './small-and-mighty-2-options';
 import FAMILIES from './families';
 
-const NUM_BIRDS_TOTAL = 2000;
+const NUM_BIRDS_TOTAL = 3000;
 
 const COLLECTION_BIRD_SIZE = 1000;
 
@@ -15,6 +15,11 @@ const COLLECTIONS = [{
 	count: 1000,
 	min_id: 1000,
 	max_id: 1999,
+}, {
+	name: "Small & Mighty",
+	count: 1000,
+	min_id: 2000,
+	max_id: 2999
 }];
 
 const EVENTS = {

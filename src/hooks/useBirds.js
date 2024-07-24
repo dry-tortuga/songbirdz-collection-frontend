@@ -28,7 +28,7 @@ const useBirds = ({ context, collection, showOnlyUnidentifiedBirds, alreadyIdent
 	// Fetch the birds data from the backend contract
 	useEffect(() => {
 
-		if (context.account && context.isOnCorrectChain) {
+		if (context.account && context.isOnCorrectChain && pagination.birdIDsPerPage) {
 
 			const startIdxFetch = pagination.current_page * pagination.page_size;
 			const endIdxFetch = (pagination.current_page + 1) * pagination.page_size;
@@ -65,7 +65,7 @@ const useBirds = ({ context, collection, showOnlyUnidentifiedBirds, alreadyIdent
 		context.account,
 		context.isOnCorrectChain,
 		context.actions,
-		pagination.birdIDsPerPage.length,
+		pagination.birdIDsPerPage?.length,
 		pagination.current_page,
 		pagination.page_size,
 	]);
@@ -94,7 +94,7 @@ export default useBirds;
 
 function initPaginationState(collection, showOnlyUnidentifiedBirds, alreadyIdentifiedList) {
 
-	const birdIDsPerPage = [];
+	let birdIDsPerPage = [];
 
 	let startIdx = 0, endIdx = NUM_BIRDS_TOTAL;
 
@@ -109,7 +109,11 @@ function initPaginationState(collection, showOnlyUnidentifiedBirds, alreadyIdent
 		// Check if filtering results to hide already identified birds
 		if (showOnlyUnidentifiedBirds) {
 
-			if (i >= 1000 && i <= 1999 && (!alreadyIdentifiedList || !alreadyIdentifiedList[i])) {
+			if (!alreadyIdentifiedList) {
+
+				birdIDsPerPage = null;
+
+			} else if (i >= 2000 && i <= 2999 && !alreadyIdentifiedList[i]) {
 
 				birdIDsPerPage.push(i);
 
@@ -126,7 +130,7 @@ function initPaginationState(collection, showOnlyUnidentifiedBirds, alreadyIdent
 	return {
 		birdIDsPerPage,
 		page_size: PAGE_SIZE,
-		num_pages: Math.ceil(birdIDsPerPage.length / PAGE_SIZE),
+		num_pages: birdIDsPerPage ? Math.ceil(birdIDsPerPage.length / PAGE_SIZE) : null,
 		current_page: 0,
 	};
 

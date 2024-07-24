@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import {
 	Alert,
@@ -68,14 +68,48 @@ const BirdDetails = () => {
 		cb: onMintSuccess,
 	});
 
+	// Re-load the twitter share button if the bird ID changes
+	useEffect(() => {
+
+		if (bird && window.twttr && window.twttr.widgets) {
+
+			window.twttr.widgets.load(
+				document.getElementById("details-page")
+			);
+
+		}
+
+	}, [bird?.id]);
+
 	const collection = bird ? COLLECTIONS[bird.collection] : null;
+
+	if (bird && (bird.id < 0 || bird.id > 2999)) { return null; }
 
 	console.debug("-------------- BirdDetails -----------");
 	console.debug(bird);
 	console.debug("--------------------------------------")
 
+	let image = bird ? bird.image : null;
+	let imageLg = bird ? bird.imageLg : null;
+
+	// Check if it is one of the "1 of 1" species...
+	if (bird && bird.owner && (
+		bird.id === 2844 ||
+		bird.id === 2603 ||
+		bird.id === 2673 ||
+		bird.id === 2574 ||
+		bird.id === 2202
+	)) {
+
+		image = `${process.env.PUBLIC_URL}/images/${bird.id}.jpg`;
+		imageLg =`${process.env.PUBLIC_URL}/images/${bird.id}-lg.jpg`;
+
+	}
+
 	return (
-		<div className="details-page">
+		<div
+			id="details-page"
+			className="details-page">
 			<Container className="my-4">
 				{context.account &&
 					context.isOnCorrectChain &&
@@ -105,7 +139,7 @@ const BirdDetails = () => {
 				{bird &&
 					<>
 						<Row className="mb-3">
-							<Col className="d-flex align-items-center">
+							<Col className="d-flex align-items-center flex-wrap">
 								<h1 className="d-flex align-items-center">
 									{bird.name}
 								</h1>
@@ -126,7 +160,7 @@ const BirdDetails = () => {
 										</svg>
 									</Link>
 								}
-								{bird.id < COLLECTIONS[1].max_id &&
+								{bird.id < COLLECTIONS[2].max_id &&
 									<Link
 										className="btn btn-outline-primary ms-3"
 										to={`/collection/${bird.id + 1}`}>
@@ -144,14 +178,16 @@ const BirdDetails = () => {
 									</Link>
 								}
 								{bird.owner &&
-									<div className="flex align-items-center ms-auto">
+									<div
+										className="flex align-items-center ms-auto"
+										key={bird.id}>
 										<a
-											href={`https://twitter.com/intent/tweet?text=${encodeURIComponent(`Check out this ${bird.species} in the Songbirdz collection on @base!\n`)}`}
+											href={`https://twitter.com/intent/tweet?text=${encodeURIComponent(`Check out this ${bird.species} in the @songbirdz_cc collection on @base from @dry_tortuga!\n`)}`}
 											className="twitter-share-button"
 											data-show-count="false"
 											data-size="large"
 											data-hashtags="basedbirds"
-											data-via="opensea,dry_tortuga"
+											data-via="opensea"
 											data-url={`https://opensea.io/assets/base/${context.contractAddress}/${bird.id}`}>
 											{"Tweet"}
 										</a>
@@ -179,7 +215,7 @@ const BirdDetails = () => {
 								}
 							</Col>
 						</Row>
-						{/* !bird.owner && showInfoAlert &&
+						{!bird.owner && showInfoAlert &&
 							<Row className="mb-3">
 								<Col>
 									<Alert
@@ -192,29 +228,31 @@ const BirdDetails = () => {
 									</Alert>
 								</Col>
 							</Row>
+						}
+						{/*
+							<Alert variant="success">
+								<p className="mb-1"><b>{'The "Deep Blue" flock of Songbirdz is now 100% identified... but stay tuned for details about the release of the 3rd flock of 1,000 birds!'}</b></p>
+								<p className="mb-1">
+									<span className="me-1">
+										{"Follow on"}
+									</span><a
+									href="https://twitter.com/songbirdz_cc"
+									target="_blank"
+									rel="noopener noreferrer nofollower">
+									{"Twitter"}
+								</a></p>
+								<p className="mb-1">
+									<span className="me-1">
+										{"Join the"}
+									</span>
+									<a
+									href="https://discord.gg/UKGgRsJXzr"
+									target="_blank"
+									rel="noopener noreferrer nofollower">
+									{"Discord"}
+								</a></p>
+							</Alert>
 						*/}
-						<Alert variant="success">
-							<p className="mb-1"><b>{'The "Deep Blue" flock of Songbirdz is now 100% identified... but stay tuned for details about the release of the 3rd flock of 1,000 birds!'}</b></p>
-							<p className="mb-1">
-								<span className="me-1">
-									{"Follow on"}
-								</span><a
-								href="https://twitter.com/dry_tortuga"
-								target="_blank"
-								rel="noopener noreferrer nofollower">
-								{"Twitter"}
-							</a></p>
-							<p className="mb-1">
-								<span className="me-1">
-									{"Join the"}
-								</span>
-								<a
-								href="https://discord.gg/UKGgRsJXzr"
-								target="_blank"
-								rel="noopener noreferrer nofollower">
-								{"Discord"}
-							</a></p>
-						</Alert>
 						{(txMintBird.pending || txMintBird.success || txMintBird.error) &&
 							<Row className="mb-3">
 								<Col>
@@ -229,11 +267,11 @@ const BirdDetails = () => {
 								<Card>
 									<Row>
 										<img
-											key={bird.imageLg}
+											key={imageLg}
 											alt=""
 											className="col-12 col-sm-6 col-md-4"
-											src={bird.imageLg}
-											srcSet={`${bird.image} 256w, ${bird.imageLg} 768w`}
+											src={imageLg}
+											srcSet={`${image} 256w, ${imageLg} 768w`}
 											sizes="(max-width: 576px) 256px, 768px" />
 										<Card.Body className="col-12 col-sm-6 col-md-8 d-flex flex-column">
 											<Card.Title
@@ -252,7 +290,7 @@ const BirdDetails = () => {
 														{collection.name}
 													</Link>
 													<span>
-														{" Collection."}
+														{" flock."}
 													</span>
 												</Card.Text>
 											}

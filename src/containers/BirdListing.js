@@ -16,9 +16,8 @@ import { COLLECTIONS } from "../constants";
 import CreateWalletButton from "../components/CreateWalletButton";
 import BirdsTable from "../components/BirdsTable";
 
+import useAlreadyIdentifiedList from "../hooks/useAlreadyIdentifiedList";
 import useBirds from "../hooks/useBirds";
-
-import { fetchUnidentifiedList } from "../utils/data";
 
 const BirdListing = () => {
 
@@ -26,18 +25,24 @@ const BirdListing = () => {
 
 	const { search } = useLocation();
 
-	const [showOnlyUnidentifiedBirds, setShowOnlyUnidentifiedBirds] = useState(false);
-
-	const [alreadyIdentifiedList, setAlreadyIdentifiedList] = useState({});
-
 	const queryParams = new URLSearchParams(search);
 
 	// Check if filtering the birds to a single collection
 	const collectionId =
 		isNaN(parseInt(queryParams.get("number"), 10)) ? null : parseInt(queryParams.get("number"), 10);
 
+	// Check if filtering the list to remove "already identified" birds
+	const hideAlreadyIdentifiedParam = queryParams.get("hide_already_identified") === "true";
+
 	// Get the collection data
 	const collection = COLLECTIONS[collectionId];
+
+	// Get the list of "already identified" birds in the available collection
+	const {
+		showOnlyUnidentifiedBirds,
+		setShowOnlyUnidentifiedBirds,
+		alreadyIdentifiedList,
+	} = useAlreadyIdentifiedList({ hideAlreadyIdentifiedParam });
 
 	// Get the list of birds
 	const {
@@ -48,18 +53,6 @@ const BirdListing = () => {
 
 	// Keep track of the state of the info alert
 	const [showInfoAlert, setShowInfoAlert] = useState(true);
-
-	useEffect(() => {
-
-		fetchUnidentifiedList().then((result) => {
-
-			if (result && result.results) {
-				setAlreadyIdentifiedList(result.results);
-			}
-
-		}).catch((error) => console.error(error));
-
-	}, []);
 
 	console.debug("-------------- BirdListing -----------");
 	console.debug(birds);
@@ -118,7 +111,7 @@ const BirdListing = () => {
 								</Button>
 							</div>
 						}
-						{/* birds && showInfoAlert &&
+						{birds && showInfoAlert &&
 							<Alert
 								variant="info"
 								dismissible
@@ -129,29 +122,31 @@ const BirdListing = () => {
 								<p className="mb-1"><b>{'4. '}</b>{'Click on the "Identify" button and submit your guess for the correct species of the bird from a list of 5 answer choices.'}</p>
 								<p className="mb-0"><b>{'5. '}</b>{'If you\'re correct, you\'ll be the new owner of the bird!'}</p>
 							</Alert>
-						*/}
-						<Alert variant="success">
-							<p className="mb-1"><b>{'The "Deep Blue" flock of Songbirdz is now 100% identified... but stay tuned for details about the release of the 3rd flock of 1,000 birds!'}</b></p>
-							<p className="mb-1">
-								<span className="me-1">
-									{"Follow on"}
-								</span><a
-								href="https://twitter.com/dry_tortuga"
-								target="_blank"
-								rel="noopener noreferrer nofollower">
-								{"Twitter"}
-							</a></p>
-							<p className="mb-1">
-								<span className="me-1">
-									{"Join the"}
-								</span>
-								<a
-								href="https://discord.gg/UKGgRsJXzr"
-								target="_blank"
-								rel="noopener noreferrer nofollower">
-								{"Discord"}
-							</a></p>
-						</Alert>
+						}
+						{/*
+							<Alert variant="success">
+								<p className="mb-1"><b>{'The "Deep Blue" flock of Songbirdz is now 100% identified... but stay tuned for details about the release of the 3rd flock of 1,000 birds!'}</b></p>
+								<p className="mb-1">
+									<span className="me-1">
+										{"Follow on"}
+									</span><a
+									href="https://twitter.com/songbirdz_cc"
+									target="_blank"
+									rel="noopener noreferrer nofollower">
+									{"Twitter"}
+								</a></p>
+								<p className="mb-1">
+									<span className="me-1">
+										{"Join the"}
+									</span>
+									<a
+									href="https://discord.gg/UKGgRsJXzr"
+									target="_blank"
+									rel="noopener noreferrer nofollower">
+									{"Discord"}
+								</a></p>
+							</Alert>
+						(*/}
 						{birds &&
 							<BirdsTable
 								birds={birds}

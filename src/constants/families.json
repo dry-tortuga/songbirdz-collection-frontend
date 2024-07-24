@@ -382,11 +382,26 @@
 		"id": 12,
 		"label": "Anna's Hummingbird"
 	}, {
+		"id": 254,
+		"label": "Berylline Hummingbird"
+	}, {
+		"id": 264,
+		"label": "Blue-throated Mountain-gem"
+	}, {
+		"id": 268,
+		"label": "Broad-tailed Hummingbird"
+	}, {
+		"id": 281,
+		"label": "Mexican Violetear"
+	}, {
 		"id": 151,
 		"label": "Rivoli's Hummingbird"
 	}, {
 		"id": 159,
 		"label": "Ruby-throated Hummingbird"
+	}, {
+		"id": 250,
+		"label": "Allen's Hummingbird"
 	}]
 }, {
 	"name": "Swifts, Swallows, & Martins",
@@ -399,6 +414,12 @@
 	}, {
 		"id": 177,
 		"label": "Tree Swallow"
+	}, {
+		"id": 290,
+		"label": "Violet-green Swallow"
+	}, {
+		"id": 292,
+		"label": "White-throated Swift"
 	}]
 }, {
 	"name": "Kingfishers",
@@ -472,6 +493,9 @@
 }, {
 	"name": "Flycatchers",
 	"species": [{
+		"id": 265,
+		"label": "Bluethroat"
+	}, {
 		"id": 44,
 		"label": "Cassin's Kingbird"
 	}, {
@@ -483,6 +507,9 @@
 	}, {
 		"id": 71,
 		"label": "Eastern Wood-Pewee"
+	}, {
+		"id": 285,
+		"label": "Red-flanked Bluetail"
 	}, {
 		"id": 165,
 		"label": "Say's Phoebe"
@@ -574,8 +601,20 @@
 		"id": 7,
 		"label": "American Goldfinch"
 	}, {
+		"id": 255,
+		"label": "Black Rosy-Finch"
+	}, {
+		"id": 270,
+		"label": "Brown-capped Rosy-Finch"
+	}, {
 		"id": 43,
 		"label": "Cassin's Finch"
+	}, {
+		"id": 275,
+		"label": "Gray-crowned Rosy-Finch"
+	}, {
+		"id": 278,
+		"label": "Hoary Redpoll"
 	}, {
 		"id": 100,
 		"label": "House Finch"
@@ -586,8 +625,14 @@
 		"id": 137,
 		"label": "Purple Finch"
 	}, {
+		"id": 284,
+		"label": "Red Avadavat"
+	}, {
 		"id": 144,
 		"label": "Red Crossbill"
+	}, {
+		"id": 288,
+		"label": "Tricolored Munia"
 	}]
 }, {
 	"name": "Alcids",
@@ -602,10 +647,16 @@
 		"label": "Dovekie"
 	}]
 }, {
-	"name": "Wrens",
+	"name": "Wrens & Treecreepers",
 	"species": [{
 		"id": 21,
 		"label": "Bewick's Wren"
+	}, {
+		"id": 269,
+		"label": "Brown Creeper"
+	}, {
+		"id": 272,
+		"label": "Cactus Wren"
 	}, {
 		"id": 40,
 		"label": "Canyon Wren"
@@ -618,6 +669,9 @@
 	}, {
 		"id": 154,
 		"label": "Rock Wren"
+	}, {
+		"id": 293,
+		"label": "Winter Wren"
 	}]
 }, {
 	"name": "Tits, Chickadees, & Titmice",
@@ -625,8 +679,20 @@
 		"id": 25,
 		"label": "Black-capped Chickadee"
 	}, {
+		"id": 266,
+		"label": "Boreal Chickadee"
+	}, {
+		"id": 267,
+		"label": "Bridled Titmouse"
+	}, {
+		"id": 271,
+		"label": "Bushtit"
+	}, {
 		"id": 41,
 		"label": "Carolina Chickadee"
+	}, {
+		"id": 277,
+		"label": "Great Tit"
 	}, {
 		"id": 104,
 		"label": "Juniper Titmouse"
@@ -636,6 +702,9 @@
 	}, {
 		"id": 179,
 		"label": "Tufted Titmouse"
+	}, {
+		"id": 295,
+		"label": "Wrentit"
 	}]
 }, {
 	"name": "Nuthatches",
@@ -661,6 +730,12 @@
 }, {
 	"name": "New World Sparrows",
 	"species": [{
+		"id": 261,
+		"label": "Black-throated Sparrow"
+	}, {
+		"id": 253,
+		"label": "Bell's Sparrow"
+	}, {
 		"id": 47,
 		"label": "Chipping Sparrow"
 	}, {
@@ -699,6 +774,9 @@
 	}, {
 		"id": 190,
 		"label": "White-throated Sparrow"
+	}, {
+		"id": 296,
+		"label": "Yellow-eyed Junco"
 	}]
 }, {
 	"name": "Old World Sparrows",
@@ -707,10 +785,19 @@
 		"label": "House Sparrow"
 	}]
 }, {
-	"name": "Cardinals, Grosbeaks, & Allies",
+	"name": "Cardinals, Grosbeaks, Tanagers, & Allies",
 	"species": [{
+		"id": 258,
+		"label": "Black-faced Grassquit"
+	}, {
+		"id": 263,
+		"label": "Blue Bunting"
+	}, {
 		"id": 27,
 		"label": "Blue Grosbeak"
+	}, {
+		"id": 274,
+		"label": "Cinnamon-rumped Seedeater"
 	}, {
 		"id": 62,
 		"label": "Dickcissel"
@@ -720,6 +807,9 @@
 	}, {
 		"id": 109,
 		"label": "Lazuli Bunting"
+	}, {
+		"id": 279,
+		"label": "Little Bunting"
 	}, {
 		"id": 121,
 		"label": "Northern Cardinal"
@@ -742,8 +832,14 @@
 		"id": 175,
 		"label": "Summer Tanager"
 	}, {
+		"id": 289,
+		"label": "Varied Bunting"
+	}, {
 		"id": 186,
 		"label": "Western Tanager"
+	}, {
+		"id": 297,
+		"label": "Yellow-faced Grassquit"
 	}]
 }, {
 	"name": "Gulls, Terns, Skimmers, & Allies",
@@ -846,5 +942,71 @@
 	"species": [{
 		"id": 73,
 		"label": "European Starling"
+	}]
+}, {
+	"name": "Wood-Warblers",
+	"species": [{
+		"id": 251,
+		"label": "American Redstart"
+	}, {
+		"id": 252,
+		"label": "Bay-breasted Warbler"
+	}, {
+		"id": 256,
+		"label": "Black-and-white Warbler"
+	}, {
+		"id": 259,
+		"label": "Black-throated Blue Warbler"
+	}, {
+		"id": 260,
+		"label": "Black-throated Green Warbler"
+	}, {
+		"id": 262,
+		"label": "Blackburnian Warbler"
+	}, {
+		"id": 273,
+		"label": "Cerulean Warbler"
+	}, {
+		"id": 276,
+		"label": "Gray-crowned Yellowthroat"
+	}, {
+		"id": 280,
+		"label": "Magnolia Warbler"
+	}, {
+		"id": 282,
+		"label": "Olive Warbler"
+	}, {
+		"id": 283,
+		"label": "Painted Redstart"
+	}, {
+		"id": 286,
+		"label": "Slate-throated Redstart"
+	}, {
+		"id": 291,
+		"label": "Virginia's Warbler"
+	}, {
+		"id": 294,
+		"label": "Worm-eating Warbler"
+	}, {
+		"id": 298,
+		"label": "Yellow-rumped Warbler"
+	}]
+}, {
+	"name": "Gnatcatchers",
+	"species": [{
+		"id": 257,
+		"label": "Black-capped Gnatcatcher"
+	}]
+}, {
+	"name": "White-Eyes, Yuhinas, & Allies",
+	"species": [{
+		"id": 287,
+		"label": "Swinhoe's White-eye"
+	}]
+}, {
+	"name": "Vireos",
+	"species": [{
+		"id": 299,
+		"label": "Yellow-throated Vireo"
 	}]
 }]
