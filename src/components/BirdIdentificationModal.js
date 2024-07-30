@@ -1,29 +1,49 @@
-import React, { useMemo, useState } from "react";
+import React, { useMemo, useRef, useState } from "react";
+import { 
+	Transaction, 
+	TransactionButton, 
+	TransactionSponsor, 
+	TransactionStatus, 
+	TransactionStatusAction, 
+	TransactionStatusLabel, 
+	TransactionToast,
+	TransactionToastAction,
+	TransactionToastIcon,
+	TransactionToastLabel,
+} from "@coinbase/onchainkit/transaction"; 
 import {
 	Button,
 	Form,
 	Modal,
 } from "react-bootstrap";
 import Select from "react-select";
+import { parseEther } from "viem";
 
 import BirdAudioFile from "./BirdAudioFile";
+
+import SongBirdzContract from "../abi/SongBirdz.json";
 
 import { ANSWER_CHOICES, COLLECTIONS } from "../constants";
 
 import "./BirdIdentificationModal.css";
 
+const MINT_PRICE = "0.0015"; // 0.0015 ETH
+
 const BirdIdentificationModal = (props) => {
 
 	const {
+		context,
 		isOpen,
 		bird,
-		onSubmit,
+		onSuccess,
 		onToggle,
 	} = props;
 
 	const [formData, setFormData] = useState({
 		species: "",
 	});
+
+	const contractsRef = useRef(null);
 
 	const options = useMemo(() => {
 
@@ -55,20 +75,6 @@ const BirdIdentificationModal = (props) => {
 		return result;
 
 	}, [bird.id]);
-
-	const handleSubmit = async () => {
-
-		if (formData.species) {
-
-			// Close the modal
-			onToggle();
-
-			// Submit the transaction
-			await onSubmit(bird.id, formData.species);
-
-		}
-
-	};
 
 	// Extra safety check here to prevent users from submitting invalid transactions...
 	if (bird.id < COLLECTIONS[2].min_id || bird.id > COLLECTIONS[2].max_id) {
@@ -121,14 +127,60 @@ const BirdIdentificationModal = (props) => {
 				</Form>
 			</Modal.Body>
 			<Modal.Footer>
-				<Button variant="secondary" onClick={onToggle}>
+				<Button
+					variant="secondary"
+					onClick={onToggle}>
 					{"Cancel"}
 				</Button>
-				<Button
-					variant="info"
-					onClick={handleSubmit}>
-					{"Submit"}
-				</Button>
+				<Transaction
+					address={address}
+					capabilities={{ 
+						paymasterService: { 
+							url: process.env.REACT_APP_COINBASE_PAYMASTER_AND_BUNDLER_ENDPOINT, 
+						}, 
+					}}
+					contracts={contractsRef.current}
+					onError={(error) => {
+
+						console.error(error);
+
+					}}
+					onSuccess={(response) => {
+
+						console.log(response);
+
+						// Close the modal
+						onToggle();
+
+						onSuccess(response);
+
+					}}>
+					<TransactionButton
+						className="btn btn-info"
+						text="Submit"
+						onClick={async (event) => {
+
+						event.preventDefault();
+						event.stopPropagation();
+
+						const publicMintCall = await context.actions.publicMint();
+
+						contractsRef.current = [publicMintCall];
+
+						// TODO: Re-throw the event to be handled above
+
+					}} />
+					<TransactionSponsor text="OnchainKit" />
+					<TransactionStatus>
+						<TransactionStatusLabel />
+						<TransactionStatusAction />
+					</TransactionStatus>
+					<TransactionToast>
+						<TransactionToastIcon />
+						<TransactionToastLabel />
+						<TransactionToastAction />
+					</TransactionToast>
+				</Transaction>
 			</Modal.Footer>
 		</Modal>
 

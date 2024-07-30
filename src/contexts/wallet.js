@@ -105,29 +105,32 @@ const WalletProvider = ({ children }) => {
 
 		try {
 
-			const { request } = await simulateContract(config, {
+			// Fetch the merkle tree proof from the back-end server
+
+			const proofParams = new URLSearchParams({ species_guess: speciesGuess });
+
+			const response = await fetch(
+				`${process.env.REACT_APP_SONGBIRDZ_BACKEND_URL}/birds/merkle-proof/${id}?${proofParams}`
+			);
+
+			if (response.status !== 200) {
+				throw new Error(`Unable to fetch merkle proof for bird=${id}...`);
+			}
+
+			const responseData = await response.json();
+
+			return {
 				abi: SongBirdzContract.abi,
 				address: SONGBIRDZ_CONTRACT_ADDRESS,
 				functionName: "publicMint",
-				args: [id, proof, guess],
+				args: [id, responseData.proof, responseData.species_guess],
 				chainId: EXPECTED_CHAIN_ID,
 				value: parseEther(mintPrice), 
-			});
-
-			const hash = await writeContract(config, request)
-
-			const txReceipt = await waitForTransactionReceipt(config, {
-				chainId: EXPECTED_CHAIN_ID,
-				hash,
-			})
-
-			return [txReceipt, null];
+			};
 
 		} catch (error) {
-
-			console.debug(error);
-			return [null, error];
-
+			console.error(error);
+			throw error;
 		}
 
 	}, []);

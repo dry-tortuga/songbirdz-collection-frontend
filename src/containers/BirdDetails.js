@@ -18,10 +18,9 @@ import BirdIdentificationModal from "../components/BirdIdentificationModal";
 import BirdIdentificationTransactionStatus from "../components/BirdIdentificationTransactionStatus";
 import CreateWalletButton from "../components/CreateWalletButton";
 
-import { COLLECTIONS } from "../constants";
+import { COLLECTIONS, EVENTS } from "../constants";
 
 import useBird from "../hooks/useBird";
-import useMintAPI from "../hooks/useMintAPI";
 
 import etherscanLogo from "../images/etherscan-logo-circle.svg";
 import openseaLogo from "../images/opensea-logomark-blue.svg";
@@ -48,7 +47,16 @@ const BirdDetails = () => {
 	// Keep track of the state of the info alert
 	const [showInfoAlert, setShowInfoAlert] = useState(true);
 
-	const onMintSuccess = async (idEvent, transferEvent) => {
+	const onMintSuccess = async (response) => {
+
+		const transactionHash = response.transactionHash;
+		const receipt = response.receipt;
+
+		console.log('------------ onMintSuccess -----------');
+		console.log(transactionHash);
+		console.log(receipt);
+
+		/*
 
 		// Check if the user successfully identified the bird, i.e. is now the owner
 		if (transferEvent) {
@@ -61,12 +69,48 @@ const BirdDetails = () => {
 
 		}
 
-	};
+		let events = [];
 
-	const [handleMintBird, txMintBird, resetTxMintBird] = useMintAPI({
-		context,
-		cb: onMintSuccess,
-	});
+			if (txSuccess) {
+
+				console.debug(`handleMint, gasUsed=${txSuccess.gasUsed}`);
+
+				events = txSuccess.logs.map((log) => {
+
+					return context.contractInterface.parseLog({
+						data: log.data,
+						topics: log.topics,
+					});
+
+				});
+
+			}
+
+			// Find the event(s) from the back-end
+
+			const idEvent = events.find(
+				(event) => event.name === EVENTS.BIRD_ID
+			);
+
+			const transferEvent = events.find(
+				(event) => event.name === EVENTS.TRANSFER
+			);
+
+			// Store the success/error state for the transaction
+			setTx((prev) => Object.assign({}, prev, {
+				timestamp: new Date(),
+				transaction: txSuccess,
+				idEvent,
+				transferEvent,
+				pending: false,
+				success: Boolean(txSuccess),
+				error: Boolean(txError),
+				errorMsg: txError,
+			}));
+
+		*/
+
+	};
 
 	// Re-load the twitter share button if the bird ID changes
 	useEffect(() => {
@@ -253,7 +297,7 @@ const BirdDetails = () => {
 								</a></p>
 							</Alert>
 						*/}
-						{(txMintBird.pending || txMintBird.success || txMintBird.error) &&
+						{/* (txMintBird.pending || txMintBird.success || txMintBird.error) &&
 							<Row className="mb-3">
 								<Col>
 									<BirdIdentificationTransactionStatus
@@ -261,7 +305,7 @@ const BirdDetails = () => {
 										onClose={resetTxMintBird} />
 								</Col>
 							</Row>
-						}
+						*/}
 						<Row>
 							<Col>
 								<Card>
@@ -330,7 +374,7 @@ const BirdDetails = () => {
 											{!bird.owner &&
 												<div className="d-grid gap-2">
 													<Button
-														disabled={txMintBird.pending}
+														// disabled={txMintBird.pending}
 														size="lg"
 														variant="info"
 														onClick={() => setIsIdentifyingBird(true)}>
@@ -369,7 +413,8 @@ const BirdDetails = () => {
 					<BirdIdentificationModal
 						isOpen={isIdentifyingBird}
 						bird={bird}
-						onSubmit={handleMintBird}
+						context={context}
+						onSuccess={onMintSuccess}
 						onToggle={() => setIsIdentifyingBird(false)} />
 				}
 			</Container>
