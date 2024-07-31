@@ -44,6 +44,9 @@ const BirdDetails = () => {
 	// True, if the modal is open
 	const [isIdentifyingBird, setIsIdentifyingBird] = useState(false);
 
+	// Keep track of the transaction state after submission to the chain
+	const [tx, setTx] = useState(null);
+
 	// Keep track of the state of the info alert
 	const [showInfoAlert, setShowInfoAlert] = useState(true);
 
@@ -52,16 +55,38 @@ const BirdDetails = () => {
 		const transactionHash = response.transactionHash;
 		const receipt = response.receipt;
 
-		console.log('------------ onMintSuccess -----------');
-		console.log(transactionHash);
-		console.log(receipt);
+		console.debug('------------ onMintSuccess -----------');
+		console.debug(`gasUsed=${receipt.gasUsed}`);
+		console.debug(`transactionHash=${transactionHash}`);
+		console.debug(receipt);
+		console.debug('--------------------------------------');
 
-		/*
+		const events = receipt.logs.map((log) => {
+
+			return context.contractInterface.parseLog({
+				data: log.data,
+				topics: log.topics,
+			});
+
+		// Remove any events that were not created by our contract
+		}).filter((event) => Boolean(event));
+
+		console.debug(events);
+
+		// Find the event(s) from the back-end
+
+		const idEvent = events.find(
+			(event) => event.name === EVENTS.BIRD_ID
+		);
+
+		const transferEvent = events.find(
+			(event) => event.name === EVENTS.TRANSFER
+		);
 
 		// Check if the user successfully identified the bird, i.e. is now the owner
 		if (transferEvent) {
 
-			const updatedData = { ...bird, owner: context.account }; 
+			const updatedData = { ...bird, owner: context.account };
 
 			const finalData = await populateMetadata(updatedData);
 
@@ -69,46 +94,17 @@ const BirdDetails = () => {
 
 		}
 
-		let events = [];
-
-			if (txSuccess) {
-
-				console.debug(`handleMint, gasUsed=${txSuccess.gasUsed}`);
-
-				events = txSuccess.logs.map((log) => {
-
-					return context.contractInterface.parseLog({
-						data: log.data,
-						topics: log.topics,
-					});
-
-				});
-
-			}
-
-			// Find the event(s) from the back-end
-
-			const idEvent = events.find(
-				(event) => event.name === EVENTS.BIRD_ID
-			);
-
-			const transferEvent = events.find(
-				(event) => event.name === EVENTS.TRANSFER
-			);
-
-			// Store the success/error state for the transaction
-			setTx((prev) => Object.assign({}, prev, {
-				timestamp: new Date(),
-				transaction: txSuccess,
-				idEvent,
-				transferEvent,
-				pending: false,
-				success: Boolean(txSuccess),
-				error: Boolean(txError),
-				errorMsg: txError,
-			}));
-
-		*/
+		// Store the successful state for the transaction
+		setTx({
+			transactionHash,
+			receipt,
+			idEvent,
+			transferEvent,
+			timestamp: new Date(),
+			success: true,
+			// error: false,
+			// errorMsg: null,
+		});
 
 	};
 
@@ -127,7 +123,9 @@ const BirdDetails = () => {
 
 	const collection = bird ? COLLECTIONS[bird.collection] : null;
 
-	if (bird && (bird.id < 0 || bird.id > 2999)) { return null; }
+	if (bird && (bird.id < 0 || bird.id > 2999)) {
+		return null;
+	}
 
 	console.debug("-------------- BirdDetails -----------");
 	console.debug(bird);
@@ -297,15 +295,15 @@ const BirdDetails = () => {
 								</a></p>
 							</Alert>
 						*/}
-						{/* (txMintBird.pending || txMintBird.success || txMintBird.error) &&
+						{tx &&
 							<Row className="mb-3">
 								<Col>
 									<BirdIdentificationTransactionStatus
-										tx={txMintBird}
-										onClose={resetTxMintBird} />
+										tx={tx}
+										onClose={() => setTx(null)} />
 								</Col>
 							</Row>
-						*/}
+						}
 						<Row>
 							<Col>
 								<Card>
@@ -374,7 +372,7 @@ const BirdDetails = () => {
 											{!bird.owner &&
 												<div className="d-grid gap-2">
 													<Button
-														// disabled={txMintBird.pending}
+														disabled={isIdentifyingBird}
 														size="lg"
 														variant="info"
 														onClick={() => setIsIdentifyingBird(true)}>

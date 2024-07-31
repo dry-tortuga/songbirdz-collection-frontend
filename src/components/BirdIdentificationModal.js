@@ -1,4 +1,4 @@
-import React, { useMemo, useRef, useState } from "react";
+import React, { useMemo, useState } from "react";
 import { 
 	Transaction, 
 	TransactionButton, 
@@ -6,10 +6,6 @@ import {
 	TransactionStatus, 
 	TransactionStatusAction, 
 	TransactionStatusLabel, 
-	TransactionToast,
-	TransactionToastAction,
-	TransactionToastIcon,
-	TransactionToastLabel,
 } from "@coinbase/onchainkit/transaction"; 
 import {
 	Button,
@@ -17,17 +13,17 @@ import {
 	Modal,
 } from "react-bootstrap";
 import Select from "react-select";
-import { parseEther } from "viem";
 
 import BirdAudioFile from "./BirdAudioFile";
 
-import SongBirdzContract from "../abi/SongBirdz.json";
-
-import { ANSWER_CHOICES, COLLECTIONS } from "../constants";
+import {
+	ANSWER_CHOICES,
+	COLLECTIONS,
+	CURRENT_COLLECTION_MIN_ID,
+	CURRENT_COLLECTION_MAX_ID,
+} from "../constants";
 
 import "./BirdIdentificationModal.css";
-
-const MINT_PRICE = "0.0015"; // 0.0015 ETH
 
 const BirdIdentificationModal = (props) => {
 
@@ -39,11 +35,26 @@ const BirdIdentificationModal = (props) => {
 		onToggle,
 	} = props;
 
-	const [formData, setFormData] = useState({
-		species: "",
-	});
+	const [contractCall, setContractCall] = useState(null);
 
-	const contractsRef = useRef(null);
+	const handleInputChange = async (selectedOption) => {
+
+		// Reset the selected species to use as the guess so we can wait for the result
+		// of the async API call to fetch the merkle proof for the "publicMint" contract call
+
+		setContractCall(null);
+
+		try {
+
+			const result = await context.actions.publicMint(bird.id, selectedOption.value);
+
+			setContractCall([result]);
+
+		} catch (error) {
+			// TODO: Show an error message?
+		}
+
+	};
 
 	const options = useMemo(() => {
 
@@ -77,12 +88,11 @@ const BirdIdentificationModal = (props) => {
 	}, [bird.id]);
 
 	// Extra safety check here to prevent users from submitting invalid transactions...
-	if (bird.id < COLLECTIONS[2].min_id || bird.id > COLLECTIONS[2].max_id) {
+	if (bird.id < CURRENT_COLLECTION_MIN_ID || bird.id > CURRENT_COLLECTION_MAX_ID) {
 		return null;
 	}
 
 	return (
-
 		<Modal
 			show={isOpen}
 			onHide={onToggle}>
@@ -113,10 +123,7 @@ const BirdIdentificationModal = (props) => {
 							className="bird-identification-species-selector"
 							classNamePrefix="bird-identification-species"
 							options={options}
-							onChange={(newValue) => setFormData({
-								...formData,
-								species: newValue.value,
-							})} />
+							onChange={handleInputChange} />
 					</Form.Group>
 					<Form.Text className="text-muted d-block">
 						{"PRICE: 0.0015 ETH"}
@@ -125,63 +132,42 @@ const BirdIdentificationModal = (props) => {
 						{"NOTE: If you submit an incorrect guess, you will be automatically refunded 0.00125 ETH."}
 					</Form.Text>
 				</Form>
-			</Modal.Body>
-			<Modal.Footer>
-				<Button
-					variant="secondary"
-					onClick={onToggle}>
-					{"Cancel"}
-				</Button>
 				<Transaction
-					address={address}
-					capabilities={{ 
+					address={context.account}
+					className="bird-identification-transaction-container"
+					capabilities={context.isPaymasterSupported ? {
 						paymasterService: { 
 							url: process.env.REACT_APP_COINBASE_PAYMASTER_AND_BUNDLER_ENDPOINT, 
 						}, 
-					}}
-					contracts={contractsRef.current}
+					} : null}
+					contracts={contractCall}
 					onError={(error) => {
 
 						console.error(error);
 
+						// TODO: Show more relevant error messages???
+
 					}}
 					onSuccess={(response) => {
-
-						console.log(response);
 
 						// Close the modal
 						onToggle();
 
+						// Handle and parse the successful response
 						onSuccess(response);
 
 					}}>
 					<TransactionButton
 						className="btn btn-info"
-						text="Submit"
-						onClick={async (event) => {
-
-						event.preventDefault();
-						event.stopPropagation();
-
-						const publicMintCall = await context.actions.publicMint();
-
-						contractsRef.current = [publicMintCall];
-
-						// TODO: Re-throw the event to be handled above
-
-					}} />
-					<TransactionSponsor text="OnchainKit" />
+						disabled={!contractCall}
+						text="Submit" />
+					<TransactionSponsor text="SongBirdz" />
 					<TransactionStatus>
 						<TransactionStatusLabel />
 						<TransactionStatusAction />
 					</TransactionStatus>
-					<TransactionToast>
-						<TransactionToastIcon />
-						<TransactionToastLabel />
-						<TransactionToastAction />
-					</TransactionToast>
 				</Transaction>
-			</Modal.Footer>
+			</Modal.Body>
 		</Modal>
 
 	);
