@@ -18,10 +18,9 @@ import BirdIdentificationModal from "../components/BirdIdentificationModal";
 import BirdIdentificationTransactionStatus from "../components/BirdIdentificationTransactionStatus";
 import CreateWalletButton from "../components/CreateWalletButton";
 
-import { COLLECTIONS } from "../constants";
+import { COLLECTIONS, EVENTS } from "../constants";
 
 import useBird from "../hooks/useBird";
-import useMintAPI from "../hooks/useMintAPI";
 
 import etherscanLogo from "../images/etherscan-logo-circle.svg";
 import openseaLogo from "../images/opensea-logomark-blue.svg";
@@ -45,15 +44,55 @@ const BirdDetails = () => {
 	// True, if the modal is open
 	const [isIdentifyingBird, setIsIdentifyingBird] = useState(false);
 
+	// Keep track of the transaction state after submission to the chain
+	const [tx, setTx] = useState(null);
+
 	// Keep track of the state of the info alert
 	const [showInfoAlert, setShowInfoAlert] = useState(true);
 
-	const onMintSuccess = async (idEvent, transferEvent) => {
+	const onMintSuccess = async (response) => {
+
+		const transactionHash = response.transactionHash;
+		const receipt = response.receipt;
+
+		console.debug('------------ onMintSuccess -----------');
+		console.debug(`gasUsed=${receipt.gasUsed}`);
+		console.debug(`transactionHash=${transactionHash}`);
+		console.debug(receipt);
+		console.debug('--------------------------------------');
+
+		const events = receipt.logs.map((log) => {
+
+			return context.contractInterface.parseLog({
+				data: log.data,
+				topics: log.topics,
+			});
+
+		// Remove any events that were not created by our contract
+		}).filter((event) => Boolean(event));
+
+		console.debug(events);
+
+		// Find the event(s) from the back-end
+
+		const idEvent = events.find((event) =>
+			event.name === EVENTS.BIRD_ID &&
+			parseInt(event.args?.birdId, 10) === bird.id &&
+			event.args?.user?.toLowerCase() === context.account.toLowerCase()
+		);
+
+		const transferEvent = events.find((event) =>
+			event.name === EVENTS.TRANSFER &&
+			event.args?.from === "0x0000000000000000000000000000000000000000" &&
+			event.args?.to?.toLowerCase() === context.account.toLowerCase() &&
+			parseInt(event.args?.tokenId, 10) === bird.id &&
+			event.topic?.toLowerCase() === "0xddf252ad1be2c89b69c2b068fc378daa952ba7f163c4a11628f55a4df523b3ef"
+		);
 
 		// Check if the user successfully identified the bird, i.e. is now the owner
 		if (transferEvent) {
 
-			const updatedData = { ...bird, owner: context.account }; 
+			const updatedData = { ...bird, owner: context.account };
 
 			const finalData = await populateMetadata(updatedData);
 
@@ -61,12 +100,19 @@ const BirdDetails = () => {
 
 		}
 
-	};
+		// Store the successful state for the transaction
+		setTx({
+			transactionHash,
+			receipt,
+			idEvent,
+			transferEvent,
+			timestamp: new Date(),
+			success: true,
+			// error: false,
+			// errorMsg: null,
+		});
 
-	const [handleMintBird, txMintBird, resetTxMintBird] = useMintAPI({
-		context,
-		cb: onMintSuccess,
-	});
+	};
 
 	// Re-load the twitter share button if the bird ID changes
 	useEffect(() => {
@@ -83,7 +129,9 @@ const BirdDetails = () => {
 
 	const collection = bird ? COLLECTIONS[bird.collection] : null;
 
-	if (bird && (bird.id < 0 || bird.id > 2999)) { return null; }
+	if (bird && (bird.id < 0 || bird.id > 2999)) {
+		return null;
+	}
 
 	console.debug("-------------- BirdDetails -----------");
 	console.debug(bird);
@@ -253,12 +301,12 @@ const BirdDetails = () => {
 								</a></p>
 							</Alert>
 						*/}
-						{(txMintBird.pending || txMintBird.success || txMintBird.error) &&
+						{tx &&
 							<Row className="mb-3">
 								<Col>
 									<BirdIdentificationTransactionStatus
-										tx={txMintBird}
-										onClose={resetTxMintBird} />
+										tx={tx}
+										onClose={() => setTx(null)} />
 								</Col>
 							</Row>
 						}
@@ -330,7 +378,7 @@ const BirdDetails = () => {
 											{!bird.owner &&
 												<div className="d-grid gap-2">
 													<Button
-														disabled={txMintBird.pending}
+														disabled={isIdentifyingBird}
 														size="lg"
 														variant="info"
 														onClick={() => setIsIdentifyingBird(true)}>
@@ -369,7 +417,8 @@ const BirdDetails = () => {
 					<BirdIdentificationModal
 						isOpen={isIdentifyingBird}
 						bird={bird}
-						onSubmit={handleMintBird}
+						context={context}
+						onSuccess={onMintSuccess}
 						onToggle={() => setIsIdentifyingBird(false)} />
 				}
 			</Container>

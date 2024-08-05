@@ -4,35 +4,17 @@
 		"id": 4,
 		"label": "American Black Duck"
 	}, {
-		"id": 5,
-		"label": "American Coot"
-	}, {
-		"id": 200,
-		"label": "American Flamingo"
-	}, {
-		"id": 201,
-		"label": "American White Pelican"
-	}, {
-		"id": 202,
-		"label": "Arctic Loon"
-	}, {
 		"id": 19,
 		"label": "Barrow's Goldeneye"
 	}, {
 		"id": 23,
 		"label": "Black-bellied Whistling-Duck"
 	}, {
-		"id": 26,
-		"label": "Black-necked Stilt"
-	}, {
 		"id": 29,
 		"label": "Blue-winged Teal"
 	}, {
 		"id": 31,
 		"label": "Brant"
-	}, {
-		"id": 35,
-		"label": "Brown Pelican"
 	}, {
 		"id": 36,
 		"label": "Bufflehead"
@@ -51,9 +33,6 @@
 	}, {
 		"id": 54,
 		"label": "Common Goldeneye"
-	}, {
-		"id": 55,
-		"label": "Common Loon"
 	}, {
 		"id": 56,
 		"label": "Common Merganser"
@@ -100,9 +79,6 @@
 		"id": 126,
 		"label": "Northern Shoveler"
 	}, {
-		"id": 133,
-		"label": "Pied-billed Grebe"
-	}, {
 		"id": 142,
 		"label": "Red-breasted Merganser"
 	}, {
@@ -121,11 +97,41 @@
 		"id": 222,
 		"label": "Tundra Swan"
 	}, {
-		"id": 223,
-		"label": "Western Grebe"
-	}, {
 		"id": 195,
 		"label": "Wood Duck"
+	}]
+}, {
+	"name": "Flamingos",
+	"species": [{
+		"id": 200,
+		"label": "American Flamingo"
+	}]
+}, {
+	"name": "Grebes",
+	"species": [{
+		"id": 133,
+		"label": "Pied-billed Grebe"
+	}, {
+		"id": 223,
+		"label": "Western Grebe"
+	}]
+}, {
+	"name": "Pelicans",
+	"species": [{
+		"id": 201,
+		"label": "American White Pelican"
+	}, {
+		"id": 35,
+		"label": "Brown Pelican"
+	}]
+}, {
+	"name": "Loons",
+	"species": [{
+		"id": 202,
+		"label": "Arctic Loon"
+	}, {
+		"id": 55,
+		"label": "Common Loon"
 	}]
 }, {
 	"name": "Shorebirds",
@@ -139,6 +145,9 @@
 		"id": 203,
 		"label": "Black-bellied Plover"
 	}, {
+		"id": 26,
+		"label": "Black-necked Stilt"
+	}, {
 		"id": 240,
 		"label": "Black-tailed Godwit"
 	}, {
@@ -148,9 +157,6 @@
 		"id": 225,
 		"label": "Black Oystercatcher"
 	}, {
-		"id": 249,
-		"label": "Common Crane"
-	}, {
 		"id": 243,
 		"label": "Dunlin"
 	}, {
@@ -159,9 +165,6 @@
 	}, {
 		"id": 105,
 		"label": "Killdeer"
-	}, {
-		"id": 110,
-		"label": "Limpkin"
 	}, {
 		"id": 245,
 		"label": "Little Stint"
@@ -184,14 +187,8 @@
 		"id": 231,
 		"label": "Sanderling"
 	}, {
-		"id": 163,
-		"label": "Sandhill Crane"
-	}, {
 		"id": 232,
 		"label": "Spotted Sandpiper"
-	}, {
-		"id": 191,
-		"label": "Whooping Crane"
 	}, {
 		"id": 193,
 		"label": "Willet"
@@ -201,6 +198,24 @@
 	}, {
 		"id": 194,
 		"label": "Wilson's Snipe"
+	}]
+}, {
+	"name": "Limpkin",
+	"species": [{
+		"id": 110,
+		"label": "Limpkin"
+	}]
+}, {
+	"name": "Cranes",
+	"species": [{
+		"id": 249,
+		"label": "Common Crane"
+	}, {
+		"id": 163,
+		"label": "Sandhill Crane"
+	}, {
+		"id": 191,
+		"label": "Whooping Crane"
 	}]
 }, {
 	"name": "Cormorants & Anhingas",
@@ -217,6 +232,9 @@
 }, {
 	"name": "Rails, Gallinules, & Allies",
 	"species": [{
+		"id": 5,
+		"label": "American Coot"
+	}, {
 		"id": 49,
 		"label": "Clapper Rail"
 	}, {
@@ -404,7 +422,13 @@
 		"label": "Allen's Hummingbird"
 	}]
 }, {
-	"name": "Swifts, Swallows, & Martins",
+	"name": "Swifts",
+	"species": [{
+		"id": 292,
+		"label": "White-throated Swift"
+	}]
+}, {
+	"name": "Martins & Swallows",
 	"species": [{
 		"id": 17,
 		"label": "Barn Swallow"
@@ -417,9 +441,6 @@
 	}, {
 		"id": 290,
 		"label": "Violet-green Swallow"
-	}, {
-		"id": 292,
-		"label": "White-throated Swift"
 	}]
 }, {
 	"name": "Kingfishers",
@@ -491,11 +512,17 @@
 		"label": "Woodhouse's Scrub-Jay"
 	}]
 }, {
-	"name": "Flycatchers",
+	"name": "Old World Flycatchers",
 	"species": [{
 		"id": 265,
 		"label": "Bluethroat"
 	}, {
+		"id": 285,
+		"label": "Red-flanked Bluetail"
+	}]
+}, {
+	"name": "Tyrant Flycatchers",
+	"species": [{
 		"id": 44,
 		"label": "Cassin's Kingbird"
 	}, {
@@ -507,9 +534,6 @@
 	}, {
 		"id": 71,
 		"label": "Eastern Wood-Pewee"
-	}, {
-		"id": 285,
-		"label": "Red-flanked Bluetail"
 	}, {
 		"id": 165,
 		"label": "Say's Phoebe"
@@ -550,14 +574,8 @@
 		"id": 98,
 		"label": "Hermit Thrush"
 	}, {
-		"id": 113,
-		"label": "Louisiana Waterthrush"
-	}, {
 		"id": 117,
 		"label": "Mountain Bluebird"
-	}, {
-		"id": 129,
-		"label": "Ovenbird"
 	}, {
 		"id": 183,
 		"label": "Western Bluebird"
@@ -625,11 +643,14 @@
 		"id": 137,
 		"label": "Purple Finch"
 	}, {
-		"id": 284,
-		"label": "Red Avadavat"
-	}, {
 		"id": 144,
 		"label": "Red Crossbill"
+	}]
+}, {
+	"name": "Estrildids",
+	"species": [{
+		"id": 284,
+		"label": "Red Avadavat"
 	}, {
 		"id": 288,
 		"label": "Tricolored Munia"
@@ -647,13 +668,10 @@
 		"label": "Dovekie"
 	}]
 }, {
-	"name": "Wrens & Treecreepers",
+	"name": "Wrens",
 	"species": [{
 		"id": 21,
 		"label": "Bewick's Wren"
-	}, {
-		"id": 269,
-		"label": "Brown Creeper"
 	}, {
 		"id": 272,
 		"label": "Cactus Wren"
@@ -674,6 +692,12 @@
 		"label": "Winter Wren"
 	}]
 }, {
+	"name": "Treecreepers",
+	"species": [{
+		"id": 269,
+		"label": "Brown Creeper"
+	}]
+}, {
 	"name": "Tits, Chickadees, & Titmice",
 	"species": [{
 		"id": 25,
@@ -684,9 +708,6 @@
 	}, {
 		"id": 267,
 		"label": "Bridled Titmouse"
-	}, {
-		"id": 271,
-		"label": "Bushtit"
 	}, {
 		"id": 41,
 		"label": "Carolina Chickadee"
@@ -702,9 +723,18 @@
 	}, {
 		"id": 179,
 		"label": "Tufted Titmouse"
-	}, {
+	}]
+}, {
+	"name": "Parrotbills, Wrentit, & Allies",
+	"species": [{
 		"id": 295,
 		"label": "Wrentit"
+	}]
+}, {
+	"name": "Long-tailed Tits & Bushtit",
+	"species": [{
+		"id": 271,
+		"label": "Bushtit"
 	}]
 }, {
 	"name": "Nuthatches",
@@ -785,55 +815,22 @@
 		"label": "House Sparrow"
 	}]
 }, {
-	"name": "Cardinals, Grosbeaks, Tanagers, & Allies",
+	"name": "Tanagers & Allies",
 	"species": [{
 		"id": 258,
 		"label": "Black-faced Grassquit"
 	}, {
-		"id": 263,
-		"label": "Blue Bunting"
-	}, {
-		"id": 27,
-		"label": "Blue Grosbeak"
-	}, {
 		"id": 274,
-		"label": "Cinnamon-rumped Seedeater"
-	}, {
-		"id": 62,
-		"label": "Dickcissel"
+		"label": "Cinnamon-rumped Seedeater" 
 	}, {
 		"id": 97,
 		"label": "Hepatic Tanager"
 	}, {
-		"id": 109,
-		"label": "Lazuli Bunting"
-	}, {
-		"id": 279,
-		"label": "Little Bunting"
-	}, {
-		"id": 121,
-		"label": "Northern Cardinal"
-	}, {
-		"id": 130,
-		"label": "Painted Bunting"
-	}, {
-		"id": 132,
-		"label": "Phainopepla"
-	}, {
-		"id": 156,
-		"label": "Rose-breasted Grosbeak"
-	}, {
 		"id": 166,
 		"label": "Scarlet Tanager"
 	}, {
-		"id": 168,
-		"label": "Snow Bunting"
-	}, {
 		"id": 175,
 		"label": "Summer Tanager"
-	}, {
-		"id": 289,
-		"label": "Varied Bunting"
 	}, {
 		"id": 186,
 		"label": "Western Tanager"
@@ -842,7 +839,55 @@
 		"label": "Yellow-faced Grassquit"
 	}]
 }, {
-	"name": "Gulls, Terns, Skimmers, & Allies",
+	"name": "Cardinals, Grosbeaks, & Allies",
+	"species": [{
+		"id": 263,
+		"label": "Blue Bunting"
+	}, {
+		"id": 27,
+		"label": "Blue Grosbeak"
+	}, {
+		"id": 62,
+		"label": "Dickcissel"
+	}, {
+		"id": 103,
+		"label": "Indigo Bunting"
+	}, {
+		"id": 109,
+		"label": "Lazuli Bunting"
+	}, {
+		"id": 121,
+		"label": "Northern Cardinal"
+	}, {
+		"id": 130,
+		"label": "Painted Bunting"
+	}, {
+		"id": 156,
+		"label": "Rose-breasted Grosbeak"
+	}, {
+		"id": 289,
+		"label": "Varied Bunting"
+	}]
+}, {
+	"name": "Old World Buntings",
+	"species": [{
+		"id": 279,
+		"label": "Little Bunting"
+	}]
+}, {
+	"name": "Silky-Flycatchers",
+	"species": [{
+		"id": 132,
+		"label": "Phainopepla"
+	}]
+}, {
+	"name": "Longspurs & Snow Buntings",
+	"species": [{
+		"id": 168,
+		"label": "Snow Bunting"
+	}]
+}, {
+	"name": "Frigatebirds, Boobies, & Gannets",
 	"species": [{
 		"id": 204,
 		"label": "Blue-footed Booby"
@@ -850,6 +895,30 @@
 		"id": 205,
 		"label": "Brown Booby"
 	}, {
+		"id": 234,
+		"label": "Great Frigatebird"
+	}, {
+		"id": 114,
+		"label": "Magnificent Frigatebird"
+	}, {
+		"id": 247,
+		"label": "Northern Gannet"
+	}]
+}, {
+	"name": "Petrels, Shearwaters, & Diving-Petrels",
+	"species": [{
+		"id": 246,
+		"label": "Manx Shearwater"
+	}]
+}, {
+	"name": "Storm-Petrels",
+	"species": [{
+		"id": 230,
+		"label": "Wilson's Storm-Petrel"
+	}]
+}, {
+	"name": "Gulls, Terns, & Skimmers",
+	"species": [{
 		"id": 236,
 		"label": "California Gull"
 	}, {
@@ -865,23 +934,11 @@
 		"id": 228,
 		"label": "Great Black-backed Gull"
 	}, {
-		"id": 234,
-		"label": "Great Frigatebird"
-	}, {
 		"id": 235,
 		"label": "Herring Gull"
 	}, {
 		"id": 108,
 		"label": "Laughing Gull"
-	}, {
-		"id": 114,
-		"label": "Magnificent Frigatebird"
-	}, {
-		"id": 246,
-		"label": "Manx Shearwater"
-	}, {
-		"id": 247,
-		"label": "Northern Gannet"
 	}, {
 		"id": 150,
 		"label": "Ring-billed Gull"
@@ -891,9 +948,6 @@
 	}, {
 		"id": 227,
 		"label": "Sandwich Tern"
-	}, {
-		"id": 230,
-		"label": "Wilson's Storm-Petrel"
 	}]
 }, {
 	"name": "Kinglets",
@@ -922,20 +976,26 @@
 		"id": 89,
 		"label": "Greater Prairie-Chicken"
 	}, {
-		"id": 90,
-		"label": "Greater Roadrunner"
-	}, {
 		"id": 120,
 		"label": "Northern Bobwhite"
-	}, {
-		"id": 136,
-		"label": "Plain Chachalaca"
 	}, {
 		"id": 162,
 		"label": "Ruffed Grouse"
 	}, {
 		"id": 192,
 		"label": "Wild Turkey"
+	}]
+}, {
+	"name": "Cuckoos",
+	"species": [{
+		"id": 90,
+		"label": "Greater Roadrunner"
+	}]
+}, {
+	"name": "Chachalacas, Guans, & Curassows",
+	"species": [{
+		"id": 136,
+		"label": "Plain Chachalaca"
 	}]
 }, {
 	"name": "Starlings & Mynas",
@@ -970,11 +1030,14 @@
 		"id": 276,
 		"label": "Gray-crowned Yellowthroat"
 	}, {
+		"id": 113,
+		"label": "Louisiana Waterthrush"
+	}, {
 		"id": 280,
 		"label": "Magnolia Warbler"
 	}, {
-		"id": 282,
-		"label": "Olive Warbler"
+		"id": 129,
+		"label": "Ovenbird"
 	}, {
 		"id": 283,
 		"label": "Painted Redstart"
@@ -990,6 +1053,12 @@
 	}, {
 		"id": 298,
 		"label": "Yellow-rumped Warbler"
+	}]
+}, {
+	"name": "Olive Warbler",
+	"species": [{
+		"id": 282,
+		"label": "Olive Warbler"
 	}]
 }, {
 	"name": "Gnatcatchers",

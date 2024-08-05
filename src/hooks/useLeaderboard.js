@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 
 import { fetchLeaderboard } from "../utils/data";
 
-const TOTAL_SIZE = 50;
+const TOTAL_SIZE = 52;
 
 const useLeaderboard = () => {
 

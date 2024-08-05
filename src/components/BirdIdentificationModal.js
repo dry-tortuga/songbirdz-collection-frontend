@@ -1,4 +1,12 @@
 import React, { useMemo, useState } from "react";
+import { 
+	Transaction, 
+	TransactionButton, 
+	TransactionSponsor, 
+	TransactionStatus, 
+	TransactionStatusAction, 
+	TransactionStatusLabel, 
+} from "@coinbase/onchainkit/transaction"; 
 import {
 	Button,
 	Form,
@@ -8,22 +16,45 @@ import Select from "react-select";
 
 import BirdAudioFile from "./BirdAudioFile";
 
-import { ANSWER_CHOICES, COLLECTIONS } from "../constants";
+import {
+	ANSWER_CHOICES,
+	COLLECTIONS,
+	CURRENT_COLLECTION_MIN_ID,
+	CURRENT_COLLECTION_MAX_ID,
+} from "../constants";
 
 import "./BirdIdentificationModal.css";
 
 const BirdIdentificationModal = (props) => {
 
 	const {
+		context,
 		isOpen,
 		bird,
-		onSubmit,
+		onSuccess,
 		onToggle,
 	} = props;
 
-	const [formData, setFormData] = useState({
-		species: "",
-	});
+	const [contractCall, setContractCall] = useState(null);
+
+	const handleInputChange = async (selectedOption) => {
+
+		// Reset the selected species to use as the guess so we can wait for the result
+		// of the async API call to fetch the merkle proof for the "publicMint" contract call
+
+		setContractCall(null);
+
+		try {
+
+			const result = await context.actions.publicMint(bird.id, selectedOption.value);
+
+			setContractCall([result]);
+
+		} catch (error) {
+			// TODO: Show an error message?
+		}
+
+	};
 
 	const options = useMemo(() => {
 
@@ -56,27 +87,12 @@ const BirdIdentificationModal = (props) => {
 
 	}, [bird.id]);
 
-	const handleSubmit = async () => {
-
-		if (formData.species) {
-
-			// Close the modal
-			onToggle();
-
-			// Submit the transaction
-			await onSubmit(bird.id, formData.species);
-
-		}
-
-	};
-
 	// Extra safety check here to prevent users from submitting invalid transactions...
-	if (bird.id < COLLECTIONS[2].min_id || bird.id > COLLECTIONS[2].max_id) {
+	if (bird.id < CURRENT_COLLECTION_MIN_ID || bird.id > CURRENT_COLLECTION_MAX_ID) {
 		return null;
 	}
 
 	return (
-
 		<Modal
 			show={isOpen}
 			onHide={onToggle}>
@@ -107,10 +123,7 @@ const BirdIdentificationModal = (props) => {
 							className="bird-identification-species-selector"
 							classNamePrefix="bird-identification-species"
 							options={options}
-							onChange={(newValue) => setFormData({
-								...formData,
-								species: newValue.value,
-							})} />
+							onChange={handleInputChange} />
 					</Form.Group>
 					<Form.Text className="text-muted d-block">
 						{"PRICE: 0.0015 ETH"}
@@ -119,17 +132,42 @@ const BirdIdentificationModal = (props) => {
 						{"NOTE: If you submit an incorrect guess, you will be automatically refunded 0.00125 ETH."}
 					</Form.Text>
 				</Form>
+				<Transaction
+					address={context.account}
+					className="bird-identification-transaction-container"
+					capabilities={context.isPaymasterSupported ? {
+						paymasterService: { 
+							url: process.env.REACT_APP_COINBASE_PAYMASTER_AND_BUNDLER_ENDPOINT, 
+						}, 
+					} : null}
+					contracts={contractCall}
+					onError={(error) => {
+
+						console.error(error);
+
+						// TODO: Show more relevant error messages???
+
+					}}
+					onSuccess={(response) => {
+
+						// Close the modal
+						onToggle();
+
+						// Handle and parse the successful response
+						onSuccess(response);
+
+					}}>
+					<TransactionButton
+						className="btn btn-info"
+						disabled={!contractCall}
+						text="Submit" />
+					<TransactionSponsor text="SongBirdz" />
+					<TransactionStatus>
+						<TransactionStatusLabel />
+						<TransactionStatusAction />
+					</TransactionStatus>
+				</Transaction>
 			</Modal.Body>
-			<Modal.Footer>
-				<Button variant="secondary" onClick={onToggle}>
-					{"Cancel"}
-				</Button>
-				<Button
-					variant="info"
-					onClick={handleSubmit}>
-					{"Submit"}
-				</Button>
-			</Modal.Footer>
 		</Modal>
 
 	);

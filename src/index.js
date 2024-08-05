@@ -2,7 +2,7 @@ import React from "react";
 import { createRoot } from "react-dom/client";
 import { OnchainKitProvider } from "@coinbase/onchainkit";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { base } from "viem/chains";
+import { base, baseSepolia, hardhat } from "viem/chains";
 import { WagmiProvider } from "wagmi";
 
 import App from "./App";
@@ -20,13 +20,24 @@ const container = document.getElementById("root");
 
 const root = createRoot(container);
 
+let chain = base;
+
+if (process.env.REACT_APP_NODE_ENV === 'development') {
+	chain = hardhat;
+} else if (process.env.REACT_APP_NODE_ENV === 'staging') {
+	chain = baseSepolia;
+}
+
+console.debug(process.env.REACT_APP_NODE_ENV);
+console.debug(chain);
+
 root.render(
 	<React.StrictMode>
 		 <WagmiProvider config={config}>
 		 	<QueryClientProvider client={queryClient}>
 		 		<OnchainKitProvider
 		 			apiKey={ONCHAIN_KIT_API_KEY}
-		 			chain={base}>
+		 			chain={chain}>
 					<App />
 				</OnchainKitProvider>
 			</QueryClientProvider>

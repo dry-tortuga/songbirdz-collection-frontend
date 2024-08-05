@@ -22,6 +22,9 @@ const COLLECTIONS = [{
 	max_id: 2999
 }];
 
+const CURRENT_COLLECTION_MIN_ID = process.env.REACT_APP_NODE_ENV === "production" ? 2000 : 0;
+const CURRENT_COLLECTION_MAX_ID = process.env.REACT_APP_NODE_ENV === "production" ? 2999 : 2999;
+
 const EVENTS = {
 	BIRD_ID: "BirdIdentification",
 	TRANSFER: "Transfer",
@@ -35,6 +38,8 @@ export {
 	NUM_BIRDS_TOTAL,
 	COLLECTION_BIRD_SIZE,
 	COLLECTIONS,
+	CURRENT_COLLECTION_MIN_ID,
+	CURRENT_COLLECTION_MAX_ID,
 	EVENTS,
 	ALREADY_IDENTIFIED_BIRDS,
 };

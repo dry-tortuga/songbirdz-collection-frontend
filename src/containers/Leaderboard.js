@@ -15,8 +15,6 @@ import LifeListModal from "../components/LifeListModal";
 
 import useLeaderboard from "../hooks/useLeaderboard";
 
-// import "./Leaderboard.css";
-
 const Leaderboard = () => {
 
 	const context = useWalletContext();
@@ -30,8 +28,6 @@ const Leaderboard = () => {
 	console.debug(users);
 	console.debug(context);
 	console.debug("--------------------------------------")
-
-	// TODO: Add current user's spot...
 
 	return (
 		<div className="leaderboard-page">
@@ -56,7 +52,7 @@ const Leaderboard = () => {
 									users={users}
 									onUserClick={setLifeListModalAddress} />
 								<div className="text-center">
-									{"Last confirmed on July 22nd, 2024 09:15 PM UTC. Leaderboard attempts to update in real-time, but points to be manually confirmed on a weekly basis in case any ERC-721 events are missed."}
+									{"Last confirmed on August 3rd, 2024 10:15 PM UTC. Leaderboard attempts to update in real-time, but points to be manually confirmed on a weekly basis in case any ERC-721 events are missed."}
 								</div>
 							</>
 						}
@@ -93,7 +89,7 @@ const Leaderboard = () => {
 									{" is a competition among birders to identify as many species of birds as possible by sight/sound, within a single calendar year and specific geographic area. The North American Big Year record is 840 species, set by John Weigel in 2019!"}
 								</p>
 								<p>
-									{"Now, we all know onchain has no geographic limits, so we'll recreate this competition using the 200 different species of birds in the Songbirdz collection that are out in the wild right now on Base. There are 5 of each species, so 1,000 birds in total."}
+									{"Now, we all know onchain has no geographic limits, so we'll recreate this competition using the 300 different species of birds in the Songbirdz collection that are out in the wild right now on Base."}
 								</p>
 								<p>
 									{"For each new species of bird that you add to your "}
