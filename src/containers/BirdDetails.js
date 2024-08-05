@@ -75,12 +75,18 @@ const BirdDetails = () => {
 
 		// Find the event(s) from the back-end
 
-		const idEvent = events.find(
-			(event) => event.name === EVENTS.BIRD_ID
+		const idEvent = events.find((event) =>
+			event.name === EVENTS.BIRD_ID &&
+			parseInt(event.args?.birdId, 10) === bird.id &&
+			event.args?.user?.toLowerCase() === context.account.toLowerCase()
 		);
 
-		const transferEvent = events.find(
-			(event) => event.name === EVENTS.TRANSFER
+		const transferEvent = events.find((event) =>
+			event.name === EVENTS.TRANSFER &&
+			event.args?.from === "0x0000000000000000000000000000000000000000" &&
+			event.args?.to?.toLowerCase() === context.account.toLowerCase() &&
+			parseInt(event.args?.tokenId, 10) === bird.id &&
+			event.topic?.toLowerCase() === "0xddf252ad1be2c89b69c2b068fc378daa952ba7f163c4a11628f55a4df523b3ef"
 		);
 
 		// Check if the user successfully identified the bird, i.e. is now the owner
