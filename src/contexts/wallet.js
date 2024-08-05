@@ -6,6 +6,7 @@ import React, {
 	useState,
 } from "react";
 import { Interface } from "ethers";
+import { Button, Modal } from "react-bootstrap";
 import {
 	Connector,
 	useAccount,
@@ -16,14 +17,9 @@ import {
 	useSwitchChain,
 } from "wagmi";
 import { base, baseSepolia, hardhat } from "wagmi/chains";
-import {
-	readContract,
-	simulateContract,
-	waitForTransactionReceipt,
-	writeContract,
-} from "@wagmi/core";
+import { useCapabilities } from "wagmi/experimental";
+import { readContract } from "@wagmi/core";
 import { parseEther } from "viem";
-import { Button, Modal } from "react-bootstrap";
 
 import SongBirdzContract from "../abi/SongBirdz.json";
 import WalletOptions from "../components/WalletOptions";
@@ -31,6 +27,8 @@ import config from "../config";
 
 const EXPECTED_CHAIN_ID = parseInt(process.env.REACT_APP_BASE_NETWORK_CHAIN_ID, 10);
 const SONGBIRDZ_CONTRACT_ADDRESS = process.env.REACT_APP_SONGBIRDZ_CONTRACT_ADDRESS;
+
+const MINT_PRICE = "0.0015"; // 0.0015 ETH
 
 const WalletContext = React.createContext();
 
@@ -45,11 +43,11 @@ const WalletProvider = ({ children }) => {
 	// const { data: ensAvatar } = useEnsAvatar({ name: ensName });
 	const { switchChain } = useSwitchChain();
 
+	const { data: availableCapabilities } = useCapabilities({ account: address });
+
 	const [isModalOpen, setIsModalOpen] = useState(false);
 
 	const account = address;
-
-	console.debug(connectors);
 
 	useEffect(() => {
 
@@ -101,43 +99,53 @@ const WalletProvider = ({ children }) => {
 	}, []);
 
 	// Callback function to mint a new bird
-	const publicMint = useCallback(async (id, proof, guess, mintPrice) => {
+	const publicMint = useCallback(async (id, speciesGuess) => {
 
 		try {
 
-			const { request } = await simulateContract(config, {
+			// Fetch the merkle tree proof from the back-end server
+
+			const proofParams = new URLSearchParams({ species_guess: speciesGuess });
+
+			const response = await fetch(
+				`${process.env.REACT_APP_SONGBIRDZ_BACKEND_URL}/birds/merkle-proof/${id}?${proofParams}`
+			);
+
+			if (response.status !== 200) {
+				throw new Error(`Unable to fetch merkle proof for bird=${id}...`);
+			}
+
+			const responseData = await response.json();
+
+			return {
 				abi: SongBirdzContract.abi,
 				address: SONGBIRDZ_CONTRACT_ADDRESS,
 				functionName: "publicMint",
-				args: [id, proof, guess],
+				args: [id, responseData.proof, responseData.species_guess],
 				chainId: EXPECTED_CHAIN_ID,
-				value: parseEther(mintPrice), 
-			});
-
-			const hash = await writeContract(config, request)
-
-			const txReceipt = await waitForTransactionReceipt(config, {
-				chainId: EXPECTED_CHAIN_ID,
-				hash,
-			})
-
-			return [txReceipt, null];
+				value: parseEther(MINT_PRICE), 
+			};
 
 		} catch (error) {
-
-			console.debug(error);
-			return [null, error];
-
+			console.error(error);
+			throw error;
 		}
 
 	}, []);
 
+	const isOnCorrectChain = chainId === EXPECTED_CHAIN_ID;
+	const isPaymasterSupported = Boolean(availableCapabilities?.[EXPECTED_CHAIN_ID]?.paymasterService?.supported);
+
 	console.debug("----------------------");
+	console.debug(connectors);
+	console.debug(availableCapabilities);
 	console.debug(`account=${account}`);
 	console.debug(`chainId=${chainId}`);
 	// console.debug(`ensName=${ensName}`);
 	// console.debug(`ensAvatar=${ensAvatar}`);
 	console.debug(`isConnected=${isConnected}`);
+	console.debug(`isOnCorrectChain=${isOnCorrectChain}`);
+	console.debug(`isPaymasterSupported=${isPaymasterSupported}`);
 	console.debug("----------------------");
 
 	return (
@@ -148,7 +156,8 @@ const WalletProvider = ({ children }) => {
 				ensAvatar: null, // TODO
 				chainId,
 				expectedChainId: EXPECTED_CHAIN_ID,
-				isOnCorrectChain: chainId === EXPECTED_CHAIN_ID,
+				isOnCorrectChain,
+				isPaymasterSupported,
 				contractAddress: SONGBIRDZ_CONTRACT_ADDRESS,
 				contractInterface: new Interface(SongBirdzContract.abi),
 				onConnectWallet: () => setIsModalOpen(true),

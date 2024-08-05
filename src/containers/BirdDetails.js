@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import {
 	Alert,
@@ -18,10 +18,9 @@ import BirdIdentificationModal from "../components/BirdIdentificationModal";
 import BirdIdentificationTransactionStatus from "../components/BirdIdentificationTransactionStatus";
 import CreateWalletButton from "../components/CreateWalletButton";
 
-import { COLLECTIONS } from "../constants";
+import { COLLECTIONS, EVENTS } from "../constants";
 
 import useBird from "../hooks/useBird";
-import useMintAPI from "../hooks/useMintAPI";
 
 import etherscanLogo from "../images/etherscan-logo-circle.svg";
 import openseaLogo from "../images/opensea-logomark-blue.svg";
@@ -45,15 +44,55 @@ const BirdDetails = () => {
 	// True, if the modal is open
 	const [isIdentifyingBird, setIsIdentifyingBird] = useState(false);
 
+	// Keep track of the transaction state after submission to the chain
+	const [tx, setTx] = useState(null);
+
 	// Keep track of the state of the info alert
 	const [showInfoAlert, setShowInfoAlert] = useState(true);
 
-	const onMintSuccess = async (idEvent, transferEvent) => {
+	const onMintSuccess = async (response) => {
+
+		const transactionHash = response.transactionHash;
+		const receipt = response.receipt;
+
+		console.debug('------------ onMintSuccess -----------');
+		console.debug(`gasUsed=${receipt.gasUsed}`);
+		console.debug(`transactionHash=${transactionHash}`);
+		console.debug(receipt);
+		console.debug('--------------------------------------');
+
+		const events = receipt.logs.map((log) => {
+
+			return context.contractInterface.parseLog({
+				data: log.data,
+				topics: log.topics,
+			});
+
+		// Remove any events that were not created by our contract
+		}).filter((event) => Boolean(event));
+
+		console.debug(events);
+
+		// Find the event(s) from the back-end
+
+		const idEvent = events.find((event) =>
+			event.name === EVENTS.BIRD_ID &&
+			parseInt(event.args?.birdId, 10) === bird.id &&
+			event.args?.user?.toLowerCase() === context.account.toLowerCase()
+		);
+
+		const transferEvent = events.find((event) =>
+			event.name === EVENTS.TRANSFER &&
+			event.args?.from === "0x0000000000000000000000000000000000000000" &&
+			event.args?.to?.toLowerCase() === context.account.toLowerCase() &&
+			parseInt(event.args?.tokenId, 10) === bird.id &&
+			event.topic?.toLowerCase() === "0xddf252ad1be2c89b69c2b068fc378daa952ba7f163c4a11628f55a4df523b3ef"
+		);
 
 		// Check if the user successfully identified the bird, i.e. is now the owner
 		if (transferEvent) {
 
-			const updatedData = { ...bird, owner: context.account }; 
+			const updatedData = { ...bird, owner: context.account };
 
 			const finalData = await populateMetadata(updatedData);
 
@@ -61,21 +100,64 @@ const BirdDetails = () => {
 
 		}
 
+		// Store the successful state for the transaction
+		setTx({
+			transactionHash,
+			receipt,
+			idEvent,
+			transferEvent,
+			timestamp: new Date(),
+			success: true,
+			// error: false,
+			// errorMsg: null,
+		});
+
 	};
 
-	const [handleMintBird, txMintBird, resetTxMintBird] = useMintAPI({
-		context,
-		cb: onMintSuccess,
-	});
+	// Re-load the twitter share button if the bird ID changes
+	useEffect(() => {
+
+		if (bird && window.twttr && window.twttr.widgets) {
+
+			window.twttr.widgets.load(
+				document.getElementById("details-page")
+			);
+
+		}
+
+	}, [bird?.id]);
 
 	const collection = bird ? COLLECTIONS[bird.collection] : null;
+
+	if (bird && (bird.id < 0 || bird.id > 2999)) {
+		return null;
+	}
 
 	console.debug("-------------- BirdDetails -----------");
 	console.debug(bird);
 	console.debug("--------------------------------------")
 
+	let image = bird ? bird.image : null;
+	let imageLg = bird ? bird.imageLg : null;
+
+	// Check if it is one of the "1 of 1" species...
+	if (bird && bird.owner && (
+		bird.id === 2844 ||
+		bird.id === 2603 ||
+		bird.id === 2673 ||
+		bird.id === 2574 ||
+		bird.id === 2202
+	)) {
+
+		image = `${process.env.PUBLIC_URL}/images/${bird.id}.jpg`;
+		imageLg =`${process.env.PUBLIC_URL}/images/${bird.id}-lg.jpg`;
+
+	}
+
 	return (
-		<div className="details-page">
+		<div
+			id="details-page"
+			className="details-page">
 			<Container className="my-4">
 				{context.account &&
 					context.isOnCorrectChain &&
@@ -105,7 +187,7 @@ const BirdDetails = () => {
 				{bird &&
 					<>
 						<Row className="mb-3">
-							<Col className="d-flex align-items-center">
+							<Col className="d-flex align-items-center flex-wrap">
 								<h1 className="d-flex align-items-center">
 									{bird.name}
 								</h1>
@@ -126,7 +208,7 @@ const BirdDetails = () => {
 										</svg>
 									</Link>
 								}
-								{bird.id < COLLECTIONS[1].max_id &&
+								{bird.id < COLLECTIONS[2].max_id &&
 									<Link
 										className="btn btn-outline-primary ms-3"
 										to={`/collection/${bird.id + 1}`}>
@@ -144,9 +226,21 @@ const BirdDetails = () => {
 									</Link>
 								}
 								{bird.owner &&
-									<div className="flex align-items-center ms-auto">
+									<div
+										className="flex align-items-center ms-auto"
+										key={bird.id}>
 										<a
-											className="btn btn-clear"
+											href={`https://twitter.com/intent/tweet?text=${encodeURIComponent(`Check out this ${bird.species} in the @songbirdz_cc collection on @base from @dry_tortuga!\n`)}`}
+											className="twitter-share-button"
+											data-show-count="false"
+											data-size="large"
+											data-hashtags="basedbirds"
+											data-via="opensea"
+											data-url={`https://opensea.io/assets/base/${context.contractAddress}/${bird.id}`}>
+											{"Tweet"}
+										</a>
+										<a
+											className="btn btn-clear ms-3"
 											href={`https://opensea.io/assets/base/${context.contractAddress}/${bird.id}`}
 											rel="noopener noreferrer nofollow"
 											target="_blank">
@@ -185,14 +279,12 @@ const BirdDetails = () => {
 						}
 						{/*
 							<Alert variant="success">
-								<p className="mb-1">
-									<b>{'The 1st flock of Songbirdz is now 100% identified... but stay tuned for more details about the release of the next flock of 1,000 birds!'}</b>
-								</p>
+								<p className="mb-1"><b>{'The "Deep Blue" flock of Songbirdz is now 100% identified... but stay tuned for details about the release of the 3rd flock of 1,000 birds!'}</b></p>
 								<p className="mb-1">
 									<span className="me-1">
 										{"Follow on"}
 									</span><a
-									href="https://twitter.com/dry_tortuga"
+									href="https://twitter.com/songbirdz_cc"
 									target="_blank"
 									rel="noopener noreferrer nofollower">
 									{"Twitter"}
@@ -209,12 +301,12 @@ const BirdDetails = () => {
 								</a></p>
 							</Alert>
 						*/}
-						{(txMintBird.pending || txMintBird.success || txMintBird.error) &&
+						{tx &&
 							<Row className="mb-3">
 								<Col>
 									<BirdIdentificationTransactionStatus
-										tx={txMintBird}
-										onClose={resetTxMintBird} />
+										tx={tx}
+										onClose={() => setTx(null)} />
 								</Col>
 							</Row>
 						}
@@ -223,11 +315,11 @@ const BirdDetails = () => {
 								<Card>
 									<Row>
 										<img
-											key={bird.imageLg}
+											key={imageLg}
 											alt=""
 											className="col-12 col-sm-6 col-md-4"
-											src={bird.imageLg}
-											srcSet={`${bird.image} 256w, ${bird.imageLg} 768w`}
+											src={imageLg}
+											srcSet={`${image} 256w, ${imageLg} 768w`}
 											sizes="(max-width: 576px) 256px, 768px" />
 										<Card.Body className="col-12 col-sm-6 col-md-8 d-flex flex-column">
 											<Card.Title
@@ -246,7 +338,7 @@ const BirdDetails = () => {
 														{collection.name}
 													</Link>
 													<span>
-														{" Collection."}
+														{" flock."}
 													</span>
 												</Card.Text>
 											}
@@ -286,7 +378,7 @@ const BirdDetails = () => {
 											{!bird.owner &&
 												<div className="d-grid gap-2">
 													<Button
-														disabled={txMintBird.pending}
+														disabled={isIdentifyingBird}
 														size="lg"
 														variant="info"
 														onClick={() => setIsIdentifyingBird(true)}>
@@ -325,7 +417,8 @@ const BirdDetails = () => {
 					<BirdIdentificationModal
 						isOpen={isIdentifyingBird}
 						bird={bird}
-						onSubmit={handleMintBird}
+						context={context}
+						onSuccess={onMintSuccess}
 						onToggle={() => setIsIdentifyingBird(false)} />
 				}
 			</Container>

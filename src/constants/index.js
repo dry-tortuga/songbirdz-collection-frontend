@@ -1,7 +1,7 @@
-import ANSWER_CHOICES from './waterfowl-1-options';
+import ANSWER_CHOICES from './small-and-mighty-2-options';
 import FAMILIES from './families';
 
-const NUM_BIRDS_TOTAL = 2000;
+const NUM_BIRDS_TOTAL = 3000;
 
 const COLLECTION_BIRD_SIZE = 1000;
 
@@ -15,7 +15,15 @@ const COLLECTIONS = [{
 	count: 1000,
 	min_id: 1000,
 	max_id: 1999,
+}, {
+	name: "Small & Mighty",
+	count: 1000,
+	min_id: 2000,
+	max_id: 2999
 }];
+
+const CURRENT_COLLECTION_MIN_ID = process.env.REACT_APP_NODE_ENV === "production" ? 2000 : 0;
+const CURRENT_COLLECTION_MAX_ID = process.env.REACT_APP_NODE_ENV === "production" ? 2999 : 2999;
 
 const EVENTS = {
 	BIRD_ID: "BirdIdentification",
@@ -30,6 +38,8 @@ export {
 	NUM_BIRDS_TOTAL,
 	COLLECTION_BIRD_SIZE,
 	COLLECTIONS,
+	CURRENT_COLLECTION_MIN_ID,
+	CURRENT_COLLECTION_MAX_ID,
 	EVENTS,
 	ALREADY_IDENTIFIED_BIRDS,
 };

@@ -4,13 +4,26 @@ async function fetchBird(id, owner) {
 
 	console.debug("fetching bird #" + id);
 
+	let image = `${process.env.PUBLIC_URL}/images/${id}.jpg`;
+	let imageLg = `${process.env.PUBLIC_URL}/images/${id}-lg.jpg`;
+
+	// Check if it is one of the "1 of 1" species...
+	if (id === 2844 || id === 2603 || id === 2673 || id === 2574 || id === 2202) {
+
+		if (!owner) {
+			image = `${process.env.PUBLIC_URL}/images/${id}-pre.jpg`;
+			imageLg =`${process.env.PUBLIC_URL}/images/${id}-lg-pre.jpg`;
+		}
+
+	}
+
 	const data = {
 		id,
 		name: `Songbird #${id}`,
 		owner,
 		species: null,
-		image: `${process.env.PUBLIC_URL}/images/${id}.jpg`,
-		imageLg: `${process.env.PUBLIC_URL}/images/${id}-lg.jpg`,
+		image,
+		imageLg,
 		collection: Math.floor(id / COLLECTION_BIRD_SIZE),
 	};
 
