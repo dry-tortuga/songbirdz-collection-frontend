@@ -35,14 +35,14 @@ const BirdIdentificationModal = (props) => {
 		onToggle,
 	} = props;
 
-	const [contractCall, setContractCall] = useState(null);
+	const [contractCall, setContractCall] = useState([]);
 
 	const handleInputChange = async (selectedOption) => {
 
 		// Reset the selected species to use as the guess so we can wait for the result
 		// of the async API call to fetch the merkle proof for the "publicMint" contract call
 
-		setContractCall(null);
+		setContractCall([]);
 
 		try {
 
@@ -133,6 +133,7 @@ const BirdIdentificationModal = (props) => {
 					</Form.Text>
 				</Form>
 				<Transaction
+					key={contractCall.length} // Re-mount when contract call changes
 					address={context.account}
 					className="bird-identification-transaction-container"
 					capabilities={context.isPaymasterSupported ? {
@@ -159,7 +160,7 @@ const BirdIdentificationModal = (props) => {
 					}}>
 					<TransactionButton
 						className="btn btn-info"
-						disabled={!contractCall}
+						disabled={contractCall.length === 0}
 						text="Submit" />
 					<TransactionSponsor text="SongBirdz" />
 					<TransactionStatus>
