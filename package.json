@@ -22,7 +22,7 @@
     "react-select": "^5.7.2",
     "viem": "^2.18.5",
     "wagmi": "^2.12.2",
-    "web3": "^1.7.1"
+    "web3": "^4.11.1"
   },
   "devDependencies": {
     "@babel/plugin-proposal-private-property-in-object": "^7.21.11",
