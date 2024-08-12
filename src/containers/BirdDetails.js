@@ -52,23 +52,28 @@ const BirdDetails = () => {
 
 	const onMintSuccess = async (response) => {
 
-		const transactionHash = response.transactionHash;
-		const receipt = response.receipt;
+		const receipt = response.transactionReceipts?.[0];
+
+		if (!receipt) { return; }
 
 		console.debug('------------ onMintSuccess -----------');
 		console.debug(`gasUsed=${receipt.gasUsed}`);
-		console.debug(`transactionHash=${transactionHash}`);
-		console.debug(receipt);
+		console.debug(response)
 		console.debug('--------------------------------------');
 
-		const events = receipt.logs.map((log) => {
+		const transactionHash = receipt.transactionHash;
+
+		const eventLogs =
+			receipt?.logs?.filter((log) => log.address.toLowerCase() === context.contractAddress.toLowerCase()) || [];
+
+		const events = eventLogs.map((log) => {
 
 			return context.contractInterface.parseLog({
 				data: log.data,
 				topics: log.topics,
 			});
 
-		// Remove any events that were not created by our contract
+		// Remove any events that were not parsed correctly
 		}).filter((event) => Boolean(event));
 
 		console.debug(events);
@@ -85,8 +90,7 @@ const BirdDetails = () => {
 			event.name === EVENTS.TRANSFER &&
 			event.args?.from === "0x0000000000000000000000000000000000000000" &&
 			event.args?.to?.toLowerCase() === context.account.toLowerCase() &&
-			parseInt(event.args?.tokenId, 10) === bird.id &&
-			event.topic?.toLowerCase() === "0xddf252ad1be2c89b69c2b068fc378daa952ba7f163c4a11628f55a4df523b3ef"
+			parseInt(event.args?.tokenId, 10) === bird.id
 		);
 
 		// Check if the user successfully identified the bird, i.e. is now the owner
