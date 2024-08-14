@@ -18,7 +18,12 @@ import {
 } from "wagmi";
 import { base, baseSepolia, hardhat } from "wagmi/chains";
 import { useCapabilities } from "wagmi/experimental";
-import { readContract } from "@wagmi/core";
+import {
+	readContract,
+	simulateContract,
+	waitForTransactionReceipt,
+	writeContract,
+} from "@wagmi/core";
 import { parseEther } from "viem";
 
 import SongBirdzContract from "../abi/SongBirdz.json";
@@ -98,7 +103,7 @@ const WalletProvider = ({ children }) => {
 
 	}, []);
 
-	// Callback function to mint a new bird
+	// Callback function to mint a new bird for smart wallet users
 	const publicMint = useCallback(async (id, speciesGuess) => {
 
 		try {
@@ -129,6 +134,36 @@ const WalletProvider = ({ children }) => {
 		} catch (error) {
 			console.error(error);
 			throw error;
+		}
+
+	}, []);
+
+	// Callback function to mint a new bird for non-smart wallet users
+	const publicMintNonSmartWallet = useCallback(async (id, proof, guess, mintPrice) => {
+
+		try {
+
+			const { request } = await simulateContract(config, {
+				abi: SongBirdzContract.abi,
+				address: SONGBIRDZ_CONTRACT_ADDRESS,
+				functionName: "publicMint",
+				args: [id, proof, guess],
+				chainId: EXPECTED_CHAIN_ID,
+				value: parseEther(mintPrice), 
+			});
+
+			const hash = await writeContract(config, request);
+
+			const txReceipt = await waitForTransactionReceipt(config, {
+				chainId: EXPECTED_CHAIN_ID,
+				hash,
+			});
+
+			return [txReceipt, null];
+
+		} catch (error) {
+			console.error(error);
+			return [null, error];
 		}
 
 	}, []);
@@ -165,6 +200,7 @@ const WalletProvider = ({ children }) => {
 				actions: {
 					ownerOf,
 					publicMint,
+					publicMintNonSmartWallet,
 				},
 			}}>
 			{children}

@@ -16,11 +16,13 @@ import AccountOwner from "../components/AccountOwner";
 import BirdAudioFile from "../components/BirdAudioFile";
 import BirdIdentificationModal from "../components/BirdIdentificationModal";
 import BirdIdentificationTransactionStatus from "../components/BirdIdentificationTransactionStatus";
+import BirdIdentificationTransactionStatusNonSmartWallet from "../components/BirdIdentificationTransactionStatusNonSmartWallet";
 import CreateWalletButton from "../components/CreateWalletButton";
 
 import { COLLECTIONS, EVENTS } from "../constants";
 
 import useBird from "../hooks/useBird";
+import useMintAPINonSmartWallet from "../hooks/useMintAPINonSmartWallet";
 
 import etherscanLogo from "../images/etherscan-logo-circle.svg";
 import openseaLogo from "../images/opensea-logomark-blue.svg";
@@ -117,6 +119,30 @@ const BirdDetails = () => {
 		});
 
 	};
+
+	const onMintSuccessNonSmartWallet = async (idEvent, transferEvent) => {
+
+		// Check if the user successfully identified the bird, i.e. is now the owner
+		if (transferEvent) {
+
+			const updatedData = { ...bird, owner: context.account };
+
+			const finalData = await populateMetadata(updatedData);
+
+			setBird(finalData);
+
+		}
+
+	};
+
+	const [
+		handleMintBirdNonSmartWallet,
+		txMintBirdNonSmartWallet,
+		resetTxMintBirdNonSmartWallet,
+	] = useMintAPINonSmartWallet({
+		context,
+		cb: onMintSuccessNonSmartWallet,
+	});
 
 	// Re-load the twitter share button if the bird ID changes
 	useEffect(() => {
@@ -305,12 +331,23 @@ const BirdDetails = () => {
 								</a></p>
 							</Alert>
 						*/}
+						{/* Smart Wallet Users */}
 						{tx &&
 							<Row className="mb-3">
 								<Col>
 									<BirdIdentificationTransactionStatus
 										tx={tx}
 										onClose={() => setTx(null)} />
+								</Col>
+							</Row>
+						}
+						{/* Non-Smart Wallet Users */}
+						{(txMintBirdNonSmartWallet?.pending || txMintBirdNonSmartWallet?.success || txMintBirdNonSmartWallet?.error) &&
+							<Row className="mb-3">
+								<Col>
+									<BirdIdentificationTransactionStatusNonSmartWallet
+										tx={txMintBirdNonSmartWallet}
+										onClose={resetTxMintBirdNonSmartWallet} />
 								</Col>
 							</Row>
 						}
@@ -382,7 +419,7 @@ const BirdDetails = () => {
 											{!bird.owner &&
 												<div className="d-grid gap-2">
 													<Button
-														disabled={isIdentifyingBird}
+														disabled={isIdentifyingBird || txMintBirdNonSmartWallet?.pending}
 														size="lg"
 														variant="info"
 														onClick={() => setIsIdentifyingBird(true)}>
@@ -422,6 +459,7 @@ const BirdDetails = () => {
 						isOpen={isIdentifyingBird}
 						bird={bird}
 						context={context}
+						onSubmitNonSmartWallet={handleMintBirdNonSmartWallet}
 						onSuccess={onMintSuccess}
 						onToggle={() => setIsIdentifyingBird(false)} />
 				}

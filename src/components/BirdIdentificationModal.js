@@ -31,27 +31,55 @@ const BirdIdentificationModal = (props) => {
 		context,
 		isOpen,
 		bird,
+		onSubmitNonSmartWallet,
 		onSuccess,
 		onToggle,
 	} = props;
+
+	const [formData, setFormData] = useState({
+		species: "",
+	});
 
 	const [contractCall, setContractCall] = useState([]);
 
 	const handleInputChange = async (selectedOption) => {
 
-		// Reset the selected species to use as the guess so we can wait for the result
-		// of the async API call to fetch the merkle proof for the "publicMint" contract call
+		if (context.isPaymasterSupported) {
 
-		setContractCall([]);
+			// Reset the selected species to use as the guess so we can wait for the result
+			// of the async API call to fetch the merkle proof for the "publicMint" contract call
 
-		try {
+			setContractCall([]);
 
-			const result = await context.actions.publicMint(bird.id, selectedOption.value);
+			try {
 
-			setContractCall([result]);
+				const result = await context.actions.publicMint(bird.id, selectedOption.value);
 
-		} catch (error) {
-			// TODO: Show an error message?
+				setContractCall([result]);
+
+			} catch (error) {
+				// TODO: Show an error message?
+			}
+
+		} else {
+
+			setFormData({ species: selectedOption.value });
+
+		}
+
+	};
+
+	// Handle submitting a new transaction for non-smart wallet users
+	const handleSubmitNonSmartWallet = async () => {
+
+		if (formData.species) {
+
+			// Close the modal
+			onToggle();
+
+			// Submit the transaction
+			await onSubmitNonSmartWallet(bird.id, formData.species);
+
 		}
 
 	};
@@ -132,42 +160,52 @@ const BirdIdentificationModal = (props) => {
 						{"NOTE: If you submit an incorrect guess, you will be automatically refunded 0.00125 ETH."}
 					</Form.Text>
 				</Form>
-				<Transaction
-					key={contractCall.length} // Re-mount when contract call changes
-					address={context.account}
-					className="bird-identification-transaction-container"
-					capabilities={context.isPaymasterSupported ? {
-						paymasterService: { 
-							url: process.env.REACT_APP_COINBASE_PAYMASTER_AND_BUNDLER_ENDPOINT, 
-						}, 
-					} : null}
-					contracts={contractCall}
-					onError={(error) => {
+				{context.isPaymasterSupported &&
+					<Transaction
+						key={contractCall.length} // Re-mount when contract call changes
+						address={context.account}
+						className="bird-identification-transaction-container"
+						capabilities={context.isPaymasterSupported ? {
+							paymasterService: { 
+								url: process.env.REACT_APP_COINBASE_PAYMASTER_AND_BUNDLER_ENDPOINT, 
+							}, 
+						} : null}
+						contracts={contractCall}
+						onError={(error) => {
 
-						console.error(error);
+							console.error(error);
 
-						// TODO: Show more relevant error messages???
+							// TODO: Show more relevant error messages???
 
-					}}
-					onSuccess={(response) => {
+						}}
+						onSuccess={(response) => {
 
-						// Close the modal
-						onToggle();
+							// Close the modal
+							onToggle();
 
-						// Handle and parse the successful response
-						onSuccess(response);
+							// Handle and parse the successful response
+							onSuccess(response);
 
-					}}>
-					<TransactionButton
-						className="btn btn-info"
-						disabled={contractCall.length === 0}
-						text="Submit" />
-					<TransactionSponsor text="SongBirdz" />
-					<TransactionStatus>
-						<TransactionStatusLabel />
-						<TransactionStatusAction />
-					</TransactionStatus>
-				</Transaction>
+						}}>
+						<TransactionButton
+							className="btn btn-info"
+							disabled={contractCall.length === 0}
+							text="Submit" />
+						<TransactionSponsor text="SongBirdz" />
+						<TransactionStatus>
+							<TransactionStatusLabel />
+							<TransactionStatusAction />
+						</TransactionStatus>
+					</Transaction>
+				}
+				{!context.isPaymasterSupported &&
+					<Button
+						className="mt-3"
+						variant="info"
+						onClick={handleSubmitNonSmartWallet}>
+						{"Submit"}
+					</Button>
+				}
 			</Modal.Body>
 		</Modal>
 
