@@ -92,7 +92,7 @@ const Leaderboard = () => {
 									{"Now, we all know onchain has no geographic limits, so we'll recreate this competition using the 300 different species of birds in the Songbirdz collection that are out in the wild right now on Base."}
 								</p>
 								<p>
-									{"For each new species of bird that you add to your "}
+									{"For each "}<strong>{"unique species"}</strong>{" of bird that you add to your "}
 									<a
 										href="https://en.wikipedia.org/wiki/Life_list"
 										target="_blank"
@@ -104,11 +104,11 @@ const Leaderboard = () => {
 								<ul style={{ listStyle: 'disc' }}>
 									<li>
 										<b>{"10 points:"}</b>
-										{" Identify a new bird in the wild (i.e. minting for 0.0015 ETH)"}
+										{" Identify a new species in the wild (i.e. minting for 0.0015 ETH)"}
 									</li>
 									<li>
 										<b>{"3 points:"}</b>
-										{" Purchase a bird for sale on "}
+										{" Purchase a new species for sale on "}
 										<a
 											href="https://opensea.io/collection/songbirdz"
 											target="_blank"
@@ -119,7 +119,7 @@ const Leaderboard = () => {
 									</li>
 									<li>
 										<b>{"1 point:"}</b>
-										{" Receiving a bird via an "}
+										{" Receive a new species via an "}
 										<a
 											href="https://erc721.org/"
 											target="_blank"
@@ -130,7 +130,13 @@ const Leaderboard = () => {
 									</li>
 								</ul>
 								<p>
-									{"For example, if you receive a Bald Eagle as an airdrop, go out and identify a second Bald Eagle in the wild, and then purchase a third Bald Eagle on OpenSea... you would earn 10 Birder Points. For each unique species in your Life List, you will earn points from the action which is worth the most amount of points."}
+									{"For each "}<strong>{"unique species"}</strong>{" in your Life List you will earn points from the action which is worth the most amount of points."}
+								</p>
+								<p>
+									{"Example #1: if you receive a Bald Eagle as an airdrop, go out and identify a second Bald Eagle in the wild, and then purchase a third Bald Eagle on OpenSea... you would only earn 10 Birder Points... not 14."}
+								</p>
+								<p>
+									{"Example #2: if you identify (i.e. mint) 3 birds of the same species (i.e. 3 Bald Eagles)... you would only earn 10 Birder Points... not 30."}
 								</p>
 							</Col>
 						</Row>
