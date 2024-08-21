@@ -1,26 +1,12 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
-import {
-	Button,
-	Container,
-	Nav,
-	Navbar,
-} from "react-bootstrap";
+import { Container, Nav, Navbar } from "react-bootstrap";
 
-import { useWalletContext } from "../contexts/wallet";
-
-import AccountOwner from "./AccountOwner";
-import CreateWalletButton from "./CreateWalletButton";
+import ConnectWalletButton from "./ConnectWalletButton";
 
 import "./Navbar.css";
 
 const NavbarHeader = () => {
-
-	const {
-		account,
-		onConnectWallet,
-		onDisconnectWallet,
-	} = useWalletContext();
 
 	const [expanded, setExpanded] = useState(false);
 
@@ -56,28 +42,7 @@ const NavbarHeader = () => {
 							onClick={() => setExpanded(false)}>
 							{"About"}
 						</Link>
-						{account &&
-							<div className="flex flex-column flex-md-row align-items-center ms-md-auto">
-								<AccountOwner account={account} />
-								<Button
-									className="ms-md-3"
-									variant="primary"
-									onClick={() => onDisconnectWallet()}>
-									{"Disconnect"}
-								</Button>
-							</div>
-						}
-						{!account &&
-							<div className="flex flex-column flex-md-row align-items-center ms-md-auto">
-								<CreateWalletButton />
-								<Button
-									className="mt-3 mt-md-0 ms-md-4"
-									variant="primary"
-									onClick={() => onConnectWallet()}>
-									{"Connect"}
-								</Button>
-							</div>
-						}
+						<ConnectWalletButton className="mt-3 mt-md-0 ms-md-auto" />
 					</Nav>
 				</Navbar.Collapse>
 			</Container>

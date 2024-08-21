@@ -6,7 +6,8 @@
   "author": "dry-tortuga",
   "license": "MIT",
   "dependencies": {
-    "@coinbase/onchainkit": "^0.28.7",
+    "@coinbase/onchainkit": "^0.29.4",
+    "@rainbow-me/rainbowkit": "^2.1.4",
     "@tanstack/react-query": "^5.51.23",
     "@wagmi/core": "^2.13.4",
     "bootstrap": "^5.1.3",

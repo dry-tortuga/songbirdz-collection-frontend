@@ -1,6 +1,7 @@
 import React from "react";
 import { createRoot } from "react-dom/client";
 import { OnchainKitProvider } from "@coinbase/onchainkit";
+import { RainbowKitProvider } from "@rainbow-me/rainbowkit";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { base, baseSepolia, hardhat } from "viem/chains";
 import { WagmiProvider } from "wagmi";
@@ -8,7 +9,8 @@ import { WagmiProvider } from "wagmi";
 import App from "./App";
 import config from "./config";
 
-import '@coinbase/onchainkit/styles.css';
+import "@coinbase/onchainkit/styles.css";
+import "@rainbow-me/rainbowkit/styles.css"; 
 import "bootswatch/dist/sketchy/bootstrap.min.css";
 import "./index.css";
 
@@ -22,9 +24,9 @@ const root = createRoot(container);
 
 let chain = base;
 
-if (process.env.REACT_APP_NODE_ENV === 'development') {
+if (process.env.REACT_APP_NODE_ENV === "development") {
 	chain = hardhat;
-} else if (process.env.REACT_APP_NODE_ENV === 'staging') {
+} else if (process.env.REACT_APP_NODE_ENV === "staging") {
 	chain = baseSepolia;
 }
 
@@ -38,7 +40,9 @@ root.render(
 		 		<OnchainKitProvider
 		 			apiKey={ONCHAIN_KIT_API_KEY}
 		 			chain={chain}>
-					<App />
+		 			<RainbowKitProvider modalSize="compact">
+						<App />
+					</RainbowKitProvider>
 				</OnchainKitProvider>
 			</QueryClientProvider>
 		</WagmiProvider>

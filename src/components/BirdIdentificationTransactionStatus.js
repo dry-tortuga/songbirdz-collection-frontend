@@ -28,6 +28,8 @@ const BirdIdentificationTransactionStatus = (props) => {
 		return null;
 	}
 
+	console.debug(tx);
+
 	if (tx.success) {
 
 		const birdId = parseInt(tx.idEvent?.args?.birdId, 10);
