@@ -13,8 +13,6 @@ const useMintAPINonSmartWallet = ({ context, cb }) => {
 
 		try {
 
-			console.log('handleMint');
-
 			if (!context.isOnCorrectChain) {
 				throw new Error('Double check to make sure you\'re on the Base network!');
 			}
