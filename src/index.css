@@ -19,10 +19,20 @@ code {
 	monospace;
 }
 
-svg[data-testid="ockAvatarDefaultSvg"] {
+.details-page svg[data-testid="ock-defaultAvatarSVG"],
+.details-page svg[data-testid="ock-defaultLoadingSVG"],
+.listing-page svg[data-testid="ock-defaultAvatarSVG"],
+.listing-page svg[data-testid="ock-defaultLoadingSVG"],
+.leaderboard-page svg[data-testid="ock-defaultAvatarSVG"],
+.leaderboard-page svg[data-testid="ock-defaultLoadingSVG"] {
 	display: none;
 }
 
-svg[data-testid="ockAvatarDefaultSvg"] ~ div {
+.details-page svg[data-testid="ock-defaultAvatarSVG"] ~ div,
+.details-page svg[data-testid="ock-defaultLoadingSVG"] ~ div,
+.listing-page svg[data-testid="ock-defaultAvatarSVG"] ~ div,
+.listing-page svg[data-testid="ock-defaultLoadingSVG"] ~ div,
+.leaderboard-page svg[data-testid="ock-defaultAvatarSVG"] ~ div,
+.leaderboard-page svg[data-testid="ock-defaultLoadingSVG"] ~ div {
 	margin-left: 0 !important;
 }

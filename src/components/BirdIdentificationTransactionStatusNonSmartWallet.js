@@ -28,7 +28,7 @@ const BirdIdentificationTransactionStatusNonSmartWallet = (props) => {
 		return null;
 	}
 
-	console.log(tx);
+	console.debug(tx);
 
 	if (tx.success) {
 

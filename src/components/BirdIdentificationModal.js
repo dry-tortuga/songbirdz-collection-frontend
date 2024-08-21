@@ -53,7 +53,7 @@ const BirdIdentificationModal = (props) => {
 
 			try {
 
-				const result = await context.actions.publicMint(bird.id, selectedOption.value);
+				const result = await context.actions.publicMint(bird.id, "Black-bellied Plover" || selectedOption.value);
 
 				setContractCall([result]);
 

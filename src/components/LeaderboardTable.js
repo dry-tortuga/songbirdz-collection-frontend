@@ -33,7 +33,9 @@ const LeaderboardTable = (props) => {
 					<th scope="col">
 						{"Rank"}
 					</th>
-					<th scope="col">
+					<th
+						className="ps-5"
+						scope="col">
 						{"Account"}
 					</th>
 					<th scope="col">

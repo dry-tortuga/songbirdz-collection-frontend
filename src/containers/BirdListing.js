@@ -13,8 +13,8 @@ import { useWalletContext } from "../contexts/wallet";
 
 import { COLLECTIONS } from "../constants";
 
-import CreateWalletButton from "../components/CreateWalletButton";
 import BirdsTable from "../components/BirdsTable";
+import ConnectWalletButton from "../components/ConnectWalletButton";
 
 import useAlreadyIdentifiedList from "../hooks/useAlreadyIdentifiedList";
 import useBirds from "../hooks/useBirds";
@@ -63,53 +63,48 @@ const BirdListing = () => {
 	return (
 		<div className="listing-page">
 			<Container className="mt-4">
+				{context.account &&
+					<Row className="mb-3">
+						<Col>
+							<h1 className="d-flex align-items-center">
+								<span className="me-auto">
+									{"Songbirdz"}
+									{collection &&
+										<Badge
+											className="fs-6 ms-1 align-middle"
+											bg="success"
+											pill>
+											<span>
+												{collection.name}
+												{" - "}
+												{collection.count}
+											</span>
+										</Badge>
+									}
+								</span>
+							</h1>
+						</Col>
+					</Row>
+				}
 				<Row className="mb-3">
 					<Col>
-						<h1 className="d-flex align-items-center">
-							<span className="me-auto">
-								{"Songbirdz"}
-								{collection &&
-									<Badge
-										className="fs-6 ms-1 align-middle"
-										bg="success"
-										pill>
-										<span>
-											{collection.name}
-											{" - "}
-											{collection.count}
-										</span>
-									</Badge>
-								}
-							</span>
-						</h1>
-					</Col>
-				</Row>
-				<Row className="mb-3">
-					<Col>
-						{context.account &&
-							context.isOnCorrectChain &&
-							!birds &&
-							<i className="fa-solid fa-spinner fa-spin fa-xl me-2" />
-						}
 						{!context.account &&
-							<span className="me-1">
-								{"Connect your wallet to get started..."}
-							</span>
+							<>
+								<div className="text-center">
+									{"Connect your wallet to get started..."}
+								</div>
+								<ConnectWalletButton className="flex d-md-none justify-center mt-3" />
+							</>
 						}
 						{context.account && !context.isOnCorrectChain &&
 							<span className="me-1">
 								{"Double check to make sure you're on the Base network..."}
 							</span>
 						}
-						{!context.account &&
-							<div className="d-grid d-md-none gap-3 mt-3">
-								<CreateWalletButton />
-								<Button
-									variant="primary"
-									onClick={() => context.onConnectWallet()}>
-									{"Connect Wallet"}
-								</Button>
-							</div>
+						{context.account &&
+							context.isOnCorrectChain &&
+							!birds &&
+							<i className="fa-solid fa-spinner fa-spin fa-xl me-2" />
 						}
 						{birds && showInfoAlert &&
 							<Alert

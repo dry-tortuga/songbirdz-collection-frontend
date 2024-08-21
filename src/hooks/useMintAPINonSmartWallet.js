@@ -13,6 +13,8 @@ const useMintAPINonSmartWallet = ({ context, cb }) => {
 
 		try {
 
+			console.log('handleMint');
+
 			if (!context.isOnCorrectChain) {
 				throw new Error('Double check to make sure you\'re on the Base network!');
 			}
@@ -32,18 +34,14 @@ const useMintAPINonSmartWallet = ({ context, cb }) => {
 			const responseData = await response.json();
 
 			// Store the pending state for the transaction
-			setTimeout(() => {
-
-				setTx((prev) => Object.assign({}, prev, {
-					timestamp: null,
-					transaction: null,
-					pending: true,
-					success: false,
-					error: false,
-					errorMsg: null,
-				}));
-
-			}, 250);
+			setTx((prev) => Object.assign({}, prev, {
+				timestamp: null,
+				transaction: null,
+				pending: true,
+				success: false,
+				error: false,
+				errorMsg: null,
+			}));
 
 			// Build the transaction to mint the bird
 			const [txSuccess, txError] = await context.actions.publicMintNonSmartWallet(
