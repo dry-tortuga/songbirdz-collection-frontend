@@ -13,6 +13,7 @@ import Navbar from './components/Navbar';
 import About from './containers/About';
 import BirdListing from './containers/BirdListing';
 import BirdDetails from './containers/BirdDetails';
+import HiddenMint from './containers/HiddenMint';
 import Home from './containers/Home';
 import Leaderboard from './containers/Leaderboard';
 
@@ -48,6 +49,9 @@ const App = () => {
 						<Route
 							path="leaderboard"
 							element={<Leaderboard />} />
+						<Route
+							path="sounds-of-summer-2024"
+							element={<HiddenMint />} />
 						<Route
 							path=""
 							element={<Home />} />
