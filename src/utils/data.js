@@ -34,7 +34,7 @@ async function fetchBird(id, owner) {
 
 }
 
-async function fetchLeaderboard(size) {
+async function fetchLeaderboard(season, size) {
 
 	let finalData;
 
@@ -42,7 +42,7 @@ async function fetchLeaderboard(size) {
 
 		// Fetch the points data from the back-end server
 		const response = await fetch(
-			`${process.env.REACT_APP_SONGBIRDZ_BACKEND_URL}/birds/leaderboard?limit=${size}`
+			`${process.env.REACT_APP_SONGBIRDZ_BACKEND_URL}/birds/leaderboard?season=${season}&limit=${size}`
 		);
 
 		// Parse the points data
