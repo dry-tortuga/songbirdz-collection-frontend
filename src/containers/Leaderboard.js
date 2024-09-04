@@ -21,10 +21,8 @@ const Leaderboard = () => {
 
 	const context = useWalletContext();
 
-	const [season, setSeason] = useState(1);
-
 	// Get the list of users in the top 50
-	const { data, setData } = useLeaderboard({ season });
+	const { data, setData, season, setSeason } = useLeaderboard();
 
 	const [lifeListModalAddress, setLifeListModalAddress] = useState(null);
 
@@ -58,7 +56,7 @@ const Leaderboard = () => {
 					activeKey={season}
 					onSelect={handleChangeSeason}>
 					<Tab
-						eventKey={1}
+						eventKey="1"
 						title="Season 1">
 						<Row className="mb-4">
 							<Col>
@@ -178,7 +176,7 @@ const Leaderboard = () => {
 						}
 					</Tab>
 					<Tab
-						eventKey={2}
+						eventKey="2"
 						title="Season 2 - Live">
 						<Row className="mb-4">
 							<Col>

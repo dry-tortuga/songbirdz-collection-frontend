@@ -38,11 +38,11 @@ const LifeListModal = (props) => {
 
 	const [dataToShow, pointTotalToShow] = useMemo(() => {
 
-		const results = {};
+		let results = {};
 		let total = 0;
 
-		const speciesByIDSeason1 = results.season_1;
-		const speciesByIDSeason2 = results.season_2;
+		const speciesByIDSeason1 = data?.season_1 || {};
+		const speciesByIDSeason2 = data?.season_2 || {};
 
 		if (season === 0 || season === 1) {
 
@@ -66,10 +66,7 @@ const LifeListModal = (props) => {
 
 		return [results, total];
 
-	}, [season]);
-
-
-	console.debug(data);
+	}, [season, data]);
 
 	return (
 		<Modal
@@ -97,7 +94,7 @@ const LifeListModal = (props) => {
 								: 'Birder Points'
 							}
 						</Badge>
-						{season !== 0 &&
+						{season !== 0 && address.rank &&
 							<Badge
 								className="ms-sm-3"
 								bg="success">
@@ -111,14 +108,15 @@ const LifeListModal = (props) => {
 			<Modal.Body>
 				<Form.Select
 					aria-label="Choose the season to view"
+					className="mb-3"
 					value={season}
-					onChange={(event) => setSeason(event.target.value)}>
-					<option value={0}>{'All Seasons'}</option>
-					<option value={1}>{'Season 1'}</option>
-					<option value={2}>{'Season 2'}</option>
+					onChange={(event) => setSeason(parseInt(event.target.value, 10))}>
+					<option value="0">{'All Seasons'}</option>
+					<option value="1">{'Season 1'}</option>
+					<option value="2">{'Season 2'}</option>
 				</Form.Select>
 				{sortedFamilies.map((family) => (
-					<>
+					<div key={family.name}>
 						<h4>{family.name}</h4>
 						<div className="mb-4">
 							{family.species.map((species) => {
@@ -127,17 +125,20 @@ const LifeListModal = (props) => {
 
 								return (
 									<Form.Check
+										key={species.id}
 										id={`disabled-default-${species.id}`}
 										type="checkbox"
 										label={isIdentified ? (
 											<div className="flex align-items-center">
 												{species.label}
-												<Badge
-													className="ms-2"
-													bg="info">
-													{data?.[species.id]?.amount}
-													{'x'}
-												</Badge>
+												{season > 0 &&
+													<Badge
+														className="ms-2"
+														bg="info">
+														{dataToShow?.[species.id]?.amount}
+														{'x'}
+													</Badge>
+												}
 											</div>
 										) : species.label}
 										checked={isIdentified}
@@ -146,7 +147,7 @@ const LifeListModal = (props) => {
 
 							})}
 						</div>
-					</>
+					</div>
 				))}
 			</Modal.Body>
 		</Modal>

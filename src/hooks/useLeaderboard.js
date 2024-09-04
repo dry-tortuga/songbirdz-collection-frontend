@@ -4,9 +4,10 @@ import { fetchLeaderboard } from "../utils/data";
 
 const TOTAL_SIZE = 52;
 
-const useLeaderboard = ({ season }) => {
+const useLeaderboard = () => {
 
 	const [data, setData] = useState(null);
+	const [season, setSeason] = useState(2);
 
 	// Fetch the leaderboard data
 	useEffect(() => {
@@ -21,9 +22,9 @@ const useLeaderboard = ({ season }) => {
 				setData({
 					users,
 					timestampMessage:
-						season === 1
-							? 'Results are final as of August 31st, 2024 11:00 PM UTC.'
-							: 'Results last updated on September 3rd, 2024 9:00 PM UTC. Leaderboard attempts to update in real-time, but points to be manually confirmed on a weekly basis in case any ERC-721 events are missed.'
+						season === "1"
+							? "Results are final as of August 31st, 2024 11:00 PM UTC."
+							: "Results last updated on September 3rd, 2024 9:00 PM UTC. Leaderboard attempts to update in real-time, but points to be manually confirmed on a weekly basis in case any ERC-721 events are missed."
 				});
 
 			};
@@ -34,7 +35,7 @@ const useLeaderboard = ({ season }) => {
 
 	}, [data, season]);
 
-	return { data, setData };
+	return { data, setData, season, setSeason };
 
 };
 
