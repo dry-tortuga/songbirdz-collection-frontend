@@ -22,7 +22,7 @@ const Leaderboard = () => {
 	const context = useWalletContext();
 
 	// Get the list of users in the top 50
-	const { data, setData, season, setSeason } = useLeaderboard();
+	const { data, setData, season, setSeason } = useLeaderboard({ account: context.account });
 
 	const [lifeListModalAddress, setLifeListModalAddress] = useState(null);
 
@@ -81,6 +81,28 @@ const Leaderboard = () => {
 									<Col>
 										<h2 className="d-flex align-items-center">
 											<span className="me-auto">
+												{"Big Onchain Summer - Season 1"}
+											</span>
+										</h2>
+									</Col>
+								</Row>
+								<Row>
+									<Col>
+										<p>
+											{"Ran from the Songbirdz genesis date (i.e. April 4th, 2024) to the last day of Onchain Summer on Base (i.e. August 31st, 2024 at UTC 23:00:00)."}
+										</p>
+										<p>
+											{"The 10 accounts with the most Birder Points at the end of Onchain Summer received 1 free airdrop from each of the 9 remaining flocks in the Songbirdz collection, i.e. 9 birds each!"}
+										</p>
+										<p>
+											{"In addition to the airdrops, there could always be additional prizes in the future but this competition is mostly just for fun. Not financial advice. DYOR :)"}
+										</p>
+									</Col>
+								</Row>
+								<Row className="mb-3">
+									<Col>
+										<h2 className="d-flex align-items-center">
+											<span className="me-auto">
 												{"How do I earn Birder Points?"}
 											</span>
 										</h2>
@@ -147,28 +169,6 @@ const Leaderboard = () => {
 										</p>
 										<p>
 											{"Example #2: if you identify (i.e. mint) 3 birds of the same species (i.e. 3 Bald Eagles)... you would only earn 10 Birder Points... not 30."}
-										</p>
-									</Col>
-								</Row>
-								<Row className="mb-3">
-									<Col>
-										<h2 className="d-flex align-items-center">
-											<span className="me-auto">
-												{"Big Onchain Summer - Season 1"}
-											</span>
-										</h2>
-									</Col>
-								</Row>
-								<Row>
-									<Col>
-										<p>
-											{"Ran from the Songbirdz genesis date (i.e. April 4th, 2024) to the last day of Onchain Summer on Base (i.e. August 31st, 2024 at UTC 23:00:00)."}
-										</p>
-										<p>
-											{"The 10 accounts with the most Birder Points at the end of Onchain Summer received 1 free airdrop from each of the 9 remaining flocks in the Songbirdz collection, i.e. 9 birds each!"}
-										</p>
-										<p>
-											{"In addition to the airdrops, there could always be additional prizes in the future but this competition is mostly just for fun. Not financial advice. DYOR :)"}
 										</p>
 									</Col>
 								</Row>
@@ -201,6 +201,28 @@ const Leaderboard = () => {
 									<Col>
 										<h2 className="d-flex align-items-center">
 											<span className="me-auto">
+												{"Big Onchain Fall - Season 2"}
+											</span>
+										</h2>
+									</Col>
+								</Row>
+								<Row>
+									<Col>
+										<p>
+											{"Runs from September 1st, 2024 04:00:00 UTC to November 30th, 2024 at 23:00:00 UTC."}
+										</p>
+										<p>
+											{"The 10 accounts with the most Birder Points at the end of Onchain Fall will receive 1 free airdrop from each of the remaining 7 flocks in the Songbirdz collection, i.e. 7 birds each!"}
+										</p>
+										<p>
+											{"In addition to the airdrops, there could always be additional prizes in the future but this competition is mostly just for fun. Not financial advice. DYOR :)"}
+										</p>
+									</Col>
+								</Row>
+								<Row className="mb-3">
+									<Col>
+										<h2 className="d-flex align-items-center">
+											<span className="me-auto">
 												{"How do I earn Birder Points?"}
 											</span>
 										</h2>
@@ -267,28 +289,6 @@ const Leaderboard = () => {
 										</p>
 										<p>
 											{"Example #2: if you identify (i.e. mint) 3 birds of the same species (i.e. 3 Bald Eagles)... you would only earn 10 Birder Points... not 30."}
-										</p>
-									</Col>
-								</Row>
-								<Row className="mb-3">
-									<Col>
-										<h2 className="d-flex align-items-center">
-											<span className="me-auto">
-												{"Big Onchain Fall - Season 2"}
-											</span>
-										</h2>
-									</Col>
-								</Row>
-								<Row>
-									<Col>
-										<p>
-											{"Runs from September 1st, 2024 04:00:00 UTC to November 30th, 2024 at 23:00:00 UTC."}
-										</p>
-										<p>
-											{"The 10 accounts with the most Birder Points at the end of Onchain Fall will receive 1 free airdrop from each of the remaining 7 flocks in the Songbirdz collection, i.e. 7 birds each!"}
-										</p>
-										<p>
-											{"In addition to the airdrops, there could always be additional prizes in the future but this competition is mostly just for fun. Not financial advice. DYOR :)"}
 										</p>
 									</Col>
 								</Row>
