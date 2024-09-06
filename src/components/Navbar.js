@@ -42,6 +42,12 @@ const NavbarHeader = () => {
 							onClick={() => setExpanded(false)}>
 							{"About"}
 						</Link>
+						<Link
+							className="nav-item nav-link"
+							to="/sounds-of-summer-2024"
+							onClick={() => setExpanded(false)}>
+							{"Sounds of Summer"}
+						</Link>
 						<ConnectWalletButton className="mt-3 mt-md-0 ms-md-auto" />
 					</Nav>
 				</Navbar.Collapse>

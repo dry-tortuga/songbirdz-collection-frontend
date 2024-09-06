@@ -13,9 +13,9 @@ import Navbar from './components/Navbar';
 import About from './containers/About';
 import BirdListing from './containers/BirdListing';
 import BirdDetails from './containers/BirdDetails';
-import HiddenMint from './containers/HiddenMint';
 import Home from './containers/Home';
 import Leaderboard from './containers/Leaderboard';
+import SoundsOfSummer from './containers/SoundsOfSummer';
 
 const AppWrapper = (props) => {
 
@@ -51,7 +51,7 @@ const App = () => {
 							element={<Leaderboard />} />
 						<Route
 							path="sounds-of-summer-2024"
-							element={<HiddenMint />} />
+							element={<SoundsOfSummer />} />
 						<Route
 							path=""
 							element={<Home />} />
