@@ -1,7 +1,7 @@
 import ANSWER_CHOICES from './small-and-mighty-2-options';
 import FAMILIES from './families';
 
-const NUM_BIRDS_TOTAL = 3000;
+const NUM_BIRDS_TOTAL = 4000;
 
 const COLLECTION_BIRD_SIZE = 1000;
 
@@ -20,10 +20,15 @@ const COLLECTIONS = [{
 	count: 1000,
 	min_id: 2000,
 	max_id: 2999
+}, {
+	name: "Night & Day",
+	count: 1000,
+	min_id: 3000,
+	max_id: 3999,
 }];
 
 const CURRENT_COLLECTION_MIN_ID = process.env.REACT_APP_NODE_ENV === "production" ? 2000 : 0;
-const CURRENT_COLLECTION_MAX_ID = process.env.REACT_APP_NODE_ENV === "production" ? 2999 : 2999;
+const CURRENT_COLLECTION_MAX_ID = process.env.REACT_APP_NODE_ENV === "production" ? 3999 : 3999;
 
 const EVENTS = {
 	BIRD_ID: "BirdIdentification",

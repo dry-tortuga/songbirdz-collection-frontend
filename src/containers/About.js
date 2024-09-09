@@ -124,7 +124,7 @@ const About = () => {
 									<b>{"Picasso Genesis:"}</b>
 								</a>
 								<span className="ms-1">
-									{"SOLD OUT: The first flock of 1,000 birds in the Songbirdz collection (0-999). Features 200 different species, with exactly 5 birds of each species."}
+									{"SOLD OUT: The 1st flock of 1,000 birds in the Songbirdz collection (0-999). Features 200 different species, with exactly 5 birds of each species."}
 								</span>
 							</li>
 							<li>
@@ -135,7 +135,7 @@ const About = () => {
 									<b>{"Deep Blue:"}</b>
 								</a>
 								<span className="ms-1">
-									{"SOLD OUT:  The second flock of 1,000 birds in the Songbirdz collection (1000-1999). Features 50 different species, with various amounts of birds per species of either 1, 5, 10, 20, 30 or 50. Includes 5 \"1 of 1\" birds that are the only one of their species! This flock of birds live and breath all things water day in and day out, they make their home on the rivers, streams, ponds, lakes, and oceans near you."}
+									{"SOLD OUT:  The 2nd flock of 1,000 birds in the Songbirdz collection (1000-1999). Features 50 different species, with various amounts of birds per species of either 1, 5, 10, 20, 30 or 50. Includes 5 \"1 of 1\" birds that are the only one of their species! This flock of birds live and breath all things water day in and day out, they make their home on the rivers, streams, ponds, lakes, and oceans near you."}
 								</span>
 							</li>
 							<li>
@@ -146,7 +146,18 @@ const About = () => {
 									<b>{"Small & Mighty:"}</b>
 								</a>
 								<span className="ms-1">
-									{"NOW MINTING:  The third flock of 1,000 birds in the Songbirdz collection (2000-2999). Features 50 different species, with various amounts of birds per species of either 1, 5, 10, 20, 30 or 50. Includes 5 \"1 of 1\" birds that are the only one of their species! This flock of birds are some of the tiniest in the avian world, with most having wing spans < 30cm, but they sing the most quintessential songs you'll hear in the wild."}
+									{"NOW MINTING:  The 3rd flock of 1,000 birds in the Songbirdz collection (2000-2999). Features 50 different species, with various amounts of birds per species of either 1, 5, 10, 20, 30 or 50. Includes 5 \"1 of 1\" birds that are the only one of their species! This flock of birds are some of the tiniest in the avian world, with most having wing spans < 30cm, but they sing the most quintessential songs you'll hear in the wild."}
+								</span>
+							</li>
+							<li>
+								<a
+									href="https://songbirdz.cc/collection?number=3"
+									target="_blank"
+									rel="noopener noreferrer nofollower">
+									<b>{"TBD:"}</b>
+								</a>
+								<span className="ms-1">
+									{"NOW MINTING:  The 4th flock of 1,000 birds in the Songbirdz collection (3000-3999). Features 50 different species, with various amounts of birds per species of either 1, 5, 10, 20, 30 or 50. Includes 4 \"1 of 1\" birds that are the only one of their species! This flock of birds are TODO..."}
 								</span>
 							</li>
 						</ul>

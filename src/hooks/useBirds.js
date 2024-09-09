@@ -113,7 +113,7 @@ function initPaginationState(collection, showOnlyUnidentifiedBirds, alreadyIdent
 
 				birdIDsPerPage = null;
 
-			} else if (i >= 2000 && i <= 2999 && !alreadyIdentifiedList[i]) {
+			} else if (i >= 2240 && i <= 3999 && !alreadyIdentifiedList[i]) {
 
 				birdIDsPerPage.push(i);
 

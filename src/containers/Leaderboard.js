@@ -121,7 +121,7 @@ const Leaderboard = () => {
 											{" is a competition among birders to identify as many species of birds as possible by sight/sound, within a single calendar year and specific geographic area. The North American Big Year record is 840 species, set by John Weigel in 2019!"}
 										</p>
 										<p>
-											{"Now, we all know onchain has no geographic limits, so we'll recreate this competition using the 300 different species of birds in the Songbirdz collection that are out in the wild right now on Base."}
+											{"Now, we all know onchain has no geographic limits, so we recreated this competition using the 300 different species of birds in the Songbirdz collection that were out in the wild on Base."}
 										</p>
 										<p>
 											{"For each "}<strong>{"unique species"}</strong>{" of bird that you add to your "}
@@ -241,7 +241,7 @@ const Leaderboard = () => {
 											{" is a competition among birders to identify as many species of birds as possible by sight/sound, within a single calendar year and specific geographic area. The North American Big Year record is 840 species, set by John Weigel in 2019!"}
 										</p>
 										<p>
-											{"Now, we all know onchain has no geographic limits, so we'll recreate this competition using the 300 different species of birds in the Songbirdz collection that are out in the wild right now on Base."}
+											{"Now, we all know onchain has no geographic limits, so we'll recreate this competition using the 350 different species of birds in the Songbirdz collection that are out in the wild right now on Base."}
 										</p>
 										<p>
 											{"For each "}<strong>{"unique species"}</strong>{" of bird that you add to your "}
