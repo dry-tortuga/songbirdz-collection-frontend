@@ -161,6 +161,35 @@ const About = () => {
 								</span>
 							</li>
 						</ul>
+						<h2>
+							{"Royalties: 1%"}
+						</h2>
+						<ul style={{ listStyle: 'disc' }}>
+							<li>
+								<span className="ms-1">
+									{"While the 10k collection is still minting, 100% of the royalties will be donated to charities via "}
+								</span>
+								<a
+									href="https://endaoment.org/"
+									target="_blank"
+									rel="noopener noreferrer nofollower">
+									{"Endaoment"}
+								</a>
+								{"."}
+							</li>
+							<li>
+								<span className="ms-1">
+									{"Once the 10k collection is fully minted, 50% of the royalties will be donated to charities via "}
+								</span>
+								<a
+									href="https://endaoment.org/"
+									target="_blank"
+									rel="noopener noreferrer nofollower">
+									{"Endaoment"}
+								</a>
+								{" and 50% will go to the project creators."}
+							</li>
+						</ul>
 					</Col>
 				</Row>
 			</Container>
