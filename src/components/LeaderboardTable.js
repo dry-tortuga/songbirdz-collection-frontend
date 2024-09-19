@@ -16,10 +16,26 @@ const LeaderboardTable = (props) => {
 
 	const filteredUsers = useMemo(() => {
 
-		return users.filter((user) =>
+		let result = users.filter((user) =>
 			user.address.toLowerCase() !== "0x3fb4920e09493b2bc7e9b7e14ea7585ca8babf21" &&
 			user.address.toLowerCase() !== "0x585d3ef48e12cb1be6837109b0853afe78b5ebe3"
-		).slice(0, 50);
+		).slice(0, 51);
+
+		result.sort((temp1, temp2) => {
+
+			if (temp1.total > temp2.total) {
+				return -1;
+			}
+
+			if (temp1.total < temp2.total) {
+				return 1;
+			}
+
+			return 0;
+
+		});
+
+		return result;
 
 	}, [users]);
 
@@ -55,7 +71,14 @@ const LeaderboardTable = (props) => {
 						className={
 							(account && user.address.toLowerCase() === account.toLowerCase()) ? "current-user" : ""}>
 						<td>
-							{index + 1}
+							<span>
+								{index + 1}
+							</span>
+							{(account && user.address.toLowerCase() === account.toLowerCase()) &&
+								<span className="ms-3">
+									{"(You)"}
+								</span>
+							}
 						</td>
 						<td>
 							<a
@@ -64,7 +87,7 @@ const LeaderboardTable = (props) => {
 								onClick={() => onUserClick({
 									account: user.address,
 									total: user.total,
-									rank: index + 1,
+									// rank: index + 1,
 								})}>
 								<AccountOwner account={user.address} />
 							</a>

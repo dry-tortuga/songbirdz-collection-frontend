@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 import { Badge, Button, Form, Modal } from "react-bootstrap";
 import { Name } from "@coinbase/onchainkit/identity";
@@ -30,11 +30,43 @@ const LifeListModal = (props) => {
 
 	const { data } = useLifeList({ address: address?.account });
 
+	const [season, setSeason] = useState(0);
+
 	if (!address) {
 		return null;
 	}
 
-	console.debug(data);
+	const [dataToShow, pointTotalToShow] = useMemo(() => {
+
+		let results = {};
+		let total = 0;
+
+		const speciesByIDSeason1 = data?.season_1 || {};
+		const speciesByIDSeason2 = data?.season_2 || {};
+
+		if (season === 0 || season === 1) {
+
+			results = { ...results, ...speciesByIDSeason1 };
+
+			Object.values(speciesByIDSeason1).forEach((data) => {
+				total += data.amount;
+			});
+
+		}
+
+		if (season === 0 || season === 2) {
+
+			results = { ...results, ...speciesByIDSeason2 };
+
+			Object.values(speciesByIDSeason2).forEach((data) => {
+				total += data.amount;
+			});
+
+		}
+
+		return [results, total];
+
+	}, [season, data]);
 
 	return (
 		<Modal
@@ -55,44 +87,58 @@ const LifeListModal = (props) => {
 						<Badge
 							className="ms-sm-auto"
 							bg="info">
-							{address.total}
+							{pointTotalToShow}
 							{' '}
-							{address.total === 1
+							{pointTotalToShow === 1
 								? 'Birder Point'
 								: 'Birder Points'
 							}
 						</Badge>
-						<Badge
-							className="ms-sm-3"
-							bg="success">
-							{'#'}
-							{address.rank}
-						</Badge>
+						{season !== 0 && address.rank &&
+							<Badge
+								className="ms-sm-3"
+								bg="success">
+								{'#'}
+								{address.rank}
+							</Badge>
+						}
 					</div>
 				</Modal.Title>
 			</Modal.Header>
 			<Modal.Body>
+				<Form.Select
+					aria-label="Choose the season to view"
+					className="mb-3"
+					value={season}
+					onChange={(event) => setSeason(parseInt(event.target.value, 10))}>
+					<option value="0">{'All Seasons'}</option>
+					<option value="1">{'Season 1'}</option>
+					<option value="2">{'Season 2'}</option>
+				</Form.Select>
 				{sortedFamilies.map((family) => (
-					<>
+					<div key={family.name}>
 						<h4>{family.name}</h4>
 						<div className="mb-4">
 							{family.species.map((species) => {
 
-								const isIdentified = Boolean(data?.[species.id]);
+								const isIdentified = Boolean(dataToShow?.[species.id]);
 
 								return (
 									<Form.Check
+										key={species.id}
 										id={`disabled-default-${species.id}`}
 										type="checkbox"
 										label={isIdentified ? (
 											<div className="flex align-items-center">
 												{species.label}
-												<Badge
-													className="ms-2"
-													bg="info">
-													{data?.[species.id]?.amount}
-													{'x'}
-												</Badge>
+												{season > 0 &&
+													<Badge
+														className="ms-2"
+														bg="info">
+														{dataToShow?.[species.id]?.amount}
+														{'x'}
+													</Badge>
+												}
 											</div>
 										) : species.label}
 										checked={isIdentified}
@@ -101,7 +147,7 @@ const LifeListModal = (props) => {
 
 							})}
 						</div>
-					</>
+					</div>
 				))}
 			</Modal.Body>
 		</Modal>
