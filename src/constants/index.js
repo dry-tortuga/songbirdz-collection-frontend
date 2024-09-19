@@ -1,4 +1,5 @@
-import ANSWER_CHOICES from './small-and-mighty-2-options';
+import ANSWER_CHOICES_FLOCK_2 from './small-and-mighty-2-options';
+import ANSWER_CHOICES_FLOCK_3 from './night-and-day-3-options';
 import FAMILIES from './families';
 
 const NUM_BIRDS_TOTAL = 4000;
@@ -38,7 +39,8 @@ const EVENTS = {
 const ALREADY_IDENTIFIED_BIRDS = {};
 
 export {
-	ANSWER_CHOICES,
+	ANSWER_CHOICES_FLOCK_2,
+	ANSWER_CHOICES_FLOCK_3,
 	FAMILIES,
 	NUM_BIRDS_TOTAL,
 	COLLECTION_BIRD_SIZE,
