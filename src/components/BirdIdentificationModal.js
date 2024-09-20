@@ -17,7 +17,8 @@ import Select from "react-select";
 import BirdAudioFile from "./BirdAudioFile";
 
 import {
-	ANSWER_CHOICES,
+	ANSWER_CHOICES_FLOCK_2,
+	ANSWER_CHOICES_FLOCK_3,
 	COLLECTIONS,
 	CURRENT_COLLECTION_MIN_ID,
 	CURRENT_COLLECTION_MAX_ID,
@@ -89,10 +90,18 @@ const BirdIdentificationModal = (props) => {
 		const collection =
 			COLLECTIONS.find((temp) => bird.id >= temp.min_id && bird.id <= temp.max_id);
 
+		let answerChoices;
+
+		if (bird.id >= 2000 && bird.id <= 2999) {
+			answerChoices = ANSWER_CHOICES_FLOCK_2;
+		} else if (bird.id >= 3000 && bird.id <= 3999) {
+			answerChoices = ANSWER_CHOICES_FLOCK_3;
+		}
+
 		// Get the bird's final index relative to ONLY the current collection
 		const finalIndex = bird.id - collection.min_id;
 
-		const result = ANSWER_CHOICES[finalIndex].options.map((name) => ({
+		const result = answerChoices[finalIndex].options.map((name) => ({
 			label: name,
 			value: name,
 		}));

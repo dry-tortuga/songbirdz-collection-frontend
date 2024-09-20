@@ -124,7 +124,7 @@ const About = () => {
 									<b>{"Picasso Genesis:"}</b>
 								</a>
 								<span className="ms-1">
-									{"SOLD OUT: The first flock of 1,000 birds in the Songbirdz collection (0-999). Features 200 different species, with exactly 5 birds of each species."}
+									{"SOLD OUT: The 1st flock of 1,000 birds in the Songbirdz collection (0-999). Features 200 different species, with exactly 5 birds of each species."}
 								</span>
 							</li>
 							<li>
@@ -135,19 +135,59 @@ const About = () => {
 									<b>{"Deep Blue:"}</b>
 								</a>
 								<span className="ms-1">
-									{"SOLD OUT:  The second flock of 1,000 birds in the Songbirdz collection (1000-1999). Features 50 different species, with various amounts of birds per species of either 1, 5, 10, 20, 30 or 50. Includes 5 \"1 of 1\" birds that are the only one of their species! This flock of birds live and breath all things water day in and day out, they make their home on the rivers, streams, ponds, lakes, and oceans near you."}
+									{"SOLD OUT:  The 2nd flock of 1,000 birds in the Songbirdz collection (1000-1999). Features 50 different species, with various amounts of birds per species of either 1, 5, 10, 20, 30 or 50. Includes 5 \"1 of 1\" birds that are the only one of their species! This flock of birds live and breath all things water day in and day out, they make their home on the rivers, streams, ponds, lakes, and oceans near you."}
 								</span>
 							</li>
 							<li>
 								<a
-									href="https://songbirdz.cc/collection?number=2"
+									href="https://songbirdz.cc/collection?number=2&hide_already_identified=true"
 									target="_blank"
 									rel="noopener noreferrer nofollower">
 									<b>{"Small & Mighty:"}</b>
 								</a>
 								<span className="ms-1">
-									{"NOW MINTING:  The third flock of 1,000 birds in the Songbirdz collection (2000-2999). Features 50 different species, with various amounts of birds per species of either 1, 5, 10, 20, 30 or 50. Includes 5 \"1 of 1\" birds that are the only one of their species! This flock of birds are some of the tiniest in the avian world, with most having wing spans < 30cm, but they sing the most quintessential songs you'll hear in the wild."}
+									{"NOW MINTING:  The 3rd flock of 1,000 birds in the Songbirdz collection (2000-2999). Features 50 different species, with various amounts of birds per species of either 1, 5, 10, 20, 30 or 50. Includes 5 \"1 of 1\" birds that are the only one of their species! This flock of birds are some of the tiniest in the avian world, with most having wing spans < 30cm, but they sing the most quintessential songs you'll hear in the wild."}
 								</span>
+							</li>
+							<li>
+								<a
+									href="https://songbirdz.cc/collection?number=3&hide_already_identified=true"
+									target="_blank"
+									rel="noopener noreferrer nofollower">
+									<b>{"Night & Day:"}</b>
+								</a>
+								<span className="ms-1">
+									{"NOW MINTING:  The 4th flock of 1,000 birds in the Songbirdz collection (3000-3999). Features 50 different species, with various amounts of birds per species of either 1, 5, 10, 20, 30 or 50. Includes 4 \"1 of 1\" birds that are the only one of their species! This flock features some of our most mysterious and intriguing birds. Discover the birds that rule the night and those who break the silence at dawn. As the seasons change and the nights grow longer, there’s still plenty of them out there waiting to be seen."}
+								</span>
+							</li>
+						</ul>
+						<h2>
+							{"Royalties: 1%"}
+						</h2>
+						<ul style={{ listStyle: 'disc' }}>
+							<li>
+								<span className="ms-1">
+									{"While the 10k collection is still minting, 100% of the royalties will be donated to charities via "}
+								</span>
+								<a
+									href="https://endaoment.org/"
+									target="_blank"
+									rel="noopener noreferrer nofollower">
+									{"Endaoment"}
+								</a>
+								{"."}
+							</li>
+							<li>
+								<span className="ms-1">
+									{"Once the 10k collection is fully minted, 50% of the royalties will be donated to charities via "}
+								</span>
+								<a
+									href="https://endaoment.org/"
+									target="_blank"
+									rel="noopener noreferrer nofollower">
+									{"Endaoment"}
+								</a>
+								{" and 50% will go to the project creators."}
 							</li>
 						</ul>
 					</Col>

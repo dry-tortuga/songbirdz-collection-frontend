@@ -159,30 +159,13 @@ const BirdDetails = () => {
 
 	const collection = bird ? COLLECTIONS[bird.collection] : null;
 
-	if (bird && (bird.id < 0 || bird.id > 2999)) {
+	if (bird && (bird.id < COLLECTIONS[0].min_id || bird.id > COLLECTIONS[3].max_id)) {
 		return null;
 	}
 
 	console.debug("-------------- BirdDetails -----------");
 	console.debug(bird);
 	console.debug("--------------------------------------")
-
-	let image = bird ? bird.image : null;
-	let imageLg = bird ? bird.imageLg : null;
-
-	// Check if it is one of the "1 of 1" species...
-	if (bird && bird.owner && (
-		bird.id === 2844 ||
-		bird.id === 2603 ||
-		bird.id === 2673 ||
-		bird.id === 2574 ||
-		bird.id === 2202
-	)) {
-
-		image = `${process.env.PUBLIC_URL}/images/${bird.id}.jpg`;
-		imageLg =`${process.env.PUBLIC_URL}/images/${bird.id}-lg.jpg`;
-
-	}
 
 	return (
 		<div
@@ -231,7 +214,7 @@ const BirdDetails = () => {
 										</svg>
 									</Link>
 								}
-								{bird.id < COLLECTIONS[2].max_id &&
+								{bird.id < COLLECTIONS[3].max_id &&
 									<Link
 										className="btn btn-outline-primary ms-3"
 										to={`/collection/${bird.id + 1}`}>
@@ -349,11 +332,11 @@ const BirdDetails = () => {
 								<Card>
 									<Row>
 										<img
-											key={imageLg}
+											key={bird.imageLg}
 											alt=""
 											className="col-12 col-sm-6 col-md-4"
-											src={imageLg}
-											srcSet={`${image} 256w, ${imageLg} 768w`}
+											src={bird.imageLg}
+											srcSet={`${bird.image} 256w, ${bird.imageLg} 768w`}
 											sizes="(max-width: 576px) 256px, 768px" />
 										<Card.Body className="col-12 col-sm-6 col-md-8 d-flex flex-column">
 											<Card.Title
