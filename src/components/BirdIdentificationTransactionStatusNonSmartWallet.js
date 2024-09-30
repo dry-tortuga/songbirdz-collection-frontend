@@ -44,7 +44,7 @@ const BirdIdentificationTransactionStatusNonSmartWallet = (props) => {
 			message = `You correctly identified Songbird #${birdId} as a ${speciesNameGuess}. You are now the proud owner!`;
 
 			// Check if it is one of the "1 of 1" species...
-			if (birdId === 2844 || birdId === 2603 || birdId === 2673 || birdId === 2574 || birdId === 2202) {
+			if (birdId === 3022 || birdId === 3793 || birdId === 3344 || birdId === 3243) {
 				message = `You correctly identified Songbird #${birdId} as a ${speciesNameGuess}. This is a "1 of 1", so it is the only ${speciesNameGuess} in the entire Songbirdz collection. You are now the proud owner!`;
 			}
 

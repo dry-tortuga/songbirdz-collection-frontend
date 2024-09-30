@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { Badge, Button, Form, Modal } from "react-bootstrap";
 import { Name } from "@coinbase/onchainkit/identity";
 
-import { FAMILIES } from "../constants";
+import { COLLECTIONS, FAMILIES } from "../constants";
 import useLifeList from "../hooks/useLifeList";
 
 import AccountOwner from "./AccountOwner";
@@ -30,7 +30,7 @@ const LifeListModal = (props) => {
 
 	const { data } = useLifeList({ address: address?.account });
 
-	const [season, setSeason] = useState(0);
+	const [filter, setFilter] = useState("0");
 
 	if (!address) {
 		return null;
@@ -44,29 +44,134 @@ const LifeListModal = (props) => {
 		const speciesByIDSeason1 = data?.season_1 || {};
 		const speciesByIDSeason2 = data?.season_2 || {};
 
-		if (season === 0 || season === 1) {
+		if (filter !== "2") {
 
 			results = { ...results, ...speciesByIDSeason1 };
 
-			Object.values(speciesByIDSeason1).forEach((data) => {
-				total += data.amount;
-			});
+			if (filter === "0" || filter === "1") {
+
+				Object.values(speciesByIDSeason1).forEach((data) => {
+					total += data.amount;
+				});
+
+			}
 
 		}
 
-		if (season === 0 || season === 2) {
+		if (filter != "1") {
 
 			results = { ...results, ...speciesByIDSeason2 };
 
-			Object.values(speciesByIDSeason2).forEach((data) => {
-				total += data.amount;
-			});
+			if (filter === "0" || filter === "2") {
+
+				Object.values(speciesByIDSeason2).forEach((data) => {
+					total += data.amount;
+				});
+
+			}
 
 		}
 
 		return [results, total];
 
-	}, [season, data]);
+	}, [filter, data]);
+
+	const renderLabel = (species, isIdentified) => {
+
+		let collectionId = 0;
+
+		if (species.id >= 200 && species.id < 250) {
+			collectionId = 1;
+		} else if (species.id >= 250 && species.id < 300) {
+			collectionId = 2;
+		} else if (species.id >= 300 && species.id < 350) {
+			collectionId = 3;
+		}
+
+		const collection = COLLECTIONS[collectionId];
+
+		return (
+			<div className="flex align-items-center">
+				<span className="fw-bold">
+					{species.label}
+				</span>
+				<span
+					className="ms-1"
+					style={{ fontSize: '0.85rem' }}>
+					{`(${collection.name})`}
+				</span>
+				{isIdentified && (filter === "1" || filter === "2") &&
+					<Badge
+						className="ms-2"
+						bg="info">
+						{dataToShow?.[species.id]?.amount}
+						{'x'}
+					</Badge>
+				}
+			</div>
+		)
+
+	};
+
+	const renderSpeciesList = (familySpecies) => {
+
+		let filteredFamilySpecies = [...familySpecies];
+
+		let collectionId = -1;
+
+		if (filter === "Picasso Genesis") {
+			collectionId = 0;
+		} else if (filter === "Deep Blue") {
+			collectionId = 1;
+		} else if (filter === "Small & Mighty") {
+			collectionId = 2;
+		} else if (filter === "Night & Day") {
+			collectionId = 3;
+		}
+
+		if (collectionId >= 0) {
+
+			filteredFamilySpecies = filteredFamilySpecies.filter((species) => {
+
+				if (collectionId === 0 && species.id >= 0 && species.id < 200) {
+					return true;
+				}
+
+				if (collectionId === 1 && species.id >= 200 && species.id < 250) {
+					return true;
+				}
+
+				if (collectionId === 2 && species.id >= 250 && species.id < 300) {
+					return true;
+				}
+
+				if (collectionId === 3 && species.id >= 300 && species.id < 350) {
+					return true;
+				}
+
+				return false;
+
+			});
+
+		}
+
+		return filteredFamilySpecies.map((species) => {
+
+			const isIdentified = Boolean(dataToShow?.[species.id]);
+
+			return (
+				<Form.Check
+					key={species.id}
+					id={`disabled-default-${species.id}`}
+					type="checkbox"
+					label={renderLabel(species, isIdentified)}
+					checked={isIdentified}
+					disabled />
+			);
+
+		});
+
+	};
 
 	return (
 		<Modal
@@ -94,7 +199,7 @@ const LifeListModal = (props) => {
 								: 'Birder Points'
 							}
 						</Badge>
-						{season !== 0 && address.rank &&
+						{(filter === "1" || filter === "2") && address.rank &&
 							<Badge
 								className="ms-sm-3"
 								bg="success">
@@ -107,45 +212,22 @@ const LifeListModal = (props) => {
 			</Modal.Header>
 			<Modal.Body>
 				<Form.Select
-					aria-label="Choose the season to view"
+					aria-label="Choose a specific season or collection to view"
 					className="mb-3"
-					value={season}
-					onChange={(event) => setSeason(parseInt(event.target.value, 10))}>
+					value={filter}
+					onChange={(event) => setFilter(event.target.value)}>
 					<option value="0">{'All Seasons'}</option>
 					<option value="1">{'Season 1'}</option>
 					<option value="2">{'Season 2'}</option>
+					{COLLECTIONS.map((collection) => (
+						<option value={collection.name}>{collection.name}</option>						
+					))}
 				</Form.Select>
 				{sortedFamilies.map((family) => (
 					<div key={family.name}>
 						<h4>{family.name}</h4>
 						<div className="mb-4">
-							{family.species.map((species) => {
-
-								const isIdentified = Boolean(dataToShow?.[species.id]);
-
-								return (
-									<Form.Check
-										key={species.id}
-										id={`disabled-default-${species.id}`}
-										type="checkbox"
-										label={isIdentified ? (
-											<div className="flex align-items-center">
-												{species.label}
-												{season > 0 &&
-													<Badge
-														className="ms-2"
-														bg="info">
-														{dataToShow?.[species.id]?.amount}
-														{'x'}
-													</Badge>
-												}
-											</div>
-										) : species.label}
-										checked={isIdentified}
-										disabled />
-								);
-
-							})}
+							{renderSpeciesList(family.species)}
 						</div>
 					</div>
 				))}
