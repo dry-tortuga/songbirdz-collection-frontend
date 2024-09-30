@@ -27,7 +27,7 @@ const useLeaderboard = ({ account }) => {
 					timestampMessage:
 						season === "1"
 							? "Results are final as of August 31st, 2024 11:00 PM UTC."
-							: "Results last updated on September 5th, 2024 12:00 PM UTC. Leaderboard attempts to update in real-time, but points to be manually confirmed on a weekly basis in case any ERC-721 events are missed."
+							: "Results last updated on September 21st, 2024 07:00 PM UTC. Leaderboard attempts to update in real-time, but points to be manually confirmed on a weekly basis in case any ERC-721 events are missed."
 				});
 
 			};
