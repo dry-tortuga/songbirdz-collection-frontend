@@ -9,9 +9,8 @@ import {
 	Row,
 } from "react-bootstrap";
 
-import { useWalletContext } from "../contexts/wallet";
-
 import { COLLECTIONS } from "../constants";
+import { useWalletContext } from "../contexts/wallet";
 
 import BirdsTable from "../components/BirdsTable";
 import ConnectWalletButton from "../components/ConnectWalletButton";
@@ -28,14 +27,11 @@ const BirdListing = () => {
 	const queryParams = new URLSearchParams(search);
 
 	// Check if filtering the birds to a single collection
-	const collectionId =
-		isNaN(parseInt(queryParams.get("number"), 10)) ? null : parseInt(queryParams.get("number"), 10);
+	const filteredCollectionId =
+		isNaN(parseInt(queryParams.get("number"), 10)) ? -1 : parseInt(queryParams.get("number"), 10);
 
 	// Check if filtering the list to remove "already identified" birds
 	const hideAlreadyIdentifiedParam = queryParams.get("hide_already_identified") === "true";
-
-	// Get the collection data
-	const collection = COLLECTIONS[collectionId];
 
 	// Get the list of "already identified" birds in the available collection
 	const {
@@ -47,12 +43,22 @@ const BirdListing = () => {
 	// Get the list of birds
 	const {
 		data: birds,
+		filters,
 		pagination,
+		onChangeFilter,
 		onChangePage,
-	} = useBirds({ context, collection, showOnlyUnidentifiedBirds, alreadyIdentifiedList });
+	} = useBirds({
+		context,
+		collectionId: filteredCollectionId,
+		showOnlyUnidentifiedBirds,
+		alreadyIdentifiedList,
+	});
 
 	// Keep track of the state of the info alert
 	const [showInfoAlert, setShowInfoAlert] = useState(true);
+
+	// Get the collection data
+	const collection = COLLECTIONS[filters.collectionId];
 
 	console.debug("-------------- BirdListing -----------");
 	console.debug(birds);
@@ -71,7 +77,7 @@ const BirdListing = () => {
 									{"Songbirdz"}
 									{collection &&
 										<Badge
-											className="fs-6 ms-1 align-middle"
+											className="fs-6 ms-3 align-middle"
 											bg="success"
 											pill>
 											<span>
@@ -145,9 +151,11 @@ const BirdListing = () => {
 						{birds &&
 							<BirdsTable
 								birds={birds}
+								filters={filters}
 								pagination={pagination}
 								showOnlyUnidentifiedBirds={showOnlyUnidentifiedBirds}
 								setShowOnlyUnidentifiedBirds={setShowOnlyUnidentifiedBirds}
+								onChangeFilter={onChangeFilter}
 								onChangePage={onChangePage} />
 						}
 					</Col>

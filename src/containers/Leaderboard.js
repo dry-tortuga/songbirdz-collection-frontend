@@ -12,6 +12,7 @@ import {
 
 import { useWalletContext } from "../contexts/wallet";
 
+import DailyStreakCompetition from "../components/DailyStreakCompetition";
 import LeaderboardTable from "../components/LeaderboardTable";
 import LifeListModal from "../components/LifeListModal";
 
@@ -243,6 +244,9 @@ const Leaderboard = () => {
 										<p>
 											{"Now, we all know onchain has no geographic limits, so we'll recreate this competition using the 350 different species of birds in the Songbirdz collection that are out in the wild right now on Base."}
 										</p>
+										<h3>
+											{"Onchain Bird Watching"}
+										</h3>
 										<p>
 											{"For each "}<strong>{"unique species"}</strong>{" of bird that you add to your "}
 											<a
@@ -290,11 +294,57 @@ const Leaderboard = () => {
 										<p>
 											{"Example #2: if you identify (i.e. mint) 3 birds of the same species (i.e. 3 Bald Eagles)... you would only earn 10 Birder Points... not 30."}
 										</p>
+										<h3>
+											{"Other Ways to Earn Birder Points"}
+										</h3>
+										<p>
+											{"In addition to the game above, you can also earn points and help support the project by:"}
+										</p>
+										<ul style={{ listStyle: 'disc' }}>
+											<li>
+												<b>{"25 points:"}</b>
+												{"X Campaign: Share a bird that you own on X and tell us, in your own words, why you think the Songbirdz project is interesting! You must (1) follow & tag "}
+												<a
+													href="https://x.com/dry_tortuga"
+													target="_blank"
+													rel="noopener noreferrer">
+													{"@dry_tortuga"}
+												</a>
+												{" (2) follow & tag "}
+												<a
+													href="https://x.com/songbirdz_cc"
+													target="_blank"
+													rel="noopener noreferrer">
+													{"@songbirdz_cc"}
+												</a>
+												{" and (3) include the image and link for the bird on OpenSea, Magic Eden, etc"}
+											</li>
+											<li>
+												<a
+													href={`https://twitter.com/intent/tweet?text=${encodeURIComponent(`Love the @songbirdz_cc collection on @base!\n\nYOUR OWN WORDS HERE\n\nTry onchain bird watching today at https://songbirdz.cc/collection?hide_already_identified=true\n\n`)}`}
+													className="twitter-share-button"
+													data-show-count="false"
+													data-size="large"
+													data-hashtags="basedbirds"
+													data-via="songbirdz"
+													data-url={'https://songbirdz.cc/collection?hide_already_identified=true'}>
+													{"Share on X"}
+												</a>
+											</li>
 									</Col>
 								</Row>
 							</>
 						}
 					</Tab>
+					{/* <Tab
+						eventKey="3"
+						title="Daily Streak">
+						<Row className="mb-4">
+							<Col>
+								<DailyStreakCompetition />
+							</Col>
+						</Row>
+					</Tab> */}
 				</Tabs>
 				{data?.users &&
 					<LifeListModal

@@ -236,7 +236,7 @@ const BirdDetails = () => {
 										className="flex align-items-center ms-auto"
 										key={bird.id}>
 										<a
-											href={`https://twitter.com/intent/tweet?text=${encodeURIComponent(`Check out this ${bird.species} in the @songbirdz_cc collection on @base from @dry_tortuga!\n`)}`}
+											href={`https://twitter.com/intent/tweet?text=${encodeURIComponent(`Check out this ${bird.species} in the @songbirdz_cc collection on @base from @dry_tortuga!\n\n Try onchain bird watching today at https://songbirdz.cc/collection?hide_already_identified=true\n\n`)}`}
 											className="twitter-share-button"
 											data-show-count="false"
 											data-size="large"
