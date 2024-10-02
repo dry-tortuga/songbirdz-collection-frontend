@@ -119,7 +119,7 @@ async function populateMetadata(data) {
 
 			// Fetch the off-chain metadata from the back-end server
 			const response = await fetch(
-				`${process.env.REACT_APP_SONGBIRDZ_CONTRACT_BASE_URI_METADATA}/${data.id}`
+				`${process.env.REACT_APP_SONGBIRDZ_BACKEND_URL}/birds/metadata/${data.id}`
 			);
 
 			// Parse the off-chain metadata for the bird
@@ -151,10 +151,41 @@ async function populateMetadata(data) {
 
 }
 
+const updateDailyStreak = (address) => {
+
+	try {
+
+		// Post to the daily streak API in the back-end server
+
+		const response = await fetch(
+			`${process.env.REACT_APP_SONGBIRDZ_BACKEND_URL}/birds/daily-streak`,
+			{
+				method: 'POST',
+				headers: {
+					'Accept': 'application/json',
+					'Content-Type': 'application/json'
+				},
+				body: JSON.stringify({ address }),
+			},
+		);
+
+		if (response.status !== 200) {
+			throw new Error("Error updating the daily streak...");
+		}
+
+		const responseData = await response.json();
+
+		return responseData;
+
+	}
+
+};
+
 export {
 	fetchBird,
 	fetchLeaderboard,
 	fetchLifeList,
 	fetchUnidentifiedList,
 	populateMetadata,
+	updateDailyStreak,
 };

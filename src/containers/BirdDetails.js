@@ -27,7 +27,7 @@ import useMintAPINonSmartWallet from "../hooks/useMintAPINonSmartWallet";
 import etherscanLogo from "../images/etherscan-logo-circle.svg";
 import openseaLogo from "../images/opensea-logomark-blue.svg";
 
-import { populateMetadata } from "../utils/data";
+import { populateMetadata, updateDailyStreak } from "../utils/data";
 
 import "./BirdDetails.css";
 
@@ -97,6 +97,9 @@ const BirdDetails = () => {
 
 		// Check if the user successfully identified the bird, i.e. is now the owner
 		if (transferEvent) {
+
+			// Update the daily streak for the user
+			updateDailyStreak();
 
 			const updatedData = { ...bird, owner: context.account };
 
