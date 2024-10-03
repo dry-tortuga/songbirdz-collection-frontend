@@ -8,6 +8,7 @@ import {
 	Container,
 	ListGroup,
 	Row,
+	ToastContainer,
 } from "react-bootstrap";
 
 import { useWalletContext } from "../contexts/wallet";
@@ -18,6 +19,7 @@ import BirdIdentificationModal from "../components/BirdIdentificationModal";
 import BirdIdentificationTransactionStatus from "../components/BirdIdentificationTransactionStatus";
 import BirdIdentificationTransactionStatusNonSmartWallet from "../components/BirdIdentificationTransactionStatusNonSmartWallet";
 import ConnectWalletButton from "../components/ConnectWalletButton";
+import DailyStreakStatus from "../components/DailyStreakStatus";
 
 import { COLLECTIONS, EVENTS } from "../constants";
 
@@ -48,6 +50,9 @@ const BirdDetails = () => {
 
 	// Keep track of the transaction state after submission to the chain
 	const [tx, setTx] = useState(null);
+
+	// Keep track of the daily streak tracker after submission to the chain
+	const [dailyStreakInfo, setDailyStreakInfo] = useState(null);
 
 	// Keep track of the state of the info alert
 	const [showInfoAlert, setShowInfoAlert] = useState(true);
@@ -98,14 +103,19 @@ const BirdDetails = () => {
 		// Check if the user successfully identified the bird, i.e. is now the owner
 		if (transferEvent) {
 
-			// Update the daily streak for the user
-			updateDailyStreak();
-
 			const updatedData = { ...bird, owner: context.account };
 
+			// Update the metadata for the bird
 			const finalData = await populateMetadata(updatedData);
 
 			setBird(finalData);
+
+			// Update the daily streak for the user
+			const updatedTracker = await updateDailyStreak(context.account);
+
+			if (updatedTracker) {
+				setDailyStreakInfo(updatedTracker);
+			}
 
 		}
 
@@ -130,9 +140,17 @@ const BirdDetails = () => {
 
 			const updatedData = { ...bird, owner: context.account };
 
+			// Update the metadata for the bird
 			const finalData = await populateMetadata(updatedData);
 
 			setBird(finalData);
+
+			// Update the daily streak for the user
+			const updatedTracker = await updateDailyStreak(context.account);
+
+			if (updatedTracker) {
+				setDailyStreakInfo(updatedTracker);
+			}
 
 		}
 
@@ -168,6 +186,8 @@ const BirdDetails = () => {
 
 	console.debug("-------------- BirdDetails -----------");
 	console.debug(bird);
+	console.debug(tx);
+	console.debug(dailyStreakInfo);
 	console.debug("--------------------------------------")
 
 	return (
@@ -310,25 +330,29 @@ const BirdDetails = () => {
 								</a></p>
 							</Alert>
 						*/}
-						{/* Smart Wallet Users */}
-						{tx &&
-							<Row className="mb-3">
-								<Col>
+						{(tx || txMintBirdNonSmartWallet?.pending || txMintBirdNonSmartWallet?.success || txMintBirdNonSmartWallet?.error) &&
+							<ToastContainer
+								className="p-3"
+								style={{ zIndex: 5 }}
+								position="top-end">
+								{/* Smart Wallet Users */}
+								{tx &&
 									<BirdIdentificationTransactionStatus
 										tx={tx}
 										onClose={() => setTx(null)} />
-								</Col>
-							</Row>
-						}
-						{/* Non-Smart Wallet Users */}
-						{(txMintBirdNonSmartWallet?.pending || txMintBirdNonSmartWallet?.success || txMintBirdNonSmartWallet?.error) &&
-							<Row className="mb-3">
-								<Col>
+								}
+								{/* Non-Smart Wallet Users */}
+								{(txMintBirdNonSmartWallet?.pending || txMintBirdNonSmartWallet?.success || txMintBirdNonSmartWallet?.error) &&
 									<BirdIdentificationTransactionStatusNonSmartWallet
 										tx={txMintBirdNonSmartWallet}
 										onClose={resetTxMintBirdNonSmartWallet} />
-								</Col>
-							</Row>
+								}
+								{(dailyStreakInfo?.status === "created" || dailyStreakInfo?.status === "updated") &&
+									<DailyStreakStatus
+										data={dailyStreakInfo}
+										onClose={() => setDailyStreakInfo(null)} />
+								}
+							</ToastContainer>
 						}
 						<Row>
 							<Col>

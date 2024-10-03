@@ -151,7 +151,7 @@ async function populateMetadata(data) {
 
 }
 
-const updateDailyStreak = (address) => {
+const updateDailyStreak = async (address) => {
 
 	try {
 
@@ -170,12 +170,18 @@ const updateDailyStreak = (address) => {
 		);
 
 		if (response.status !== 200) {
-			throw new Error("Error updating the daily streak...");
+			console.error("Error updating the daily streak...");
+			return null;
 		}
 
 		const responseData = await response.json();
 
 		return responseData;
+
+	} catch (error) {
+
+		console.error(error);
+		return null;
 
 	}
 

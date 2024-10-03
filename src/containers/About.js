@@ -69,6 +69,14 @@ const About = () => {
 							</li>
 							<li>
 								<a
+									href="https://t.me/songbirdz_cc"
+									target="_blank"
+									rel="noopener noreferrer nofollower">
+									{"Telegram"}
+								</a>
+							</li>
+							<li>
+								<a
 									href="https://discord.gg/UKGgRsJXzr"
 									target="_blank"
 									rel="noopener noreferrer nofollower">

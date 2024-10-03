@@ -331,6 +331,7 @@ const Leaderboard = () => {
 													{"Share on X"}
 												</a>
 											</li>
+										</ul>
 									</Col>
 								</Row>
 							</>
