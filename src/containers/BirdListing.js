@@ -94,22 +94,7 @@ const BirdListing = () => {
 				}
 				<Row className="mb-3">
 					<Col>
-						{!context.account &&
-							<>
-								<div className="text-center">
-									{"Connect your wallet to get started..."}
-								</div>
-								<ConnectWalletButton className="flex d-md-none justify-center mt-3" />
-							</>
-						}
-						{context.account && !context.isOnCorrectChain &&
-							<span className="me-1">
-								{"Double check to make sure you're on the Base network..."}
-							</span>
-						}
-						{context.account &&
-							context.isOnCorrectChain &&
-							!birds &&
+						{!birds &&
 							<i className="fa-solid fa-spinner fa-spin fa-xl me-2" />
 						}
 						{birds && showInfoAlert &&

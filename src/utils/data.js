@@ -109,6 +109,38 @@ async function fetchUnidentifiedList() {
 
 }
 
+async function fetchDailyStreakActive(address, size) {
+
+	let finalData;
+
+	try {
+
+		let url = `${process.env.REACT_APP_SONGBIRDZ_BACKEND_URL}/birds/daily-streak/active?limit=${size}`;
+
+		if (address) {
+			url += `&address=${address.toLowerCase()}`;
+		}
+
+		// Fetch the points data from the back-end server
+		const response = await fetch(url);
+
+		// Parse the points data
+		if (response.status === 200) {
+			finalData = await response.json();
+		}
+
+	} catch (error) {
+
+		console.debug("---- ERROR FETCHING DAILY STREAK ACTIVE DATA ----");
+		console.debug(error);
+		console.debug("-------------------------------------------------");
+
+	}
+
+	return finalData;
+
+}
+
 async function populateMetadata(data) {
 
 	const finalData = { ...data };
@@ -192,6 +224,7 @@ export {
 	fetchLeaderboard,
 	fetchLifeList,
 	fetchUnidentifiedList,
+	fetchDailyStreakActive,
 	populateMetadata,
 	updateDailyStreak,
 };

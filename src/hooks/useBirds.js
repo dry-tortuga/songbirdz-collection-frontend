@@ -60,7 +60,7 @@ const useBirds = (props) => {
 	// Fetch the birds data from the backend contract
 	useEffect(() => {
 
-		if (context.account && context.isOnCorrectChain && pagination.birdIDsPerPage) {
+		if (pagination.birdIDsPerPage) {
 
 			const startIdxFetch = pagination.current_page * pagination.page_size;
 			const endIdxFetch = (pagination.current_page + 1) * pagination.page_size;
@@ -94,30 +94,12 @@ const useBirds = (props) => {
 		}
 
 	}, [
-		context.account,
-		context.isOnCorrectChain,
 		context.actions,
 		pagination.birdIDsPerPage?.length,
 		pagination.current_page,
 		pagination.page_size,
 		pagination.current_collection_id,
 	]);
-
-	// Reset data on chain changes...
-	useEffect(() => {
-
-		if (data && !context.isOnCorrectChain) {
-
-			setData(null);
-			setPagination(initPaginationState(
-				filters.collectionId,
-				showOnlyUnidentifiedBirds,
-				alreadyIdentifiedList,
-			));
-
-		}
-
-	}, [context, data, filters.collectionId, showOnlyUnidentifiedBirds, alreadyIdentifiedList]);
 
 	return {
 		data,

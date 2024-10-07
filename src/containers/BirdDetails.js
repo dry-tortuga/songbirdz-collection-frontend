@@ -20,6 +20,7 @@ import BirdIdentificationTransactionStatus from "../components/BirdIdentificatio
 import BirdIdentificationTransactionStatusNonSmartWallet from "../components/BirdIdentificationTransactionStatusNonSmartWallet";
 import ConnectWalletButton from "../components/ConnectWalletButton";
 import DailyStreakStatus from "../components/DailyStreakStatus";
+import WalletConnectionStatus from "../components/WalletConnectionStatus";
 
 import { COLLECTIONS, EVENTS } from "../constants";
 
@@ -50,6 +51,9 @@ const BirdDetails = () => {
 
 	// Keep track of the transaction state after submission to the chain
 	const [tx, setTx] = useState(null);
+
+	// Keep track of the wallet connection state
+	const [showWalletConnectionInfo, setShowWalletConnectionInfo] = useState(false);
 
 	// Keep track of the daily streak tracker after submission to the chain
 	const [dailyStreakInfo, setDailyStreakInfo] = useState(null);
@@ -195,23 +199,8 @@ const BirdDetails = () => {
 			id="details-page"
 			className="details-page">
 			<Container className="my-4">
-				{!context.account &&
-					<>
-						<div className="text-center">
-							{"Connect your wallet to get started..."}
-						</div>
-						<ConnectWalletButton className="flex d-md-none justify-center mt-3" />
-					</>
-				}
-				{context.account &&
-					context.isOnCorrectChain &&
-					!bird &&
+				{!bird &&
 					<i className="fa-solid fa-spinner fa-spin fa-xl me-2" />
-				}
-				{context.account && !context.isOnCorrectChain &&
-					<span className="me-1">
-						{"Double check to make sure you're on the Base network..."}
-					</span>
 				}
 				{bird &&
 					<>
@@ -330,30 +319,31 @@ const BirdDetails = () => {
 								</a></p>
 							</Alert>
 						*/}
-						{(tx || txMintBirdNonSmartWallet?.pending || txMintBirdNonSmartWallet?.success || txMintBirdNonSmartWallet?.error) &&
-							<ToastContainer
-								className="p-3"
-								style={{ zIndex: 5 }}
-								position="top-end">
-								{/* Smart Wallet Users */}
-								{tx &&
-									<BirdIdentificationTransactionStatus
-										tx={tx}
-										onClose={() => setTx(null)} />
-								}
-								{/* Non-Smart Wallet Users */}
-								{(txMintBirdNonSmartWallet?.pending || txMintBirdNonSmartWallet?.success || txMintBirdNonSmartWallet?.error) &&
-									<BirdIdentificationTransactionStatusNonSmartWallet
-										tx={txMintBirdNonSmartWallet}
-										onClose={resetTxMintBirdNonSmartWallet} />
-								}
-								{(dailyStreakInfo?.status === "created" || dailyStreakInfo?.status === "updated") &&
-									<DailyStreakStatus
-										data={dailyStreakInfo}
-										onClose={() => setDailyStreakInfo(null)} />
-								}
-							</ToastContainer>
-						}
+						<ToastContainer
+							className="p-3"
+							style={{ zIndex: 5 }}
+							position="top-end">
+							{showWalletConnectionInfo &&
+								<WalletConnectionStatus onClose={() => setShowWalletConnectionInfo(false)} />
+							}
+							{/* Smart Wallet Users */}
+							{tx &&
+								<BirdIdentificationTransactionStatus
+									tx={tx}
+									onClose={() => setTx(null)} />
+							}
+							{/* Non-Smart Wallet Users */}
+							{(txMintBirdNonSmartWallet?.pending || txMintBirdNonSmartWallet?.success || txMintBirdNonSmartWallet?.error) &&
+								<BirdIdentificationTransactionStatusNonSmartWallet
+									tx={txMintBirdNonSmartWallet}
+									onClose={resetTxMintBirdNonSmartWallet} />
+							}
+							{(dailyStreakInfo?.status === "created" || dailyStreakInfo?.status === "updated") &&
+								<DailyStreakStatus
+									data={dailyStreakInfo}
+									onClose={() => setDailyStreakInfo(null)} />
+							}
+						</ToastContainer>
 						<Row>
 							<Col>
 								<Card>
@@ -425,7 +415,15 @@ const BirdDetails = () => {
 														disabled={isIdentifyingBird || txMintBirdNonSmartWallet?.pending}
 														size="lg"
 														variant="info"
-														onClick={() => setIsIdentifyingBird(true)}>
+														onClick={() => {
+
+															if (context.account && context.isOnCorrectChain) {
+																setIsIdentifyingBird(true);
+															} else {
+																setShowWalletConnectionInfo(true);
+															}
+
+														}}>
 														{"Identify"}
 													</Button>
 												</div>

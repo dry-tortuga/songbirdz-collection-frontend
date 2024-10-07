@@ -1,0 +1,7 @@
+.daily-streak-table .current-user td,
+.daily-streak-table .current-user tr,
+.daily-streak-table .current-user tr:hover,
+.daily-streak-table .current-user tr:hover td {
+	background-color: var(--bs-success-bg-subtle) !important;
+	--bs-table-bg-state: var(--bs-success-bg-subtle) !important;
+}
