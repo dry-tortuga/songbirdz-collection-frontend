@@ -68,6 +68,7 @@ const DailyStreakActiveResults = () => {
 								</td>
 								<td>
 									{user.login_streak}
+									{` (as of ${user.last_login})`}
 								</td>
 							</tr>
 						))}
@@ -86,20 +87,19 @@ const DailyStreakActiveResults = () => {
 			<Row>
 				<Col>
 					<p>
-						{"Identify a new bird every day (i.e. mint one for 0.0015 ETH)."}
+						{"Identify a new bird every day (i.e. mint one for 0.0015 ETH). Days end at 8pm ET, midnight UTC!"}
 					</p>
-					<p>
-						{"Days end at 8pm ET, midnight UTC!"}
-					</p>
-					<p>
-						{"1. Once your active streak hits 7 days, you'll earn 50 bonus Birder Points in Season 2."}
-					</p>
-					<p>
-						{"2. Once your active streak hits 14 days, you'll earn 125 bonus Birder Points in Season 2."}
-					</p>
-					<p>
-						{"3. Once your active streak hits 30 days, you'll earn 300 bonus Birder Points in Season 2."}
-					</p>
+					<ul style={{ listStyle: 'disc' }}>
+						<li>
+							{"Once your active streak hits 7 days, you'll earn 50 bonus Birder Points in Season 2."}
+						</li>
+						<li>
+							{"Once your active streak hits 14 days, you'll earn 125 bonus Birder Points in Season 2."}
+						</li>
+						<li>
+							{"Once your active streak hits 30 days, you'll earn 300 bonus Birder Points in Season 2."}
+						</li>
+					</ul>
 					<p>
 						{"*** In addition to the Birder Points, there could always be additional prizes in the future but this competition is mostly just for fun. Not financial advice. DYOR :) ***"}
 					</p>
