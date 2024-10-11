@@ -8,6 +8,7 @@ import {
 	Container,
 	ListGroup,
 	Row,
+	ToastContainer,
 } from "react-bootstrap";
 
 import { useWalletContext } from "../contexts/wallet";
@@ -18,6 +19,8 @@ import BirdIdentificationModal from "../components/BirdIdentificationModal";
 import BirdIdentificationTransactionStatus from "../components/BirdIdentificationTransactionStatus";
 import BirdIdentificationTransactionStatusNonSmartWallet from "../components/BirdIdentificationTransactionStatusNonSmartWallet";
 import ConnectWalletButton from "../components/ConnectWalletButton";
+import DailyStreakStatus from "../components/DailyStreakStatus";
+import WalletConnectionStatus from "../components/WalletConnectionStatus";
 
 import { COLLECTIONS, EVENTS } from "../constants";
 
@@ -27,7 +30,7 @@ import useMintAPINonSmartWallet from "../hooks/useMintAPINonSmartWallet";
 import etherscanLogo from "../images/etherscan-logo-circle.svg";
 import openseaLogo from "../images/opensea-logomark-blue.svg";
 
-import { populateMetadata } from "../utils/data";
+import { populateMetadata, updateDailyStreak } from "../utils/data";
 
 import "./BirdDetails.css";
 
@@ -48,6 +51,12 @@ const BirdDetails = () => {
 
 	// Keep track of the transaction state after submission to the chain
 	const [tx, setTx] = useState(null);
+
+	// Keep track of the wallet connection state
+	const [showWalletConnectionInfo, setShowWalletConnectionInfo] = useState(false);
+
+	// Keep track of the daily streak tracker after submission to the chain
+	const [dailyStreakInfo, setDailyStreakInfo] = useState(null);
 
 	// Keep track of the state of the info alert
 	const [showInfoAlert, setShowInfoAlert] = useState(true);
@@ -100,9 +109,17 @@ const BirdDetails = () => {
 
 			const updatedData = { ...bird, owner: context.account };
 
+			// Update the metadata for the bird
 			const finalData = await populateMetadata(updatedData);
 
 			setBird(finalData);
+
+			// Update the daily streak for the user
+			const updatedTracker = await updateDailyStreak(context.account);
+
+			if (updatedTracker) {
+				setDailyStreakInfo(updatedTracker);
+			}
 
 		}
 
@@ -127,9 +144,17 @@ const BirdDetails = () => {
 
 			const updatedData = { ...bird, owner: context.account };
 
+			// Update the metadata for the bird
 			const finalData = await populateMetadata(updatedData);
 
 			setBird(finalData);
+
+			// Update the daily streak for the user
+			const updatedTracker = await updateDailyStreak(context.account);
+
+			if (updatedTracker) {
+				setDailyStreakInfo(updatedTracker);
+			}
 
 		}
 
@@ -165,6 +190,8 @@ const BirdDetails = () => {
 
 	console.debug("-------------- BirdDetails -----------");
 	console.debug(bird);
+	console.debug(tx);
+	console.debug(dailyStreakInfo);
 	console.debug("--------------------------------------")
 
 	return (
@@ -172,23 +199,8 @@ const BirdDetails = () => {
 			id="details-page"
 			className="details-page">
 			<Container className="my-4">
-				{!context.account &&
-					<>
-						<div className="text-center">
-							{"Connect your wallet to get started..."}
-						</div>
-						<ConnectWalletButton className="flex d-md-none justify-center mt-3" />
-					</>
-				}
-				{context.account &&
-					context.isOnCorrectChain &&
-					!bird &&
+				{!bird &&
 					<i className="fa-solid fa-spinner fa-spin fa-xl me-2" />
-				}
-				{context.account && !context.isOnCorrectChain &&
-					<span className="me-1">
-						{"Double check to make sure you're on the Base network..."}
-					</span>
 				}
 				{bird &&
 					<>
@@ -236,7 +248,7 @@ const BirdDetails = () => {
 										className="flex align-items-center ms-auto"
 										key={bird.id}>
 										<a
-											href={`https://twitter.com/intent/tweet?text=${encodeURIComponent(`Check out this ${bird.species} in the @songbirdz_cc collection on @base from @dry_tortuga!\n`)}`}
+											href={`https://twitter.com/intent/tweet?text=${encodeURIComponent(`Check out this ${bird.species} in the @songbirdz_cc collection on @base from @dry_tortuga!\n\n Try onchain bird watching today at https://songbirdz.cc/collection?hide_already_identified=true\n\n`)}`}
 											className="twitter-share-button"
 											data-show-count="false"
 											data-size="large"
@@ -307,26 +319,31 @@ const BirdDetails = () => {
 								</a></p>
 							</Alert>
 						*/}
-						{/* Smart Wallet Users */}
-						{tx &&
-							<Row className="mb-3">
-								<Col>
-									<BirdIdentificationTransactionStatus
-										tx={tx}
-										onClose={() => setTx(null)} />
-								</Col>
-							</Row>
-						}
-						{/* Non-Smart Wallet Users */}
-						{(txMintBirdNonSmartWallet?.pending || txMintBirdNonSmartWallet?.success || txMintBirdNonSmartWallet?.error) &&
-							<Row className="mb-3">
-								<Col>
-									<BirdIdentificationTransactionStatusNonSmartWallet
-										tx={txMintBirdNonSmartWallet}
-										onClose={resetTxMintBirdNonSmartWallet} />
-								</Col>
-							</Row>
-						}
+						<ToastContainer
+							className="p-3"
+							style={{ zIndex: 5 }}
+							position="top-end">
+							{showWalletConnectionInfo &&
+								<WalletConnectionStatus onClose={() => setShowWalletConnectionInfo(false)} />
+							}
+							{/* Smart Wallet Users */}
+							{tx &&
+								<BirdIdentificationTransactionStatus
+									tx={tx}
+									onClose={() => setTx(null)} />
+							}
+							{/* Non-Smart Wallet Users */}
+							{(txMintBirdNonSmartWallet?.pending || txMintBirdNonSmartWallet?.success || txMintBirdNonSmartWallet?.error) &&
+								<BirdIdentificationTransactionStatusNonSmartWallet
+									tx={txMintBirdNonSmartWallet}
+									onClose={resetTxMintBirdNonSmartWallet} />
+							}
+							{(dailyStreakInfo?.status === "created" || dailyStreakInfo?.status === "updated") &&
+								<DailyStreakStatus
+									data={dailyStreakInfo}
+									onClose={() => setDailyStreakInfo(null)} />
+							}
+						</ToastContainer>
 						<Row>
 							<Col>
 								<Card>
@@ -398,7 +415,15 @@ const BirdDetails = () => {
 														disabled={isIdentifyingBird || txMintBirdNonSmartWallet?.pending}
 														size="lg"
 														variant="info"
-														onClick={() => setIsIdentifyingBird(true)}>
+														onClick={() => {
+
+															if (context.account && context.isOnCorrectChain) {
+																setIsIdentifyingBird(true);
+															} else {
+																setShowWalletConnectionInfo(true);
+															}
+
+														}}>
 														{"Identify"}
 													</Button>
 												</div>

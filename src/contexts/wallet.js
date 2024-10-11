@@ -24,7 +24,7 @@ import {
 	waitForTransactionReceipt,
 	writeContract,
 } from "@wagmi/core";
-import { parseEther } from "viem";
+import { createPublicClient, getContract, parseEther } from "viem";
 
 import SongBirdzContract from "../abi/SongBirdz.json";
 import WalletOptions from "../components/WalletOptions";
@@ -34,6 +34,11 @@ const EXPECTED_CHAIN_ID = parseInt(process.env.REACT_APP_BASE_NETWORK_CHAIN_ID, 
 const SONGBIRDZ_CONTRACT_ADDRESS = process.env.REACT_APP_SONGBIRDZ_CONTRACT_ADDRESS;
 
 const MINT_PRICE = "0.0015"; // 0.0015 ETH
+
+// const publicClient = createPublicClient({
+//	chain: mainnet,
+//	transport: http(),
+// });
 
 const WalletContext = React.createContext();
 
@@ -193,6 +198,10 @@ const WalletProvider = ({ children }) => {
 				expectedChainId: EXPECTED_CHAIN_ID,
 				isOnCorrectChain,
 				isPaymasterSupported,
+				// contract: getContract({
+				//	address: SONGBIRDZ_CONTRACT_ADDRESS,
+				//	abi: SongBirdzContract.abi,
+				// }),
 				contractAddress: SONGBIRDZ_CONTRACT_ADDRESS,
 				contractInterface: new Interface(SongBirdzContract.abi),
 				onConnectWallet: () => setIsModalOpen(true),

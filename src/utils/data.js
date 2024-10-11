@@ -109,6 +109,38 @@ async function fetchUnidentifiedList() {
 
 }
 
+async function fetchDailyStreakActive(address, size) {
+
+	let finalData;
+
+	try {
+
+		let url = `${process.env.REACT_APP_SONGBIRDZ_BACKEND_URL}/birds/daily-streak/active?limit=${size}`;
+
+		if (address) {
+			url += `&address=${address.toLowerCase()}`;
+		}
+
+		// Fetch the points data from the back-end server
+		const response = await fetch(url);
+
+		// Parse the points data
+		if (response.status === 200) {
+			finalData = await response.json();
+		}
+
+	} catch (error) {
+
+		console.debug("---- ERROR FETCHING DAILY STREAK ACTIVE DATA ----");
+		console.debug(error);
+		console.debug("-------------------------------------------------");
+
+	}
+
+	return finalData;
+
+}
+
 async function populateMetadata(data) {
 
 	const finalData = { ...data };
@@ -119,7 +151,7 @@ async function populateMetadata(data) {
 
 			// Fetch the off-chain metadata from the back-end server
 			const response = await fetch(
-				`${process.env.REACT_APP_SONGBIRDZ_CONTRACT_BASE_URI_METADATA}/${data.id}`
+				`${process.env.REACT_APP_SONGBIRDZ_BACKEND_URL}/birds/metadata/${data.id}`
 			);
 
 			// Parse the off-chain metadata for the bird
@@ -151,10 +183,48 @@ async function populateMetadata(data) {
 
 }
 
+const updateDailyStreak = async (address) => {
+
+	try {
+
+		// Post to the daily streak API in the back-end server
+
+		const response = await fetch(
+			`${process.env.REACT_APP_SONGBIRDZ_BACKEND_URL}/birds/daily-streak`,
+			{
+				method: 'POST',
+				headers: {
+					'Accept': 'application/json',
+					'Content-Type': 'application/json'
+				},
+				body: JSON.stringify({ address }),
+			},
+		);
+
+		if (response.status !== 200) {
+			console.error("Error updating the daily streak...");
+			return null;
+		}
+
+		const responseData = await response.json();
+
+		return responseData;
+
+	} catch (error) {
+
+		console.error(error);
+		return null;
+
+	}
+
+};
+
 export {
 	fetchBird,
 	fetchLeaderboard,
 	fetchLifeList,
 	fetchUnidentifiedList,
+	fetchDailyStreakActive,
 	populateMetadata,
+	updateDailyStreak,
 };

@@ -33,6 +33,13 @@ const HomeContainer = () => {
 										{"Join Discord"}
 									</a>
 									<a
+										className="me-lg-3 mb-3 mb-lg-0 btn btn-info"
+										target="_blank"
+										rel="noopener noreferrer nofollower"
+										href="https://t.me/songbirdz_cc">
+										{"Join Telegram"}
+									</a>
+									<a
 										className="me-lg-3 btn btn-secondary"
 										href="/collection">
 										{"Explore Collection"}

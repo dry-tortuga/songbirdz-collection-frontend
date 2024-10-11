@@ -2,6 +2,8 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { Form, Pagination, Table } from "react-bootstrap";
 
+import { COLLECTIONS } from "../constants";
+
 import AccountOwner from "./AccountOwner";
 import BirdAudioFile from "./BirdAudioFile";
 
@@ -11,9 +13,11 @@ const BirdsTable = (props) => {
 
 	const {
 		birds,
+		filters,
 		pagination,
 		showOnlyUnidentifiedBirds,
 		setShowOnlyUnidentifiedBirds,
+		onChangeFilter,
 		onChangePage,
 	} = props;
 
@@ -26,10 +30,21 @@ const BirdsTable = (props) => {
 				<thead>
 					<tr>
 						<th scope="col">
-							<div className="flex flex-col flex-lg-row">
-								{"#"}
+							<div className="flex flex-col flex-lg-row align-items-center">
+								<span className="mb-1 mb-lg-0">{"#"}</span>
+								<Form.Select
+									id="selected-flock-to-view"
+									className="ms-lg-3 mb-2 mb-lg-0 w-auto"
+									aria-label="Choose a specific flock to view"
+									value={filters.collectionId < 0 ? "-1" : filters.collectionId.toString()}
+									onChange={(event) => onChangeFilter("collectionId", parseInt(event.target.value, 10))}>
+									<option value={"-1"}>{"Choose a flock"}</option>
+									{COLLECTIONS.map((collection, index) => (
+										<option value={index}>{collection.name}</option>
+									))}
+								</Form.Select>
 								{pagination.current_page === 0 &&
-									<Form className="ms-lg-3">
+									<Form className="ms-lg-3 mb-2 mb-lg-0 ">
 										<Form.Check
 											type="switch"
 											id="show-only-unidentified-birds"

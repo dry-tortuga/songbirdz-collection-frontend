@@ -1,24 +1,56 @@
 import { useEffect, useMemo, useState } from "react";
 
-import { NUM_BIRDS_TOTAL, ALREADY_IDENTIFIED_BIRDS } from "../constants";
+import {
+	COLLECTIONS,
+	NUM_BIRDS_TOTAL,
+	ALREADY_IDENTIFIED_BIRDS,
+} from "../constants";
 import { fetchBird } from "../utils/data";
 
 const PAGE_SIZE = 10;
 
-const useBirds = ({ context, collection, showOnlyUnidentifiedBirds, alreadyIdentifiedList }) => {
+const useBirds = (props) => {
+
+	const {
+		context,
+		collectionId,
+		showOnlyUnidentifiedBirds,
+		alreadyIdentifiedList,
+	} = props;
+
+	// Keep track of filter state
+
+	const [filters, setFilters] = useState({ collectionId });
 
 	// Keep track of pagination state
 
 	const [data, setData] = useState(null);
-	const [pagination, setPagination] = useState(initPaginationState(collection, showOnlyUnidentifiedBirds, alreadyIdentifiedList));
+	const [pagination, setPagination] = useState(initPaginationState(
+		collectionId,
+		showOnlyUnidentifiedBirds,
+		alreadyIdentifiedList,
+	));
 
 	// Re-calculate pagination state if changing filters
 
 	useEffect(() => {
 
-		setPagination(initPaginationState(collection, showOnlyUnidentifiedBirds, alreadyIdentifiedList));
+		setPagination(initPaginationState(
+			filters.collectionId,
+			showOnlyUnidentifiedBirds,
+			alreadyIdentifiedList,
+		));
 
-	}, [collection, showOnlyUnidentifiedBirds, alreadyIdentifiedList]);
+	}, [filters.collectionId, showOnlyUnidentifiedBirds, alreadyIdentifiedList]);
+
+	const onChangeFilter = (key, newValue) => {
+
+		setFilters((prev) => ({
+			...prev,
+			[key]: newValue,
+		}));
+
+	};
 
 	const onChangePage = (newValue) => setPagination((prev) => ({
 		...prev,
@@ -28,7 +60,7 @@ const useBirds = ({ context, collection, showOnlyUnidentifiedBirds, alreadyIdent
 	// Fetch the birds data from the backend contract
 	useEffect(() => {
 
-		if (context.account && context.isOnCorrectChain && pagination.birdIDsPerPage) {
+		if (pagination.birdIDsPerPage) {
 
 			const startIdxFetch = pagination.current_page * pagination.page_size;
 			const endIdxFetch = (pagination.current_page + 1) * pagination.page_size;
@@ -62,29 +94,18 @@ const useBirds = ({ context, collection, showOnlyUnidentifiedBirds, alreadyIdent
 		}
 
 	}, [
-		context.account,
-		context.isOnCorrectChain,
 		context.actions,
 		pagination.birdIDsPerPage?.length,
 		pagination.current_page,
 		pagination.page_size,
+		pagination.current_collection_id,
 	]);
-
-	// Reset data on chain changes...
-	useEffect(() => {
-
-		if (data && !context.isOnCorrectChain) {
-
-			setData(null);
-			setPagination(initPaginationState(collection, showOnlyUnidentifiedBirds, alreadyIdentifiedList));
-
-		}
-
-	}, [context, data, collection, showOnlyUnidentifiedBirds, alreadyIdentifiedList]);
 
 	return {
 		data,
+		filters,
 		pagination,
+		onChangeFilter,
 		onChangePage,
 	};
 
@@ -92,16 +113,19 @@ const useBirds = ({ context, collection, showOnlyUnidentifiedBirds, alreadyIdent
 
 export default useBirds;
 
-function initPaginationState(collection, showOnlyUnidentifiedBirds, alreadyIdentifiedList) {
+function initPaginationState(collectionId, showOnlyUnidentifiedBirds, alreadyIdentifiedList) {
 
 	let birdIDsPerPage = [];
 
 	let startIdx = 0, endIdx = NUM_BIRDS_TOTAL;
 
 	// Check if filtering results for a specific collection
-	if (collection) {
-		startIdx = collection.min_id;
-		endIdx = collection.max_id + 1;
+
+	const filteredCollection = COLLECTIONS[collectionId];
+
+	if (filteredCollection) {
+		startIdx = filteredCollection.min_id;
+		endIdx = filteredCollection.max_id + 1;
 	}
 
 	for (let i = startIdx; i < endIdx; i++) {
@@ -113,7 +137,7 @@ function initPaginationState(collection, showOnlyUnidentifiedBirds, alreadyIdent
 
 				birdIDsPerPage = null;
 
-			} else if (i >= 2240 && i <= 3999 && !alreadyIdentifiedList[i]) {
+			} else if (i >= 2276 && i <= 3999 && !alreadyIdentifiedList[i]) {
 
 				birdIDsPerPage.push(i);
 
@@ -132,6 +156,7 @@ function initPaginationState(collection, showOnlyUnidentifiedBirds, alreadyIdent
 		page_size: PAGE_SIZE,
 		num_pages: birdIDsPerPage ? Math.ceil(birdIDsPerPage.length / PAGE_SIZE) : null,
 		current_page: 0,
+		current_collection_id: collectionId,
 	};
 
 }

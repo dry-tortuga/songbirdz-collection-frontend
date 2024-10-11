@@ -10,14 +10,6 @@ const useBird = ({ context, id }) => {
 	// Fetch the bird data from the backend contract
 	useEffect(() => {
 
-		if (!context.account) {
-			return;
-		}
-
-		if (!context.isOnCorrectChain) {
-			return;
-		}
-
 		if (id === fetchedId) {
 			return;
 		}
@@ -44,19 +36,7 @@ const useBird = ({ context, id }) => {
 
 		fetch();
 
-	}, [context.account, context.isOnCorrectChain, context.actions, id, fetchedId]);
-
-	// Reset data on chain changes
-	useEffect(() => {
-
-		if (data && !context.isOnCorrectChain) {
-
-			setData(null);
-			setFetchedId(null);
-
-		}
-
-	}, [context, data]);
+	}, [context.actions, id, fetchedId]);
 
 	return [data, setData];
 
