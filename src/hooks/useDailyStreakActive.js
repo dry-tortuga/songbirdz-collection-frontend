@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react";
 
-import { fetchDailyStreakActive } from "../utils/data";
+import { fetchDailyStreaksActive } from "../utils/data";
 
 const TOTAL_SIZE = 52;
 
-const useDailyStreakActive = ({ account }) => {
+const useDailyStreaksActive = ({ account }) => {
 
 	const [data, setData] = useState(null);
 
@@ -18,7 +18,7 @@ const useDailyStreakActive = ({ account }) => {
 
 			const fetch = async () => {
 
-				const results = await fetchDailyStreakActive(account, TOTAL_SIZE);
+				const results = await fetchDailyStreaksActive(account, TOTAL_SIZE);
 
 				setData(results);
 
@@ -34,4 +34,4 @@ const useDailyStreakActive = ({ account }) => {
 
 };
 
-export default useDailyStreakActive;
+export default useDailyStreaksActive;

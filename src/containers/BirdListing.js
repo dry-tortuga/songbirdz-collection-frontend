@@ -13,7 +13,6 @@ import { COLLECTIONS } from "../constants";
 import { useWalletContext } from "../contexts/wallet";
 
 import BirdsTable from "../components/BirdsTable";
-import ConnectWalletButton from "../components/ConnectWalletButton";
 
 import useAlreadyIdentifiedList from "../hooks/useAlreadyIdentifiedList";
 import useBirds from "../hooks/useBirds";

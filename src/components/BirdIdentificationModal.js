@@ -197,7 +197,7 @@ const BirdIdentificationModal = (props) => {
 
 						}}>
 						<TransactionButton
-							className="btn btn-info"
+							className="btn btn-info mt-4"
 							disabled={contractCall.length === 0}
 							text="Submit" />
 						<TransactionSponsor text="SongBirdz" />

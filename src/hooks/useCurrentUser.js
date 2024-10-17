@@ -1,17 +1,31 @@
 import { useEffect, useState } from "react";
 
-const useCurrentUser = ({ context }) => {
+import { fetchDailyStreak } from "../utils/data";
+
+const useCurrentUser = ({ account }) => {
 
 	const [data, setData] = useState(null);
 
-	// Fetch the list of birds owned by the current user
+	// Fetch the daily streak data for the user from the backend server
 	useEffect(() => {
 
-		if (context.account && !data) {
-			setData({ account: context.account });
+		if (account) {
+
+			setData(null);
+
+			const fetch = async () => {
+
+				const tracker = await fetchDailyStreak(account);
+
+				setData({ dailyStreakTracker: tracker });
+
+			};
+
+			fetch();
+
 		}
 
-	}, [context, data]);
+	}, [account]);
 
 	return [data, setData];
 

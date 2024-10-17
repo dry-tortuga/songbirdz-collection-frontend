@@ -22,7 +22,7 @@ const HomeContainer = () => {
 									{"Songbirdz"}
 								</h1>
 								<p className="lead fw-normal mb-md-5">
-									{"A collection of 10,000 based birds who love nothing more than to sing a sweet tune. "}
+									{"An onchain bird watching game. Identify new birds, earn birder points, and build your life list."}
 								</p>
 								<div className="d-flex flex-column flex-lg-row align-items-center">
 									<a
@@ -64,7 +64,7 @@ const HomeContainer = () => {
 					<div className="row gx-5 justify-content-center">
 						<div className="col-xs-12">
 							<div className="h2 fs-3 text-white mb-4">
-								{"The Songbirdz collection is bringing bird watching onchain to Base. Each bird starts as an unidentified species with its name hidden. Listen to the bird's song, identify it as the correct species, and add it to your birding life list!"}
+								{"The Songbirdz collection on Base consists of 10,000 based birds who love nothing more than to sing a sweet tune. Each bird starts as an unidentified species with its name hidden. Listen to the bird's song, identify it as the correct species, and add it to your birding life list!"}
 							</div>
 						</div>
 					</div>
