@@ -1,6 +1,6 @@
 # SongBirdz Front-End
 
-This project contains the front-end application for the SongBirdz NFT collection.
+This project contains the front-end application for the [SongBirdz NFT collection](https://songbirdz.cc).
 
 You can find the back-end contract and server [here](https://github.com/dry-tortuga/songbirdz-collection-backend).
 
