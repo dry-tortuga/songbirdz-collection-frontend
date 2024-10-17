@@ -15,6 +15,7 @@ import "bootswatch/dist/sketchy/bootstrap.min.css";
 import "./index.css";
 
 const ONCHAIN_KIT_API_KEY = process.env.REACT_APP_COINBASE_DEV_PLATFORM_API_KEY;
+const CB_DEV_PLATFORM_PROJECT_ID = process.env.REACT_APP_COINBASE_DEV_PLATFORM_PROJECT_ID;
 
 const queryClient = new QueryClient();
 
@@ -39,6 +40,7 @@ root.render(
 		 	<QueryClientProvider client={queryClient}>
 		 		<OnchainKitProvider
 		 			apiKey={ONCHAIN_KIT_API_KEY}
+		 			projectId={CB_DEV_PLATFORM_PROJECT_ID}
 		 			chain={chain}>
 		 			<RainbowKitProvider modalSize="compact">
 						<App />

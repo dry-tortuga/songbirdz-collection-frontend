@@ -109,38 +109,6 @@ async function fetchUnidentifiedList() {
 
 }
 
-async function fetchDailyStreakActive(address, size) {
-
-	let finalData;
-
-	try {
-
-		let url = `${process.env.REACT_APP_SONGBIRDZ_BACKEND_URL}/birds/daily-streak/active?limit=${size}`;
-
-		if (address) {
-			url += `&address=${address.toLowerCase()}`;
-		}
-
-		// Fetch the points data from the back-end server
-		const response = await fetch(url);
-
-		// Parse the points data
-		if (response.status === 200) {
-			finalData = await response.json();
-		}
-
-	} catch (error) {
-
-		console.debug("---- ERROR FETCHING DAILY STREAK ACTIVE DATA ----");
-		console.debug(error);
-		console.debug("-------------------------------------------------");
-
-	}
-
-	return finalData;
-
-}
-
 async function populateMetadata(data) {
 
 	const finalData = { ...data };
@@ -183,7 +151,67 @@ async function populateMetadata(data) {
 
 }
 
-const updateDailyStreak = async (address) => {
+async function fetchDailyStreaksActive(address, size) {
+
+	let finalData;
+
+	try {
+
+		let url = `${process.env.REACT_APP_SONGBIRDZ_BACKEND_URL}/birds/daily-streaks/active?limit=${size}`;
+
+		if (address) {
+			url += `&address=${address.toLowerCase()}`;
+		}
+
+		// Fetch the points data from the back-end server
+		const response = await fetch(url);
+
+		// Parse the points data
+		if (response.status === 200) {
+			finalData = await response.json();
+		}
+
+	} catch (error) {
+
+		console.debug("---- ERROR FETCHING DAILY STREAK ACTIVE DATA ----");
+		console.debug(error);
+		console.debug("-------------------------------------------------");
+
+	}
+
+	return finalData;
+
+}
+
+async function fetchDailyStreak(address) {
+
+	let finalData;
+
+	try {
+
+		const url = `${process.env.REACT_APP_SONGBIRDZ_BACKEND_URL}/birds/daily-streak?address=${address.toLowerCase()}`;
+
+		// Fetch the points data from the back-end server
+		const response = await fetch(url);
+
+		// Parse the points data
+		if (response.status === 200) {
+			finalData = await response.json();
+		}
+
+	} catch (error) {
+
+		console.debug("---- ERROR FETCHING DAILY STREAK DATA FOR CURRENT USER ----");
+		console.debug(error);
+		console.debug("-----------------------------------------------------------");
+
+	}
+
+	return finalData;
+
+}
+
+async function updateDailyStreak(address) {
 
 	try {
 
@@ -217,14 +245,15 @@ const updateDailyStreak = async (address) => {
 
 	}
 
-};
+}
 
 export {
 	fetchBird,
 	fetchLeaderboard,
 	fetchLifeList,
 	fetchUnidentifiedList,
-	fetchDailyStreakActive,
-	populateMetadata,
+	fetchDailyStreaksActive,
+	fetchDailyStreak,
 	updateDailyStreak,
+	populateMetadata,
 };

@@ -23,6 +23,16 @@ const About = () => {
 							{"The Songbirdz collection is bringing bird watching onchain to Base. Each species is hidden until successfully identified based on its image and song."}
 						</p>
 						<p>
+							{"This project was one of "}
+							<a
+								href="https://onchain-summer.devfolio.co/projects?prizes=0ef9ac5fb88e4ed689def5674c73d2d0&show_winners=false"
+								target="_blank"
+								rel="noopener noreferrer nofollow">
+								{"11 winners"}
+							</a>
+							{" chosen in the \"GAMING with thirdweb: Gaming\" category at the Onchain Summer Buildathon in June 2024."}
+						</p>
+						<p>
 							{"There will be a total of 10 flocks, each consisting of 1,000 birds, which each flock rolled out one-at-a-time and with a distinct set of species, song audio, and images. Starting with the first flock of 1,000 (i.e. the Picasso Genesis flock), and ending once we've reached 10,000 total birds in the wild. The next flock of 1,000 birds won't be released until all birds in the previous flock have been successfully identified. The styling of future flocks could draw inspiration from Jackson Pollock, Cubism, Popart, Art Deco, etc., and may feature different species of birds, with input from the community."}
 						</p>
 						<p>
@@ -30,7 +40,7 @@ const About = () => {
 							<a
 								href="https://openai.com/dall-e-3"
 								target="_blank"
-								rel="noopener noreferrer nofollower">
+								rel="noopener noreferrer nofollow">
 								<b>
 									{"DALL·E 3"}
 								</b>
@@ -39,7 +49,7 @@ const About = () => {
 							<a
 								href="https://www.macaulaylibrary.org/guide-to-bird-sounds"
 								target="_blank"
-								rel="noopener noreferrer nofollower">
+								rel="noopener noreferrer nofollow">
 								<b>
 									{"The Cornell Guide to Bird Sounds: United States and Canada (v2021)"}
 								</b>
@@ -47,7 +57,7 @@ const About = () => {
 							{"."}
 						</p>
 						<p>
-							{"The contract uses merkle trees to store onchain hashes of the species names, images, and song audio for each flock in the collection. Once all 10,000 in the wild have been identified this data will be uploaded to a decentralized storage provider such as nft.storage. The contract will then be updated to permanently freeze this metadata, the back-end web server will be shut down, and there will be no more changes to this project."}
+							{"The contract uses merkle trees to store onchain hashes of the species names, images, and song audio for each flock in the collection. Once all 10,000 in the wild have been identified this data will be uploaded to a decentralized storage provider such as ipfs via nft.storage. The contract will then be updated to freeze this metadata, the back-end web server will be shut down in favor of a 2nd smart contract to manage the points system and life list, and there will be no more of a official roadmap for this project."}
 						</p>
 						<p>
 							{"The smart contract governing the NFTs, the back-end code for the web server, and the front-end code for the web application are all open-source (MIT License). Every NFT in the collection is released under the Creative Commons Zero (CC0) license, granting users freedom to use, remix, and share the artworks without any restrictions."}
@@ -63,7 +73,7 @@ const About = () => {
 								<a
 									href="https://twitter.com/songbirdz_cc"
 									target="_blank"
-									rel="noopener noreferrer nofollower">
+									rel="noopener noreferrer nofollow">
 									{"Twitter"}
 								</a>
 							</li>
@@ -71,7 +81,7 @@ const About = () => {
 								<a
 									href="https://t.me/songbirdz_cc"
 									target="_blank"
-									rel="noopener noreferrer nofollower">
+									rel="noopener noreferrer nofollow">
 									{"Telegram"}
 								</a>
 							</li>
@@ -79,15 +89,23 @@ const About = () => {
 								<a
 									href="https://discord.gg/UKGgRsJXzr"
 									target="_blank"
-									rel="noopener noreferrer nofollower">
+									rel="noopener noreferrer nofollow">
 									{"Discord"}
+								</a>
+							</li>
+							<li>
+								<a
+									href="https://x.com/BitHomepage/status/1844090067876548734"
+									target="_blank"
+									rel="noopener noreferrer nofollow">
+									{"AMA #1 (10/09/2024)"}
 								</a>
 							</li>
 							<li>
 								<a
 									href="https://basescan.org/address/0x7C3B795e2174C5E0C4F7d563A2FB34F024C8390B"
 									target="_blank"
-									rel="noopener noreferrer nofollower"
+									rel="noopener noreferrer nofollow"
 									style={{
 										wordBreak: 'break-word',
 										wordWrap: 'break-word',
@@ -99,7 +117,7 @@ const About = () => {
 								<a
 									href="https://github.com/dry-tortuga/songbirdz-collection-backend/blob/main/contracts/SongBirdz.sol"
 									target="_blank"
-									rel="noopener noreferrer nofollower">
+									rel="noopener noreferrer nofollow">
 									{"Solidity Contract"}
 								</a>
 							</li>
@@ -107,7 +125,7 @@ const About = () => {
 								<a
 									href="https://github.com/dry-tortuga/songbirdz-collection-backend"
 									target="_blank"
-									rel="noopener noreferrer nofollower">
+									rel="noopener noreferrer nofollow">
 									{"Back-End Server"}
 								</a>
 							</li>
@@ -115,7 +133,7 @@ const About = () => {
 								<a
 									href="https://github.com/dry-tortuga/songbirdz-collection-frontend"
 									target="_blank"
-									rel="noopener noreferrer nofollower">
+									rel="noopener noreferrer nofollow">
 									{"Front-End Application"}
 								</a>
 							</li>
@@ -128,7 +146,7 @@ const About = () => {
 								<a
 									href="https://songbirdz.cc/collection?number=0"
 									target="_blank"
-									rel="noopener noreferrer nofollower">
+									rel="noopener noreferrer nofollow">
 									<b>{"Picasso Genesis:"}</b>
 								</a>
 								<span className="ms-1">
@@ -139,7 +157,7 @@ const About = () => {
 								<a
 									href="https://songbirdz.cc/collection?number=1"
 									target="_blank"
-									rel="noopener noreferrer nofollower">
+									rel="noopener noreferrer nofollow">
 									<b>{"Deep Blue:"}</b>
 								</a>
 								<span className="ms-1">
@@ -150,7 +168,7 @@ const About = () => {
 								<a
 									href="https://songbirdz.cc/collection?number=2&hide_already_identified=true"
 									target="_blank"
-									rel="noopener noreferrer nofollower">
+									rel="noopener noreferrer nofollow">
 									<b>{"Small & Mighty:"}</b>
 								</a>
 								<span className="ms-1">
@@ -161,7 +179,7 @@ const About = () => {
 								<a
 									href="https://songbirdz.cc/collection?number=3&hide_already_identified=true"
 									target="_blank"
-									rel="noopener noreferrer nofollower">
+									rel="noopener noreferrer nofollow">
 									<b>{"Night & Day:"}</b>
 								</a>
 								<span className="ms-1">
@@ -180,7 +198,7 @@ const About = () => {
 								<a
 									href="https://endaoment.org/"
 									target="_blank"
-									rel="noopener noreferrer nofollower">
+									rel="noopener noreferrer nofollow">
 									{"Endaoment"}
 								</a>
 								{"."}
@@ -192,7 +210,7 @@ const About = () => {
 								<a
 									href="https://endaoment.org/"
 									target="_blank"
-									rel="noopener noreferrer nofollower">
+									rel="noopener noreferrer nofollow">
 									{"Endaoment"}
 								</a>
 								{" and 50% will go to the project creators."}

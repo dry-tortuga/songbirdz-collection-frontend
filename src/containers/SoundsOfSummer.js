@@ -21,7 +21,6 @@ import {
 	writeContract,
 } from "@wagmi/core";
 
-import ConnectWalletButton from "../components/ConnectWalletButton";
 import config from "../config";
 import { EVENTS } from "../constants";
 import { useWalletContext } from "../contexts/wallet";
@@ -217,7 +216,6 @@ const HiddenMint = () => {
 						<div className="text-center">
 							{"Connect your wallet to get started..."}
 						</div>
-						<ConnectWalletButton className="flex d-md-none justify-center mt-3" />
 					</>
 				}
 				{context.account && !context.isOnCorrectChain &&

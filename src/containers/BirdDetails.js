@@ -18,7 +18,6 @@ import BirdAudioFile from "../components/BirdAudioFile";
 import BirdIdentificationModal from "../components/BirdIdentificationModal";
 import BirdIdentificationTransactionStatus from "../components/BirdIdentificationTransactionStatus";
 import BirdIdentificationTransactionStatusNonSmartWallet from "../components/BirdIdentificationTransactionStatusNonSmartWallet";
-import ConnectWalletButton from "../components/ConnectWalletButton";
 import DailyStreakStatus from "../components/DailyStreakStatus";
 import WalletConnectionStatus from "../components/WalletConnectionStatus";
 
