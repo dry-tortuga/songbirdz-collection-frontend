@@ -10,6 +10,26 @@ import AccountOwner from "./AccountOwner";
 
 import "./LifeListModal.css";
 
+const SEASON_2_BONUS_POINT_SPECIES = [{
+	id: 1000,
+	label: 'Posted on X',
+}, {
+	id: 1001,
+	label: 'Joined Telegram',
+}, {
+	id: 1002,
+	label: 'Joined Discord',
+}, {
+	id: 1003,
+	label: 'Hit 7 Day Streak',
+}, {
+	id: 1004,
+	label: 'Hit 14 Day Streak',
+}, {
+	id: 1005,
+	label: 'Hit 30 Day Streak',
+}];
+
 const sortedFamilies = FAMILIES.sort((family1, family2) => {
 
 	if (family1.name < family2.name) {
@@ -86,6 +106,8 @@ const LifeListModal = (props) => {
 			collectionId = 2;
 		} else if (species.id >= 300 && species.id < 350) {
 			collectionId = 3;
+		} else if (species.id >= 1000) {
+			collectionId = -1;
 		}
 
 		const collection = COLLECTIONS[collectionId];
@@ -95,17 +117,19 @@ const LifeListModal = (props) => {
 				<span className="fw-bold">
 					{species.label}
 				</span>
-				<span
-					className="ms-1"
-					style={{ fontSize: '0.85rem' }}>
-					{`(${collection.name})`}
-				</span>
+				{collection &&
+					<span
+						className="ms-1"
+						style={{ fontSize: "0.85rem" }}>
+						{`(${collection.name})`}
+					</span>
+				}
 				{isIdentified && (filter === "1" || filter === "2") &&
 					<Badge
 						className="ms-2"
 						bg="info">
 						{dataToShow?.[species.id]?.amount}
-						{'x'}
+						{"x"}
 					</Badge>
 				}
 			</div>
@@ -193,17 +217,17 @@ const LifeListModal = (props) => {
 							className="ms-sm-auto"
 							bg="info">
 							{pointTotalToShow}
-							{' '}
+							{" "}
 							{pointTotalToShow === 1
-								? 'Birder Point'
-								: 'Birder Points'
+								? "Birder Point"
+								: "Birder Points"
 							}
 						</Badge>
 						{(filter === "1" || filter === "2") && address.rank &&
 							<Badge
 								className="ms-sm-3"
 								bg="success">
-								{'#'}
+								{"#"}
 								{address.rank}
 							</Badge>
 						}
@@ -216,9 +240,9 @@ const LifeListModal = (props) => {
 					className="mb-3"
 					value={filter}
 					onChange={(event) => setFilter(event.target.value)}>
-					<option value="0">{'All Seasons'}</option>
-					<option value="1">{'Season 1'}</option>
-					<option value="2">{'Season 2'}</option>
+					<option value="0">{"All Seasons"}</option>
+					<option value="1">{"Season 1"}</option>
+					<option value="2">{"Season 2"}</option>
 					{COLLECTIONS.map((collection) => (
 						<option value={collection.name}>{collection.name}</option>						
 					))}
@@ -231,6 +255,14 @@ const LifeListModal = (props) => {
 						</div>
 					</div>
 				))}
+				{filter === "2" &&
+					<div>
+						<h4>{"Bonus Points"}</h4>
+						<div className="mb-4">
+							{renderSpeciesList(SEASON_2_BONUS_POINT_SPECIES)}
+						</div>
+					</div>
+				}
 			</Modal.Body>
 		</Modal>
 	);

@@ -13,7 +13,7 @@ const useCurrentUser = ({ account }) => {
 
 			setData(null);
 
-			const fetch = async () => {
+			/* const fetch = async () => {
 
 				const tracker = await fetchDailyStreak(account);
 
@@ -21,7 +21,7 @@ const useCurrentUser = ({ account }) => {
 
 			};
 
-			fetch();
+			fetch(); */
 
 		}
 

@@ -82,7 +82,7 @@ const ConnectWalletButton = ({ className }) => {
 
 	return (
 		<div className={`connect-wallet-btn flex align-items-center ${className || ""}`}>
-			{account &&
+			{/* account &&
 				<div
 					className="flex align-items-center me-2"
 					title={countdownText}>
@@ -96,7 +96,7 @@ const ConnectWalletButton = ({ className }) => {
 						{"11"}
 					</span>
 				</div>
-			}
+			*/}
 			<Wallet>
 				<ConnectWallet withWalletAggregator>
 					<Avatar />
