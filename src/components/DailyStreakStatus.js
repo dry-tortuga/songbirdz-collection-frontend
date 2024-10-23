@@ -3,17 +3,9 @@ import { Toast } from "react-bootstrap";
 
 const DailyStreakStatus = (props) => {
 
-	const { data, onClose } = props;
+	const { data } = props;
 
 	const [isOpen, setIsOpen] = useState(true);
-
-	const handleClose = () => {
-
-		setIsOpen(false);
-
-		onClose();
-
-	};
 
 	let header, message;
 
@@ -40,7 +32,7 @@ const DailyStreakStatus = (props) => {
 			className="fs-6"
 			bg="info"
 			show={isOpen}
-			onClose={handleClose}>
+			onClose={() => setIsOpen(false)}>
 			<Toast.Header
 				className="position-relative"
 				style={{ borderRadius: 0 }}

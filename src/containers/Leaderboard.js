@@ -353,7 +353,7 @@ const Leaderboard = () => {
 														</ul>
 													</li>
 													<li>
-														<b>{"10 points (Join Telegram):"}</b>
+														<b>{"10 points (Join Telegram): "}</b>
 														<a
 															href="https://t.me/songbirdz_cc"
 															target="_blank"
@@ -362,7 +362,7 @@ const Leaderboard = () => {
 														</a>
 													</li>
 													<li>
-														<b>{"10 points (Join Discord):"}</b>
+														<b>{"10 points (Join Discord): "}</b>
 														<a
 															href="https://discord.gg/UKGgRsJXzr"
 															target="_blank"

@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { Button, Col, Row, Table } from "react-bootstrap";
 
 import { useWalletContext } from "../contexts/wallet";
-import useDailyStreakActive from "../hooks/useDailyStreakActive";
+import useDailyStreaksActive from "../hooks/useDailyStreaksActive";
 
 import AccountOwner from "./AccountOwner";
 
@@ -13,7 +13,7 @@ const DailyStreakActiveResults = () => {
 
 	const { account } = useWalletContext();
 
-	const { data, setData } = useDailyStreakActive({ account });
+	const { data, setData } = useDailyStreaksActive({ account });
 
 	return (
 		<>
