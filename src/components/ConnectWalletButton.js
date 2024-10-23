@@ -99,7 +99,7 @@ const ConnectWalletButton = ({ className }) => {
 						src={hasIdentifiedToday ? binosOn : binosOff}
 						style={{ width: 40, height: 40 }} />
 					<span className={hasIdentifiedToday ? "text-info fw-bold fs-5" : "text-muted fw-bold fs-5"}>
-						{tracker ? tracker.login_streak : 0}
+						{hasIdentifiedToday ? tracker.login_streak : 0}
 					</span>
 				</div>
 			}
