@@ -157,8 +157,7 @@ async function fetchDailyStreaksActive(address, size) {
 
 	try {
 
-		// TODO: Rename to "daily-streaks"
-		let url = `${process.env.REACT_APP_SONGBIRDZ_BACKEND_URL}/birds/daily-streak/active?limit=${size}`;
+		let url = `${process.env.REACT_APP_SONGBIRDZ_BACKEND_URL}/birds/daily-streaks/active?limit=${size}`;
 
 		if (address) {
 			url += `&address=${address.toLowerCase()}`;

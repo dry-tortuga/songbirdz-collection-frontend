@@ -35,9 +35,11 @@ import "./BirdDetails.css";
 
 const BirdDetails = () => {
 
+	const params = useParams();
+
 	const context = useWalletContext();
 
-	const params = useParams();
+	const { currentUser, setCurrentUser } = context;
 
 	// Get the bird details
 	const [bird, setBird] = useBird({
@@ -53,9 +55,6 @@ const BirdDetails = () => {
 
 	// Keep track of the wallet connection state
 	const [showWalletConnectionInfo, setShowWalletConnectionInfo] = useState(false);
-
-	// Keep track of the daily streak tracker after submission to the chain
-	const [dailyStreakInfo, setDailyStreakInfo] = useState(null);
 
 	// Keep track of the state of the info alert
 	const [showInfoAlert, setShowInfoAlert] = useState(true);
@@ -117,7 +116,12 @@ const BirdDetails = () => {
 			const updatedTracker = await updateDailyStreak(context.account);
 
 			if (updatedTracker) {
-				setDailyStreakInfo(updatedTracker);
+
+				setCurrentUser((prev) => ({
+					...prev,
+					dailyStreakTracker: updatedTracker,
+				}));
+
 			}
 
 		}
@@ -152,7 +156,12 @@ const BirdDetails = () => {
 			const updatedTracker = await updateDailyStreak(context.account);
 
 			if (updatedTracker) {
-				setDailyStreakInfo(updatedTracker);
+
+				setCurrentUser((prev) => ({
+					...prev,
+					dailyStreakTracker: updatedTracker,
+				}));
+
 			}
 
 		}
@@ -190,7 +199,7 @@ const BirdDetails = () => {
 	console.debug("-------------- BirdDetails -----------");
 	console.debug(bird);
 	console.debug(tx);
-	console.debug(dailyStreakInfo);
+	console.debug(currentUser?.dailyStreakTracker);
 	console.debug("--------------------------------------")
 
 	return (
@@ -337,10 +346,9 @@ const BirdDetails = () => {
 									tx={txMintBirdNonSmartWallet}
 									onClose={resetTxMintBirdNonSmartWallet} />
 							}
-							{(dailyStreakInfo?.status === "created" || dailyStreakInfo?.status === "updated") &&
-								<DailyStreakStatus
-									data={dailyStreakInfo}
-									onClose={() => setDailyStreakInfo(null)} />
+							{(currentUser?.dailyStreakTracker?.status === "created" ||
+								currentUser?.dailyStreakTracker?.status === "updated") &&
+								<DailyStreakStatus data={currentUser?.dailyStreakTracker} />
 							}
 						</ToastContainer>
 						<Row>

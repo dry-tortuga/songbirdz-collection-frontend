@@ -24,21 +24,20 @@ import {
 	waitForTransactionReceipt,
 	writeContract,
 } from "@wagmi/core";
-import { createPublicClient, getContract, parseEther } from "viem";
+import { getContract, parseEther } from "viem";
 
 import SongBirdzContract from "../abi/SongBirdz.json";
+
 import WalletOptions from "../components/WalletOptions";
+
 import config from "../config";
+
+import useCurrentUser from "../hooks/useCurrentUser";
 
 const EXPECTED_CHAIN_ID = parseInt(process.env.REACT_APP_BASE_NETWORK_CHAIN_ID, 10);
 const SONGBIRDZ_CONTRACT_ADDRESS = process.env.REACT_APP_SONGBIRDZ_CONTRACT_ADDRESS;
 
 const MINT_PRICE = "0.0015"; // 0.0015 ETH
-
-// const publicClient = createPublicClient({
-//	chain: mainnet,
-//	transport: http(),
-// });
 
 const WalletContext = React.createContext();
 
@@ -53,11 +52,13 @@ const WalletProvider = ({ children }) => {
 	// const { data: ensAvatar } = useEnsAvatar({ name: ensName });
 	const { switchChain } = useSwitchChain();
 
-	const { data: availableCapabilities } = useCapabilities({ account: address });
+	const account = address;
+
+	const { data: availableCapabilities } = useCapabilities({ account });
+
+	const [currentUser, setCurrentUser] = useCurrentUser({ account });
 
 	const [isModalOpen, setIsModalOpen] = useState(false);
-
-	const account = address;
 
 	useEffect(() => {
 
@@ -198,10 +199,6 @@ const WalletProvider = ({ children }) => {
 				expectedChainId: EXPECTED_CHAIN_ID,
 				isOnCorrectChain,
 				isPaymasterSupported,
-				// contract: getContract({
-				//	address: SONGBIRDZ_CONTRACT_ADDRESS,
-				//	abi: SongBirdzContract.abi,
-				// }),
 				contractAddress: SONGBIRDZ_CONTRACT_ADDRESS,
 				contractInterface: new Interface(SongBirdzContract.abi),
 				onConnectWallet: () => setIsModalOpen(true),
@@ -211,6 +208,8 @@ const WalletProvider = ({ children }) => {
 					publicMint,
 					publicMintNonSmartWallet,
 				},
+				currentUser,
+				setCurrentUser,
 			}}>
 			{children}
 			<Modal
