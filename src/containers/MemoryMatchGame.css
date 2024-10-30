@@ -1,24 +1,28 @@
-
-.grid {
-	max-width: 960px;
-	margin: 0 auto;
-	display: flex;
-	flex-wrap: wrap;
-	justify-content: space-evenly;
+#game .row > * {
+	margin-top: 1rem;
+	padding-left: 0.5rem;
+	padding-right: 0.5rem;
 }
 
-.card {
+#game.game-over .grid-card.match {
+	transform: rotateY(180deg);
+}
+
+.grid-card {
 	position: relative;
 	transition: all 0.4s linear;
 	transform-style: preserve-3d;
-	margin: 5px;
 }
 
-.card,
+.grid-card {
+	width: 100%;
+	aspect-ratio : 1 / 1;
+}
+
 .back,
 .front {
-	height: 150px;
-	width: 150px;
+	width: 100%;
+	height: 100%;
 }
 
 .back,
@@ -30,12 +34,14 @@
 .front {
 	background: #fab942 url('https://songbirdz.cc/static/media/home1.a3ef786a0b463d289f63.png') no-repeat center center /
 	contain;
+	border: inset 10px transparent;
+    box-sizing: border-box;
 }
 
 .back {
 	transform: rotateY(180deg);
 	background-color: white;
-	background-size: contain;
+	background-size: cover;
 	background-repeat: no-repeat;
 	background-position: center center;
 }
@@ -45,5 +51,5 @@
 }
 
 .match .front {
-	background: white !important;
+	background: white;
 }
