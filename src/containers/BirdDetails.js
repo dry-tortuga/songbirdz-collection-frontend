@@ -192,7 +192,7 @@ const BirdDetails = () => {
 
 	const collection = bird ? COLLECTIONS[bird.collection] : null;
 
-	if (bird && (bird.id < COLLECTIONS[0].min_id || bird.id > COLLECTIONS[3].max_id)) {
+	if (bird && (bird.id < COLLECTIONS[0].min_id || bird.id > COLLECTIONS[4].max_id)) {
 		return null;
 	}
 
@@ -234,7 +234,7 @@ const BirdDetails = () => {
 										</svg>
 									</Link>
 								}
-								{bird.id < COLLECTIONS[3].max_id &&
+								{bird.id < COLLECTIONS[4].max_id &&
 									<Link
 										className="btn btn-outline-primary ms-3"
 										to={`/collection/${bird.id + 1}`}>

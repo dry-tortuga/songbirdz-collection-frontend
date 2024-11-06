@@ -137,6 +137,14 @@ const About = () => {
 									{"Front-End Application"}
 								</a>
 							</li>
+							<li>
+								<a
+									href="https://github.com/dry-tortuga/songbirdz-collection-media"
+									target="_blank"
+									rel="noopener noreferrer nofollow">
+									{"Media & Metadata"}
+								</a>
+							</li>
 						</ul>
 						<h2>
 							{"Flocks in the Wild"}
@@ -184,6 +192,17 @@ const About = () => {
 								</a>
 								<span className="ms-1">
 									{"NOW MINTING:  The 4th flock of 1,000 birds in the Songbirdz collection (3000-3999). Features 50 different species, with various amounts of birds per species of either 1, 5, 10, 20, 30 or 50. Includes 4 \"1 of 1\" birds that are the only one of their species! This flock features some of our most mysterious and intriguing birds. Discover the birds that rule the night and those who break the silence at dawn. As the seasons change and the nights grow longer, there’s still plenty of them out there waiting to be seen."}
+								</span>
+							</li>
+							<li>
+								<a
+									href="https://songbirdz.cc/collection?number=4&hide_already_identified=true"
+									target="_blank"
+									rel="noopener noreferrer nofollow">
+									<b>{"Fire & Ice:"}</b>
+								</a>
+								<span className="ms-1">
+									{"NOW MINTING:  The 5th flock of 1,000 birds in the Songbirdz collection (4000-4999). Features 50 different species, with various amounts of birds per species of either 1, 5, 10, 20, 30 or 50. Includes 4 \"1 of 1\" birds that are the only one of their species! This flock features birds that don’t just survive brutal conditions — they thrive in them, even without air conditioning, parkas, or winter hats. In the coldest nights of winter and the harshest heat of summer, no matter the conditions, they adapt to their environment."}
 								</span>
 							</li>
 						</ul>
