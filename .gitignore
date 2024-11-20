@@ -29,6 +29,8 @@ yarn-error.log*
 
 # private bird directory
 private/
+public/images/
+public/audio/
 
 # builds
 /static-dist

@@ -40,7 +40,7 @@ const BirdIdentificationTransactionStatus = (props) => {
 			message = `You correctly identified Songbird #${birdId} as a ${speciesNameGuess}. You are now the proud owner!`;
 
 			// Check if it is one of the "1 of 1" species (TODO: Update locally in production)
-			if (birdId === 3022 || birdId === 3793 || birdId === 3344 || birdId === 3243) {
+			if (birdId === 4665 || birdId === 4514 || birdId === 4473 || birdId === 4816) {
 				message = `You correctly identified Songbird #${birdId} as a ${speciesNameGuess}. This is a "1 of 1", so it is the only ${speciesNameGuess} in the entire Songbirdz collection. You are now the proud owner!`;
 			}
 

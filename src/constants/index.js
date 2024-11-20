@@ -1,8 +1,10 @@
 import ANSWER_CHOICES_FLOCK_2 from './small-and-mighty-2-options';
 import ANSWER_CHOICES_FLOCK_3 from './night-and-day-3-options';
+import ANSWER_CHOICES_FLOCK_4 from './fire-and-ice-4-options';
+
 import FAMILIES from './families';
 
-const NUM_BIRDS_TOTAL = 4000;
+const NUM_BIRDS_TOTAL = 5000;
 
 const COLLECTION_BIRD_SIZE = 1000;
 
@@ -26,10 +28,15 @@ const COLLECTIONS = [{
 	count: 1000,
 	min_id: 3000,
 	max_id: 3999,
+}, {
+	name: "Fire & Ice",
+	count: 1000,
+	min_id: 4000,
+	max_id: 4999,
 }];
 
 const CURRENT_COLLECTION_MIN_ID = process.env.REACT_APP_NODE_ENV === "production" ? 2000 : 0;
-const CURRENT_COLLECTION_MAX_ID = process.env.REACT_APP_NODE_ENV === "production" ? 3999 : 3999;
+const CURRENT_COLLECTION_MAX_ID = process.env.REACT_APP_NODE_ENV === "production" ? 4999 : 4999;
 
 const EVENTS = {
 	BIRD_ID: "BirdIdentification",
@@ -41,6 +48,7 @@ const ALREADY_IDENTIFIED_BIRDS = {};
 export {
 	ANSWER_CHOICES_FLOCK_2,
 	ANSWER_CHOICES_FLOCK_3,
+	ANSWER_CHOICES_FLOCK_4,
 	FAMILIES,
 	NUM_BIRDS_TOTAL,
 	COLLECTION_BIRD_SIZE,
