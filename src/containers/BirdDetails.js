@@ -18,6 +18,7 @@ import BirdAudioFile from "../components/BirdAudioFile";
 import BirdIdentificationModal from "../components/BirdIdentificationModal";
 import BirdIdentificationTransactionStatus from "../components/BirdIdentificationTransactionStatus";
 import BirdIdentificationTransactionStatusNonSmartWallet from "../components/BirdIdentificationTransactionStatusNonSmartWallet";
+import BirdTransferModal from "../components/BirdTransferModal";
 import DailyStreakStatus from "../components/DailyStreakStatus";
 import WalletConnectionStatus from "../components/WalletConnectionStatus";
 
@@ -58,6 +59,9 @@ const BirdDetails = () => {
 
 	// Keep track of the state of the info alert
 	const [showInfoAlert, setShowInfoAlert] = useState(true);
+
+	// Keep track of the state of the transfer modal
+	const [showTransferModal, setShowTransferModal] = useState(false);
 
 	const onMintSuccess = async (response) => {
 
@@ -285,6 +289,20 @@ const BirdDetails = () => {
 												src={etherscanLogo}
 												style={{ width: '35px', height: 'auto' }} />
 										</a>
+										{context.account?.toLowerCase() === '0x2d437771f6fbedf3d83633cbd3a31b6c6bdba2b1' &&
+											<>
+												<Button onClick={() => setShowTransferModal(true)}>
+													{'Send'}
+												</Button>
+												{showTransferModal &&
+													<BirdTransferModal
+														context={context}
+														bird={bird}
+														isOpen
+														onToggle={() => setShowTransferModal(false)} />
+												}
+											</>
+										}
 									</div>
 								}
 							</Col>

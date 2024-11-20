@@ -144,6 +144,19 @@ const WalletProvider = ({ children }) => {
 
 	}, []);
 
+	// Callback function to transfer bird for smart wallet users
+	const safeTransferFrom = useCallback((from, to, tokenId) => {
+
+		return {
+			abi: SongBirdzContract.abi,
+			address: SONGBIRDZ_CONTRACT_ADDRESS,
+			functionName: "safeTransferFrom",
+			args: [from, to, tokenId],
+			chainId: EXPECTED_CHAIN_ID,
+		};
+
+	}, []);
+
 	// Callback function to mint a new bird for non-smart wallet users
 	const publicMintNonSmartWallet = useCallback(async (id, proof, guess, mintPrice) => {
 
@@ -207,6 +220,7 @@ const WalletProvider = ({ children }) => {
 					ownerOf,
 					publicMint,
 					publicMintNonSmartWallet,
+					safeTransferFrom,
 				},
 				currentUser,
 				setCurrentUser,

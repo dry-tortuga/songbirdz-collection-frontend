@@ -225,6 +225,16 @@ const Leaderboard = () => {
 															{"PEPLO"}
 														</a>
 													</li>
+													<li>
+														<strong>{"1st Place -> "}</strong>
+														{"1 plot on the "}
+														<a
+															href="https://millionbithomepage.com/"
+															target="_blank"
+															rel="noopener noreferrer nofollow">
+															{"Million Bit Homepage"}
+														</a>
+													</li>
 												</ul>
 												<p>
 													{"In addition to these, there could always be additional prizes in the future but this competition is mostly just for fun. Not financial advice. DYOR :)"}
