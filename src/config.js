@@ -1,5 +1,11 @@
 import { connectorsForWallets, getDefaultConfig } from "@rainbow-me/rainbowkit"; 
-import { metaMaskWallet, rainbowWallet, coinbaseWallet } from "@rainbow-me/rainbowkit/wallets"; 
+import {
+	coinbaseWallet,
+	injectedWallet,
+	metaMaskWallet,
+	rainbowWallet,
+	walletConnectWallet,
+} from "@rainbow-me/rainbowkit/wallets";
 import { http } from "wagmi";
 import { base, baseSepolia, hardhat } from "wagmi/chains";
 
@@ -32,7 +38,7 @@ const connectors = connectorsForWallets(
 		wallets: [coinbaseWallet],
 	}, {
 		groupName: "Other Wallets",
-		wallets: [rainbowWallet, metaMaskWallet],
+		wallets: [rainbowWallet, metaMaskWallet, walletConnectWallet, injectedWallet],
 	}],
 	{
 		appName: "Songbirdz",
