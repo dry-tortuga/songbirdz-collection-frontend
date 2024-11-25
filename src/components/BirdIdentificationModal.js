@@ -19,6 +19,7 @@ import BirdAudioFile from "./BirdAudioFile";
 import {
 	ANSWER_CHOICES_FLOCK_2,
 	ANSWER_CHOICES_FLOCK_3,
+	ANSWER_CHOICES_FLOCK_4,
 	COLLECTIONS,
 	CURRENT_COLLECTION_MIN_ID,
 	CURRENT_COLLECTION_MAX_ID,
@@ -96,6 +97,8 @@ const BirdIdentificationModal = (props) => {
 			answerChoices = ANSWER_CHOICES_FLOCK_2;
 		} else if (bird.id >= 3000 && bird.id <= 3999) {
 			answerChoices = ANSWER_CHOICES_FLOCK_3;
+		} else if (bird.id >= 4000 && bird.id <= 4999) {
+			answerChoices = ANSWER_CHOICES_FLOCK_4;
 		}
 
 		// Get the bird's final index relative to ONLY the current collection

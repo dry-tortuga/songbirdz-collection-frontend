@@ -106,6 +106,8 @@ const LifeListModal = (props) => {
 			collectionId = 2;
 		} else if (species.id >= 300 && species.id < 350) {
 			collectionId = 3;
+		} else if (species.id >= 350 && species.id < 400) {
+			collectionId = 4;
 		} else if (species.id >= 1000) {
 			collectionId = -1;
 		}
@@ -151,6 +153,8 @@ const LifeListModal = (props) => {
 			collectionId = 2;
 		} else if (filter === "Night & Day") {
 			collectionId = 3;
+		} else if (filter === "Fire & Ice") {
+			collectionId = 4;
 		}
 
 		if (collectionId >= 0) {
@@ -170,6 +174,10 @@ const LifeListModal = (props) => {
 				}
 
 				if (collectionId === 3 && species.id >= 300 && species.id < 350) {
+					return true;
+				}
+
+				if (collectionId === 4 && species.id >= 350 && species.id < 400) {
 					return true;
 				}
 
