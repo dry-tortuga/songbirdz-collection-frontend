@@ -2,11 +2,17 @@ import React, { useEffect, useState } from "react";
 import { Badge, Button } from "react-bootstrap";
 import { Link } from "react-router-dom";
 
+import BirdIdentificationModal from "../components/BirdIdentificationModal";
+
+import { useWalletContext } from "../contexts/wallet";
+
 import homeImage1 from "../images/home1.png";
 import homeImage2 from "../images/home2.jpg";
 import homeImage3 from "../images/home3.jpg";
 import homeImage4 from "../images/home4.jpg";
 import homeImage5 from "../images/home5.jpg";
+import openseaLogo from "../images/opensea-logomark-blue.svg";
+import magicedenLogo from "../images/magiceden-logo.png";
 
 import "./MemoryMatchGame.css";
 
@@ -42,299 +48,354 @@ SOFTWARE.
 
 */
 
-// Card data
-const cardsArray = [
-  {
-	name: 'shell',
-	img: 'https://songbirdz.cc/images/0.jpg',
-  },
-  {
-	name: 'star',
-	img: 'https://songbirdz.cc/images/1.jpg',
-  },
-  {
-	name: 'bobomb',
-	img: 'https://songbirdz.cc/images/2.jpg',
-  },
-  /*{
-	name: 'mario',
-	img: 'https://songbirdz.cc/images/3.jpg',
-  },
-  {
-	name: 'luigi',
-	img: 'https://songbirdz.cc/images/4.jpg',
-  },
-  {
-	name: 'peach',
-	img: 'https://songbirdz.cc/images/5.jpg',
-  },
-  {
-	name: '1up',
-	img: 'https://songbirdz.cc/images/6.jpg',
-  },
-  {
-	name: 'mushroom',
-	img: 'https://songbirdz.cc/images/7.jpg',
-  },
-  {
-	name: 'thwomp',
-	img: 'https://songbirdz.cc/images/8.jpg',
-  },
-  {
-	name: 'bulletbill',
-	img: 'https://songbirdz.cc/images/9.jpg',
-  },
-  {
-	name: 'coin',
-	img: 'https://songbirdz.cc/images/10.jpg',
-  },
-  {
-	name: 'goomba',
-	img: 'https://songbirdz.cc/images/11.jpg',
-  },*/
-];
-
-// Duplicate array to create a match for each card
-let gameGrid = cardsArray.concat(cardsArray);
-
-// Randomize game grid on each load
-gameGrid.sort(() => 0.5 - Math.random())
-
 const TIME_DELAY = 1000; // 1 second
 
 const MemoryMatchGame = () => {
+  const context = useWalletContext();
 
-	const [selected, setSelected] = useState({
-		firstGuess: -1,
-		secondGuess: -1,
-	});
+  const [selected, setSelected] = useState({
+    firstGuess: -1,
+    secondGuess: -1,
+  });
 
-	const [matched, setMatched] = useState([]);
+  const [birds, setBirds] = useState([]);
 
-	const [movesUsed, setMovesUsed] = useState(0);
+  const [matched, setMatched] = useState([]);
 
-	const [timeUsed, setTimeUsed] = useState(0);
+  const [movesUsed, setMovesUsed] = useState(0);
 
-	const isFinished = matched.length === gameGrid.length;
+  const [timeUsed, setTimeUsed] = useState(0);
 
-	let finalScore = 0;
+  const [birdToID, setBirdToID] = useState(null);
 
-	if (isFinished) {
-		finalScore = calculateGameScore(gameGrid.length, TIME_DELAY, movesUsed, timeUsed);
-	}
+  const isFinished = birds.length > 0 && matched.length === birds.length;
 
-	const handleClick = (card, index) => {
+  let finalScore = 0;
 
-		// Ignore clicks once the game is over
-		if (isFinished) { return };
+  if (isFinished) {
+    finalScore = calculateGameScore(
+      birds.length,
+      TIME_DELAY,
+      movesUsed,
+      timeUsed,
+    );
+  }
 
-		// Ignore clicks on an already matched card
-		if (matched.includes(index)) { return; }
+  const handleClick = (card, index) => {
+    // Ignore clicks until the birds are loaded
+    if (birds.length === 0) {
+      return;
+    }
 
-		// Ignore clicks on the same card twice
-		if (selected.firstGuess === index || selected.secondGuess === index)  {
-			return;
-		}
+    // Ignore clicks once the game is over
+    if (isFinished) {
+      return;
+    }
 
-		if (selected.firstGuess === -1) {
+    // Ignore clicks on an already matched card
+    if (matched.includes(index)) {
+      return;
+    }
 
-			setSelected((prev) => ({ ...prev, firstGuess: index }));
-			return;
+    // Ignore clicks on the same card twice
+    if (selected.firstGuess === index || selected.secondGuess === index) {
+      return;
+    }
 
-		}
+    if (selected.firstGuess === -1) {
+      setSelected((prev) => ({ ...prev, firstGuess: index }));
+      return;
+    }
 
-		if (selected.secondGuess === -1) {
+    if (selected.secondGuess === -1) {
+      setSelected((prev) => ({ ...prev, secondGuess: index }));
+      return;
+    }
+  };
 
-			setSelected((prev) => ({ ...prev, secondGuess: index }));
-			return;
+  const handleResetGame = async () => {
+    setBirds([]);
+    setMovesUsed(0);
+    setTimeUsed(0);
+    setSelected({ firstGuess: -1, secondGuess: -1 });
+    setMatched([]);
 
-		}
+    const newCards = await loadGameCards(6);
 
-	};
+    setBirds(newCards);
+  };
 
-	const handleResetGame = () => {
+  // Load the birds on initial load
+  useEffect(() => {
+    handleResetGame();
+  }, []);
 
-		setMovesUsed(0);
-		setTimeUsed(0);
-		setSelected({ firstGuess: -1, secondGuess: -1 });
-		setMatched([]);
+  // Increase the time used by the user every 25 milliseconds until the game is finished
+  useEffect(() => {
+    if (birds.length > 0 && !isFinished) {
+      const listener = setInterval(() => setTimeUsed((prev) => prev + 25), 25);
 
-	};
+      return () => clearInterval(listener);
+    }
+  }, [birds, isFinished]);
 
-	// Increase the time used by the user every 25 milliseconds until the game is finished
-	useEffect(() => {
+  useEffect(() => {
+    if (selected.firstGuess !== -1 && selected.secondGuess !== -1) {
+      // Increase the number of moves used by the user
+      setMovesUsed((prev) => prev + 1);
 
-		if (!isFinished) {
+      const firstName = birds[selected.firstGuess].name;
+      const secondName = birds[selected.secondGuess].name;
 
-			const listener = setInterval(() => setTimeUsed((prev) => prev + 25), 25);
+      // and the first guess matches the second match...
+      if (firstName === secondName) {
+        console.log("MATCH");
 
-			return () => clearInterval(listener);
+        // run the match function
+        setTimeout(() => {
+          setMatched((prev) => [
+            ...prev,
+            selected.firstGuess,
+            selected.secondGuess,
+          ]);
 
-		}
+          setSelected({ firstGuess: -1, secondGuess: -1 });
+        }, TIME_DELAY);
+      } else {
+        console.log("INCORRECT");
 
-	}, [isFinished]);
+        // reset the guesses
+        setTimeout(() => {
+          setSelected({ firstGuess: -1, secondGuess: -1 });
+        }, TIME_DELAY);
+      }
+    }
+  }, [selected.firstGuess, selected.secondGuess]);
 
-	useEffect(() => {
+  console.log("------------------");
+  console.log(birds);
+  console.log(selected);
+  console.log(matched);
+  console.log(`isFinished=${isFinished}`);
+  console.log(`movesUsed=${movesUsed}`);
+  console.log(`timeUsed=${timeUsed}`);
+  console.log("------------------");
 
-		if (selected.firstGuess !== -1 && selected.secondGuess !== -1) {
-
-			// Increase the number of moves used by the user
-			setMovesUsed((prev) => prev + 1);
-
-			const firstName = gameGrid[selected.firstGuess].name;
-			const secondName = gameGrid[selected.secondGuess].name;
-
-			// and the first guess matches the second match...
-			if (firstName === secondName) {
-
-				console.log("MATCH");
-
-				// run the match function
-				setTimeout(() => {
-
-					setMatched((prev) => [
-						...prev,
-						selected.firstGuess,
-						selected.secondGuess,
-					]);
-
-					setSelected({ firstGuess: -1, secondGuess: -1 });
-
-				}, TIME_DELAY);
-
-			} else {
-
-				console.log("INCORRECT");
-
-				// reset the guesses
-				setTimeout(() => {
-
-					setSelected({ firstGuess: -1, secondGuess: -1 });
-
-				}, TIME_DELAY);
-
-			}
-
-		}
-
-	}, [selected.firstGuess, selected.secondGuess]);
-
-	console.log('------------------');
-	console.log(selected);
-	console.log(matched);
-	console.log(`isFinished=${isFinished}`);
-	console.log(`movesUsed=${movesUsed}`);
-	console.log(`timeUsed=${timeUsed}`);
-	console.log('------------------');
-
-	return (
-		<div
-			id="game"
-			className={`container ${isFinished ? 'game-over' : ''}`}>
-			{isFinished &&
-				<section className="row">
-					<div className="col">
-						<div className="h1 d-flex align-items-center">
-							<span className="me-5">
-								{"Game Over!"}
-							</span>
-							<span className="me-5">
-								{"Your Score:"}
-								<Badge
-									className="ms-1 align-middle"
-									bg="success"
-									style={{ fontSize: '0.9rem' }}
-									pill>
-									<span>
-										{finalScore}
-									</span>
-								</Badge>
-							</span>
-							<span className="me-5">
-								{"Time:"}
-								<Badge
-									className="ms-1 align-middle"
-									bg="info"
-									style={{ fontSize: '0.9rem' }}
-									pill>
-									<span>
-										{timeUsed / 1000}
-										{"s"}
-									</span>
-								</Badge>
-							</span>
-							<span className="me-5">
-								{"Accuracy:"}
-								<Badge
-									className="ms-1 align-middle"
-									bg="secondary"
-									style={{ fontSize: '0.9rem' }}
-									pill>
-									<span>
-										{((gameGrid.length / 2) / movesUsed) * 100}
-										{"%"}
-									</span>
-								</Badge>
-							</span>
-							<Button
-								variant="primary"
-								onClick={handleResetGame}>
-								{'Start New Game'}
-							</Button>
-						</div>
-					</div>
-				</section>
-			}
-			<section className="row">
-				{gameGrid.map((card, index) => (
-					<div
-						key={index}
-						className="col-2 col-sm-2">
-						<div
-							className={`
+  return (
+    <div id="game" className={`container ${isFinished ? "game-over" : ""}`}>
+      {isFinished && (
+        <section className="row">
+          <div className="col">
+            <div className="h1 d-flex align-items-center">
+              <span className="me-5">{"Game Over!"}</span>
+              <span className="me-5">
+                {"Your Score:"}
+                <Badge
+                  className="ms-1 align-middle"
+                  bg="success"
+                  style={{ fontSize: "0.9rem" }}
+                  pill
+                >
+                  <span>{finalScore}</span>
+                </Badge>
+              </span>
+              <span className="me-5">
+                {"Time:"}
+                <Badge
+                  className="ms-1 align-middle"
+                  bg="info"
+                  style={{ fontSize: "0.9rem" }}
+                  pill
+                >
+                  <span>
+                    {timeUsed / 1000}
+                    {"s"}
+                  </span>
+                </Badge>
+              </span>
+              <span className="me-5">
+                {"Accuracy:"}
+                <Badge
+                  className="ms-1 align-middle"
+                  bg="secondary"
+                  style={{ fontSize: "0.9rem" }}
+                  pill
+                >
+                  <span>
+                    {(birds.length / 2 / movesUsed) * 100}
+                    {"%"}
+                  </span>
+                </Badge>
+              </span>
+              <Button variant="primary" onClick={handleResetGame}>
+                {"Start New Game"}
+              </Button>
+            </div>
+          </div>
+        </section>
+      )}
+      <section className="row">
+        {birds.map((bird, index) => (
+          <div key={index} className="col-2 col-sm-2">
+            <div
+              className={`
 								grid-card
-								${(selected.firstGuess === index || selected.secondGuess === index) ? 'selected' : ''}
-								${matched.includes(index) ? 'match' : ''}
+								${selected.firstGuess === index || selected.secondGuess === index ? "selected" : ""}
+								${matched.includes(index) ? "match" : ""}
 							`}
-							onClick={() => handleClick(card, index)}>
-							<div className="front" />
-							<div
-								className="back"
-								style={{ backgroundImage: `url(${card.img})` }} />
-						</div>
-					</div>
-				))}
-			</section>
-		</div>
-	);
-
+              onClick={() => handleClick(bird, index)}
+            >
+              <div className="front" />
+              <div
+                className="back"
+                style={{ backgroundImage: `url(${bird.image})` }}
+              />
+              {isFinished && (
+                <div className="species-row">
+                  <span className="species-name">{bird.species}</span>
+                  <div className="icon-buttons flex align-items-center gap-2">
+                    {bird.species === "UNIDENTIFIED" && (
+                      <button
+                        className="icon-btn"
+                        onClick={() => setBirdToID(bird)}
+                      >
+                        <i
+                          className="fas fa-binoculars"
+                          style={{ color: "#ffffff" }}
+                        ></i>
+                      </button>
+                    )}
+                    <Link
+                      to={`/collection/${bird.id}`}
+                      className="icon-btn"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      <i
+                        className="fas fa-info-circle"
+                        style={{ color: "#ffffff" }}
+                      ></i>
+                    </Link>
+                    {bird.species !== "UNIDENTIFIED" && (
+                      <>
+                        <button className="icon-btn">
+                          <a
+                            href={`https://opensea.io/assets/base/${context.contractAddress}/${bird.id}`}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                          >
+                            <img
+                              src={openseaLogo}
+                              alt="OpenSea"
+                              style={{ width: "16px", height: "16px" }}
+                            />
+                          </a>
+                        </button>
+                        <button className="icon-btn">
+                          <a
+                            href={`https://magiceden.io/item-details/base/${context.contractAddress}/${bird.id}`}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                          >
+                            <img
+                              src={magicedenLogo}
+                              alt="MagicEden"
+                              style={{ width: "16px", height: "16px" }}
+                            />
+                          </a>
+                        </button>
+                      </>
+                    )}
+                  </div>
+                </div>
+              )}
+            </div>
+          </div>
+        ))}
+      </section>
+      {birdToID && (
+        <BirdIdentificationModal
+          isOpen={Boolean(birdToID)}
+          bird={birdToID}
+          context={context}
+          onSubmitNonSmartWallet={() => {}}
+          onSuccess={() => {}}
+          onToggle={() => setBirdToID(null)}
+        />
+      )}
+    </div>
+  );
 };
 
 export default MemoryMatchGame;
 
 // Perfect score = 1,000 points
 function calculateGameScore(width, timeDelay, movesUsed, timeUsed) {
+  // Calculate the minimum number of tries required to win
+  const minRequiredTries = width / 2;
 
-	// Calculate the minimum number of tries required to win
-	const minRequiredTries = width / 2;
+  // Calculate the minimum number of time required to win (in milliseconds)
+  const minRequiredTime = timeDelay * minRequiredTries;
 
-	// Calculate the minimum number of time required to win (in milliseconds)
-	const minRequiredTime = (timeDelay * minRequiredTries);
+  const numTriesBoost = 50 + minRequiredTries;
 
-	const numTriesBoost = 50 + minRequiredTries;
+  const timeUsedBoost = 50000 + minRequiredTime;
 
-	const timeUsedBoost = 50000 + minRequiredTime;
+  // (deduct) 0.008 points for each millisecond = max of 500 pts
+  let timebonus = ((timeUsedBoost - timeUsed) * 8) / 1000;
 
-	// (deduct) 0.008 points for each millisecond = max of 500 pts
-	let timebonus = ((timeUsedBoost - timeUsed) * 8) / 1000;
+  // (deduct) 10 points for each move = max of 500 pts
+  let triesbonus = (numTriesBoost - movesUsed) * 10;
 
-	// (deduct) 10 points for each move = max of 500 pts
-	let triesbonus = (numTriesBoost - movesUsed) * 10;
+  if (timebonus < 0) {
+    timebonus = 0;
+  }
 
-	if (timebonus < 0) { timebonus = 0; }
+  if (triesbonus < 0) {
+    triesbonus = 0;
+  }
 
-	if (triesbonus < 0) { triesbonus = 0; }
+  return timebonus + triesbonus;
+}
 
-	return timebonus + triesbonus;
+async function loadGameCards(numBirds) {
+  // Generate array of random numbers 0-5000 without duplicates
+  let cardArray = [];
 
+  while (cardArray.length < numBirds) {
+    let num = Math.floor(Math.random() * 5000);
+    if (!cardArray.includes(num)) {
+      cardArray.push(num);
+    }
+  }
+
+  // Await all metadata calls in parallel
+  const cardData = await Promise.all(
+    cardArray.map(async (birdId) => {
+      const response = await fetch(
+        `https://songbirdz.cc/birds/metadata/${birdId}`,
+      );
+      const metadata = await response.json();
+      return metadata;
+    }),
+  );
+
+  // Map to card objects
+  let gameCards = cardData.map((bird) => {
+    return {
+      id: parseInt(bird.name.split("#")[1], 10),
+      name: bird.name,
+      image: bird.image,
+      audio: bird.animation_url,
+      species: bird.species,
+    };
+  });
+
+  // Duplicate the array
+  gameCards = gameCards.concat(gameCards);
+
+  // Randomize order
+  gameCards.sort(() => 0.5 - Math.random());
+
+  return gameCards;
 }

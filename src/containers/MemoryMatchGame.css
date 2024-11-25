@@ -1,55 +1,89 @@
 #game .row > * {
-	margin-top: 1rem;
-	padding-left: 0.5rem;
-	padding-right: 0.5rem;
+    margin-top: 1rem;
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
 }
 
 #game.game-over .grid-card.match {
-	transform: rotateY(180deg);
+    transform: rotateY(180deg);
+}
+
+#game.game-over .grid-card {
+    margin-bottom: 60px;
+}
+
+#game.game-over .grid-card .back,
+#game.game-over .grid-card .front {
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+}
+
+#game.game-over .grid-card .species-row {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: #000;
+    color: #fff;
+    width: 100%;
+    height: 60px;
+    padding: 5px;
+    position: absolute;
+    bottom: -60px;
+    transform: rotateY(180deg);
+    border-bottom-left-radius: 8px;
+    border-bottom-right-radius: 8px;
 }
 
 .grid-card {
-	position: relative;
-	transition: all 0.4s linear;
-	transform-style: preserve-3d;
+    position: relative;
+    transition: all 0.4s linear;
+    transform-style: preserve-3d;
 }
 
 .grid-card {
-	width: 100%;
-	aspect-ratio : 1 / 1;
+    width: 100%;
+    aspect-ratio: 1 / 1;
 }
 
 .back,
 .front {
-	width: 100%;
-	height: 100%;
+    width: 100%;
+    height: 100%;
 }
 
 .back,
 .front {
-	position: absolute;
-	backface-visibility: hidden;
+    position: absolute;
+    backface-visibility: hidden;
+    border-radius: 8px;
+    box-shadow:
+        0 1px 2px rgba(0, 0, 0, 0.2),
+        0 2px 4px rgba(0, 0, 0, 0.15),
+        0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 .front {
-	background: #fab942 url('https://songbirdz.cc/static/media/home1.a3ef786a0b463d289f63.png') no-repeat center center /
-	contain;
-	border: inset 10px transparent;
+    background: #f7f2ff
+        url("https://songbirdz.cc/static/media/home1.a3ef786a0b463d289f63.png")
+        no-repeat center center / 65%;
     box-sizing: border-box;
 }
 
 .back {
-	transform: rotateY(180deg);
-	background-color: white;
-	background-size: cover;
-	background-repeat: no-repeat;
-	background-position: center center;
+    transform: rotateY(180deg);
+    background-color: white;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center center;
 }
 
 .selected {
-	transform: rotateY(180deg);
+    transform: rotateY(180deg);
 }
 
 .match .front {
-	background: white;
+    background: white;
+    box-shadow: none;
 }
