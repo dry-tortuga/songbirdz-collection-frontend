@@ -3,12 +3,18 @@ import { Toast } from "react-bootstrap";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
 
+import { useWalletContext } from "../contexts/wallet";
+
+import warpcastLogo from "../images/warpcast-logo.png";
+
 import "./BirdIdentificationTransactionStatus.css";
 
 dayjs.extend(relativeTime);
 
 const BirdIdentificationTransactionStatus = (props) => {
   const { tx, onClose } = props;
+
+  const { contractAddress } = useWalletContext();
 
   const [isOpen, setIsOpen] = useState(true);
 
@@ -81,7 +87,38 @@ const BirdIdentificationTransactionStatus = (props) => {
         <small>{dayjs(tx.timestamp).fromNow()}</small>
       </Toast.Header>
       <Toast.Body className="text-white">
-        <span>{message}</span>
+        <div className="mb-2">{message}</div>
+        {tx.bird && (
+          <div className="bg-white rounded text-black p-2 d-flex align-items-center">
+            {"Share on: "}
+            <a
+              href={`https://twitter.com/intent/tweet?text=${encodeURIComponent(`I just identified this ${tx.bird.species} in the @songbirdz_cc collection on @base!\n\n Join me and play the onchain bird watching game at https://songbirdz.cc/collection?hide_already_identified=true\n\n`)}`}
+              className="twitter-share-button ms-2"
+              data-show-count="false"
+              data-size="large"
+              data-hashtags="birds,birdwatching,nfts,pfps,base"
+              data-via="opensea"
+              data-url={`https://opensea.io/assets/base/${contractAddress}/${tx.bird.id}`}
+            >
+              <i
+                className="fa-brands fa-x-twitter"
+                style={{ fontSize: "24px" }}
+              ></i>
+            </a>
+            <a
+              href={`https://warpcast.com/~/compose?text=${encodeURIComponent(`I just identified this ${tx.bird.species} in the Songbirdz collection on @base!\n\n Join me and play the onchain bird watching game at https://songbirdz.cc/collection?hide_already_identified=true`)}`}
+              className="farcaster-share-button ms-2"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <img
+                src={warpcastLogo}
+                alt="Warpcast"
+                style={{ width: "24px", height: "24px" }}
+              />
+            </a>
+          </div>
+        )}
       </Toast.Body>
     </Toast>
   );

@@ -19,6 +19,7 @@ import homeImage4 from "../images/home4.jpg";
 import homeImage5 from "../images/home5.jpg";
 import openseaLogo from "../images/opensea-logomark-blue.svg";
 import magicedenLogo from "../images/magiceden-logo.png";
+import warpcastLogo from "../images/warpcast-logo.png";
 
 import "./MemoryMatchGame.css";
 
@@ -291,9 +292,43 @@ const MemoryMatchGame = () => {
               </Badge>
             </span>
             {isFinished && (
-              <Button variant="primary" onClick={handleResetGame}>
+              <Button
+                className="me-5"
+                variant="primary"
+                onClick={handleResetGame}
+              >
                 {"Start New Game"}
               </Button>
+            )}
+            {isFinished && (
+              <div className="d-flex align-items-center fs-3">
+                {"Share on: "}
+                <a
+                  href={`https://twitter.com/intent/tweet?text=${encodeURIComponent(`I just scored ${finalScore} in the memory match game from @songbirdz_cc on @base!\n\n Can you beat my score?\n\n Play at https://songbirdz.cc/memory-match\n\n`)}`}
+                  className="twitter-share-button ms-2"
+                  data-show-count="false"
+                  data-size="large"
+                  data-hashtags="birds,birdwatching,nfts,pfps,base"
+                  // data-url={`https://opensea.io/assets/base/${contractAddress}/${tx.bird.id}`}
+                >
+                  <i
+                    className="fa-brands fa-x-twitter"
+                    style={{ fontSize: "24px" }}
+                  ></i>
+                </a>
+                <a
+                  href={`https://warpcast.com/~/compose?text=${encodeURIComponent(`I just scored ${finalScore} in the memory match game from @dry-tortuga on @base!\n\n Can you beat my score?\n\n Play at https://songbirdz.cc/memory-match`)}`}
+                  className="farcaster-share-button ms-2"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <img
+                    src={warpcastLogo}
+                    alt="Warpcast"
+                    style={{ width: "24px", height: "24px" }}
+                  />
+                </a>
+              </div>
             )}
           </div>
         </div>
@@ -321,6 +356,7 @@ const MemoryMatchGame = () => {
                     {bird.species === "UNIDENTIFIED" && (
                       <button
                         className="icon-btn"
+                        style={{ cursor: "pointer" }}
                         onClick={() => setBirdToID(bird)}
                       >
                         <i

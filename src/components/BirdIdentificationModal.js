@@ -121,16 +121,27 @@ const BirdIdentificationModal = (props) => {
   return (
     <Modal show={isOpen} onHide={onToggle}>
       <Modal.Header closeButton>
-        <Modal.Title>{`Identify ${bird.name}`}</Modal.Title>
+        <Modal.Title className="w-100 text-center">{`Identify ${bird.name}`}</Modal.Title>
       </Modal.Header>
       <Modal.Body>
         <Form>
+          <Form.Group className="mb-3">
+            <img
+              style={{
+                width: "50%",
+                height: "auto",
+                marginLeft: "auto",
+                marginRight: "auto",
+              }}
+              src={bird.image}
+            />
+          </Form.Group>
           <Form.Group className="mb-3" controlId="song-audio">
-            <Form.Label className="d-block">{"Song Audio"}</Form.Label>
-            <BirdAudioFile birdId={bird.id} />
+            <Form.Label className="d-block fw-bold">{"Song Audio"}</Form.Label>
+            <BirdAudioFile className="w-100" birdId={bird.id} />
           </Form.Group>
           <Form.Group className="mb-3" controlId="species">
-            <Form.Label>{"Species"}</Form.Label>
+            <Form.Label className="fw-bold">{"Species"}</Form.Label>
             <Select
               id="species"
               name="species"
@@ -140,14 +151,20 @@ const BirdIdentificationModal = (props) => {
               onChange={handleInputChange}
             />
           </Form.Group>
-          <Form.Text className="text-muted d-block">
-            {"PRICE: 0.0015 ETH"}
-          </Form.Text>
-          <Form.Text className="text-muted d-block">
-            {
-              "NOTE: If you submit an incorrect guess, you will be automatically refunded 0.00125 ETH."
-            }
-          </Form.Text>
+          <Form.Group className="mb-3">
+            <Form.Text className="d-block">
+              <span className="fw-bold me-2">{"PRICE: "}</span>
+              <span>{"0.0015 ETH"}</span>
+            </Form.Text>
+            <Form.Text className="text-muted d-block">
+              <span className="fw-bold me-2">{"NOTE: "}</span>
+              <span>
+                {
+                  "If you submit an incorrect guess, you will be automatically refunded 0.00125 ETH."
+                }
+              </span>
+            </Form.Text>
+          </Form.Group>
         </Form>
         {context.isPaymasterSupported && (
           <Transaction
@@ -179,7 +196,7 @@ const BirdIdentificationModal = (props) => {
             }}
           >
             <TransactionButton
-              className="btn btn-info mt-4"
+              className="btn btn-info w-100"
               disabled={contractCall.length === 0}
               text="Submit"
             />
@@ -192,7 +209,7 @@ const BirdIdentificationModal = (props) => {
         )}
         {!context.isPaymasterSupported && (
           <Button
-            className="mt-3"
+            className="w-100"
             variant="info"
             onClick={handleSubmitNonSmartWallet}
           >

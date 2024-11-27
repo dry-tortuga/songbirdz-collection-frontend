@@ -84,6 +84,7 @@ const useMintAPI = ({ context, cb }) => {
       transferEvent,
       timestamp: new Date(),
       success: true,
+      bird,
       // error: false,
       // errorMsg: null,
     });
@@ -167,6 +168,7 @@ const useMintAPI = ({ context, cb }) => {
           success: Boolean(txSuccess),
           error: Boolean(txError),
           errorMsg: txError,
+          bird,
         });
       });
 
