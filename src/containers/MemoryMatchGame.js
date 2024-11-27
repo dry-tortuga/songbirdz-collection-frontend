@@ -1,10 +1,16 @@
 import React, { useEffect, useState } from "react";
-import { Badge, Button } from "react-bootstrap";
+import { Badge, Button, ToastContainer } from "react-bootstrap";
 import { Link } from "react-router-dom";
 
 import BirdIdentificationModal from "../components/BirdIdentificationModal";
+import BirdIdentificationTransactionStatus from "../components/BirdIdentificationTransactionStatus";
+import BirdIdentificationTransactionStatusNonSmartWallet from "../components/BirdIdentificationTransactionStatusNonSmartWallet";
+import DailyStreakStatus from "../components/DailyStreakStatus";
+import WalletConnectionStatus from "../components/WalletConnectionStatus";
 
 import { useWalletContext } from "../contexts/wallet";
+
+import useMintAPI from "../hooks/useMintAPI";
 
 import homeImage1 from "../images/home1.png";
 import homeImage2 from "../images/home2.jpg";
@@ -53,6 +59,8 @@ const TIME_DELAY = 1000; // 1 second
 const MemoryMatchGame = () => {
   const context = useWalletContext();
 
+  const { currentUser, setCurrentUser } = context;
+
   const [selected, setSelected] = useState({
     firstGuess: -1,
     secondGuess: -1,
@@ -64,9 +72,15 @@ const MemoryMatchGame = () => {
 
   const [movesUsed, setMovesUsed] = useState(0);
 
+  const [hasStarted, setHasStarted] = useState(false);
   const [timeUsed, setTimeUsed] = useState(0);
+  const [timeUsedSlow, setTimeUsedSlow] = useState(0);
 
   const [birdToID, setBirdToID] = useState(null);
+
+  // Keep track of the wallet connection state
+  const [showWalletConnectionInfo, setShowWalletConnectionInfo] =
+    useState(false);
 
   const isFinished = birds.length > 0 && matched.length === birds.length;
 
@@ -102,6 +116,10 @@ const MemoryMatchGame = () => {
       return;
     }
 
+    if (!hasStarted) {
+      setHasStarted(true);
+    }
+
     if (selected.firstGuess === -1) {
       setSelected((prev) => ({ ...prev, firstGuess: index }));
       return;
@@ -116,14 +134,44 @@ const MemoryMatchGame = () => {
   const handleResetGame = async () => {
     setBirds([]);
     setMovesUsed(0);
+    setHasStarted(false);
     setTimeUsed(0);
+    setTimeUsedSlow(0);
     setSelected({ firstGuess: -1, secondGuess: -1 });
     setMatched([]);
 
-    const newCards = await loadGameCards(6);
+    const newCards = await loadGameCards(4);
 
     setBirds(newCards);
   };
+
+  const {
+    // Callback functions to submit the tx onchain
+    handleMintSmartWallet,
+    handleMintNonSmartWallet,
+
+    // Keep track of the tx state
+    txMintSmartWallet,
+    txMintNonSmartWallet,
+
+    // Reset the tx state
+    resetTxMintSmartWallet,
+    resetTxMintNonSmartWallet,
+  } = useMintAPI({
+    context,
+    // Handle updates to the local state after successful mint
+    cb: (updatedBirdData, updatedTracker) => {
+      if (updatedBirdData) {
+        //setBird(updatedBirdData);
+      }
+      if (updatedTracker) {
+        setCurrentUser((prev) => ({
+          ...prev,
+          dailyStreakTracker: updatedTracker,
+        }));
+      }
+    },
+  });
 
   // Load the birds on initial load
   useEffect(() => {
@@ -132,12 +180,20 @@ const MemoryMatchGame = () => {
 
   // Increase the time used by the user every 25 milliseconds until the game is finished
   useEffect(() => {
-    if (birds.length > 0 && !isFinished) {
-      const listener = setInterval(() => setTimeUsed((prev) => prev + 25), 25);
+    if (birds.length > 0 && hasStarted && !isFinished) {
+      const listener1 = setInterval(() => setTimeUsed((prev) => prev + 25), 25);
 
-      return () => clearInterval(listener);
+      const listener2 = setInterval(
+        () => setTimeUsedSlow((prev) => prev + 1),
+        1000,
+      );
+
+      return () => {
+        clearInterval(listener1);
+        clearInterval(listener2);
+      };
     }
-  }, [birds, isFinished]);
+  }, [birds, hasStarted, isFinished]);
 
   useEffect(() => {
     if (selected.firstGuess !== -1 && selected.secondGuess !== -1) {
@@ -176,6 +232,7 @@ const MemoryMatchGame = () => {
   console.log(birds);
   console.log(selected);
   console.log(matched);
+  console.log(`hasStarted=${hasStarted}`);
   console.log(`isFinished=${isFinished}`);
   console.log(`movesUsed=${movesUsed}`);
   console.log(`timeUsed=${timeUsed}`);
@@ -183,57 +240,64 @@ const MemoryMatchGame = () => {
 
   return (
     <div id="game" className={`container ${isFinished ? "game-over" : ""}`}>
-      {isFinished && (
-        <section className="row">
-          <div className="col">
-            <div className="h1 d-flex align-items-center">
-              <span className="me-5">{"Game Over!"}</span>
-              <span className="me-5">
-                {"Your Score:"}
-                <Badge
-                  className="ms-1 align-middle"
-                  bg="success"
-                  style={{ fontSize: "0.9rem" }}
-                  pill
-                >
-                  <span>{finalScore}</span>
-                </Badge>
-              </span>
-              <span className="me-5">
-                {"Time:"}
-                <Badge
-                  className="ms-1 align-middle"
-                  bg="info"
-                  style={{ fontSize: "0.9rem" }}
-                  pill
-                >
+      <section className="row">
+        <div className="col">
+          <div className="h1 d-flex align-items-center">
+            <span className="me-5">
+              {isFinished ? "Game Over!" : "Memory Match"}
+            </span>
+            <span className="me-5 fs-3">
+              {"Score:"}
+              <Badge
+                className="ms-1 align-middle"
+                bg="success"
+                style={{ fontSize: "0.9rem" }}
+                pill
+              >
+                <span>{isFinished ? finalScore : "TBD"}</span>
+              </Badge>
+            </span>
+            <span className="me-5 fs-3">
+              {"Time:"}
+              <Badge
+                className="ms-1 align-middle"
+                bg="info"
+                style={{ fontSize: "0.9rem" }}
+                pill
+              >
+                {isFinished && (
                   <span>
                     {timeUsed / 1000}
                     {"s"}
                   </span>
-                </Badge>
-              </span>
-              <span className="me-5">
-                {"Accuracy:"}
-                <Badge
-                  className="ms-1 align-middle"
-                  bg="secondary"
-                  style={{ fontSize: "0.9rem" }}
-                  pill
-                >
+                )}
+                {!isFinished && (
                   <span>
-                    {(birds.length / 2 / movesUsed) * 100}
-                    {"%"}
+                    {timeUsedSlow}
+                    {"s"}
                   </span>
-                </Badge>
-              </span>
+                )}
+              </Badge>
+            </span>
+            <span className="me-5 fs-3">
+              {"Moves:"}
+              <Badge
+                className="ms-1 align-middle"
+                bg="secondary"
+                style={{ fontSize: "0.9rem" }}
+                pill
+              >
+                <span>{movesUsed}</span>
+              </Badge>
+            </span>
+            {isFinished && (
               <Button variant="primary" onClick={handleResetGame}>
                 {"Start New Game"}
               </Button>
-            </div>
+            )}
           </div>
-        </section>
-      )}
+        </div>
+      </section>
       <section className="row">
         {birds.map((bird, index) => (
           <div key={index} className="col-2 col-sm-2">
@@ -318,10 +382,45 @@ const MemoryMatchGame = () => {
           isOpen={Boolean(birdToID)}
           bird={birdToID}
           context={context}
-          onSubmitNonSmartWallet={() => {}}
-          onSuccess={() => {}}
+          onSubmitNonSmartWallet={handleMintNonSmartWallet}
+          onSubmitSmartWallet={handleMintSmartWallet}
           onToggle={() => setBirdToID(null)}
         />
+      )}
+      {isFinished && (
+        <ToastContainer
+          className="p-3"
+          style={{ zIndex: 5 }}
+          position="top-end"
+        >
+          {showWalletConnectionInfo && (
+            <WalletConnectionStatus
+              onClose={() => setShowWalletConnectionInfo(false)}
+            />
+          )}
+          {/* Smart Wallet Users */}
+          {(txMintSmartWallet?.pending ||
+            txMintSmartWallet?.success ||
+            txMintSmartWallet?.error) && (
+            <BirdIdentificationTransactionStatus
+              tx={txMintSmartWallet}
+              onClose={resetTxMintSmartWallet}
+            />
+          )}
+          {/* Non-Smart Wallet Users */}
+          {(txMintNonSmartWallet?.pending ||
+            txMintNonSmartWallet?.success ||
+            txMintNonSmartWallet?.error) && (
+            <BirdIdentificationTransactionStatusNonSmartWallet
+              tx={txMintNonSmartWallet}
+              onClose={resetTxMintNonSmartWallet}
+            />
+          )}
+          {(currentUser?.dailyStreakTracker?.status === "created" ||
+            currentUser?.dailyStreakTracker?.status === "updated") && (
+            <DailyStreakStatus data={currentUser?.dailyStreakTracker} />
+          )}
+        </ToastContainer>
       )}
     </div>
   );
