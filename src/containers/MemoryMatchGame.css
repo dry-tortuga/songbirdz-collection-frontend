@@ -9,7 +9,7 @@
 }
 
 #game.game-over .grid-card {
-    margin-bottom: 60px;
+    margin-bottom: 80px;
 }
 
 #game.game-over .grid-card .back,
@@ -27,10 +27,10 @@
     background-color: #000;
     color: #fff;
     width: 100%;
-    height: 60px;
+    height: 85px;
     padding: 5px;
     position: absolute;
-    bottom: -60px;
+    bottom: -85px;
     transform: rotateY(180deg);
     border-bottom-left-radius: 8px;
     border-bottom-right-radius: 8px;
@@ -86,4 +86,82 @@
 .match .front {
     background: white;
     box-shadow: none;
+}
+
+.game-score,
+.game-time,
+.game-moves,
+.game-score .badge,
+.game-time .badge,
+.game-moves .badge,
+.social-media-share,
+.new-game-btn,
+.species-name {
+    @media (max-width: 1399.98px) {
+        font-size: 0.9rem;
+    }
+    @media (max-width: 991.98px) {
+        font-size: 0.8rem;
+    }
+    @media (max-width: 767.98px) {
+        font-size: 0.7rem;
+    }
+    @media (max-width: 575.98px) {
+        font-size: 0.6rem;
+    }
+}
+
+.game-score .badge,
+.game-time .badge,
+.game-moves .badge {
+    padding: 0.5rem 1rem;
+}
+
+.social-media-share .fa-x-twitter,
+.icon-btn {
+    font-size: 1.3rem;
+    margin-top: 0.15rem;
+}
+
+.icon-btn .fa-binoculars {
+    margin-top: 0.3rem;
+}
+
+.social-media-share .warpcast-logo,
+.icon-btn img {
+    width: 1.3rem;
+    height: 1.3rem;
+}
+
+.social-media-share .fa-x-twitter,
+.icon-btn {
+    @media (max-width: 575.98px) {
+        font-size: 0.9rem;
+        margin-top: 0.15rem;
+    }
+}
+
+.icon-btn .fa-binoculars {
+    @media (max-width: 575.98px) {
+        margin-top: 0.25rem;
+    }
+}
+
+.social-media-share .warpcast-logo,
+.icon-btn img {
+    @media (max-width: 575.98px) {
+        width: 0.9rem;
+        height: 0.9rem;
+    }
+}
+
+.new-game-btn {
+    padding: 0.35rem;
+}
+
+.new-game-btn {
+    @media (max-width: 575.98px) {
+        padding: 0.15rem;
+        font-size: 0.75rem;
+    }
 }
