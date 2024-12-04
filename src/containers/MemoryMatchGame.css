@@ -1,0 +1,172 @@
+#game .row > * {
+    margin-top: 1rem;
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
+}
+
+#game.game-over .grid-card.match {
+    transform: rotateY(180deg);
+}
+
+#game.game-over .grid-card {
+    margin-bottom: 80px;
+}
+
+#game.game-over .grid-card .back,
+#game.game-over .grid-card .front {
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+}
+
+#game.game-over .grid-card .species-row {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: #000;
+    color: #fff;
+    width: 100%;
+    height: 85px;
+    padding: 5px;
+    position: absolute;
+    bottom: -85px;
+    transform: rotateY(180deg);
+    border-bottom-left-radius: 8px;
+    border-bottom-right-radius: 8px;
+}
+
+.grid-card {
+    position: relative;
+    transition: all 0.4s linear;
+    transform-style: preserve-3d;
+}
+
+.grid-card {
+    width: 100%;
+    aspect-ratio: 1 / 1;
+}
+
+.back,
+.front {
+    width: 100%;
+    height: 100%;
+}
+
+.back,
+.front {
+    position: absolute;
+    backface-visibility: hidden;
+    border-radius: 8px;
+    box-shadow:
+        0 1px 2px rgba(0, 0, 0, 0.2),
+        0 2px 4px rgba(0, 0, 0, 0.15),
+        0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.front {
+    background: #f7f2ff
+        url("https://songbirdz.cc/static/media/home1.a3ef786a0b463d289f63.png")
+        no-repeat center center / 65%;
+    box-sizing: border-box;
+}
+
+.back {
+    transform: rotateY(180deg);
+    background-color: white;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center center;
+}
+
+.selected {
+    transform: rotateY(180deg);
+}
+
+.match .front {
+    background: white;
+    box-shadow: none;
+}
+
+.game-score,
+.game-time,
+.game-moves,
+.game-score .badge,
+.game-time .badge,
+.game-moves .badge,
+.social-media-share,
+.new-game-btn,
+.species-name {
+    font-size: 1rem;
+}
+
+.game-score .badge,
+.game-time .badge,
+.game-moves .badge {
+    padding: 0.5rem 1rem;
+}
+
+.social-media-share .fa-x-twitter,
+.icon-btn i {
+    font-size: 1.3rem;
+    margin-top: 0.15rem;
+}
+
+.icon-btn i.fa-binoculars {
+    margin-top: 0.3rem;
+}
+
+.social-media-share .warpcast-logo,
+.icon-btn img {
+    width: 1.3rem;
+    height: 1.3rem;
+}
+
+.new-game-btn {
+    padding: 0.35rem;
+}
+
+@media (max-width: 575.98px) {
+    .game-score,
+    .game-time,
+    .game-moves,
+    .game-score .badge,
+    .game-time .badge,
+    .game-moves .badge,
+    .social-media-share,
+    .new-game-btn,
+    .species-name {
+        font-size: 0.65rem;
+    }
+
+    .social-media-share .fa-x-twitter,
+    .icon-btn i {
+        font-size: 0.9rem;
+        margin-top: 0.15rem;
+    }
+
+    .social-media-share .warpcast-logo,
+    .icon-btn img {
+        width: 0.9rem;
+        height: 0.9rem;
+    }
+
+    .icon-btn i.fa-binoculars {
+        margin-top: 0.25rem;
+    }
+
+    .new-game-btn {
+        padding: 0.15rem;
+        font-size: 0.75rem;
+    }
+
+    #game.game-over .grid-card .species-row {
+        height: 55px;
+        bottom: -55px;
+        padding: 2.5px;
+    }
+
+    #game.game-over .grid-card {
+        margin-bottom: 55px;
+    }
+}

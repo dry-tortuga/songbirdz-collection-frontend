@@ -1,42 +1,25 @@
-import React, { useState } from "react";
-import { Toast } from "react-bootstrap";
+import React from "react";
+
+import ConnectWalletButton from "./ConnectWalletButton";
 
 import { useWalletContext } from "../contexts/wallet";
 
-const WalletConnectionStatus = ({ onClose }) => {
+const WalletConnectionStatus = () => {
+    const context = useWalletContext();
 
-	const context = useWalletContext();
+    if (!context.account) {
+        return <ConnectWalletButton />;
+    }
 
-	let message;
+    if (!context.isOnCorrectChain) {
+        return (
+            <span>
+                {"Double check to make sure you're on the Base network..."}
+            </span>
+        );
+    }
 
-	if (!context.account) {
-
-		message = "Please connect your wallet to get started identifying birds...";
-
-	} else if (!context.isOnCorrectChain) {
-
-		message = "Double check to make sure you're on the Base network...";
-
-	} else {
-
-		return null;
-
-	}
-
-	return (
-		<Toast
-			className="fs-6 mt-5"
-			bg="info"
-			delay={5000}
-			autohide
-			show
-			onClose={onClose}>
-			<Toast.Body className="text-white">
-				<span>{message}</span>
-			</Toast.Body>
-		</Toast>
-	);
-
+    return null;
 };
 
 export default WalletConnectionStatus;

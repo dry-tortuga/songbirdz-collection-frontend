@@ -1,228 +1,239 @@
 import React, { useMemo, useState } from "react";
-import { 
-	Transaction, 
-	TransactionButton, 
-	TransactionSponsor, 
-	TransactionStatus, 
-	TransactionStatusAction, 
-	TransactionStatusLabel, 
-} from "@coinbase/onchainkit/transaction"; 
 import {
-	Button,
-	Form,
-	Modal,
-} from "react-bootstrap";
+    Transaction,
+    TransactionButton,
+    TransactionSponsor,
+    TransactionStatus,
+    TransactionStatusAction,
+    TransactionStatusLabel,
+} from "@coinbase/onchainkit/transaction";
+import { Button, Form, Modal } from "react-bootstrap";
 import Select from "react-select";
 
 import BirdAudioFile from "./BirdAudioFile";
+import WalletConnectionStatus from "./WalletConnectionStatus";
 
 import {
-	ANSWER_CHOICES_FLOCK_2,
-	ANSWER_CHOICES_FLOCK_3,
-	ANSWER_CHOICES_FLOCK_4,
-	COLLECTIONS,
-	CURRENT_COLLECTION_MIN_ID,
-	CURRENT_COLLECTION_MAX_ID,
+    ANSWER_CHOICES_FLOCK_2,
+    ANSWER_CHOICES_FLOCK_3,
+    ANSWER_CHOICES_FLOCK_4,
+    COLLECTIONS,
+    CURRENT_COLLECTION_MIN_ID,
+    CURRENT_COLLECTION_MAX_ID,
 } from "../constants";
 
 import "./BirdIdentificationModal.css";
 
 const BirdIdentificationModal = (props) => {
+    const {
+        context,
+        isOpen,
+        bird,
+        onSubmitSmartWallet,
+        onSubmitNonSmartWallet,
+        onToggle,
+    } = props;
 
-	const {
-		context,
-		isOpen,
-		bird,
-		onSubmitNonSmartWallet,
-		onSuccess,
-		onToggle,
-	} = props;
+    const [formData, setFormData] = useState({
+        species: "",
+    });
 
-	const [formData, setFormData] = useState({
-		species: "",
-	});
+    const [contractCall, setContractCall] = useState([]);
 
-	const [contractCall, setContractCall] = useState([]);
+    const handleInputChange = async (selectedOption) => {
+        if (context.isPaymasterSupported) {
+            // Reset the selected species to use as the guess so we can wait for the result
+            // of the async API call to fetch the merkle proof for the "publicMint" contract call
 
-	const handleInputChange = async (selectedOption) => {
+            setContractCall([]);
 
-		if (context.isPaymasterSupported) {
+            try {
+                const result = await context.actions.publicMint(
+                    bird.id,
+                    selectedOption.value,
+                );
 
-			// Reset the selected species to use as the guess so we can wait for the result
-			// of the async API call to fetch the merkle proof for the "publicMint" contract call
+                setContractCall([result]);
+            } catch (error) {
+                // TODO: Show an error message?
+            }
+        } else {
+            setFormData({ species: selectedOption.value });
+        }
+    };
 
-			setContractCall([]);
+    // Handle submitting a new transaction for non-smart wallet users
+    const handleSubmitNonSmartWallet = async () => {
+        if (formData.species) {
+            // Close the modal
+            onToggle();
 
-			try {
+            // Submit the transaction
+            await onSubmitNonSmartWallet(bird, formData.species);
+        }
+    };
 
-				const result = await context.actions.publicMint(bird.id, selectedOption.value);
+    const options = useMemo(() => {
+        const collection = COLLECTIONS.find(
+            (temp) => bird.id >= temp.min_id && bird.id <= temp.max_id,
+        );
 
-				setContractCall([result]);
+        let answerChoices;
 
-			} catch (error) {
-				// TODO: Show an error message?
-			}
+        if (bird.id >= 2000 && bird.id <= 2999) {
+            answerChoices = ANSWER_CHOICES_FLOCK_2;
+        } else if (bird.id >= 3000 && bird.id <= 3999) {
+            answerChoices = ANSWER_CHOICES_FLOCK_3;
+        } else if (bird.id >= 4000 && bird.id <= 4999) {
+            answerChoices = ANSWER_CHOICES_FLOCK_4;
+        }
 
-		} else {
+        // Get the bird's final index relative to ONLY the current collection
+        const finalIndex = bird.id - collection.min_id;
 
-			setFormData({ species: selectedOption.value });
+        const result = answerChoices[finalIndex].options.map((name) => ({
+            label: name,
+            value: name,
+        }));
 
-		}
+        result.sort((a, b) => {
+            if (a.value < b.value) {
+                return -1;
+            }
 
-	};
+            if (a.value > b.value) {
+                return 1;
+            }
 
-	// Handle submitting a new transaction for non-smart wallet users
-	const handleSubmitNonSmartWallet = async () => {
+            return 0;
+        });
 
-		if (formData.species) {
+        return result;
+    }, [bird.id]);
 
-			// Close the modal
-			onToggle();
+    // Extra safety check here to prevent users from submitting invalid transactions...
+    if (
+        bird.id < CURRENT_COLLECTION_MIN_ID ||
+        bird.id > CURRENT_COLLECTION_MAX_ID
+    ) {
+        return null;
+    }
 
-			// Submit the transaction
-			await onSubmitNonSmartWallet(bird.id, formData.species);
+    return (
+        <Modal
+            className="bird-identification-modal"
+            show={isOpen}
+            onHide={onToggle}
+        >
+            <Modal.Header closeButton>
+                <Modal.Title>{`Identify ${bird.name}`}</Modal.Title>
+            </Modal.Header>
+            <Modal.Body>
+                <Form>
+                    <Form.Group className="mb-3">
+                        <img
+                            style={{
+                                width: "50%",
+                                height: "auto",
+                                marginLeft: "auto",
+                                marginRight: "auto",
+                            }}
+                            src={bird.image}
+                        />
+                    </Form.Group>
+                    <Form.Group className="mb-3" controlId="song-audio">
+                        <Form.Label className="d-block fw-bold">
+                            {"Song Audio"}
+                        </Form.Label>
+                        <BirdAudioFile className="w-100" birdId={bird.id} />
+                    </Form.Group>
+                    <Form.Group className="mb-3" controlId="species">
+                        <Form.Label className="fw-bold">{"Species"}</Form.Label>
+                        <Select
+                            id="species"
+                            name="species"
+                            className="bird-identification-species-selector"
+                            classNamePrefix="bird-identification-species"
+                            options={options}
+                            isDisabled={!context.account}
+                            onChange={handleInputChange}
+                        />
+                    </Form.Group>
+                    <Form.Group className="mb-3">
+                        <Form.Text className="d-block">
+                            <span className="fw-bold me-2">{"PRICE: "}</span>
+                            <span>{"0.0015 ETH"}</span>
+                        </Form.Text>
+                        <Form.Text className="text-muted d-block">
+                            <span className="fw-bold me-2">{"NOTE: "}</span>
+                            <span>
+                                {
+                                    "If you submit an incorrect guess, you will be automatically refunded 0.00125 ETH."
+                                }
+                            </span>
+                        </Form.Text>
+                    </Form.Group>
+                </Form>
+                {(!context.account || !context.isOnCorrectChain) && (
+                    <WalletConnectionStatus />
+                )}
+                {context.account && context.isOnCorrectChain && (
+                    <>
+                        {context.isPaymasterSupported && (
+                            <Transaction
+                                key={contractCall.length} // Re-mount when contract call changes
+                                address={context.account}
+                                className="bird-identification-transaction-container"
+                                capabilities={
+                                    context.isPaymasterSupported
+                                        ? {
+                                              paymasterService: {
+                                                  url: process.env
+                                                      .REACT_APP_COINBASE_PAYMASTER_AND_BUNDLER_ENDPOINT,
+                                              },
+                                          }
+                                        : null
+                                }
+                                contracts={contractCall}
+                                onError={(error) => {
+                                    console.error(error);
 
-		}
+                                    // TODO: Show more relevant error messages???
+                                }}
+                                onSuccess={(response) => {
+                                    // Close the modal
+                                    onToggle();
 
-	};
-
-	const options = useMemo(() => {
-
-		const collection =
-			COLLECTIONS.find((temp) => bird.id >= temp.min_id && bird.id <= temp.max_id);
-
-		let answerChoices;
-
-		if (bird.id >= 2000 && bird.id <= 2999) {
-			answerChoices = ANSWER_CHOICES_FLOCK_2;
-		} else if (bird.id >= 3000 && bird.id <= 3999) {
-			answerChoices = ANSWER_CHOICES_FLOCK_3;
-		} else if (bird.id >= 4000 && bird.id <= 4999) {
-			answerChoices = ANSWER_CHOICES_FLOCK_4;
-		}
-
-		// Get the bird's final index relative to ONLY the current collection
-		const finalIndex = bird.id - collection.min_id;
-
-		const result = answerChoices[finalIndex].options.map((name) => ({
-			label: name,
-			value: name,
-		}));
-
-		result.sort((a, b) => {
-
-			if (a.value < b.value) {
-				return -1;
-			}
-
-			if (a.value > b.value) {
-				return 1;
-			}
-
-			return 0;
-
-  		});
-
-		return result;
-
-	}, [bird.id]);
-
-	// Extra safety check here to prevent users from submitting invalid transactions...
-	if (bird.id < CURRENT_COLLECTION_MIN_ID || bird.id > CURRENT_COLLECTION_MAX_ID) {
-		return null;
-	}
-
-	return (
-		<Modal
-			show={isOpen}
-			onHide={onToggle}>
-			<Modal.Header closeButton>
-				<Modal.Title>
-					{`Identify ${bird.name}`}
-				</Modal.Title>
-			</Modal.Header>
-			<Modal.Body>
-				<Form>
-					<Form.Group
-						className="mb-3"
-						controlId="song-audio">
-						<Form.Label className="d-block">
-							{"Song Audio"}
-						</Form.Label>
-						<BirdAudioFile birdId={bird.id} />
-					</Form.Group>
-					<Form.Group
-						className="mb-3"
-						controlId="species">
-						<Form.Label>
-							{"Species"}
-						</Form.Label>
-						<Select
-							id="species"
-							name="species"
-							className="bird-identification-species-selector"
-							classNamePrefix="bird-identification-species"
-							options={options}
-							onChange={handleInputChange} />
-					</Form.Group>
-					<Form.Text className="text-muted d-block">
-						{"PRICE: 0.0015 ETH"}
-					</Form.Text>
-					<Form.Text className="text-muted d-block">
-						{"NOTE: If you submit an incorrect guess, you will be automatically refunded 0.00125 ETH."}
-					</Form.Text>
-				</Form>
-				{context.isPaymasterSupported &&
-					<Transaction
-						key={contractCall.length} // Re-mount when contract call changes
-						address={context.account}
-						className="bird-identification-transaction-container"
-						capabilities={context.isPaymasterSupported ? {
-							paymasterService: { 
-								url: process.env.REACT_APP_COINBASE_PAYMASTER_AND_BUNDLER_ENDPOINT, 
-							}, 
-						} : null}
-						contracts={contractCall}
-						onError={(error) => {
-
-							console.error(error);
-
-							// TODO: Show more relevant error messages???
-
-						}}
-						onSuccess={(response) => {
-
-							// Close the modal
-							onToggle();
-
-							// Handle and parse the successful response
-							onSuccess(response);
-
-						}}>
-						<TransactionButton
-							className="btn btn-info mt-4"
-							disabled={contractCall.length === 0}
-							text="Submit" />
-						<TransactionSponsor text="SongBirdz" />
-						<TransactionStatus>
-							<TransactionStatusLabel />
-							<TransactionStatusAction />
-						</TransactionStatus>
-					</Transaction>
-				}
-				{!context.isPaymasterSupported &&
-					<Button
-						className="mt-3"
-						variant="info"
-						onClick={handleSubmitNonSmartWallet}>
-						{"Submit"}
-					</Button>
-				}
-			</Modal.Body>
-		</Modal>
-
-	);
-
+                                    // Handle and parse the successful response
+                                    onSubmitSmartWallet(bird, response);
+                                }}
+                            >
+                                <TransactionButton
+                                    className="btn btn-info w-100"
+                                    disabled={contractCall.length === 0}
+                                    text="Submit"
+                                />
+                                <TransactionSponsor text="SongBirdz" />
+                                <TransactionStatus>
+                                    <TransactionStatusLabel />
+                                    <TransactionStatusAction />
+                                </TransactionStatus>
+                            </Transaction>
+                        )}
+                        {!context.isPaymasterSupported && (
+                            <Button
+                                className="w-100"
+                                variant="info"
+                                onClick={handleSubmitNonSmartWallet}
+                            >
+                                {"Submit"}
+                            </Button>
+                        )}
+                    </>
+                )}
+            </Modal.Body>
+        </Modal>
+    );
 };
 
 export default BirdIdentificationModal;
