@@ -162,11 +162,11 @@ const BirdDetails = () => {
                                         key={bird.id}
                                     >
                                         <a
-                                            href={`https://twitter.com/intent/tweet?text=${encodeURIComponent(`Check out this ${bird.species} in the @songbirdz_cc collection on @base from @dry_tortuga!\n\n Try onchain bird watching today at https://songbirdz.cc/collection?hide_already_identified=true\n\n`)}`}
+                                            href={`https://twitter.com/intent/tweet?text=${encodeURIComponent(`Check out this ${bird.species} in the @songbirdz_cc collection on @base!\n\n Play the onchain bird watching game at https://songbirdz.cc/collection?hide_already_identified=true\n\n`)}`}
                                             className="twitter-share-button"
                                             data-show-count="false"
                                             data-size="large"
-                                            data-hashtags="basedbirds"
+                                            data-hashtags="songbirdz,birds,nfts,pfts,onchain"
                                             data-via="opensea"
                                             data-url={`https://opensea.io/assets/base/${context.contractAddress}/${bird.id}`}
                                         >

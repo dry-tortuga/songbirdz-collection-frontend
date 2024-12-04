@@ -124,7 +124,8 @@ const BirdIdentificationTransactionStatusNonSmartWallet = (props) => {
                                 href={`https://twitter.com/intent/tweet?text=${encodeURIComponent(`I just identified this ${tx.bird.species} in the @songbirdz_cc collection on @base!\n\n Join me and play the onchain bird watching game at https://songbirdz.cc/collection?hide_already_identified=true\n\n`)}`}
                                 className="twitter-share-button me-3"
                                 data-hashtags="songbirdz,birds,nfts,pfps,onchain"
-                                data-url={`https://magiceden.io/item-details/${contractAddress}/${tx.bird.id}`}
+                                data-via="magiceden"
+                                data-url={`https://magiceden.io/item-details/base/${contractAddress}/${tx.bird.id}`}
                             >
                                 <i
                                     className="fa-brands fa-x-twitter"
@@ -137,7 +138,7 @@ const BirdIdentificationTransactionStatusNonSmartWallet = (props) => {
                         </span>
                         <span>
                             <a
-                                href={`https://warpcast.com/~/compose?text=${encodeURIComponent(`I just identified this ${tx.bird.species} in the Songbirdz collection on @base!\n\n Join me and play the onchain bird watching game at https://songbirdz.cc/collection?hide_already_identified=true\n\nhttps://magiceden.io/item-details/${contractAddress}/${tx.bird.id}`)}`}
+                                href={`https://warpcast.com/~/compose?text=${encodeURIComponent(`I just identified this ${tx.bird.species} in the Songbirdz collection on @base!\n\n Join me and play the onchain bird watching game at https://songbirdz.cc/collection?hide_already_identified=true\n\nhttps://magiceden.io/item-details/base/${contractAddress}/${tx.bird.id}`)}`}
                                 className="farcaster-share-button"
                                 target="_blank"
                                 rel="noopener noreferrer"

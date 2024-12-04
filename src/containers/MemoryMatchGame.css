@@ -97,18 +97,7 @@
 .social-media-share,
 .new-game-btn,
 .species-name {
-    @media (max-width: 1399.98px) {
-        font-size: 0.9rem;
-    }
-    @media (max-width: 991.98px) {
-        font-size: 0.8rem;
-    }
-    @media (max-width: 767.98px) {
-        font-size: 0.7rem;
-    }
-    @media (max-width: 575.98px) {
-        font-size: 0.6rem;
-    }
+    font-size: 1rem;
 }
 
 .game-score .badge,
@@ -118,12 +107,12 @@
 }
 
 .social-media-share .fa-x-twitter,
-.icon-btn {
+.icon-btn i {
     font-size: 1.3rem;
     margin-top: 0.15rem;
 }
 
-.icon-btn .fa-binoculars {
+.icon-btn i.fa-binoculars {
     margin-top: 0.3rem;
 }
 
@@ -133,35 +122,51 @@
     height: 1.3rem;
 }
 
-.social-media-share .fa-x-twitter,
-.icon-btn {
-    @media (max-width: 575.98px) {
-        font-size: 0.9rem;
-        margin-top: 0.15rem;
-    }
-}
-
-.icon-btn .fa-binoculars {
-    @media (max-width: 575.98px) {
-        margin-top: 0.25rem;
-    }
-}
-
-.social-media-share .warpcast-logo,
-.icon-btn img {
-    @media (max-width: 575.98px) {
-        width: 0.9rem;
-        height: 0.9rem;
-    }
-}
-
 .new-game-btn {
     padding: 0.35rem;
 }
 
-.new-game-btn {
-    @media (max-width: 575.98px) {
+@media (max-width: 575.98px) {
+    .game-score,
+    .game-time,
+    .game-moves,
+    .game-score .badge,
+    .game-time .badge,
+    .game-moves .badge,
+    .social-media-share,
+    .new-game-btn,
+    .species-name {
+        font-size: 0.65rem;
+    }
+
+    .social-media-share .fa-x-twitter,
+    .icon-btn i {
+        font-size: 0.9rem;
+        margin-top: 0.15rem;
+    }
+
+    .social-media-share .warpcast-logo,
+    .icon-btn img {
+        width: 0.9rem;
+        height: 0.9rem;
+    }
+
+    .icon-btn i.fa-binoculars {
+        margin-top: 0.25rem;
+    }
+
+    .new-game-btn {
         padding: 0.15rem;
         font-size: 0.75rem;
+    }
+
+    #game.game-over .grid-card .species-row {
+        height: 55px;
+        bottom: -55px;
+        padding: 2.5px;
+    }
+
+    #game.game-over .grid-card {
+        margin-bottom: 55px;
     }
 }

@@ -376,7 +376,7 @@ const MemoryMatchGame = () => {
                             />
                             {isFinished && (
                                 <div className="species-row">
-                                    <span className="species-name">
+                                    <span className="species-name text-center">
                                         {bird.species}
                                     </span>
                                     <div className="icon-buttons flex align-items-center gap-2">

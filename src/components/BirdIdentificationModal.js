@@ -126,7 +126,7 @@ const BirdIdentificationModal = (props) => {
             onHide={onToggle}
         >
             <Modal.Header closeButton>
-                <Modal.Title className="w-100 text-center">{`Identify ${bird.name}`}</Modal.Title>
+                <Modal.Title>{`Identify ${bird.name}`}</Modal.Title>
             </Modal.Header>
             <Modal.Body>
                 <Form>
@@ -155,6 +155,7 @@ const BirdIdentificationModal = (props) => {
                             className="bird-identification-species-selector"
                             classNamePrefix="bird-identification-species"
                             options={options}
+                            isDisabled={!context.account}
                             onChange={handleInputChange}
                         />
                     </Form.Group>
