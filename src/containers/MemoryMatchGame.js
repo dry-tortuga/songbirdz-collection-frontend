@@ -561,6 +561,8 @@ async function loadGameCards(numBirds) {
 
     // Randomize order
     gameCards.sort(() => 0.5 - Math.random());
+    gameCards.sort(() => 0.5 - Math.random());
+    gameCards.sort(() => 0.5 - Math.random());
 
     return gameCards;
 }
