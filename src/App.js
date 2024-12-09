@@ -40,6 +40,9 @@ const router = createBrowserRouter(
 				path="leaderboard"
 				lazy={() => import("./routes/leaderboard")} />
 			<Route
+				path="memory-match"
+				lazy={() => import("./routes/memoryMatchGame")} />
+			<Route
 				path="sounds-of-summer-2024"
 				lazy={() => import("./routes/soundsOfSummer")} />
 			<Route

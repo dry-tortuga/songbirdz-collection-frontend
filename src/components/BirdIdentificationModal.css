@@ -1,7 +1,19 @@
 .bird-identification-species-selector .bird-identification-species__control {
-	font-weight: normal;
+    font-weight: normal;
 }
 
 .bird-identification-species-selector .bird-identification-species__menu {
-	font-weight: normal;
+    font-weight: normal;
+}
+
+.bird-identification-modal .connect-wallet-btn,
+.bird-identification-modal .connect-wallet-btn > *,
+.bird-identification-modal button {
+    width: 100%;
+}
+
+.bird-identification-modal .modal-header .btn-close {
+    position: absolute;
+    top: 5px;
+    right: 5px;
 }
