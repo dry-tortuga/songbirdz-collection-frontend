@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
     Col,
     Container,
@@ -52,6 +52,19 @@ const Leaderboard = () => {
         setActiveTab(newValue);
     };
 
+    // Re-load the twitter share button
+	useEffect(() => {
+
+		if (window.twttr?.widgets) {
+
+			window.twttr.widgets.load(
+				document.getElementById("leaderboard-page")
+			);
+
+		}
+
+	}, []);
+
     console.debug("-------------- Leaderboard -----------");
     console.debug(data);
     console.debug(`season=${season}`);
@@ -59,7 +72,9 @@ const Leaderboard = () => {
     console.debug("--------------------------------------");
 
     return (
-        <div className="leaderboard-page">
+        <div
+            id="leaderboard-page"
+            className="leaderboard-page">
             <Container className="mt-4">
                 <Row className="mb-3">
                     <Col>
@@ -264,7 +279,7 @@ const Leaderboard = () => {
                             </>
                         )}
                     </Tab>
-                    <Tab eventKey={TAB_SEASON_3} title="Season 3 (active)">
+                    <Tab eventKey={TAB_SEASON_3} title="Season 3 (Active)">
                         {activeTab === TAB_SEASON_3 && (
                             <>
                                 <Row className="mb-4">
@@ -299,12 +314,7 @@ const Leaderboard = () => {
                                         <Row>
                                             <Col>
                                                 <p>
-                                                    {
-                                                        "Runs from December 1st, 2024 12AM UTC to February 28th, 2025 11PM UTC. Leaderboard attempts to update in real-time, but points to be manually confirmed on a weekly basis in case any ERC-721 events are missed."
-                                                    }
-                                                </p>
-                                                <p>
-                                                    {"Accounts with the most Birder Points will receive:"}
+                                                    {"Accounts with the most Birder Points at the end of Season 3 will receive:"}
                                                 </p>
                                                 <ul style={{ listStyle: "disc" }}>
                                                     <li>
@@ -452,7 +462,7 @@ const Leaderboard = () => {
                                                                 }
                                                             </li>
                                                             <li>
-                                                                {"Include a link to https://songbirdz.cc"}
+                                                                {"Include a link to https://songbirdz.cc/collection?hide_already_identified=true"}
                                                             </li>
                                                             <li>
                                                                 <a
