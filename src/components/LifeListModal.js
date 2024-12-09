@@ -58,39 +58,61 @@ const LifeListModal = (props) => {
 
 	const [dataToShow, pointTotalToShow] = useMemo(() => {
 
-		let results = {};
-		let total = 0;
-
 		const speciesByIDSeason1 = data?.season_1 || {};
 		const speciesByIDSeason2 = data?.season_2 || {};
+		const speciesByIDSeason3 = data?.season_3 || {};
 
-		if (filter !== "2") {
+        let results = {}, total = 0;
 
-			results = { ...results, ...speciesByIDSeason1 };
+        if (filter === "1") {
 
-			if (filter === "0" || filter === "1") {
+            results = { ...speciesByIDSeason1 };
 
-				Object.values(speciesByIDSeason1).forEach((data) => {
-					total += data.amount;
-				});
+            Object.values(speciesByIDSeason1).forEach((data) => {
+				total += data.amount;
+			});
 
-			}
+        } else if (filter === "2") {
 
-		}
+            results = { ...speciesByIDSeason2 };
 
-		if (filter != "1") {
+            Object.values(speciesByIDSeason2).forEach((data) => {
+				total += data.amount;
+			});
 
-			results = { ...results, ...speciesByIDSeason2 };
+        } else if (filter === "3") {
 
-			if (filter === "0" || filter === "2") {
+            results = { ...speciesByIDSeason3 };
 
-				Object.values(speciesByIDSeason2).forEach((data) => {
-					total += data.amount;
-				});
+            Object.values(speciesByIDSeason3).forEach((data) => {
+				total += data.amount;
+			});
 
-			}
+        } else {
 
-		}
+            results = {
+                ...speciesByIDSeason1,
+                ...speciesByIDSeason2,
+                ...speciesByIDSeason3,
+            };
+
+            if (filter === "0") {
+
+                Object.values(speciesByIDSeason1).forEach((data) => {
+    				total += data.amount;
+    			});
+
+                Object.values(speciesByIDSeason2).forEach((data) => {
+    				total += data.amount;
+    			});
+
+                Object.values(speciesByIDSeason3).forEach((data) => {
+    				total += data.amount;
+    			});
+
+            }
+
+        }
 
 		return [results, total];
 
@@ -251,8 +273,9 @@ const LifeListModal = (props) => {
 					<option value="0">{"All Seasons"}</option>
 					<option value="1">{"Season 1"}</option>
 					<option value="2">{"Season 2"}</option>
+					<option value="3">{"Season 3"}</option>
 					{COLLECTIONS.map((collection) => (
-						<option value={collection.name}>{collection.name}</option>						
+						<option value={collection.name}>{collection.name}</option>
 					))}
 				</Form.Select>
 				{sortedFamilies.map((family) => (
@@ -271,6 +294,7 @@ const LifeListModal = (props) => {
 						</div>
 					</div>
 				}
+				{/* TODO ADD SEASON 3 BONUS POINTS */}
 			</Modal.Body>
 		</Modal>
 	);
