@@ -10,13 +10,22 @@ body {
 
 #root,
 .app,
-.app > div {
+.app > div:not(#game) {
 	min-height: 100vh;
 }
 
 code {
 	font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
 	monospace;
+}
+
+.navbar-toggler {
+    padding: 0.15em 0.5em;
+}
+
+.navbar-toggler-icon {
+    width: 1em;
+    height: 1em;
 }
 
 .details-page svg[data-testid="ock-defaultAvatarSVG"],

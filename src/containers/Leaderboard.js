@@ -55,7 +55,7 @@ const Leaderboard = () => {
     // Re-load the twitter share button
 	useEffect(() => {
 
-		if (window.twttr?.widgets) {
+		if (window.twttr?.widgets && data?.users) {
 
 			window.twttr.widgets.load(
 				document.getElementById("leaderboard-page")
@@ -63,7 +63,7 @@ const Leaderboard = () => {
 
 		}
 
-	}, []);
+	}, [activeTab, data]);
 
     console.debug("-------------- Leaderboard -----------");
     console.debug(data);
@@ -319,7 +319,27 @@ const Leaderboard = () => {
                                                 <ul style={{ listStyle: "disc" }}>
                                                     <li>
                                                         <strong>{"Top 10 -> "}</strong>
-                                                        {"PRIZES TBD"}
+                                                        {"1 "}
+                                                        <a
+                                                            href="https://x.com/ShibaPunkz"
+                                                            target="_blank"
+                                                            rel="noopener noreferrer nofollow"
+                                                        >
+                                                            {"Based ShibaPunkz"}
+                                                        </a>
+                                                        {" NFT each"}
+                                                    </li>
+                                                    <li>
+                                                        <strong>{"Top 10 -> "}</strong>
+                                                        {"1 "}
+                                                        <a
+                                                            href="https://x.com/BaseBullsNFT"
+                                                            target="_blank"
+                                                            rel="noopener noreferrer nofollow"
+                                                        >
+                                                            {"BaseBulls"}
+                                                        </a>
+                                                        {" NFT each"}
                                                     </li>
                                                 </ul>
                                                 <p>
@@ -385,9 +405,15 @@ const Leaderboard = () => {
                                                         <a
                                                             href="https://opensea.io/collection/songbirdz"
                                                             target="_blank"
-                                                            rel="noopener noreferrer"
-                                                        >
-                                                            {"OpenSea"}
+                                                            rel="noopener noreferrer nofollow">
+                                                            <b>{"OpenSea"}</b>
+                                                        </a>
+                                                        {" or "}
+                                                        <a
+                                                            href="https://magiceden.io/collections/base/songbirdz"
+                                                            target="_blank"
+                                                            rel="noopener noreferrer nofollow">
+                                                            <b>{"Magic Eden"}</b>
                                                         </a>
                                                         {" above the minting price of 0.0015 ETH"}
                                                     </li>
@@ -437,46 +463,69 @@ const Leaderboard = () => {
                                                         }
                                                         <ul style={{ listStyle: "disc" }}>
                                                             <li>
-                                                                {"You must follow & tag "}
+                                                                {"You must follow "}
                                                                 <a
                                                                     href="https://x.com/dry_tortuga"
                                                                     target="_blank"
-                                                                    rel="noopener noreferrer"
+                                                                    rel="noopener noreferrer nofollow"
                                                                 >
                                                                     {"@dry_tortuga"}
                                                                 </a>
                                                             </li>
                                                             <li>
-                                                                {"You must follow & tag "}
+                                                                {"You must follow and tag "}
                                                                 <a
                                                                     href="https://x.com/songbirdz_cc"
                                                                     target="_blank"
-                                                                    rel="noopener noreferrer"
+                                                                    rel="noopener noreferrer nofollow"
                                                                 >
                                                                     {"@songbirdz_cc"}
                                                                 </a>
                                                             </li>
                                                             <li>
-                                                                {
-                                                                    "Include the image/link for the bird on OpenSea, Magic Eden, etc"
-                                                                }
-                                                            </li>
-                                                            <li>
-                                                                {"Include a link to https://songbirdz.cc/collection?hide_already_identified=true"}
+                                                                {"Please include the image/audio for your bird :)"}
                                                             </li>
                                                             <li>
                                                                 <a
-                                                                    href={`https://twitter.com/intent/tweet?text=${encodeURIComponent(`Love the @songbirdz_cc collection on @base!\n\nYOUR OWN WORDS HERE\n\nTry onchain bird watching today at https://songbirdz.cc/collection?hide_already_identified=true\n\n`)}`}
+                                                                    href={`https://twitter.com/intent/tweet?text=${encodeURIComponent(`Check out the Songbirdz collection on @base!\n\nYOUR OWN WORDS HERE\n\nJoin me and play the bird watching game at `)}`}
                                                                     className="twitter-share-button"
                                                                     data-show-count="false"
                                                                     data-size="large"
-                                                                    data-hashtags="basedbirds"
-                                                                    data-via="songbirdz"
+                                                                    data-hashtags="songbirdz,birds,birding,onchain,nfts,gaming"
+                                                                    data-via="songbirdz_cc"
                                                                     data-url={
                                                                         "https://songbirdz.cc/collection?hide_already_identified=true"
-                                                                    }
-                                                                >
+                                                                    }>
                                                                     {"Share on X"}
+                                                                </a>
+                                                            </li>
+                                                        </ul>
+                                                    </li>
+                                                    <li>
+                                                        <b>{"25 points (Farcaster Campaign):"}</b>
+                                                        {
+                                                            " Share a bird that you own on Farcaster and tell us, in your own words, why you think the Songbirdz project is interesting!"
+                                                        }
+                                                        <ul style={{ listStyle: "disc" }}>
+                                                            <li>
+                                                                {"You must follow and tag "}
+                                                                <a
+                                                                    href="https://warpcast.com/dry-tortuga"
+                                                                    target="_blank"
+                                                                    rel="noopener noreferrer nofollow">
+                                                                    {"@dry-tortuga"}
+                                                                </a>
+                                                            </li>
+                                                            <li>
+                                                                {"Please include the image/audio for your bird :)"}
+                                                            </li>
+                                                            <li>
+                                                                <a
+                                                                    href={`https://warpcast.com/~/compose?text=${encodeURIComponent(`Check out the Songbirdz collection from @dry-tortuga on @base!\n\nYOUR OWN WORDS HERE\n\nJoin me and play the bird watching game at https://songbirdz.cc/collection?hide_already_identified=true\n\nhttps://songbirdz-collection-farcaster-mint-frame.vercel.app/api`)}`}
+                                                                    className="farcaster-share-button"
+                                                                    target="_blank"
+                                                                    rel="noopener noreferrer nofollow">
+                                                                    {"Share on Farcaster"}
                                                                 </a>
                                                             </li>
                                                         </ul>

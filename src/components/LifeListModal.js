@@ -30,6 +30,29 @@ const SEASON_2_BONUS_POINT_SPECIES = [{
 	label: 'Hit 30 Day Streak',
 }];
 
+const SEASON_3_BONUS_POINT_SPECIES = [{
+	id: 1006,
+	label: 'Posted on X',
+}, {
+	id: 1007,
+	label: 'Posted on Farcaster',
+}, {
+	id: 1008,
+	label: 'Joined Telegram',
+}, {
+	id: 1009,
+	label: 'Joined Discord',
+}, {
+	id: 1010,
+	label: 'Hit 7 Day Streak',
+}, {
+	id: 1011,
+	label: 'Hit 14 Day Streak',
+}, {
+	id: 1012,
+	label: 'Hit 30 Day Streak',
+}];
+
 const sortedFamilies = FAMILIES.sort((family1, family2) => {
 
 	if (family1.name < family2.name) {
@@ -294,7 +317,14 @@ const LifeListModal = (props) => {
 						</div>
 					</div>
 				}
-				{/* TODO ADD SEASON 3 BONUS POINTS */}
+				{filter === "3" &&
+					<div>
+						<h4>{"Bonus Points"}</h4>
+						<div className="mb-4">
+							{renderSpeciesList(SEASON_3_BONUS_POINT_SPECIES)}
+						</div>
+					</div>
+				}
 			</Modal.Body>
 		</Modal>
 	);
