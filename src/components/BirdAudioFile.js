@@ -9,7 +9,8 @@ const BirdAudioFile = (props) => {
 			{...restProps}
 			src={`${process.env.PUBLIC_URL}/audio/${birdId}.mp3`}
 			controlsList="nodownload"
-			controls />
+			controls
+			loop />
 	);
 
 };

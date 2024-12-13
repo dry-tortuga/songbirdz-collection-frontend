@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 
 import { fetchLeaderboard } from "../utils/data";
 
-const TOTAL_SIZE = 52;
+const TOTAL_SIZE = 53;
 
 const useLeaderboard = ({ account, season }) => {
 
@@ -23,11 +23,7 @@ const useLeaderboard = ({ account, season }) => {
 
                 let timestampMessage;
 
-                if (season === 1) {
-                    timestampMessage = "Results are final as of August 31st, 2024 11PM UTC.";
-                } else if (season === 2) {
-                    timestampMessage = "Results are final as of November 30th, 2024 11PM UTC.";
-                } else if (season === 3) {
+                if (season === 3) {
                     timestampMessage = "Runs from December 1st, 2024 12AM UTC to February 28th, 2025 11PM UTC. Leaderboard attempts to update in real-time, but points to be manually confirmed on a weekly basis in case any ERC-721 events are missed. Last confirmed on December 9th, 2024 3:30PM UTC. ";
                 }
 

@@ -1,6 +1,6 @@
-import ANSWER_CHOICES_FLOCK_2 from './small-and-mighty-2-options';
-import ANSWER_CHOICES_FLOCK_3 from './night-and-day-3-options';
-import ANSWER_CHOICES_FLOCK_4 from './fire-and-ice-4-options';
+import ANSWER_CHOICES_FLOCK_2 from './answer-choices/small-and-mighty-2-options';
+import ANSWER_CHOICES_FLOCK_3 from './answer-choices/night-and-day-3-options';
+import ANSWER_CHOICES_FLOCK_4 from './answer-choices/fire-and-ice-4-options';
 
 import FAMILIES from './families';
 

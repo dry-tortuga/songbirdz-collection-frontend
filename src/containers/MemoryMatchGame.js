@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from "react";
-import { Badge, Button, ToastContainer } from "react-bootstrap";
+import React, { useCallback, useEffect, useState } from "react";
+import { Badge, Button, Form, ToastContainer } from "react-bootstrap";
 import { Link } from "react-router-dom";
 
 import BirdIdentificationModal from "../components/BirdIdentificationModal";
@@ -12,11 +12,6 @@ import { useWalletContext } from "../contexts/wallet";
 
 import useMintAPI from "../hooks/useMintAPI";
 
-import homeImage1 from "../images/home1.png";
-import homeImage2 from "../images/home2.jpg";
-import homeImage3 from "../images/home3.jpg";
-import homeImage4 from "../images/home4.jpg";
-import homeImage5 from "../images/home5.jpg";
 import openseaLogo from "../images/opensea-logomark-blue.svg";
 import magicedenLogo from "../images/magiceden-logo.png";
 import warpcastLogo from "../images/warpcast-logo.png";
@@ -24,10 +19,6 @@ import warpcastLogo from "../images/warpcast-logo.png";
 import "./MemoryMatchGame.css";
 
 // TODO: Leaderboard (Weekly vs. All Time vs. Deck Sizes)
-// TODO: Share on X or Farcaster
-// TODO: Audio -> Image (medium difficulty)
-// TODO: Audio -> Audio (hard difficulty)
-// TODO: Mobile first design
 
 /*
 
@@ -55,9 +46,8 @@ SOFTWARE.
 
 */
 
-const TIME_DELAY = 1000; // 1 second
-
 const MemoryMatchGame = () => {
+
     const context = useWalletContext();
 
     const { currentUser, setCurrentUser } = context;
@@ -69,6 +59,8 @@ const MemoryMatchGame = () => {
 
     const [birds, setBirds] = useState([]);
 
+    const [difficultyMode, setDifficultyMode] = useState("easy");
+
     const [matched, setMatched] = useState([]);
 
     const [movesUsed, setMovesUsed] = useState(0);
@@ -78,6 +70,11 @@ const MemoryMatchGame = () => {
     const [timeUsedSlow, setTimeUsedSlow] = useState(0);
 
     const [birdToID, setBirdToID] = useState(null);
+
+    const [activeAudio, setActiveAudio] = useState({
+        index: -1,
+        audioPlayer: null,
+    });
 
     // Keep track of the wallet connection state
     const [showWalletConnectionInfo, setShowWalletConnectionInfo] =
@@ -90,7 +87,7 @@ const MemoryMatchGame = () => {
     if (isFinished) {
         finalScore = calculateGameScore(
             birds.length,
-            TIME_DELAY,
+            1000,
             movesUsed,
             timeUsed,
         );
@@ -122,17 +119,53 @@ const MemoryMatchGame = () => {
         }
 
         if (selected.firstGuess === -1) {
+
+            // Start playing the audio for the first bird...
+            const selectedFirstBird = birds[index];
+
+            if (selectedFirstBird.audioPlayer) {
+                selectedFirstBird.audioPlayer.loop = true;
+                selectedFirstBird.audioPlayer.play();
+            }
+
             setSelected((prev) => ({ ...prev, firstGuess: index }));
+
             return;
+
         }
 
         if (selected.secondGuess === -1) {
+
+            // Stop playing the audio (if any) for the first bird...
+            const selectedFirstBird = birds[selected.firstGuess];
+
+            if (selectedFirstBird.audioPlayer) {
+                selectedFirstBird.audioPlayer.pause();
+            }
+
+            // Start playing the audio (if any) for the second bird...
+            const selectedSecondBird = birds[index];
+
+            if (selectedSecondBird.audioPlayer) {
+                selectedSecondBird.audioPlayer.loop = true;
+                selectedSecondBird.audioPlayer.play();
+            }
+
             setSelected((prev) => ({ ...prev, secondGuess: index }));
+
             return;
+
         }
+
     };
 
-    const handleResetGame = async () => {
+    const debouncedHandleClick = useCallback(
+        debounce(handleClick, 50),
+        [handleClick]
+    );
+
+    const handleResetGame = async (difficulty) => {
+
         setBirds([]);
         setMovesUsed(0);
         setHasStarted(false);
@@ -140,10 +173,12 @@ const MemoryMatchGame = () => {
         setTimeUsedSlow(0);
         setSelected({ firstGuess: -1, secondGuess: -1 });
         setMatched([]);
+        setActiveAudio({ index: -1, audioPlayer: null })
 
-        const newCards = await loadGameCards(8);
+        const newCards = await loadGameCards(8, difficulty);
 
         setBirds(newCards);
+
     };
 
     const {
@@ -184,10 +219,36 @@ const MemoryMatchGame = () => {
         },
     });
 
+    const handlePlayBirdSong = (bird, index) => {
+
+        if (activeAudio?.audioPlayer) {
+
+            activeAudio.audioPlayer.pause();
+
+            if (index === activeAudio.index) {
+
+                setActiveAudio({ index: -1, audioPlayer: null });
+
+                return;
+
+            }
+
+        }
+
+        if (!bird.audioPlayer) { bird.audioPlayer = new Audio(bird.audio); }
+
+        bird.audioPlayer.loop = true;
+        bird.audioPlayer.play();
+
+        setActiveAudio({
+            index,
+            audioPlayer: bird.audioPlayer,
+        });
+
+    };
+
     // Load the birds on initial load
-    useEffect(() => {
-        handleResetGame();
-    }, []);
+    useEffect(() => { handleResetGame(difficultyMode) }, [difficultyMode]);
 
     // Increase the time used by the user every 25 milliseconds until the game is finished
     useEffect(() => {
@@ -210,36 +271,63 @@ const MemoryMatchGame = () => {
     }, [birds, hasStarted, isFinished]);
 
     useEffect(() => {
+
         if (selected.firstGuess !== -1 && selected.secondGuess !== -1) {
+
             // Increase the number of moves used by the user
             setMovesUsed((prev) => prev + 1);
 
             const firstName = birds[selected.firstGuess].name;
             const secondName = birds[selected.secondGuess].name;
 
+            const hasAudioSecond = Boolean(birds[selected.secondGuess].audioPlayer);
+
             // and the first guess matches the second match...
             if (firstName === secondName) {
+
                 console.log("MATCH");
 
                 // run the match function
                 setTimeout(() => {
+
                     setMatched((prev) => [
                         ...prev,
                         selected.firstGuess,
                         selected.secondGuess,
                     ]);
 
+                    // Stop playing the audio (if any) for the second bird...
+                    const selectedSecondBird = birds[selected.secondGuess];
+
+                    if (selectedSecondBird.audioPlayer) {
+                        selectedSecondBird.audioPlayer.pause();
+                    }
+
                     setSelected({ firstGuess: -1, secondGuess: -1 });
-                }, TIME_DELAY);
+
+                }, hasAudioSecond ? 3000 : 1000);
+
             } else {
                 console.log("INCORRECT");
 
                 // reset the guesses
                 setTimeout(() => {
+
+                    // Stop playing the audio (if any) for the second bird...
+                    const selectedSecondBird = birds[selected.secondGuess];
+
+                    if (selectedSecondBird.audioPlayer) {
+                        selectedSecondBird.audioPlayer.pause();
+                    }
+
                     setSelected({ firstGuess: -1, secondGuess: -1 });
-                }, TIME_DELAY);
+
+                }, hasAudioSecond ? 3000 : 1000);
+
             }
+
         }
+
     }, [selected.firstGuess, selected.secondGuess]);
 
     // Re-load the twitter share button if the bird ID or species changes
@@ -268,12 +356,12 @@ const MemoryMatchGame = () => {
         <div id="game" className={`container ${isFinished ? "game-over" : ""}`}>
             <div className="row">
                 <div className="col">
-                    <h1>
+                    <h1 className="text-center">
                         <span className="mb-2 mb-md-3">
                             {isFinished ? "Game Over!" : "Memory Match"}
                         </span>
                     </h1>
-                    <div className="d-flex align-items-center mb-2 mb-md-3">
+                    <div className="d-flex align-items-center justify-content-center mb-2 mb-md-3">
                         <span className="game-score me-1 me-md-3">
                             {"Score:"}
                             <Badge
@@ -315,9 +403,19 @@ const MemoryMatchGame = () => {
                                 <span>{movesUsed}</span>
                             </Badge>
                         </span>
+                        <Form.Select
+                            className="game-mode-select"
+                            value={difficultyMode}
+                            disabled={hasStarted && !isFinished}
+                            style={{ maxWidth: "100px" }}
+                            onChange={(event) => setDifficultyMode(event.target.value)}>
+                            <option value="easy">Easy</option>
+                            <option value="medium">Medium</option>
+                            <option value="hard">Hard</option>
+                        </Form.Select>
                     </div>
                     {isFinished && (
-                        <div className="d-flex align-items-center flex-wrap">
+                        <div className="d-flex align-items-center justify-content-center flex-wrap">
                             <div className="social-media-share d-flex align-items-center me-4">
                                 <span className="me-2">{"Share on:"}</span>
                                 <span className="me-2">
@@ -348,7 +446,7 @@ const MemoryMatchGame = () => {
                             <Button
                                 className="new-game-btn"
                                 variant="primary"
-                                onClick={handleResetGame}
+                                onClick={() => handleResetGame(difficultyMode)}
                             >
                                 {"New Game"}
                             </Button>
@@ -358,28 +456,41 @@ const MemoryMatchGame = () => {
             </div>
             <div className="row">
                 {birds.map((bird, index) => (
-                    <div key={index} className="col-3 col-md-2">
+                    <div key={index} className="col-3">
                         <div
                             className={`
 								grid-card
 								${selected.firstGuess === index || selected.secondGuess === index ? "selected" : ""}
 								${matched.includes(index) ? "match" : ""}
 							`}
-                            onClick={() => handleClick(bird, index)}
+                            onClick={() => debouncedHandleClick(bird, index)}
                         >
                             <div className="front" />
                             <div
                                 className="back"
-                                style={{
-                                    backgroundImage: `url(${bird.image})`,
-                                }}
-                            />
+                                style={(bird.audioPlayer && !isFinished) ? { backgroundColor: '#eee' } : { backgroundImage: `url(${bird.image})` }}>
+                                    {bird.audioPlayer && !isFinished &&
+                                        <i className={
+                                            `fa-solid
+                                                fa-music
+                                                ${((selected.firstGuess === index && selected.secondGuess === -1) || selected.secondGuess === index) ? 'fa-beat' : ''}`
+                                        } />
+                                    }
+                            </div>
                             {isFinished && (
-                                <div className="species-row">
+                                <div className="species-row flex-column">
                                     <span className="species-name text-center">
                                         {bird.species}
                                     </span>
                                     <div className="icon-buttons flex align-items-center gap-2">
+                                        <button
+                                            className="icon-btn"
+                                            style={{ cursor: "pointer" }}
+                                            onClick={() => handlePlayBirdSong(bird, index)}>
+                                            <i
+                                                className={`fa-solid fa-music ${activeAudio?.index === index ? 'fa-beat' : ''}`}
+                                                style={{ color: "#ffffff" }} />
+                                        </button>
                                         {bird.species === "UNIDENTIFIED" && (
                                             <button
                                                 className="icon-btn"
@@ -407,7 +518,7 @@ const MemoryMatchGame = () => {
                                         </Link>
                                         {bird.species !== "UNIDENTIFIED" && (
                                             <>
-                                                <button className="icon-btn">
+                                                <button className="icon-btn d-none d-sm-flex">
                                                     <a
                                                         href={`https://opensea.io/assets/base/${context.contractAddress}/${bird.id}`}
                                                         target="_blank"
@@ -419,7 +530,7 @@ const MemoryMatchGame = () => {
                                                         />
                                                     </a>
                                                 </button>
-                                                <button className="icon-btn">
+                                                <button className="icon-btn d-none d-sm-flex">
                                                     <a
                                                         href={`https://magiceden.io/item-details/base/${context.contractAddress}/${bird.id}`}
                                                         target="_blank"
@@ -523,7 +634,8 @@ function calculateGameScore(width, timeDelay, movesUsed, timeUsed) {
     return timebonus + triesbonus;
 }
 
-async function loadGameCards(numBirds) {
+async function loadGameCards(numBirds, difficulty) {
+
     // Generate array of random numbers 0-5000 without duplicates
     let cardArray = [];
 
@@ -546,23 +658,62 @@ async function loadGameCards(numBirds) {
     );
 
     // Map to card objects
-    let gameCards = cardData.map((bird) => {
-        return {
-            id: parseInt(bird.name.split("#")[1], 10),
-            name: bird.name,
-            image: bird.image,
-            audio: bird.animation_url,
-            species: bird.species,
-        };
-    });
+    const gameCardsOriginal = cardData.map((bird) => ({
+        id: parseInt(bird.name.split("#")[1], 10),
+        name: bird.name,
+        image: bird.image,
+        audio: bird.animation_url,
+        species: bird.species,
+    }));
 
-    // Duplicate the array
-    gameCards = gameCards.concat(gameCards);
+    // Make a copy of the card objects
+    const gameCardsCopy = [...gameCardsOriginal.map((bird) => ({ ...bird }))];
+
+    let result = [];
+
+    if (difficulty === "easy") {
+
+        result = [...gameCardsOriginal, ...gameCardsCopy];
+
+    } else if (difficulty === "medium") {
+
+        result = [
+            ...gameCardsOriginal,
+            ...gameCardsCopy.map((bird) => ({
+                ...bird,
+                audioPlayer: new Audio(bird.audio),
+            })),
+        ];
+
+    } else if (difficulty === "hard") {
+
+        result = [
+            ...gameCardsOriginal.map((bird) => ({
+                ...bird,
+                audioPlayer: new Audio(bird.audio),
+            })),
+            ...gameCardsCopy.map((bird) => ({
+                ...bird,
+                audioPlayer: new Audio(bird.audio),
+            })),
+        ];
+
+    }
 
     // Randomize order
-    gameCards.sort(() => 0.5 - Math.random());
-    gameCards.sort(() => 0.5 - Math.random());
-    gameCards.sort(() => 0.5 - Math.random());
+    result.sort(() => 0.5 - Math.random());
+    result.sort(() => 0.5 - Math.random());
+    result.sort(() => 0.5 - Math.random());
+    result.sort(() => 0.5 - Math.random());
 
-    return gameCards;
+    return result;
+
+}
+
+function debounce(fn, delay) {
+  let timerId;
+  return (...args) => {
+    clearTimeout(timerId);
+    timerId = setTimeout(() => fn(...args), delay);
+  }
 }
