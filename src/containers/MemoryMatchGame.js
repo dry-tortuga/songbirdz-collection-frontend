@@ -518,7 +518,7 @@ const MemoryMatchGame = () => {
                                         </Link>
                                         {bird.species !== "UNIDENTIFIED" && (
                                             <>
-                                                <button className="icon-btn">
+                                                <button className="icon-btn d-none d-sm-flex">
                                                     <a
                                                         href={`https://opensea.io/assets/base/${context.contractAddress}/${bird.id}`}
                                                         target="_blank"
@@ -530,7 +530,7 @@ const MemoryMatchGame = () => {
                                                         />
                                                     </a>
                                                 </button>
-                                                <button className="icon-btn">
+                                                <button className="icon-btn d-none d-sm-flex">
                                                     <a
                                                         href={`https://magiceden.io/item-details/base/${context.contractAddress}/${bird.id}`}
                                                         target="_blank"
