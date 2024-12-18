@@ -9,6 +9,7 @@ const useMintAPI = ({ context, cb }) => {
     // Keep track of the state of back-end transactions
     const [txMintSmartWallet, setTxMintSmartWallet, resetTxMintSmartWallet] =
         useTransaction();
+
     const [
         txMintNonSmartWallet,
         setTxMintNonSmartWallet,
@@ -16,6 +17,7 @@ const useMintAPI = ({ context, cb }) => {
     ] = useTransaction();
 
     const handleMintSmartWallet = async (bird, response) => {
+
         const receipt = response.transactionReceipts?.[0];
 
         if (!receipt) {
@@ -71,6 +73,7 @@ const useMintAPI = ({ context, cb }) => {
         let finalData, updatedTracker;
 
         if (transferEvent) {
+
             const updatedData = { ...bird, owner: context.account };
 
             // Update the metadata for the bird
@@ -78,6 +81,7 @@ const useMintAPI = ({ context, cb }) => {
 
             // Update the daily streak for the user
             updatedTracker = await updateDailyStreak(context.account);
+
         }
 
         // Store the successful state for the transaction
@@ -98,10 +102,13 @@ const useMintAPI = ({ context, cb }) => {
 
         // Trigger the callback with the updated bird and daily streak data
         cb(finalData, updatedTracker);
+
     };
 
     const handleMintNonSmartWallet = async (bird, speciesGuess) => {
+
         try {
+
             if (!context.isOnCorrectChain) {
                 throw new Error(
                     "Double check to make sure you're on the Base network!",
@@ -150,6 +157,7 @@ const useMintAPI = ({ context, cb }) => {
             let events = [];
 
             if (txSuccess) {
+
                 console.debug(`handleMint, gasUsed=${txSuccess.gasUsed}`);
 
                 events = txSuccess.logs.map((log) => {
@@ -158,6 +166,7 @@ const useMintAPI = ({ context, cb }) => {
                         topics: log.topics,
                     });
                 });
+
             }
 
             // Find the event(s) from the back-end
@@ -174,6 +183,7 @@ const useMintAPI = ({ context, cb }) => {
 
             // Check if the user successfully identified the bird, i.e. is now the owner
             if (transferEvent) {
+
                 const updatedData = { ...bird, owner: context.account };
 
                 try {
@@ -189,6 +199,7 @@ const useMintAPI = ({ context, cb }) => {
                 } catch (error) {
                     console.error(error);
                 }
+
             }
 
             // Store the success/error state for the transaction
@@ -211,7 +222,9 @@ const useMintAPI = ({ context, cb }) => {
 
             // Notify the front-end of the event(s)
             cb(finalData, updatedTracker);
+
         } catch (error) {
+
             console.error(error);
 
             setTxMintNonSmartWallet((prev) =>
@@ -227,7 +240,9 @@ const useMintAPI = ({ context, cb }) => {
                         error?.data?.message || "Oops there was an error...",
                 }),
             );
+
         }
+
     };
 
     return {

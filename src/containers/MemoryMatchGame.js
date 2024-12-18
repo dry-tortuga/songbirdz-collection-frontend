@@ -607,6 +607,7 @@ export default MemoryMatchGame;
 
 // Perfect score = 1,000 points
 function calculateGameScore(width, timeDelay, movesUsed, timeUsed) {
+
     // Calculate the minimum number of tries required to win
     const minRequiredTries = width / 2;
 
@@ -632,15 +633,16 @@ function calculateGameScore(width, timeDelay, movesUsed, timeUsed) {
     }
 
     return timebonus + triesbonus;
+
 }
 
 async function loadGameCards(numBirds, difficulty) {
 
-    // Generate array of random numbers 0-5000 without duplicates
+    // Generate array of random numbers 0-6000 without duplicates
     let cardArray = [];
 
     while (cardArray.length < numBirds) {
-        let num = Math.floor(Math.random() * 5000);
+        let num = Math.floor(Math.random() * 6000);
         if (!cardArray.includes(num)) {
             cardArray.push(num);
         }
