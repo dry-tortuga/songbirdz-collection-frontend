@@ -5,6 +5,7 @@ import ConnectWalletButton from "./ConnectWalletButton";
 import { useWalletContext } from "../contexts/wallet";
 
 const WalletConnectionStatus = () => {
+
     const context = useWalletContext();
 
     if (!context.account) {
@@ -20,6 +21,7 @@ const WalletConnectionStatus = () => {
     }
 
     return null;
+
 };
 
 export default WalletConnectionStatus;

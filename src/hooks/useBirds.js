@@ -1,10 +1,6 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 
-import {
-	COLLECTIONS,
-	NUM_BIRDS_TOTAL,
-	ALREADY_IDENTIFIED_BIRDS,
-} from "../constants";
+import { COLLECTIONS, NUM_BIRDS_TOTAL } from "../constants";
 import { fetchBird } from "../utils/data";
 
 const PAGE_SIZE = 10;
@@ -80,7 +76,7 @@ const useBirds = (props) => {
 
 					// Fetch the meta data from the backend server
 					const bird = await fetchBird(id, owner);
-		
+
 					results.push(bird);
 
 				}
@@ -137,7 +133,7 @@ function initPaginationState(collectionId, showOnlyUnidentifiedBirds, alreadyIde
 
 				birdIDsPerPage = null;
 
-			} else if (i >= 2276 && i <= 4999 && !alreadyIdentifiedList[i]) {
+			} else if (i >= 2335 && i < NUM_BIRDS_TOTAL && !alreadyIdentifiedList[i]) {
 
 				birdIDsPerPage.push(i);
 

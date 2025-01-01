@@ -55,15 +55,18 @@ const BirdDetails = () => {
 
     // Handle updates to the local state after successful mint
     const onMintSuccess = (updatedBirdData, updatedTracker) => {
+
         if (updatedBirdData) {
             setBird(updatedBirdData);
         }
+
         if (updatedTracker) {
             setCurrentUser((prev) => ({
                 ...prev,
                 dailyStreakTracker: updatedTracker,
             }));
         }
+
     };
 
     const {
@@ -82,16 +85,18 @@ const BirdDetails = () => {
 
     // Re-load the twitter share button if the bird ID or species changes
     useEffect(() => {
-        if (bird && window.twttr && window.twttr.widgets) {
+
+        if (bird && window.twttr?.widgets) {
             window.twttr.widgets.load(document.getElementById("details-page"));
         }
+
     }, [bird?.id, bird?.species]);
 
     const collection = bird ? COLLECTIONS[bird.collection] : null;
 
     if (
         bird &&
-        (bird.id < COLLECTIONS[0].min_id || bird.id > COLLECTIONS[4].max_id)
+        (bird.id < COLLECTIONS[0].min_id || bird.id > COLLECTIONS[5].max_id)
     ) {
         return null;
     }
@@ -119,48 +124,41 @@ const BirdDetails = () => {
                                 {bird.id > COLLECTIONS[0].min_id && (
                                     <Link
                                         className="btn btn-outline-primary ms-3"
-                                        to={`/collection/${bird.id - 1}`}
-                                    >
+                                        to={`/collection/${bird.id - 1}`}>
                                         <svg
                                             xmlns="http://www.w3.org/2000/svg"
                                             width="16"
                                             height="16"
                                             fill="currentColor"
                                             className="bi bi-arrow-left"
-                                            viewBox="0 0 16 16"
-                                        >
+                                            viewBox="0 0 16 16">
                                             <path
                                                 fillRule="evenodd"
-                                                d="M15 8a.5.5 0 0 0-.5-.5H2.707l3.147-3.146a.5.5 0 1 0-.708-.708l-4 4a.5.5 0 0 0 0 .708l4 4a.5.5 0 0 0 .708-.708L2.707 8.5H14.5A.5.5 0 0 0 15 8"
-                                            />
+                                                d="M15 8a.5.5 0 0 0-.5-.5H2.707l3.147-3.146a.5.5 0 1 0-.708-.708l-4 4a.5.5 0 0 0 0 .708l4 4a.5.5 0 0 0 .708-.708L2.707 8.5H14.5A.5.5 0 0 0 15 8" />
                                         </svg>
                                     </Link>
                                 )}
-                                {bird.id < COLLECTIONS[4].max_id && (
+                                {bird.id < COLLECTIONS[5].max_id && (
                                     <Link
                                         className="btn btn-outline-primary ms-3"
-                                        to={`/collection/${bird.id + 1}`}
-                                    >
+                                        to={`/collection/${bird.id + 1}`}>
                                         <svg
                                             xmlns="http://www.w3.org/2000/svg"
                                             width="16"
                                             height="16"
                                             fill="currentColor"
                                             className="bi bi-arrow-right"
-                                            viewBox="0 0 16 16"
-                                        >
+                                            viewBox="0 0 16 16">
                                             <path
                                                 fillRule="evenodd"
-                                                d="M1 8a.5.5 0 0 1 .5-.5h11.793l-3.147-3.146a.5.5 0 0 1 .708-.708l4 4a.5.5 0 0 1 0 .708l-4 4a.5.5 0 0 1-.708-.708L13.293 8.5H1.5A.5.5 0 0 1 1 8"
-                                            />
+                                                d="M1 8a.5.5 0 0 1 .5-.5h11.793l-3.147-3.146a.5.5 0 0 1 .708-.708l4 4a.5.5 0 0 1 0 .708l-4 4a.5.5 0 0 1-.708-.708L13.293 8.5H1.5A.5.5 0 0 1 1 8" />
                                         </svg>
                                     </Link>
                                 )}
                                 {bird.owner && (
                                     <div
                                         className="flex align-items-center ms-auto"
-                                        key={bird.id}
-                                    >
+                                        key={bird.id}>
                                         <a
                                             href={`https://twitter.com/intent/tweet?text=${encodeURIComponent(`Check out this ${bird.species} in the @songbirdz_cc collection on @base!\n\n Play the onchain bird watching game at https://songbirdz.cc/collection?hide_already_identified=true\n\n`)}`}
                                             className="twitter-share-button"
@@ -168,39 +166,34 @@ const BirdDetails = () => {
                                             data-size="large"
                                             data-hashtags="songbirdz,birds,nfts,pfts,onchain"
                                             data-via="opensea"
-                                            data-url={`https://opensea.io/assets/base/${context.contractAddress}/${bird.id}`}
-                                        >
+                                            data-url={`https://opensea.io/assets/base/${context.contractAddress}/${bird.id}`}   >
                                             {"Tweet"}
                                         </a>
                                         <a
                                             className="btn btn-clear ms-3"
                                             href={`https://opensea.io/assets/base/${context.contractAddress}/${bird.id}`}
                                             rel="noopener noreferrer nofollow"
-                                            target="_blank"
-                                        >
+                                            target="_blank">
                                             <img
                                                 alt=""
                                                 src={openseaLogo}
                                                 style={{
                                                     width: "35px",
                                                     height: "auto",
-                                                }}
-                                            />
+                                                }} />
                                         </a>
                                         <a
                                             className="btn btn-clear"
                                             href={`https://basescan.org/token/${context.contractAddress}?a=${bird.id}`}
                                             rel="noopener noreferrer nofollow"
-                                            target="_blank"
-                                        >
+                                            target="_blank">
                                             <img
                                                 alt=""
                                                 src={etherscanLogo}
                                                 style={{
                                                     width: "35px",
                                                     height: "auto",
-                                                }}
-                                            />
+                                                }} />
                                         </a>
                                         {context.account?.toLowerCase() ===
                                             "0x2d437771f6fbedf3d83633cbd3a31b6c6bdba2b1" && (
@@ -210,8 +203,7 @@ const BirdDetails = () => {
                                                         setShowTransferModal(
                                                             true,
                                                         )
-                                                    }
-                                                >
+                                                    }>
                                                     {"Send"}
                                                 </Button>
                                                 {showTransferModal && (
@@ -223,8 +215,7 @@ const BirdDetails = () => {
                                                             setShowTransferModal(
                                                                 false,
                                                             )
-                                                        }
-                                                    />
+                                                        } />
                                                 )}
                                             </>
                                         )}
@@ -238,25 +229,18 @@ const BirdDetails = () => {
                                     <Alert
                                         variant="info"
                                         dismissible
-                                        onClose={() => setShowInfoAlert(false)}
-                                    >
+                                        onClose={() => setShowInfoAlert(false)}>
                                         <p className="mb-1">
                                             <b>{"1. "}</b>
-                                            {
-                                                "View the image and listen to the audio recording of the bird's song."
-                                            }
+                                            {"View the image and listen to the audio recording of the bird's song."}
                                         </p>
                                         <p className="mb-1">
                                             <b>{"2. "}</b>
-                                            {
-                                                'Click on the "Identify" button and submit your guess for the correct species of the bird from a list of 5 answer choices.'
-                                            }
+                                            {"Click on the \"Identify\" button and submit your guess for the correct species of the bird from a list of 5 answer choices."}
                                         </p>
                                         <p className="mb-0">
                                             <b>{"3. "}</b>
-                                            {
-                                                "If you're correct, you'll be the new owner of the bird!"
-                                            }
+                                            {"If you're correct, you'll be the new owner of the bird!"}
                                         </p>
                                     </Alert>
                                 </Col>
@@ -264,7 +248,7 @@ const BirdDetails = () => {
                         )}
                         {/*
 							<Alert variant="success">
-								<p className="mb-1"><b>{'The "Deep Blue" flock of Songbirdz is now 100% identified... but stay tuned for details about the release of the 3rd flock of 1,000 birds!'}</b></p>
+								<p className="mb-1"><b>{"The "Deep Blue" flock of Songbirdz is now 100% identified... but stay tuned for details about the release of the 3rd flock of 1,000 birds!"}</b></p>
 								<p className="mb-1">
 									<span className="me-1">
 										{"Follow on"}
@@ -289,16 +273,14 @@ const BirdDetails = () => {
                         <ToastContainer
                             className="p-3"
                             style={{ zIndex: 5 }}
-                            position="top-end"
-                        >
+                            position="top-end">
                             {/* Smart Wallet Users */}
                             {(txMintSmartWallet?.pending ||
                                 txMintSmartWallet?.success ||
                                 txMintSmartWallet?.error) && (
                                 <BirdIdentificationTransactionStatus
                                     tx={txMintSmartWallet}
-                                    onClose={resetTxMintSmartWallet}
-                                />
+                                    onClose={resetTxMintSmartWallet} />
                             )}
                             {/* Non-Smart Wallet Users */}
                             {(txMintNonSmartWallet?.pending ||
@@ -306,16 +288,14 @@ const BirdDetails = () => {
                                 txMintNonSmartWallet?.error) && (
                                 <BirdIdentificationTransactionStatusNonSmartWallet
                                     tx={txMintNonSmartWallet}
-                                    onClose={resetTxMintNonSmartWallet}
-                                />
+                                    onClose={resetTxMintNonSmartWallet} />
                             )}
                             {(currentUser?.dailyStreakTracker?.status ===
                                 "created" ||
                                 currentUser?.dailyStreakTracker?.status ===
                                     "updated") && (
                                 <DailyStreakStatus
-                                    data={currentUser?.dailyStreakTracker}
-                                />
+                                    data={currentUser?.dailyStreakTracker} />
                             )}
                         </ToastContainer>
                         <Row>
@@ -328,13 +308,11 @@ const BirdDetails = () => {
                                             className="col-12 col-sm-6 col-md-4"
                                             src={bird.imageLg}
                                             srcSet={`${bird.image} 256w, ${bird.imageLg} 768w`}
-                                            sizes="(max-width: 576px) 256px, 768px"
-                                        />
+                                            sizes="(max-width: 576px) 256px, 768px" />
                                         <Card.Body className="col-12 col-sm-6 col-md-8 d-flex flex-column">
                                             <Card.Title
                                                 as="h2"
-                                                className="ms-3 ms-md-0"
-                                            >
+                                                className="ms-3 ms-md-0">
                                                 {bird.name}
                                             </Card.Title>
                                             {collection && (
@@ -342,8 +320,7 @@ const BirdDetails = () => {
                                                     <span>{`One of ${collection.count} in the `}</span>
                                                     <Link
                                                         className="text-success"
-                                                        to={`/collection?number=${bird.collection}`}
-                                                    >
+                                                        to={`/collection?number=${bird.collection}`}>
                                                         {collection.name}
                                                     </Link>
                                                     <span>{" flock."}</span>
@@ -351,8 +328,7 @@ const BirdDetails = () => {
                                             )}
                                             <ListGroup
                                                 className="mb-3"
-                                                variant="flush"
-                                            >
+                                                variant="flush">
                                                 <ListGroup.Item className="list-group-item-owner">
                                                     <span className="w-50 fw-bold">
                                                         {"Owner"}
@@ -360,8 +336,7 @@ const BirdDetails = () => {
                                                     {bird.owner ? (
                                                         <AccountOwner
                                                             className="w-50 justify-center"
-                                                            account={bird.owner}
-                                                        />
+                                                            account={bird.owner} />
                                                     ) : (
                                                         <span className="w-50 text-center">
                                                             {"None"}
@@ -383,8 +358,7 @@ const BirdDetails = () => {
                                                     </span>
                                                     <BirdAudioFile
                                                         className="w-50 text-center"
-                                                        birdId={bird.id}
-                                                    />
+                                                        birdId={bird.id} />
                                                 </ListGroup.Item>
                                             </ListGroup>
                                             {!bird.owner && (
@@ -400,8 +374,7 @@ const BirdDetails = () => {
                                                             setIsIdentifyingBird(
                                                                 true,
                                                             )
-                                                        }
-                                                    >
+                                                        }>
                                                         {"Identify"}
                                                     </Button>
                                                 </div>

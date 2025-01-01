@@ -88,6 +88,17 @@ const LeaderboardTabSeason3 = ({ onUserClick }) => {
                                     </a>
                                     {" NFT each"}
                                 </li>
+                                <li>
+                                    <strong>{"Top 10 -> "}</strong>
+                                    {"$3.50 worth of "}
+                                    <a
+                                        href="https://x.com/toastonbase"
+                                        target="_blank"
+                                        rel="noopener noreferrer nofollow">
+                                        {"TOAST"}
+                                    </a>
+                                    {" each... enough to treat yourself to a nice loaf of bread"}
+                                </li>
                             </ul>
                             <p>
                                 {"In addition to these, there could always be additional prizes in the future but this competition is mostly just for fun. Not financial advice. DYOR :)"}

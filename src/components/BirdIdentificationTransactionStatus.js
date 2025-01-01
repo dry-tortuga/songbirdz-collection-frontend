@@ -12,6 +12,7 @@ import "./BirdIdentificationTransactionStatus.css";
 dayjs.extend(relativeTime);
 
 const BirdIdentificationTransactionStatus = (props) => {
+
     const { tx, onClose } = props;
 
     const { contractAddress } = useWalletContext();
@@ -32,29 +33,32 @@ const BirdIdentificationTransactionStatus = (props) => {
     }
 
     if (tx.success) {
+
         const birdId = parseInt(tx.idEvent?.args?.birdId, 10);
         const speciesNameGuess = tx.idEvent?.args?.speciesName;
 
         // Check if the bird species was successfully identified
         if (tx.transferEvent) {
+
             variant = "success";
             message = `You correctly identified Songbird #${birdId} as a ${speciesNameGuess}. You are now the proud owner!`;
 
-            // Check if it is one of the "1 of 1" species (TODO: Update locally in production)
+            // Check if it is one of the "1 of 1" species
             if (
-                birdId === 4665 ||
-                birdId === 4514 ||
-                birdId === 4473 ||
-                birdId === 4816
+                birdId === parseInt(process.env.REACT_APP_FLOCK_RARE_BIRD_1, 10) ||
+                birdId === parseInt(process.env.REACT_APP_FLOCK_RARE_BIRD_2, 10) ||
+                birdId === parseInt(process.env.REACT_APP_FLOCK_RARE_BIRD_3, 10) ||
+                birdId === parseInt(process.env.REACT_APP_FLOCK_RARE_BIRD_4, 10)
             ) {
                 message = `You correctly identified Songbird #${birdId} as a ${speciesNameGuess}. This is a "1 of 1", so it is the only ${speciesNameGuess} in the entire Songbirdz collection. You are now the proud owner!`;
             }
 
-            // Otherwise, the bird species was not identified correctly
+        // Otherwise, the bird species was not identified correctly
         } else {
             variant = "danger";
             message = `You incorrectly identified Songbird #${birdId} as a ${speciesNameGuess}. Please try again!`;
         }
+
     } else if (tx.error) {
         variant = "danger";
         message = `${tx.errorMsg.name}: ${tx.errorMsg.details}`;

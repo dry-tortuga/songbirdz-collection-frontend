@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { Button } from "react-bootstrap";
-import { Connector, useConnect } from "wagmi";
+import { useConnect } from "wagmi";
 
 import coinbaseLogo from "../images/logo-coinbase-wallet.png";
 import metamaskLogo from "../images/logo-metamask-wallet.png";
 import walletConnectLogo from "../images/logo-wallet-connect.svg";
 
 const WalletOptions = ({ onClick }) => {
- 
+
 	const { connectors } = useConnect();
 
 	// Check if the user is already using the Coinbase Wallet browser extension

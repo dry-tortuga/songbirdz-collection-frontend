@@ -1,7 +1,5 @@
 import React, { useMemo, useState } from "react";
-import { Link } from "react-router-dom";
-import { Badge, Button, Form, Modal } from "react-bootstrap";
-import { Name } from "@coinbase/onchainkit/identity";
+import { Badge, Form, Modal } from "react-bootstrap";
 
 import { COLLECTIONS, FAMILIES } from "../constants";
 import useLifeList from "../hooks/useLifeList";
@@ -153,6 +151,8 @@ const LifeListModal = (props) => {
 			collectionId = 3;
 		} else if (species.id >= 350 && species.id < 400) {
 			collectionId = 4;
+		} else if (species.id >= 400 && species.id < 450) {
+			collectionId = 5;
 		} else if (species.id >= 1000) {
 			collectionId = -1;
 		}
@@ -200,6 +200,8 @@ const LifeListModal = (props) => {
 			collectionId = 3;
 		} else if (filter === "Fire & Ice") {
 			collectionId = 4;
+		} else if (filter === "Predator & Prey") {
+			collectionId = 5;
 		}
 
 		if (collectionId >= 0) {
@@ -223,6 +225,10 @@ const LifeListModal = (props) => {
 				}
 
 				if (collectionId === 4 && species.id >= 350 && species.id < 400) {
+					return true;
+				}
+
+				if (collectionId === 5 && species.id >= 400 && species.id < 450) {
 					return true;
 				}
 

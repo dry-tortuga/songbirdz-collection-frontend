@@ -17,6 +17,7 @@ import {
     ANSWER_CHOICES_FLOCK_2,
     ANSWER_CHOICES_FLOCK_3,
     ANSWER_CHOICES_FLOCK_4,
+    ANSWER_CHOICES_FLOCK_5,
     COLLECTIONS,
     CURRENT_COLLECTION_MIN_ID,
     CURRENT_COLLECTION_MAX_ID,
@@ -25,6 +26,7 @@ import {
 import "./BirdIdentificationModal.css";
 
 const BirdIdentificationModal = (props) => {
+
     const {
         context,
         isOpen,
@@ -41,39 +43,50 @@ const BirdIdentificationModal = (props) => {
     const [contractCall, setContractCall] = useState([]);
 
     const handleInputChange = async (selectedOption) => {
+
         if (context.isPaymasterSupported) {
+
             // Reset the selected species to use as the guess so we can wait for the result
             // of the async API call to fetch the merkle proof for the "publicMint" contract call
 
             setContractCall([]);
 
             try {
+
                 const result = await context.actions.publicMint(
                     bird.id,
                     selectedOption.value,
                 );
 
                 setContractCall([result]);
+
             } catch (error) {
                 // TODO: Show an error message?
             }
+
         } else {
             setFormData({ species: selectedOption.value });
         }
+
     };
 
     // Handle submitting a new transaction for non-smart wallet users
     const handleSubmitNonSmartWallet = async () => {
+
         if (formData.species) {
+
             // Close the modal
             onToggle();
 
             // Submit the transaction
             await onSubmitNonSmartWallet(bird, formData.species);
+
         }
+
     };
 
     const options = useMemo(() => {
+
         const collection = COLLECTIONS.find(
             (temp) => bird.id >= temp.min_id && bird.id <= temp.max_id,
         );
@@ -86,6 +99,8 @@ const BirdIdentificationModal = (props) => {
             answerChoices = ANSWER_CHOICES_FLOCK_3;
         } else if (bird.id >= 4000 && bird.id <= 4999) {
             answerChoices = ANSWER_CHOICES_FLOCK_4;
+        } else if (bird.id >= 5000 && bird.id <= 5999) {
+            answerChoices = ANSWER_CHOICES_FLOCK_5;
         }
 
         // Get the bird's final index relative to ONLY the current collection
@@ -109,6 +124,7 @@ const BirdIdentificationModal = (props) => {
         });
 
         return result;
+
     }, [bird.id]);
 
     // Extra safety check here to prevent users from submitting invalid transactions...
@@ -123,8 +139,7 @@ const BirdIdentificationModal = (props) => {
         <Modal
             className="bird-identification-modal"
             show={isOpen}
-            onHide={onToggle}
-        >
+            onHide={onToggle}>
             <Modal.Header closeButton>
                 <Modal.Title>{`Identify ${bird.name}`}</Modal.Title>
             </Modal.Header>
@@ -138,8 +153,7 @@ const BirdIdentificationModal = (props) => {
                                 marginLeft: "auto",
                                 marginRight: "auto",
                             }}
-                            src={bird.image}
-                        />
+                            src={bird.image} />
                     </Form.Group>
                     <Form.Group className="mb-3" controlId="song-audio">
                         <Form.Label className="d-block fw-bold">

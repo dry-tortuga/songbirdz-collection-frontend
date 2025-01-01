@@ -52,7 +52,7 @@ const LeaderboardTabSeason1 = ({ onUserClick }) => {
                                 href="https://x.com/toastonbase"
                                 target="_blank"
                                 rel="noopener noreferrer nofollow">
-                                {"TOAST"}
+                                <b>{"TOAST"}</b>
                             </a>
                         </li>
                         <li>
@@ -62,7 +62,7 @@ const LeaderboardTabSeason1 = ({ onUserClick }) => {
                                 href="https://dot.fan"
                                 target="_blank"
                                 rel="noopener noreferrer nofollow">
-                                {"dot.fan"}
+                                <b>{"dot.fan"}</b>
                             </a>
                         </li>
                         <li>
@@ -72,7 +72,7 @@ const LeaderboardTabSeason1 = ({ onUserClick }) => {
                                 href="https://cat.town"
                                 target="_blank"
                                 rel="noopener noreferrer nofollow">
-                                {"cat.town"}
+                                <b>{"cat.town"}</b>
                             </a>
                         </li>
                     </ul>
