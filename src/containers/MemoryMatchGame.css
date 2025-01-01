@@ -1,3 +1,12 @@
+#game.container {
+    max-width: 70vh;
+    margin-bottom: 15px;
+}
+
+#game .col-3 {
+    width: 17.5vh;
+}
+
 #game .row > * {
     margin-top: 1rem;
     padding-left: 0.5rem;
@@ -9,7 +18,7 @@
 }
 
 #game.game-over .grid-card {
-    margin-bottom: 80px;
+    margin-bottom: 55px;
 }
 
 #game.game-over .grid-card .back,
@@ -24,13 +33,14 @@
     display: flex;
     flex-direction: column;
     align-items: center;
+    justify-content: center;
     background-color: #000;
     color: #fff;
     width: 100%;
-    height: 85px;
-    padding: 5px;
+    height: 55px;
+    padding: 1px;
     position: absolute;
-    bottom: -85px;
+    bottom: -55px;
     transform: rotateY(180deg);
     border-bottom-left-radius: 8px;
     border-bottom-right-radius: 8px;
@@ -73,10 +83,26 @@
 
 .back {
     transform: rotateY(180deg);
+    position: relative;
     background-color: white;
     background-size: cover;
     background-repeat: no-repeat;
     background-position: center center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.back .fa-music {
+    font-size: 30px;
+}
+
+.back audio {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 20px;
 }
 
 .selected {
@@ -95,8 +121,7 @@
 .game-time .badge,
 .game-moves .badge,
 .social-media-share,
-.new-game-btn,
-.species-name {
+.new-game-btn {
     font-size: 1rem;
 }
 
@@ -106,18 +131,7 @@
     padding: 0.5rem 1rem;
 }
 
-.social-media-share .fa-x-twitter,
-.icon-btn i {
-    font-size: 1.3rem;
-    margin-top: 0.15rem;
-}
-
-.icon-btn i.fa-binoculars {
-    margin-top: 0.3rem;
-}
-
-.social-media-share .warpcast-logo,
-.icon-btn img {
+.social-media-share .warpcast-logo {
     width: 1.3rem;
     height: 1.3rem;
 }
@@ -126,7 +140,35 @@
     padding: 0.35rem;
 }
 
+.species-row .species-name {
+    font-size: 13px;
+    line-height: 13px;
+}
+
+.species-row .icon-btn i {
+    font-size: 14px;
+}
+
+.species-row .icon-btn i.fa-music,
+.species-row .icon-btn i.fa-binoculars {
+    margin-top: 8px;
+}
+
+.species-row .icon-btn img {
+    width: 14px;
+    height: 14px;
+}
+
 @media (max-width: 575.98px) {
+
+    #game.container {
+        max-width: 100vw;
+    }
+
+    #game .col-3 {
+        width: 25%;
+    }
+
     .game-score,
     .game-time,
     .game-moves,
@@ -134,25 +176,13 @@
     .game-time .badge,
     .game-moves .badge,
     .social-media-share,
-    .new-game-btn,
-    .species-name {
-        font-size: 0.65rem;
+    .new-game-btn {
+        font-size: 0.75rem;
     }
 
-    .social-media-share .fa-x-twitter,
-    .icon-btn i {
-        font-size: 0.9rem;
-        margin-top: 0.15rem;
-    }
-
-    .social-media-share .warpcast-logo,
-    .icon-btn img {
-        width: 0.9rem;
-        height: 0.9rem;
-    }
-
-    .icon-btn i.fa-binoculars {
-        margin-top: 0.25rem;
+    .social-media-share .warpcast-logo {
+        width: 1.25rem;
+        height: 1.25rem;
     }
 
     .new-game-btn {
@@ -160,13 +190,23 @@
         font-size: 0.75rem;
     }
 
-    #game.game-over .grid-card .species-row {
-        height: 55px;
-        bottom: -55px;
-        padding: 2.5px;
+    .species-row .species-name {
+        font-size: 10px;
+        line-height: 10px;
     }
 
-    #game.game-over .grid-card {
-        margin-bottom: 55px;
+    .species-row .icon-btn i {
+        font-size: 14px;
+        margin-top: 2px;
     }
+
+    .species-row .icon-btn i.fa-binoculars {
+        margin-top: 8px;
+    }
+
+    .species-row .icon-btn img {
+        width: 14px;
+        height: 14px;
+    }
+
 }
