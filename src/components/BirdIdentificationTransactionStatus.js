@@ -43,12 +43,12 @@ const BirdIdentificationTransactionStatus = (props) => {
             variant = "success";
             message = `You correctly identified Songbird #${birdId} as a ${speciesNameGuess}. You are now the proud owner!`;
 
-            // Check if it is one of the "1 of 1" species (TODO: Update locally in production)
+            // Check if it is one of the "1 of 1" species
             if (
-                birdId === 5574 ||
-                birdId === 5613 ||
-                birdId === 5660 ||
-                birdId === 5958
+                birdId === parseInt(process.env.REACT_APP_FLOCK_RARE_BIRD_1, 10) ||
+                birdId === parseInt(process.env.REACT_APP_FLOCK_RARE_BIRD_2, 10) ||
+                birdId === parseInt(process.env.REACT_APP_FLOCK_RARE_BIRD_3, 10) ||
+                birdId === parseInt(process.env.REACT_APP_FLOCK_RARE_BIRD_4, 10)
             ) {
                 message = `You correctly identified Songbird #${birdId} as a ${speciesNameGuess}. This is a "1 of 1", so it is the only ${speciesNameGuess} in the entire Songbirdz collection. You are now the proud owner!`;
             }

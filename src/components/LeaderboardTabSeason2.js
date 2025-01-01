@@ -52,7 +52,7 @@ const LeaderboardTabSeason2 = ({ onUserClick }) => {
                                 href="https://x.com/basedpeplo"
                                 target="_blank"
                                 rel="noopener noreferrer nofollow">
-                                {"PEPLO"}
+                                <b>{"PEPLO"}</b>
                             </a>
                         </li>
                         <li>
@@ -62,7 +62,7 @@ const LeaderboardTabSeason2 = ({ onUserClick }) => {
                                 href="https://millionbithomepage.com/"
                                 target="_blank"
                                 rel="noopener noreferrer nofollow">
-                                {"Million Bit Homepage"}
+                                <b>{"Million Bit Homepage"}</b>
                             </a>
                         </li>
                     </ul>

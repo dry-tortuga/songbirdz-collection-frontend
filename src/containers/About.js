@@ -63,7 +63,7 @@ const About = () => {
                                     href="https://twitter.com/songbirdz_cc"
                                     target="_blank"
                                     rel="noopener noreferrer nofollow">
-                                    {"Twitter"}
+                                    <b>{"Twitter"}</b>
                                 </a>
                             </li>
                             <li>
@@ -71,7 +71,7 @@ const About = () => {
                                     href="https://t.me/songbirdz_cc"
                                     target="_blank"
                                     rel="noopener noreferrer nofollow">
-                                    {"Telegram"}
+                                    <b>{"Telegram"}</b>
                                 </a>
                             </li>
                             <li>
@@ -79,7 +79,7 @@ const About = () => {
                                     href="https://discord.gg/UKGgRsJXzr"
                                     target="_blank"
                                     rel="noopener noreferrer nofollow">
-                                    {"Discord"}
+                                    <b>{"Discord"}</b>
                                 </a>
                             </li>
                             <li>
@@ -87,7 +87,7 @@ const About = () => {
                                     href="https://x.com/BitHomepage/status/1844090067876548734"
                                     target="_blank"
                                     rel="noopener noreferrer nofollow">
-                                    {"AMA #1 (10/09/2024)"}
+                                    <b>{"AMA #1 (10/09/2024)"}</b>
                                 </a>
                             </li>
                             <li>
@@ -99,7 +99,7 @@ const About = () => {
                                         wordBreak: "break-word",
                                         wordWrap: "break-word",
                                     }}>
-                                    {"Deployed Contract on Base - 0x7C3B795e2174C5E0C4F7d563A2FB34F024C8390B"}
+                                    <b>{"Deployed Contract on Base - 0x7C3B795e2174C5E0C4F7d563A2FB34F024C8390B"}</b>
                                 </a>
                             </li>
                             <li>
@@ -107,7 +107,7 @@ const About = () => {
                                     href="https://github.com/dry-tortuga/songbirdz-collection-backend/blob/main/contracts/SongBirdz.sol"
                                     target="_blank"
                                     rel="noopener noreferrer nofollow">
-                                    {"Solidity Contract"}
+                                    <b>{"Solidity Contract"}</b>
                                 </a>
                             </li>
                             <li>
@@ -115,7 +115,7 @@ const About = () => {
                                     href="https://github.com/dry-tortuga/songbirdz-collection-backend"
                                     target="_blank"
                                     rel="noopener noreferrer nofollow">
-                                    {"Back-End Server"}
+                                    <b>{"Back-End Server"}</b>
                                 </a>
                             </li>
                             <li>
@@ -123,7 +123,7 @@ const About = () => {
                                     href="https://github.com/dry-tortuga/songbirdz-collection-frontend"
                                     target="_blank"
                                     rel="noopener noreferrer nofollow">
-                                    {"Front-End Application"}
+                                    <b>{"Front-End Application"}</b>
                                 </a>
                             </li>
                             <li>
@@ -131,7 +131,7 @@ const About = () => {
                                     href="https://github.com/dry-tortuga/songbirdz-collection-media"
                                     target="_blank"
                                     rel="noopener noreferrer nofollow">
-                                    {"Media & Metadata"}
+                                    <b>{"Media & Metadata"}</b>
                                 </a>
                             </li>
                         </ul>
@@ -214,7 +214,7 @@ const About = () => {
                                     href="https://endaoment.org/"
                                     target="_blank"
                                     rel="noopener noreferrer nofollow">
-                                    {"Endaoment"}
+                                    <b>{"Endaoment"}</b>
                                 </a>
                                 {"."}
                             </li>
@@ -226,7 +226,7 @@ const About = () => {
                                     href="https://endaoment.org/"
                                     target="_blank"
                                     rel="noopener noreferrer nofollow">
-                                    {"Endaoment"}
+                                    <b>{"Endaoment"}</b>
                                 </a>
                                 {" and 50% will go to the project creators."}
                             </li>

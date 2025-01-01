@@ -638,11 +638,11 @@ function calculateGameScore(width, timeDelay, movesUsed, timeUsed) {
 
 async function loadGameCards(numBirds, difficulty) {
 
-    // Generate array of random numbers 0-6000 without duplicates
+    // Generate array of random numbers 0-5999 without duplicates
     let cardArray = [];
 
     while (cardArray.length < numBirds) {
-        let num = Math.floor(Math.random() * 6000);
+        let num = Math.floor(Math.random() * 5999);
         if (!cardArray.includes(num)) {
             cardArray.push(num);
         }
