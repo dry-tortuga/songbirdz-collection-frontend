@@ -10,6 +10,7 @@ import {
 import { WalletProvider } from "./contexts/wallet";
 
 import Navbar from "./components/Navbar";
+import Footer from "./components/Footer";
 
 const AppWrapper = (props) => {
 
@@ -57,6 +58,7 @@ const App = () => {
 	return (
 		<div className="app">
 			<RouterProvider router={router} />
+			<Footer />
 		</div>
 	);
 

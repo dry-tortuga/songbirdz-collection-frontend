@@ -1,5 +1,6 @@
 import React from "react";
 import { Col, Container, Row } from "react-bootstrap";
+import { Link } from "react-router-dom";
 
 const About = () => {
     return (
@@ -7,13 +8,13 @@ const About = () => {
             <Container className="mt-4">
                 <Row className="mb-3">
                     <Col>
-                        <h1>{"What is the Songbirdz Collection?"}</h1>
+                        <h1>{"What is the Songbirdz project?"}</h1>
                     </Col>
                 </Row>
                 <Row>
                     <Col>
                         <p>
-                            {"The Songbirdz collection is bringing bird watching onchain to Base. Each species is hidden until successfully identified based on its image and song."}
+                            {"The Songbirdz project is bringing bird watching onchain to Base. Each species is hidden until successfully identified based on its image and song."}
                         </p>
                         <p>
                             {"This project was one of "}
@@ -54,7 +55,7 @@ const About = () => {
                             {"The smart contract governing the NFTs, the back-end code for the web server, and the front-end code for the web application are all open-source (MIT License). Every NFT in the collection is released under the Creative Commons Zero (CC0) license, granting users freedom to use, remix, and share the artworks without any restrictions."}
                         </p>
                         <p>
-                            {"As a new onchain developer and an avid appreciator of birds, I hope you find this collection interesting, useful, and enjoyable. Thank you!"}
+                            {"As a new onchain developer and an avid appreciator of birds, I hope you find this project interesting, useful, and enjoyable. Thank you!"}
                         </p>
                         <h2>{"Resources"}</h2>
                         <ul style={{ listStyle: "disc" }}>
@@ -89,6 +90,11 @@ const About = () => {
                                     rel="noopener noreferrer nofollow">
                                     <b>{"AMA #1 (10/09/2024)"}</b>
                                 </a>
+                            </li>
+                            <li>
+                                <Link  to="/sounds-of-summer-2024">
+                                    <b>{"Sounds of Summer (Free Mint)"}</b>
+                                </Link>
                             </li>
                             <li>
                                 <a

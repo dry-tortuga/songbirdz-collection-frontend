@@ -247,6 +247,48 @@ async function updateDailyStreak(address) {
 
 }
 
+async function storeMemoryMatchGameResult(address, mode, result) {
+
+	try {
+
+		// Post to the memory match game API in the back-end server
+
+		const response = await fetch(
+			`${process.env.REACT_APP_SONGBIRDZ_BACKEND_URL}/birds/memory-match/log`,
+			{
+				method: 'POST',
+				headers: {
+					'Accept': 'application/json',
+					'Content-Type': 'application/json'
+				},
+				body: JSON.stringify({
+				    address,
+					mode,
+                    score: result.score,
+                    duration: result.duration,
+                    moves: result.moves,
+				}),
+			},
+		);
+
+		if (response.status !== 200) {
+			console.error("Error storing the memory match game result...");
+			return null;
+		}
+
+		const responseData = await response.json();
+
+		return responseData;
+
+	} catch (error) {
+
+		console.error(error);
+		return null;
+
+	}
+
+}
+
 export {
 	fetchBird,
 	fetchLeaderboard,
@@ -256,4 +298,5 @@ export {
 	fetchDailyStreak,
 	updateDailyStreak,
 	populateMetadata,
+	storeMemoryMatchGameResult,
 };

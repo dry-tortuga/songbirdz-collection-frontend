@@ -12,6 +12,8 @@ import { useWalletContext } from "../contexts/wallet";
 
 import useMintAPI from "../hooks/useMintAPI";
 
+import { storeMemoryMatchGameResult } from "../utils/data";
+
 import openseaLogo from "../images/opensea-logomark-blue.svg";
 import magicedenLogo from "../images/magiceden-logo.png";
 import warpcastLogo from "../images/warpcast-logo.png";
@@ -50,7 +52,7 @@ const MemoryMatchGame = () => {
 
     const context = useWalletContext();
 
-    const { currentUser, setCurrentUser } = context;
+    const { account, currentUser, setCurrentUser } = context;
 
     const [selected, setSelected] = useState({
         firstGuess: -1,
@@ -76,6 +78,8 @@ const MemoryMatchGame = () => {
         audioPlayer: null,
     });
 
+    const [hasLoggedResult, setHasLoggedResult] = useState(false);
+
     // Keep track of the wallet connection state
     const [showWalletConnectionInfo, setShowWalletConnectionInfo] =
         useState(false);
@@ -85,15 +89,18 @@ const MemoryMatchGame = () => {
     let finalScore = 0;
 
     if (isFinished) {
+
         finalScore = calculateGameScore(
             birds.length,
             1000,
             movesUsed,
             timeUsed,
         );
+
     }
 
     const handleClick = (card, index) => {
+
         // Ignore clicks until the birds are loaded
         if (birds.length === 0) {
             return;
@@ -174,6 +181,7 @@ const MemoryMatchGame = () => {
         setSelected({ firstGuess: -1, secondGuess: -1 });
         setMatched([]);
         setActiveAudio({ index: -1, audioPlayer: null })
+        setHasLoggedResult(false);
 
         const newCards = await loadGameCards(8, difficulty);
 
@@ -250,9 +258,28 @@ const MemoryMatchGame = () => {
     // Load the birds on initial load
     useEffect(() => { handleResetGame(difficultyMode) }, [difficultyMode]);
 
+    // Store result of the game once it is finished
+    useEffect(() => {
+
+        if (isFinished && !hasLoggedResult) {
+
+            setHasLoggedResult(true);
+
+            storeMemoryMatchGameResult(account, difficultyMode, {
+                score: finalScore,
+                duration: timeUsed,
+                moves: movesUsed,
+            });
+
+        }
+
+    }, [isFinished, hasLoggedResult, account, difficultyMode, finalScore, timeUsed, movesUsed]);
+
     // Increase the time used by the user every 25 milliseconds until the game is finished
     useEffect(() => {
+
         if (birds.length > 0 && hasStarted && !isFinished) {
+
             const listener1 = setInterval(
                 () => setTimeUsed((prev) => prev + 25),
                 25,
@@ -267,7 +294,9 @@ const MemoryMatchGame = () => {
                 clearInterval(listener1);
                 clearInterval(listener2);
             };
+
         }
+
     }, [birds, hasStarted, isFinished]);
 
     useEffect(() => {

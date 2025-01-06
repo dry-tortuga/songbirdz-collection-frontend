@@ -70,9 +70,8 @@ const LeaderboardTabSeason3 = ({ onUserClick }) => {
                                     <a
                                         href="https://x.com/ShibaPunkz"
                                         target="_blank"
-                                        rel="noopener noreferrer nofollow"
-                                    >
-                                        {"Based ShibaPunkz"}
+                                        rel="noopener noreferrer nofollow">
+                                        <b>{"Based ShibaPunkz"}</b>
                                     </a>
                                     {" NFT each"}
                                 </li>
@@ -82,9 +81,8 @@ const LeaderboardTabSeason3 = ({ onUserClick }) => {
                                     <a
                                         href="https://x.com/BaseBullsNFT"
                                         target="_blank"
-                                        rel="noopener noreferrer nofollow"
-                                    >
-                                        {"BaseBulls"}
+                                        rel="noopener noreferrer nofollow">
+                                        <b>{"BaseBulls"}</b>
                                     </a>
                                     {" NFT each"}
                                 </li>
@@ -95,7 +93,7 @@ const LeaderboardTabSeason3 = ({ onUserClick }) => {
                                         href="https://x.com/toastonbase"
                                         target="_blank"
                                         rel="noopener noreferrer nofollow">
-                                        {"TOAST"}
+                                        <b>{"TOAST"}</b>
                                     </a>
                                     {" each... enough to treat yourself to a nice loaf of bread"}
                                 </li>
@@ -256,7 +254,7 @@ const LeaderboardTabSeason3 = ({ onUserClick }) => {
                                                 }>
                                                 {"Share on X"}
                                             </a>
-                                        </li>i
+                                        </li>
                                     </ul>
                                 </li>
                                 <li>

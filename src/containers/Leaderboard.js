@@ -85,12 +85,14 @@ const Leaderboard = () => {
                     </Tab>
                 </Tabs>
                 {Boolean(lifeListModalAddress) &&
-                    <LifeListModal
-                        key={lifeListModalAddress}
-                        address={lifeListModalAddress}
-                        isOpen
-                        onToggle={() => setLifeListModalAddress(null)}
-                    />
+                    <Suspense fallback={<div />}>
+                        <LifeListModal
+                            key={lifeListModalAddress}
+                            address={lifeListModalAddress}
+                            isOpen
+                            onToggle={() => setLifeListModalAddress(null)}
+                        />
+                    </Suspense>
                 }
             </Container>
         </div>
