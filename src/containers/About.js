@@ -140,6 +140,14 @@ const About = () => {
                                     <b>{"Media & Metadata"}</b>
                                 </a>
                             </li>
+                            <li>
+                                <a
+                                    href="https://www.redbubble.com/people/drytortuga/shop"
+                                    target="_blank"
+                                    rel="noopener noreferrer nofollow">
+                                    <b>{"Songbirdz Merch"}</b>
+                                </a>
+                            </li>
                         </ul>
                         <h2>{"Flocks in the Wild"}</h2>
                         <ul style={{ listStyle: "disc" }}>

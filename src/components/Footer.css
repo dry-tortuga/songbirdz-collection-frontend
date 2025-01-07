@@ -1,4 +1,8 @@
 footer.footer {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    height: 60px;
     background: #4f46e5;
     color: #fff;
 }
@@ -21,8 +25,14 @@ footer.footer i {
 }
 
 @media (max-width: 575px) {
+
+    footer.footer {
+        height: 85px;
+    }
+
     footer.footer .built-by-text,
     footer.footer .icons-row {
         width: 100%;
     }
+
 }

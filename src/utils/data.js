@@ -2,7 +2,7 @@ import { COLLECTION_BIRD_SIZE } from "../constants";
 
 async function fetchBird(id, owner) {
 
-	console.debug("fetching bird #" + id);
+	// console.debug("fetching bird #" + id);
 
 	const data = {
 		id,

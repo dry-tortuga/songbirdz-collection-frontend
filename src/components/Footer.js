@@ -7,7 +7,7 @@ import magicedenLogo from "../images/magiceden-logo.png";
 import "./Footer.css";
 
 const Footer = () => (
-    <footer className="footer py-3">
+    <footer className="footer py-2">
 		<div className="container">
 			<div className="row align-items-center">
 				<div className="col-md-12 flex align-items-center flex-wrap">

@@ -28,6 +28,16 @@ code {
     height: 1em;
 }
 
+.home-page,
+.details-page,
+.listing-page,
+.gallery-page,
+.leaderboard-page,
+.about-page,
+#game {
+    padding-bottom: 60px;
+}
+
 .details-page svg[data-testid="ock-defaultAvatarSVG"],
 .details-page svg[data-testid="ock-defaultLoadingSVG"],
 .listing-page svg[data-testid="ock-defaultAvatarSVG"],
@@ -44,4 +54,30 @@ code {
 .leaderboard-page svg[data-testid="ock-defaultAvatarSVG"] ~ div,
 .leaderboard-page svg[data-testid="ock-defaultLoadingSVG"] ~ div {
 	margin-left: 0 !important;
+}
+
+.form-switch .form-check-input:checked::before {
+	background-color: var(--bs-success);
+}
+
+.form-switch .form-check-input:not(:checked)::after {
+	background-color: #000;
+}
+
+.form-switch .form-check-input:checked::after {
+	background-color: #fff;
+}
+
+@media (max-width: 575px) {
+
+    .home-page,
+    .details-page,
+    .listing-page,
+    .gallery-page,
+    .leaderboard-page,
+    .about-page,
+    #game {
+        padding-bottom: 85px;
+    }
+
 }

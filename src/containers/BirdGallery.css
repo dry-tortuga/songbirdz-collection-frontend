@@ -1,0 +1,8 @@
+.gallery-page .grid-bird-card:hover {
+    background-size: 125% !important;
+    cursor: pointer;
+}
+
+.gallery-page .toast-container {
+    position: fixed;
+}
