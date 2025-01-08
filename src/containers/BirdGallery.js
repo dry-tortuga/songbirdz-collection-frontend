@@ -45,8 +45,6 @@ const gridComponents = {
       {...props}
       style={{
         padding: '0.5rem',
-        width: "16.6666666667%",
-        aspectRatio: '0.8 / 1',
         display: "flex",
         flex: "none",
         alignContent: "stretch",
@@ -123,7 +121,7 @@ const BirdGallery = () => {
 
 	const context = useWalletContext();
 
-	const { account, currentUser, setCurrentUser } = context;
+	const { currentUser, setCurrentUser } = context;
 
 	const { search } = useLocation();
 
@@ -228,6 +226,18 @@ const BirdGallery = () => {
 
     }, [activeAudio]);
 
+	const handleStopSong = useCallback(() => {
+
+        if (activeAudio?.audioPlayer) {
+
+            activeAudio.audioPlayer.pause();
+
+            setActiveAudio({ id: -1, audioPlayer: null });
+
+        }
+
+    }, [activeAudio]);
+
 	// Get the collection data
 	const collection = COLLECTIONS[filters.collectionId];
 
@@ -258,13 +268,18 @@ const BirdGallery = () => {
 								{"Collection"}
 							</span>
 						</h1>
-						<div className="flex flex-col flex-lg-row align-items-center">
+						<div className="flex flex-col flex-lg-row align-items-lg-center">
 							<Form.Select
 								id="selected-flock-to-view"
 								className="mb-2 mb-lg-0 w-auto"
 								aria-label="Choose a specific flock to view"
 								value={filters.collectionId < 0 ? "-1" : filters.collectionId.toString()}
-								onChange={(event) => onChangeFilter("collectionId", parseInt(event.target.value, 10))}>
+                                onChange={(event) => {
+
+                                    handleStopSong();
+                                    onChangeFilter("collectionId", parseInt(event.target.value, 10));
+
+                                }}>
 								<option value={"-1"}>{"Choose a flock"}</option>
 								{COLLECTIONS.map((collection, index) => (
 									<option value={index}>{collection.name}</option>
@@ -276,7 +291,12 @@ const BirdGallery = () => {
 									id="show-only-unidentified-birds"
 									label="Show Unidentified"
 									checked={showOnlyUnidentifiedBirds}
-									onChange={(event) => setShowOnlyUnidentifiedBirds(event.target.checked)} />
+                                    onChange={(event) => {
+
+                                        handleStopSong();
+                                        setShowOnlyUnidentifiedBirds(event.target.checked);
+
+                                    }} />
 							</Form>
 						</div>
 					</Col>
@@ -306,7 +326,12 @@ const BirdGallery = () => {
     							    <GridBirdCard
                                         bird={birds[index]}
                                         activeAudio={activeAudio}
-                                        onClick={setBirdToID}
+                                        onClick={(bird) => {
+
+                                            handleStopSong();
+                                            setBirdToID(bird);
+
+                                        }}
                                         onPlaySong={handlePlaySong} />
     							)} />
 						 }

@@ -93,7 +93,7 @@ const BirdIdentificationModal = (props) => {
 
     const options = useMemo(() => {
 
-        if (!bird) { return []; }
+        if (!bird || bird.id < 2000) { return []; }
 
         const collection = COLLECTIONS.find(
             (temp) => bird.id >= temp.min_id && bird.id <= temp.max_id,
@@ -136,11 +136,7 @@ const BirdIdentificationModal = (props) => {
     }, [bird?.id]);
 
     // Extra safety check here to prevent users from submitting invalid transactions...
-    if (
-        !bird ||
-        bird?.id < CURRENT_COLLECTION_MIN_ID ||
-        bird?.id > CURRENT_COLLECTION_MAX_ID
-    ) {
+    if (!bird) {
         return null;
     }
 

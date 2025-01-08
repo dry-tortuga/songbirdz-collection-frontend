@@ -9,9 +9,12 @@ body {
 }
 
 #root,
-.app,
-.app > div:not(#game) {
+.app {
 	min-height: 100vh;
+}
+
+.app {
+    position: relative;
 }
 
 code {
