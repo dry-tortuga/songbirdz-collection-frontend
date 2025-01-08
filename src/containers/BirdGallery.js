@@ -1,8 +1,6 @@
-import React, { useEffect, useState, forwardRef } from "react";
+import React, { useCallback, useEffect, useState, forwardRef } from "react";
 import { useLocation } from "react-router-dom";
 import {
-	Badge,
-	Button,
 	Col,
 	Container,
 	Form,
@@ -48,7 +46,7 @@ const gridComponents = {
       style={{
         padding: '0.5rem',
         width: "16.6666666667%",
-        aspectRatio: '1 / 1',
+        aspectRatio: '0.8 / 1',
         display: "flex",
         flex: "none",
         alignContent: "stretch",
@@ -62,7 +60,7 @@ const gridComponents = {
 
 const GridBirdCard = (props) => {
 
-    const { bird, onClick, ...restProps } = props;
+    const { bird, activeAudio, onClick, onPlaySong, ...restProps } = props;
 
     return (
         <div
@@ -70,14 +68,53 @@ const GridBirdCard = (props) => {
             {...restProps}
             title={`View ${bird.name}`}
             style={{
+                position: 'relative',
                 width: '100%',
                 height: '100%',
-                borderRadius: 8,
-                backgroundImage: `url(${bird.image})`,
-                backgroundPosition: 'center',
-                backgroundSize: 'contain',
             }}
-            onClick={() => onClick(bird)} />
+            onClick={() => onClick(bird)}>
+            <div
+                style={{
+                    position: 'relative',
+                    width: '100%',
+                    height: '80%',
+                    borderTopLeftRadius: 8,
+                    borderTopRightRadius: 8,
+                    backgroundImage: `url(${bird.image})`,
+                    backgroundPosition: 'center',
+                    backgroundSize: 'contain',
+                }} />
+            <div
+                style={{
+                    textAlign: 'center',
+                    padding: '0.5rem 0.25rem',
+                    background: '#dee2e612',
+                    borderBottomRightRadius: 8,
+                    borderBottomLeftRadius: 8,
+                    boxShadow: '0 2px 4px rgba(0, 0, 0, 0.05)'
+                }}>
+                {bird.name}
+            </div>
+            <button
+                className="icon-btn"
+                title={`Listen to ${bird.name}'s song`}
+                style={{
+                    position: 'absolute',
+                    right: '0.5rem',
+                    bottom: 'calc(0.5rem + 20%)',
+                    padding: '0.25rem 0.5rem',
+                    backgroundColor: '#000000b0',
+                    borderRadius: 8,
+                }}
+                onClick={(event) => onPlaySong(event, bird)}>
+                <i
+                    className={`fa-solid fa-music ${activeAudio?.id === bird.id ? 'fa-beat' : ''}`}
+                    style={{
+                        color: "#ffffff",
+                        verticalAlign: 'text-bottom',
+                    }} />
+            </button>
+        </div>
     );
 
 };
@@ -106,6 +143,9 @@ const BirdGallery = () => {
     const [showWalletConnectionInfo, setShowWalletConnectionInfo] =
         useState(false);
 
+    // Keep track of the active bird song to play
+    const [activeAudio, setActiveAudio] = useState({ id: -1,  audioPlayer: null });
+
 	// Get the list of "already identified" birds in the available collection
 	const {
 		showOnlyUnidentifiedBirds,
@@ -117,6 +157,7 @@ const BirdGallery = () => {
 	const {
 		data: birds,
 		filters,
+		identifiedCurrentSession,
 		onChangeFilter,
 		onChangeIdentified,
 	} = useBirdsV2({
@@ -157,8 +198,47 @@ const BirdGallery = () => {
 
     });
 
+	const handlePlaySong = useCallback((event, bird) => {
+
+        event.preventDefault();
+        event.stopPropagation();
+
+        if (activeAudio?.audioPlayer) {
+
+            activeAudio.audioPlayer.pause();
+
+            if (bird.id === activeAudio.id) {
+
+                setActiveAudio({ id: -1, audioPlayer: null });
+                return;
+
+            }
+
+        }
+
+        const audioPlayer = new Audio(bird.audio);
+
+        console.log(bird.audio);
+        console.log(audioPlayer);
+
+        audioPlayer.loop = true;
+        audioPlayer.play();
+
+        setActiveAudio({ id: bird.id, audioPlayer });
+
+    }, [activeAudio]);
+
 	// Get the collection data
 	const collection = COLLECTIONS[filters.collectionId];
+
+	// Re-load the twitter share button if the identified bird changes
+    useEffect(() => {
+
+        if (identifiedCurrentSession && window.twttr?.widgets) {
+            window.twttr.widgets.load(document.getElementById("gallery-page"));
+        }
+
+    }, [identifiedCurrentSession]);
 
 	console.debug("-------------- BirdGallery -----------");
 	console.debug(birds);
@@ -167,7 +247,9 @@ const BirdGallery = () => {
 	console.debug("--------------------------------------")
 
 	return (
-		<div className="gallery-page">
+		<div
+            id="gallery-page"
+            className="gallery-page">
 			<Container className="mt-4">
 				<Row className="mb-3">
 					<Col>
@@ -193,8 +275,8 @@ const BirdGallery = () => {
 									type="switch"
 									id="show-only-unidentified-birds"
 									label="Show Unidentified"
-									checked
-									onChange={() => console.debug('disabled for now...')} />
+									checked={showOnlyUnidentifiedBirds}
+									onChange={(event) => setShowOnlyUnidentifiedBirds(event.target.checked)} />
 							</Form>
 						</div>
 					</Col>
@@ -223,7 +305,9 @@ const BirdGallery = () => {
     							itemContent={(index) => (
     							    <GridBirdCard
                                         bird={birds[index]}
-                                        onClick={setBirdToID} />
+                                        activeAudio={activeAudio}
+                                        onClick={setBirdToID}
+                                        onPlaySong={handlePlaySong} />
     							)} />
 						 }
 					</Col>
@@ -231,8 +315,9 @@ const BirdGallery = () => {
 			</Container>
 			{birdToID && (
                 <BirdIdentificationModal
+                    id={birdToID?.id}
+                    cached={Boolean(birdToID?.cached)}
                     isOpen={Boolean(birdToID)}
-                    bird={birdToID}
                     context={context}
                     onSubmitNonSmartWallet={handleMintNonSmartWallet}
                     onSubmitSmartWallet={handleMintSmartWallet}

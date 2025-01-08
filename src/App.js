@@ -33,13 +33,10 @@ const router = createBrowserRouter(
 				lazy={() => import("./routes/about")} />
 			<Route
 				path="collection"
-				lazy={() => import("./routes/listing")} />
+				lazy={() => import("./routes/gallery")} />
 			<Route
 				path="collection/:id"
 				lazy={() => import("./routes/details")} />
-			<Route
-				path="gallery"
-				lazy={() => import("./routes/gallery")} />
 			<Route
 				path="leaderboard"
 				lazy={() => import("./routes/leaderboard")} />

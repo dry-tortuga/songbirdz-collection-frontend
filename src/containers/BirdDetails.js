@@ -408,8 +408,9 @@ const BirdDetails = () => {
                 )}
                 {isIdentifyingBird && bird && (
                     <BirdIdentificationModal
+                        id={bird.id}
+                        cached={false}
                         isOpen={isIdentifyingBird}
-                        bird={bird}
                         context={context}
                         onSubmitNonSmartWallet={handleMintNonSmartWallet}
                         onSubmitSmartWallet={handleMintSmartWallet}

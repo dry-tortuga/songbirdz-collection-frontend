@@ -8,6 +8,7 @@ const useBirdsV2 = (props) => {
 	const {
 		context,
 		collectionId,
+		showOnlyUnidentifiedBirds,
 		alreadyIdentifiedList,
 	} = props;
 
@@ -33,6 +34,7 @@ const useBirdsV2 = (props) => {
 
 			const idsToFetch = initBirdsState(
 				filters.collectionId,
+				showOnlyUnidentifiedBirds,
 				alreadyIdentifiedList,
 				identifiedCurrentSession,
 			);
@@ -43,12 +45,13 @@ const useBirdsV2 = (props) => {
 
 				for (let i = 0; i < idsToFetch.length; i++) {
 
-					const id = idsToFetch[i];
+					const id = idsToFetch[i].id;
+                    const cached = idsToFetch[i].cached;
 
 					const owner = null;
 
 					// Fetch the metadata from the backend server
-					const bird = await fetchBird(id, owner);
+					const bird = await fetchBird(id, owner, cached);
 
 					results.push(bird);
 
@@ -65,6 +68,7 @@ const useBirdsV2 = (props) => {
 	}, [
 		context.actions,
 		filters.collectionId,
+		showOnlyUnidentifiedBirds,
 		alreadyIdentifiedList,
 		identifiedCurrentSession,
 	]);
@@ -72,16 +76,17 @@ const useBirdsV2 = (props) => {
 	return {
 		data,
 		filters,
+		identifiedCurrentSession,
 		onChangeFilter,
 		onChangeIdentified:
-		  (id) => setIdentifiedCurrentSession((prev) => ({ ...prev, [id]: true })),
+			(id) => setIdentifiedCurrentSession((prev) => ({ ...prev, [id]: true })),
 	};
 
 };
 
 export default useBirdsV2;
 
-function initBirdsState(collectionId, alreadyIdentifiedList, identifiedCurrentSession) {
+function initBirdsState(collectionId, showOnlyUnidentifiedBirds, alreadyIdentifiedList, identifiedCurrentSession) {
 
 	let result = [];
 
@@ -102,11 +107,26 @@ function initBirdsState(collectionId, alreadyIdentifiedList, identifiedCurrentSe
 
 	for (let i = startIdx; i < endIdx; i++) {
 
-		if (i >= 2335 &&
-			i < NUM_BIRDS_TOTAL &&
-			!alreadyIdentifiedList[i] &&
-			!identifiedCurrentSession[i]) {
-			result.push(i);
+		// Check if filtering results to hide already identified birds
+		if (showOnlyUnidentifiedBirds) {
+
+			if (i >= 2335 &&
+				i < NUM_BIRDS_TOTAL &&
+				!alreadyIdentifiedList[i] &&
+				!identifiedCurrentSession[i]) {
+                result.push({ id: i, cached: false });
+			}
+
+		// Otherwise, include all birds by default
+		} else {
+
+            const cached =
+                i < 2335 ||
+                alreadyIdentifiedList[i] ||
+                identifiedCurrentSession[i];
+
+            result.push({ id: i, cached });
+
 		}
 
 	}

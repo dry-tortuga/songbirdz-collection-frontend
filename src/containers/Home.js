@@ -27,7 +27,7 @@ const HomeContainer = () => {
 								<div className="d-flex flex-column flex-lg-row align-items-center">
 									<a
 										className="me-lg-3 btn btn-secondary"
-										href="/collection">
+										href="/collection?number=5&hide_already_identified=true">
 										{"Explore Collection"}
 									</a>
 								</div>

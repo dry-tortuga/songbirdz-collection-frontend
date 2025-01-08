@@ -43,8 +43,16 @@ code {
 .listing-page svg[data-testid="ock-defaultAvatarSVG"],
 .listing-page svg[data-testid="ock-defaultLoadingSVG"],
 .leaderboard-page svg[data-testid="ock-defaultAvatarSVG"],
-.leaderboard-page svg[data-testid="ock-defaultLoadingSVG"] {
+.leaderboard-page svg[data-testid="ock-defaultLoadingSVG"],
+.bird-identification-modal svg[data-testid="ock-defaultLoadingSVG"] {
 	display: none;
+}
+
+.bird-identification-modal .ock-text-foreground {
+    font-weight: normal;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
+    font-size: 16px;
+    color: inherit;
 }
 
 .details-page svg[data-testid="ock-defaultAvatarSVG"] ~ div,

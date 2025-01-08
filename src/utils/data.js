@@ -1,20 +1,20 @@
 import { COLLECTION_BIRD_SIZE } from "../constants";
 
-async function fetchBird(id, owner) {
-
-	// console.debug("fetching bird #" + id);
+async function fetchBird(id, owner, cached) {
 
 	const data = {
 		id,
 		name: `Songbird #${id}`,
 		owner,
 		species: null,
+		audio: `${process.env.PUBLIC_URL}/audio/${id}.mp3`,
 		image: `${process.env.PUBLIC_URL}/images/${id}.jpg`,
 		imageLg:  `${process.env.PUBLIC_URL}/images/${id}-lg.jpg`,
 		collection: Math.floor(id / COLLECTION_BIRD_SIZE),
+		cached,
 	};
 
-	// Fetch the off-chain metadata from the back-end server
+	// Fetch the off-chain species metadata from the back-end server
 	const finalData = await populateMetadata(data);
 
 	return finalData;

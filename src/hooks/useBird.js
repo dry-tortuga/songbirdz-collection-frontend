@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 
 import { fetchBird } from "../utils/data";
 
-const useBird = ({ context, id }) => {
+const useBird = ({ context, id, cached }) => {
 
 	const [data, setData] = useState(null);
 	const [fetchedId, setFetchedId] = useState(null);
@@ -20,11 +20,20 @@ const useBird = ({ context, id }) => {
 
 				setFetchedId(id);
 
-				// Fetch the owner data from the solidity contract
-				const [owner] = await context.actions.ownerOf(id);
+                let owner = null;
+
+                console.log(cached);
+
+                // Check cache to see if bird has already been successfully identified
+                if (cached) {
+
+    				// Fetch the owner data from the solidity contract
+    				[owner] = await context.actions.ownerOf(id);
+
+                }
 
 				// Fetch the meta data from the backend server
-				const result = await fetchBird(id, owner);
+				const result = await fetchBird(id, owner, cached);
 
 				setData(result);
 
@@ -36,7 +45,7 @@ const useBird = ({ context, id }) => {
 
 		fetch();
 
-	}, [context.actions, id, fetchedId]);
+	}, [context.actions, id, fetchedId, cached]);
 
 	return [data, setData];
 

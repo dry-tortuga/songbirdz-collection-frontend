@@ -152,7 +152,7 @@ const BirdIdentificationTransactionStatus = (props) => {
                                         className="fa-solid fa-arrow-up-right-from-square"
                                         style={{ fontSize: "18px" }} />
                                 </a>
-                            </span>c
+                            </span>
                         </div>
                     </>
                 )}

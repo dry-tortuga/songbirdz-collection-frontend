@@ -582,8 +582,9 @@ const MemoryMatchGame = () => {
             </div>
             {birdToID && (
                 <BirdIdentificationModal
+                    id={birdToID?.id}
+                    cached={false}
                     isOpen={Boolean(birdToID)}
-                    bird={birdToID}
                     context={context}
                     onSubmitNonSmartWallet={handleMintNonSmartWallet}
                     onSubmitSmartWallet={handleMintSmartWallet}
