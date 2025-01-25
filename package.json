@@ -32,7 +32,8 @@
         "@eslint/js": "^9.3.0",
         "env-cmd": "^10.1.0",
         "eslint": "^8.57.0",
-        "globals": "^15.3.0"
+        "globals": "^15.3.0",
+        "typescript-eslint": "^8.21.0"
     },
     "overrides": {
         "typescript": "^5.5.4"

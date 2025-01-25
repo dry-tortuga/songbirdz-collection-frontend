@@ -2,21 +2,16 @@ import React, {
 	useCallback,
 	useContext,
 	useEffect,
-	useMemo,
 	useState,
 } from "react";
 import { Interface } from "ethers";
-import { Button, Modal } from "react-bootstrap";
+import { Modal } from "react-bootstrap";
 import {
-	Connector,
 	useAccount,
 	useConnect,
 	useDisconnect,
-	useEnsAvatar,
-	useEnsName,
 	useSwitchChain,
 } from "wagmi";
-import { base, baseSepolia, hardhat } from "wagmi/chains";
 import { useCapabilities } from "wagmi/experimental";
 import {
 	readContract,
@@ -24,9 +19,10 @@ import {
 	waitForTransactionReceipt,
 	writeContract,
 } from "@wagmi/core";
-import { getContract, parseEther } from "viem";
+import { parseEther } from "viem";
 
 import SongBirdzContract from "../abi/SongBirdz.json";
+import OnchainGiftContract from "../abi/OnchainGift.json";
 
 import WalletOptions from "../components/WalletOptions";
 
@@ -36,6 +32,7 @@ import useCurrentUser from "../hooks/useCurrentUser";
 
 const EXPECTED_CHAIN_ID = parseInt(process.env.REACT_APP_BASE_NETWORK_CHAIN_ID, 10);
 const SONGBIRDZ_CONTRACT_ADDRESS = process.env.REACT_APP_SONGBIRDZ_CONTRACT_ADDRESS;
+const ONCHAIN_GIFT_CONTRACT_ADDRESS = '0x46659278E7A8838C53EF7fE9939675591757409B';
 
 const MINT_PRICE = "0.0015"; // 0.0015 ETH
 
@@ -48,8 +45,6 @@ const WalletProvider = ({ children }) => {
 	const { address, chainId, isConnected } = useAccount();
 	const { connectors, connect } = useConnect();
 	const { disconnect } = useDisconnect();
-	// const { data: ensName } = useEnsName({ address });
-	// const { data: ensAvatar } = useEnsAvatar({ name: ensName });
 	const { switchChain } = useSwitchChain();
 
 	const account = address;
@@ -134,13 +129,26 @@ const WalletProvider = ({ children }) => {
 				functionName: "publicMint",
 				args: [id, responseData.proof, responseData.species_guess],
 				chainId: EXPECTED_CHAIN_ID,
-				value: parseEther(MINT_PRICE), 
+				value: parseEther(MINT_PRICE),
 			};
 
 		} catch (error) {
 			console.error(error);
 			throw error;
 		}
+
+	}, []);
+
+	// Callback function to approve transfer of bird for smart wallet users
+	const approve = useCallback((to, tokenId) => {
+
+		return {
+			abi: SongBirdzContract.abi,
+			address: SONGBIRDZ_CONTRACT_ADDRESS,
+			functionName: "approve",
+			args: [to, tokenId],
+			chainId: EXPECTED_CHAIN_ID,
+		};
 
 	}, []);
 
@@ -168,7 +176,7 @@ const WalletProvider = ({ children }) => {
 				functionName: "publicMint",
 				args: [id, proof, guess],
 				chainId: EXPECTED_CHAIN_ID,
-				value: parseEther(mintPrice), 
+				value: parseEther(mintPrice),
 			});
 
 			const hash = await writeContract(config, request);
@@ -184,6 +192,30 @@ const WalletProvider = ({ children }) => {
 			console.error(error);
 			return [null, error];
 		}
+
+	}, []);
+
+	// Callback function to create a new bird gift pack for smart wallet users
+	const publicCreateGiftPack = useCallback((erc721Tokens, giftHash) => {
+
+        const ethToSend = 0;
+        const erc20Tokens = [];
+        const erc1155Tokens = [];
+
+		return {
+			abi: OnchainGiftContract.abi,
+			address: ONCHAIN_GIFT_CONTRACT_ADDRESS,
+			functionName: "createPack",
+			args: [
+			    ethToSend,
+				erc20Tokens,
+				erc721Tokens,
+				erc1155Tokens,
+				giftHash,
+			],
+			chainId: EXPECTED_CHAIN_ID,
+			// value: null,
+		};
 
 	}, []);
 
@@ -214,12 +246,15 @@ const WalletProvider = ({ children }) => {
 				isPaymasterSupported,
 				contractAddress: SONGBIRDZ_CONTRACT_ADDRESS,
 				contractInterface: new Interface(SongBirdzContract.abi),
+				onchainGiftContractAddress: ONCHAIN_GIFT_CONTRACT_ADDRESS,
 				onConnectWallet: () => setIsModalOpen(true),
 				onDisconnectWallet: disconnect,
 				actions: {
 					ownerOf,
 					publicMint,
 					publicMintNonSmartWallet,
+					publicCreateGiftPack,
+					approve,
 					safeTransferFrom,
 				},
 				currentUser,

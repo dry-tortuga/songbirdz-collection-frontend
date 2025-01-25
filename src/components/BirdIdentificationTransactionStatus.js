@@ -119,8 +119,7 @@ const BirdIdentificationTransactionStatus = (props) => {
                                     className="twitter-share-button"
                                     data-hashtags="songbirdz,birds,nfts,pfps,onchain"
                                     data-via="magiceden"
-                                    data-url={`https://magiceden.io/item-details/base/${contractAddress}/${tx.bird.id}`}
-                                >
+                                    data-url={`https://magiceden.io/item-details/base/${contractAddress}/${tx.bird.id}`}>
                                     <i
                                         className="fa-brands fa-x-twitter"
                                         style={{
@@ -130,7 +129,7 @@ const BirdIdentificationTransactionStatus = (props) => {
                                     ></i>
                                 </a>
                             </span>
-                            <span>
+                            <span className="me-3">
                                 <a
                                     href={`https://warpcast.com/~/compose?text=${encodeURIComponent(`I just identified this ${tx.bird.species} in the Songbirdz collection on @base!\n\n Join me and play the onchain bird watching game at https://songbirdz.cc/collection?hide_already_identified=true\n\nhttps://magiceden.io/item-details/base/${contractAddress}/${tx.bird.id}`)}`}
                                     className="farcaster-share-button"
@@ -142,6 +141,13 @@ const BirdIdentificationTransactionStatus = (props) => {
                                         style={{ width: "20px", height: "20px" }}
                                     />
                                 </a>
+                            </span>
+                            <span className="me-3">
+                                <button className="gift-button">
+                                    <i
+                                        className="fa-solid fa-gift"
+                                        style={{ fontSize: "18px" }} />
+                                </button>
                             </span>
                             <span className="ms-auto">
                                 <a

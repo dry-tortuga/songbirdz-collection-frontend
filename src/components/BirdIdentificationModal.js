@@ -20,9 +20,9 @@ import {
     ANSWER_CHOICES_FLOCK_4,
     ANSWER_CHOICES_FLOCK_5,
     COLLECTIONS,
-    CURRENT_COLLECTION_MIN_ID,
-    CURRENT_COLLECTION_MAX_ID,
 } from "../constants";
+
+import { useWalletContext } from "../contexts/wallet";
 
 import useBird from "../hooks/useBird";
 
@@ -33,12 +33,13 @@ const BirdIdentificationModal = (props) => {
     const {
         id,
         cached,
-        context,
         isOpen,
         onSubmitSmartWallet,
         onSubmitNonSmartWallet,
         onToggle,
     } = props;
+
+    const context = useWalletContext();
 
     const [bird] = useBird({ id, cached, context });
 
@@ -46,29 +47,32 @@ const BirdIdentificationModal = (props) => {
         species: "",
     });
 
-    const [contractCall, setContractCall] = useState([]);
+    const [contractCall, setContractCall] = useState(null);
 
-    const handleInputChange = async (selectedOption) => {
+    const {
+        account,
+        isOnCorrectChain,
+        isPaymasterSupported,
+        actions,
+    } = context;
 
-        if (context.isPaymasterSupported) {
+    const handleInputChange = (selectedOption) => {
+
+        if (isPaymasterSupported) {
 
             // Reset the selected species to use as the guess so we can wait for the result
             // of the async API call to fetch the merkle proof for the "publicMint" contract call
 
-            setContractCall([]);
+            setContractCall(async () => {
 
-            try {
-
-                const result = await context.actions.publicMint(
+                const result = await actions.publicMint(
                     bird.id,
                     selectedOption.value,
                 );
 
-                setContractCall([result]);
+                return result;
 
-            } catch (error) {
-                // TODO: Show an error message?
-            }
+            });
 
         } else {
             setFormData({ species: selectedOption.value });
@@ -216,7 +220,7 @@ const BirdIdentificationModal = (props) => {
                                     className="bird-identification-species-selector"
                                     classNamePrefix="bird-identification-species"
                                     options={options}
-                                    isDisabled={!context.account}
+                                    isDisabled={!account}
                                     onChange={handleInputChange}
                                 />
                             </Form.Group>
@@ -234,18 +238,18 @@ const BirdIdentificationModal = (props) => {
                                     </span>
                                 </Form.Text>
                             </Form.Group>
-                            {(!context.account || !context.isOnCorrectChain) && (
+                            {(!account || !isOnCorrectChain) && (
                                 <WalletConnectionStatus />
                             )}
-                            {context.account && context.isOnCorrectChain && (
+                            {account && isOnCorrectChain && (
                                 <>
-                                    {context.isPaymasterSupported && (
+                                    {isPaymasterSupported && (
                                         <Transaction
                                             key={contractCall.length} // Re-mount when contract call changes
-                                            address={context.account}
+                                            address={account}
                                             className="bird-identification-transaction-container"
                                             capabilities={
-                                                context.isPaymasterSupported
+                                                isPaymasterSupported
                                                     ? {
                                                           paymasterService: {
                                                               url: process.env
@@ -254,7 +258,8 @@ const BirdIdentificationModal = (props) => {
                                                       }
                                                     : null
                                             }
-                                            contracts={contractCall}
+                                            calls={contractCall}
+                                            // TODO: onStatus callback handler
                                             onError={(error) => {
                                                 console.error(error);
 
@@ -266,13 +271,11 @@ const BirdIdentificationModal = (props) => {
 
                                                 // Handle and parse the successful response
                                                 onSubmitSmartWallet(bird, response);
-                                            }}
-                                        >
+                                            }}>
                                             <TransactionButton
                                                 className="btn btn-info w-100"
-                                                disabled={contractCall.length === 0}
-                                                text="Submit"
-                                            />
+                                                disabled={!contractCall}
+                                                text="Submit" />
                                             <TransactionSponsor text="SongBirdz" />
                                             <TransactionStatus>
                                                 <TransactionStatusLabel />
@@ -280,12 +283,11 @@ const BirdIdentificationModal = (props) => {
                                             </TransactionStatus>
                                         </Transaction>
                                     )}
-                                    {!context.isPaymasterSupported && (
+                                    {!isPaymasterSupported && (
                                         <Button
                                             className="w-100"
                                             variant="info"
-                                            onClick={handleSubmitNonSmartWallet}
-                                        >
+                                            onClick={handleSubmitNonSmartWallet}>
                                             {"Submit"}
                                         </Button>
                                     )}
