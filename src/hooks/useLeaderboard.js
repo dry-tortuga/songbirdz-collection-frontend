@@ -24,7 +24,7 @@ const useLeaderboard = ({ account, season }) => {
                 let timestampMessage;
 
                 if (season === 3) {
-                    timestampMessage = "Runs from December 1st, 2024 12AM UTC to February 28th, 2025 11PM UTC. Leaderboard attempts to update in real-time, but points to be manually confirmed on a weekly basis in case any ERC-721 events are missed. Last confirmed on December 9th, 2024 3:30PM UTC. ";
+                    timestampMessage = "Runs from December 1st, 2024 12AM UTC to February 28th, 2025 11PM UTC. Leaderboard attempts to update in real-time, but points to be manually confirmed on a weekly basis in case any ERC-721 events are missed. Last confirmed on January 17th, 2025 2:30PM UTC. ";
                 }
 
                 setData({

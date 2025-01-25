@@ -1,0 +1,29 @@
+.gallery-page .grid-bird-card:hover {
+    background-size: 125% !important;
+    cursor: pointer;
+}
+
+.gallery-page .toast-container {
+    position: fixed;
+}
+
+.gallery-page .virtuoso-grid-item {
+    width: 50%;
+    aspect-ratio: 0.8 / 1;
+}
+
+@media (min-width: 576px) {
+    .gallery-page .virtuoso-grid-item { width: 33.333333%; }
+}
+
+@media (min-width: 768px) {
+    .gallery-page .virtuoso-grid-item { width: 25%; }
+}
+
+@media (min-width: 992px) {
+    .gallery-page .virtuoso-grid-item { width: 20%; }
+}
+
+@media (min-width: 1200px) {
+    .gallery-page .virtuoso-grid-item { width: 16.666666%; }
+}

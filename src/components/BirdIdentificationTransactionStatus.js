@@ -96,42 +96,65 @@ const BirdIdentificationTransactionStatus = (props) => {
                 <small>{dayjs(tx.timestamp).fromNow()}</small>
             </Toast.Header>
             <Toast.Body className="text-white">
-                <div className="mb-2">{message}</div>
+                <div className="mb-1 text-center">{message}</div>
                 {tx.bird && tx.transferEvent && (
-                    <div className="bg-white rounded text-black p-2 d-flex align-items-center">
-                        <span className="me-2">{"Share on:"}</span>
-                        <span className="me-2">
-                            <a
-                                href={`https://twitter.com/intent/tweet?text=${encodeURIComponent(`I just identified this ${tx.bird.species} in the @songbirdz_cc collection on @base!\n\n Join me and play the onchain bird watching game at https://songbirdz.cc/collection?hide_already_identified=true\n\n`)}`}
-                                className="twitter-share-button me-3"
-                                data-hashtags="songbirdz,birds,nfts,pfps,onchain"
-                                data-via="magiceden"
-                                data-url={`https://magiceden.io/item-details/base/${contractAddress}/${tx.bird.id}`}
-                            >
-                                <i
-                                    className="fa-brands fa-x-twitter"
-                                    style={{
-                                        fontSize: "24px",
-                                        marginTop: "3px",
-                                    }}
-                                ></i>
-                            </a>
-                        </span>
-                        <span>
-                            <a
-                                href={`https://warpcast.com/~/compose?text=${encodeURIComponent(`I just identified this ${tx.bird.species} in the Songbirdz collection on @base!\n\n Join me and play the onchain bird watching game at https://songbirdz.cc/collection?hide_already_identified=true\n\nhttps://magiceden.io/item-details/base/${contractAddress}/${tx.bird.id}`)}`}
-                                className="farcaster-share-button"
-                                target="_blank"
-                                rel="noopener noreferrer"
-                            >
-                                <img
-                                    src={warpcastLogo}
-                                    alt="Warpcast"
-                                    style={{ width: "24px", height: "24px" }}
-                                />
-                            </a>
-                        </span>
-                    </div>
+                    <>
+                        <img
+                            src={tx.bird.image}
+                            className="mb-2"
+                            style={{
+                                width: "60%",
+                                height: "auto",
+                                marginLeft: "20%",
+                                marginRight: '20%',
+                                borderRadius: 8,
+                            }}
+                            alt=""
+                        />
+                        <div className="bg-white rounded text-black p-2 d-flex align-items-center">
+                            <span className="me-2">{"Show it off:"}</span>
+                            <span className="me-3">
+                                <a
+                                    href={`https://twitter.com/intent/tweet?text=${encodeURIComponent(`I just identified this ${tx.bird.species} in the @songbirdz_cc collection on @base!\n\n Join me and play the onchain bird watching game at https://songbirdz.cc/collection?hide_already_identified=true\n\n`)}`}
+                                    className="twitter-share-button"
+                                    data-hashtags="songbirdz,birds,nfts,pfps,onchain"
+                                    data-via="magiceden"
+                                    data-url={`https://magiceden.io/item-details/base/${contractAddress}/${tx.bird.id}`}
+                                >
+                                    <i
+                                        className="fa-brands fa-x-twitter"
+                                        style={{
+                                            fontSize: "20px",
+                                            marginTop: "3px",
+                                        }}
+                                    ></i>
+                                </a>
+                            </span>
+                            <span>
+                                <a
+                                    href={`https://warpcast.com/~/compose?text=${encodeURIComponent(`I just identified this ${tx.bird.species} in the Songbirdz collection on @base!\n\n Join me and play the onchain bird watching game at https://songbirdz.cc/collection?hide_already_identified=true\n\nhttps://magiceden.io/item-details/base/${contractAddress}/${tx.bird.id}`)}`}
+                                    className="farcaster-share-button"
+                                    target="_blank"
+                                    rel="noopener noreferrer">
+                                    <img
+                                        src={warpcastLogo}
+                                        alt="Warpcast"
+                                        style={{ width: "20px", height: "20px" }}
+                                    />
+                                </a>
+                            </span>
+                            <span className="ms-auto">
+                                <a
+                                    href={`/collection/${tx.bird.id}`}
+                                    target="_blank"
+                                    rel="noopener noreferrer nofollow">
+                                    <i
+                                        className="fa-solid fa-arrow-up-right-from-square"
+                                        style={{ fontSize: "18px" }} />
+                                </a>
+                            </span>
+                        </div>
+                    </>
                 )}
             </Toast.Body>
         </Toast>

@@ -10,6 +10,7 @@ import {
 import { WalletProvider } from "./contexts/wallet";
 
 import Navbar from "./components/Navbar";
+import Footer from "./components/Footer";
 
 const AppWrapper = (props) => {
 
@@ -32,7 +33,7 @@ const router = createBrowserRouter(
 				lazy={() => import("./routes/about")} />
 			<Route
 				path="collection"
-				lazy={() => import("./routes/listing")} />
+				lazy={() => import("./routes/gallery")} />
 			<Route
 				path="collection/:id"
 				lazy={() => import("./routes/details")} />
@@ -57,6 +58,7 @@ const App = () => {
 	return (
 		<div className="app">
 			<RouterProvider router={router} />
+			<Footer />
 		</div>
 	);
 

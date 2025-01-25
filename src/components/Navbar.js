@@ -37,19 +37,13 @@ const NavbarHeader = () => {
                             className={`nav-item nav-link ${pathname === "/memory-match" ? "active" : ""} `}
                             to="/memory-match"
                             onClick={() => setExpanded(false)}>
-                            {"Memory Match"}
+                            {"Memory Match Game"}
                         </Link>
                         <Link
                             className={`nav-item nav-link ${pathname === "/about" ? "active" : ""} `}
                             to="/about"
                             onClick={() => setExpanded(false)}>
                             {"About"}
-                        </Link>
-                        <Link
-                            className={`nav-item nav-link ${pathname === "/sounds-of-summer-2024" ? "active" : ""} `}
-                            to="/sounds-of-summer-2024"
-                            onClick={() => setExpanded(false)}>
-                            {"Sounds of Summer"}
                         </Link>
                         <ConnectWalletButton className="mt-3 mt-md-0 ms-md-auto" />
                     </Nav>

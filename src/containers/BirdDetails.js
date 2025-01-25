@@ -42,6 +42,7 @@ const BirdDetails = () => {
     const [bird, setBird] = useBird({
         context,
         id: parseInt(params.id, 10),
+        cached: true,
     });
 
     // True, if the modal is open
@@ -408,8 +409,9 @@ const BirdDetails = () => {
                 )}
                 {isIdentifyingBird && bird && (
                     <BirdIdentificationModal
+                        id={bird.id}
+                        cached={false}
                         isOpen={isIdentifyingBird}
-                        bird={bird}
                         context={context}
                         onSubmitNonSmartWallet={handleMintNonSmartWallet}
                         onSubmitSmartWallet={handleMintSmartWallet}

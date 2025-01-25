@@ -26,22 +26,8 @@ const HomeContainer = () => {
 								</p>
 								<div className="d-flex flex-column flex-lg-row align-items-center">
 									<a
-										className="me-lg-3 mb-3 mb-lg-0 btn btn-success"
-										target="_blank"
-										rel="noopener noreferrer nofollower"
-										href="https://discord.gg/UKGgRsJXzr">
-										{"Join Discord"}
-									</a>
-									<a
-										className="me-lg-3 mb-3 mb-lg-0 btn btn-info"
-										target="_blank"
-										rel="noopener noreferrer nofollower"
-										href="https://t.me/songbirdz_cc">
-										{"Join Telegram"}
-									</a>
-									<a
 										className="me-lg-3 btn btn-secondary"
-										href="/collection">
+										href="/collection?number=5&hide_already_identified=true">
 										{"Explore Collection"}
 									</a>
 								</div>
@@ -71,7 +57,7 @@ const HomeContainer = () => {
 					<div className="d-flex flex-column flex-lg-row align-items-center justify-content-center">
 						<Link
 							className="btn btn-outline-light me-lg-3 mb-4 mb-lg-0 py-3 px-4 rounded-pill"
-							to="/collection">
+							to="/collection?number=5&hide_already_identified=true">
 							{"Get Started"}
 						</Link>
 					</div>
