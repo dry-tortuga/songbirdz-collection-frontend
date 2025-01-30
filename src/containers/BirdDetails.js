@@ -11,8 +11,6 @@ import {
     ToastContainer,
 } from "react-bootstrap";
 
-import { useWalletContext } from "../contexts/wallet";
-
 import AccountOwner from "../components/AccountOwner";
 import BirdAudioFile from "../components/BirdAudioFile";
 import BirdIdentificationModal from "../components/BirdIdentificationModal";
@@ -22,6 +20,9 @@ import BirdTransferModal from "../components/BirdTransferModal";
 import DailyStreakStatus from "../components/DailyStreakStatus";
 
 import { COLLECTIONS } from "../constants";
+
+import { useGiftContext } from "../contexts/gift";
+import { useWalletContext } from "../contexts/wallet";
 
 import useBird from "../hooks/useBird";
 import useMintAPI from "../hooks/useMintAPI";
@@ -35,6 +36,7 @@ const BirdDetails = () => {
     const params = useParams();
 
     const context = useWalletContext();
+    const { setIsSendingGift, setBirdToGift } = useGiftContext();
 
     const { currentUser, setCurrentUser } = context;
 
@@ -67,6 +69,8 @@ const BirdDetails = () => {
                 dailyStreakTracker: updatedTracker,
             }));
         }
+
+        setBirdToGift(updatedBirdData);
 
     };
 
@@ -281,7 +285,8 @@ const BirdDetails = () => {
                                 txMintSmartWallet?.error) && (
                                 <BirdIdentificationTransactionStatus
                                     tx={txMintSmartWallet}
-                                    onClose={resetTxMintSmartWallet} />
+                                    onClose={resetTxMintSmartWallet}
+                                   onSendGift={() => setIsSendingGift(true)} />
                             )}
                             {/* Non-Smart Wallet Users */}
                             {(txMintNonSmartWallet?.pending ||
@@ -289,7 +294,8 @@ const BirdDetails = () => {
                                 txMintNonSmartWallet?.error) && (
                                 <BirdIdentificationTransactionStatusNonSmartWallet
                                     tx={txMintNonSmartWallet}
-                                    onClose={resetTxMintNonSmartWallet} />
+                                    onClose={resetTxMintNonSmartWallet}
+                                   onSendGift={() => setIsSendingGift(true)} />
                             )}
                             {(currentUser?.dailyStreakTracker?.status ===
                                 "created" ||
@@ -407,7 +413,7 @@ const BirdDetails = () => {
 						*/}
                     </>
                 )}
-                {isIdentifyingBird && bird && (
+                {isIdentifyingBird && bird &&
                     <BirdIdentificationModal
                         id={bird.id}
                         cached={false}
@@ -415,9 +421,8 @@ const BirdDetails = () => {
                         context={context}
                         onSubmitNonSmartWallet={handleMintNonSmartWallet}
                         onSubmitSmartWallet={handleMintSmartWallet}
-                        onToggle={() => setIsIdentifyingBird(false)}
-                    />
-                )}
+                        onToggle={() => setIsIdentifyingBird(false)} />
+                }
             </Container>
         </div>
     );

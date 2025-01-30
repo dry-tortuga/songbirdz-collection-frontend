@@ -22,7 +22,6 @@ import {
 import { parseEther } from "viem";
 
 import SongBirdzContract from "../abi/SongBirdz.json";
-import OnchainGiftContract from "../abi/OnchainGift.json";
 
 import WalletOptions from "../components/WalletOptions";
 
@@ -32,7 +31,7 @@ import useCurrentUser from "../hooks/useCurrentUser";
 
 const EXPECTED_CHAIN_ID = parseInt(process.env.REACT_APP_BASE_NETWORK_CHAIN_ID, 10);
 const SONGBIRDZ_CONTRACT_ADDRESS = process.env.REACT_APP_SONGBIRDZ_CONTRACT_ADDRESS;
-const ONCHAIN_GIFT_CONTRACT_ADDRESS = '0x46659278E7A8838C53EF7fE9939675591757409B';
+const ONCHAIN_GIFT_CONTRACT_ADDRESS = process.env.REACT_APP_ONCHAIN_GIFT_CONTRACT_ADDRESS;
 
 const MINT_PRICE = "0.0015"; // 0.0015 ETH
 
@@ -195,30 +194,6 @@ const WalletProvider = ({ children }) => {
 
 	}, []);
 
-	// Callback function to create a new bird gift pack for smart wallet users
-	const publicCreateGiftPack = useCallback((erc721Tokens, giftHash) => {
-
-        const ethToSend = 0;
-        const erc20Tokens = [];
-        const erc1155Tokens = [];
-
-		return {
-			abi: OnchainGiftContract.abi,
-			address: ONCHAIN_GIFT_CONTRACT_ADDRESS,
-			functionName: "createPack",
-			args: [
-			    ethToSend,
-				erc20Tokens,
-				erc721Tokens,
-				erc1155Tokens,
-				giftHash,
-			],
-			chainId: EXPECTED_CHAIN_ID,
-			// value: null,
-		};
-
-	}, []);
-
 	const isOnCorrectChain = chainId === EXPECTED_CHAIN_ID;
 	const isPaymasterSupported = Boolean(availableCapabilities?.[EXPECTED_CHAIN_ID]?.paymasterService?.supported);
 
@@ -253,7 +228,6 @@ const WalletProvider = ({ children }) => {
 					ownerOf,
 					publicMint,
 					publicMintNonSmartWallet,
-					publicCreateGiftPack,
 					approve,
 					safeTransferFrom,
 				},

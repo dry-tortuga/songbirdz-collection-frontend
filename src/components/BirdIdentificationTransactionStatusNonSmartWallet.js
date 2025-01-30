@@ -13,7 +13,7 @@ dayjs.extend(relativeTime);
 
 const BirdIdentificationTransactionStatusNonSmartWallet = (props) => {
 
-    const { tx, onClose } = props;
+    const { tx, onClose, onSendGift } = props;
 
     const { contractAddress } = useWalletContext();
 
@@ -168,13 +168,17 @@ const BirdIdentificationTransactionStatusNonSmartWallet = (props) => {
                                     />
                                 </a>
                             </span>
-                            <span className="me-3">
-                                <button className="gift-button">
-                                    <i
-                                        className="fa-solid fa-gift"
-                                        style={{ fontSize: "18px" }} />
-                                </button>
-                            </span>
+                            {/*
+                                <span className="me-3">
+                                    <button
+                                        className="gift-button"
+                                        onClick={onSendGift}>
+                                        <i
+                                            className="fa-solid fa-gift"
+                                            style={{ fontSize: "18px" }} />
+                                    </button>
+                                </span>
+                            */}
                             <span className="ms-auto">
                                 <a
                                     href={`/collection/${tx.bird.id}`}

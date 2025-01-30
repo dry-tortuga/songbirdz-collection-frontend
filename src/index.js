@@ -10,7 +10,7 @@ import App from "./App";
 import config from "./config";
 
 import "@coinbase/onchainkit/styles.css";
-import "@rainbow-me/rainbowkit/styles.css"; 
+import "@rainbow-me/rainbowkit/styles.css";
 import "bootswatch/dist/sketchy/bootstrap.min.css";
 import "./index.css";
 
@@ -39,9 +39,12 @@ root.render(
 		 <WagmiProvider config={config}>
 		 	<QueryClientProvider client={queryClient}>
 		 		<OnchainKitProvider
-		 			apiKey={ONCHAIN_KIT_API_KEY}
-		 			projectId={CB_DEV_PLATFORM_PROJECT_ID}
-		 			chain={chain}>
+                    apiKey={ONCHAIN_KIT_API_KEY}
+                    projectId={CB_DEV_PLATFORM_PROJECT_ID}
+                    chain={chain}
+                    config={{
+                        paymaster: process.env.REACT_APP_COINBASE_PAYMASTER_AND_BUNDLER_ENDPOINT,
+                    }}>
 		 			<RainbowKitProvider modalSize="compact">
 						<App />
 					</RainbowKitProvider>

@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from "react";
+import React, { useCallback, useMemo, useState } from "react";
 import {
     Transaction,
     TransactionButton,
@@ -47,7 +47,7 @@ const BirdIdentificationModal = (props) => {
         species: "",
     });
 
-    const [contractCall, setContractCall] = useState(null);
+    const [contractCall, setContractCall] = useState(async () => {});
 
     const {
         account,
@@ -70,13 +70,13 @@ const BirdIdentificationModal = (props) => {
                     selectedOption.value,
                 );
 
-                return result;
+                return [result];
 
             });
 
-        } else {
-            setFormData({ species: selectedOption.value });
         }
+
+        setFormData({ species: selectedOption.value });
 
     };
 
@@ -94,6 +94,23 @@ const BirdIdentificationModal = (props) => {
         }
 
     };
+
+    const handleOnStatus = useCallback((status) => {
+
+        if (status.statusName === "success") {
+
+            // Close the modal
+            onToggle();
+
+            // Handle and parse the successful response
+            onSubmitSmartWallet(bird, status.statusData);
+
+        } else if (status.statusName === "error") {
+            console.error(status);
+            // TODO: Error handler
+        }
+
+    }, [bird]);
 
     const options = useMemo(() => {
 
@@ -245,36 +262,14 @@ const BirdIdentificationModal = (props) => {
                                 <>
                                     {isPaymasterSupported && (
                                         <Transaction
-                                            key={contractCall.length} // Re-mount when contract call changes
                                             address={account}
                                             className="bird-identification-transaction-container"
-                                            capabilities={
-                                                isPaymasterSupported
-                                                    ? {
-                                                          paymasterService: {
-                                                              url: process.env
-                                                                  .REACT_APP_COINBASE_PAYMASTER_AND_BUNDLER_ENDPOINT,
-                                                          },
-                                                      }
-                                                    : null
-                                            }
                                             calls={contractCall}
-                                            // TODO: onStatus callback handler
-                                            onError={(error) => {
-                                                console.error(error);
-
-                                                // TODO: Show more relevant error messages???
-                                            }}
-                                            onSuccess={(response) => {
-                                                // Close the modal
-                                                onToggle();
-
-                                                // Handle and parse the successful response
-                                                onSubmitSmartWallet(bird, response);
-                                            }}>
+                                            isSponsored={isPaymasterSupported}
+                                            onStatus={handleOnStatus}>
                                             <TransactionButton
                                                 className="btn btn-info w-100"
-                                                disabled={!contractCall}
+                                                disabled={!formData.species}
                                                 text="Submit" />
                                             <TransactionSponsor text="SongBirdz" />
                                             <TransactionStatus>
