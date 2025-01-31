@@ -86,13 +86,13 @@ const createPack = (erc721Tokens: Array<object>, giftHash: string, chainId: numb
         address,
         functionName: "createPack",
         args: [
-            ethToSend,
             erc20Tokens,
             erc721Tokens,
             erc1155Tokens,
             giftHash,
         ],
         chainId,
+        value: ethToSend,
     };
 
 };

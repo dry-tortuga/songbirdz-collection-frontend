@@ -75,6 +75,7 @@ const CreateGiftPack = (props: Props) => {
     const [hash, setHash] = useState<object>({
         value: generateHashedPassword(saltedPassword),
         isValid: false,
+        loading: false,
     });
 
     const [isCreated, setIsCreated] = useState(false);
@@ -104,8 +105,15 @@ const CreateGiftPack = (props: Props) => {
     }, []);
 
     const handleOnStatus = useCallback((status: LifecycleStatus) => {
+        console.debug('handleOnStatus');
+
         if (status.statusName === "success") {
             setIsCreated(true);
+        } else if (status.statusName === "error") {
+            console.error(status);
+            // TODO: Error handler
+        } else {
+            console.debug(status);
         }
     }, []);
 
@@ -125,12 +133,12 @@ const CreateGiftPack = (props: Props) => {
             onchainGiftContractAddress,
         );
 
-    }, [hash, expectedChainId, onchainGiftContractAddress]);
+    }, [hash.value, expectedChainId, onchainGiftContractAddress]);
 
     const erc721ApprovalTransaction = useMemo(() => {
 
         const to = onchainGiftContractAddress;
-        const tokenId = bird.id;
+        const tokenId = BigInt(bird.id);
 
         return actions.approve(to, tokenId);
 
@@ -144,7 +152,7 @@ const CreateGiftPack = (props: Props) => {
 
             try {
 
-                const isValid = await readContract(
+                const alreadyUsed = await readContract(
                     config,
                     isHashUsed(
                         debouncedHash.value,
@@ -153,7 +161,9 @@ const CreateGiftPack = (props: Props) => {
                     )
                 );
 
-                setHash((prev) => ({ ...prev, isValid, loading: false }));
+                console.debug(`alreadyUsed=${alreadyUsed}`);
+
+                setHash((prev) => ({ ...prev, isValid: !alreadyUsed, loading: false }));
 
             } catch (error) {
                 console.error(error);
@@ -165,6 +175,9 @@ const CreateGiftPack = (props: Props) => {
         checkHashStatus();
 
     }, [debouncedHash, expectedChainId, onchainGiftContractAddress]);
+
+    console.debug(erc721ApprovalTransaction);
+    console.debug(createGiftPackTransaction);
 
     return (
         <Modal

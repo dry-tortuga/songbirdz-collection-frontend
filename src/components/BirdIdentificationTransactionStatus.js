@@ -137,6 +137,7 @@ const BirdIdentificationTransactionStatus = (props) => {
                                     />
                                 </a>
                             </span>
+                            {/*
                             <span className="me-3">
                                 <button
                                     className="gift-button"
@@ -146,6 +147,7 @@ const BirdIdentificationTransactionStatus = (props) => {
                                         style={{ fontSize: "18px" }} />
                                 </button>
                             </span>
+                            */}
                             <span className="ms-auto">
                                 <a
                                     href={`/collection/${tx.bird.id}`}

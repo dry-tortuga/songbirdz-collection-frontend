@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo, useState } from "react";
+import React, { useCallback, useEffect, useMemo, useState } from "react";
 import {
     Transaction,
     TransactionButton,
@@ -156,6 +156,26 @@ const BirdIdentificationModal = (props) => {
 
     }, [bird?.id]);
 
+    /*
+    useEffect(() => {
+
+        const button = document.querySelector('button[data-testid="ockConnectButton"]');
+
+        console.debug('button-listener');
+        console.debug(button);
+
+        // Close the modal
+        const handleClick = () => { onToggle(); };
+
+        button?.addEventListener('click', handleClick);
+
+        return () => {
+            button?.removeEventListener('click', handleClick);
+        };
+
+    }, [account, isOnCorrectChain]);
+    */
+
     // Extra safety check here to prevent users from submitting invalid transactions...
     if (!bird) {
         return null;
@@ -256,7 +276,16 @@ const BirdIdentificationModal = (props) => {
                                 </Form.Text>
                             </Form.Group>
                             {(!account || !isOnCorrectChain) && (
-                                <WalletConnectionStatus />
+                                <>
+                                    {!account &&
+                                        <span className="fw-bold">
+                                            {"Please connect your wallet..."}
+                                        </span>
+                                    }
+                                    {account && !isOnCorrectChain &&
+                                        <WalletConnectionStatus />
+                                    }
+                                </>
                             )}
                             {account && isOnCorrectChain && (
                                 <>

@@ -1,6 +1,7 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { createRoot } from "react-dom/client";
 import { OnchainKitProvider } from "@coinbase/onchainkit";
+import FrameSDK from "@farcaster/frame-sdk";
 import { RainbowKitProvider } from "@rainbow-me/rainbowkit";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { base, baseSepolia, hardhat } from "viem/chains";
@@ -23,6 +24,20 @@ const container = document.getElementById("root");
 
 const root = createRoot(container);
 
+const FarcasterFrameProvider = ({ children }) => {
+
+    useEffect(() => {
+
+        const load = async () => { FrameSDK.actions.ready(); }
+
+        load();
+
+    }, []);
+
+    return children;
+
+};
+
 let chain = base;
 
 if (process.env.REACT_APP_NODE_ENV === "development") {
@@ -43,10 +58,21 @@ root.render(
                     projectId={CB_DEV_PLATFORM_PROJECT_ID}
                     chain={chain}
                     config={{
+                        appearance: {
+                            name: 'Songbirdz',
+                           	logo: "https://songbirdz.cc/android-chrome-192x192.png",
+                        },
                         paymaster: process.env.REACT_APP_COINBASE_PAYMASTER_AND_BUNDLER_ENDPOINT,
+                        wallet: {
+                            display: 'modal',
+                            // termsUrl: 'https://...',
+                            // privacyUrl: 'https://...',
+                        },
                     }}>
 		 			<RainbowKitProvider modalSize="compact">
-						<App />
+						<FarcasterFrameProvider>
+					        <App />
+						</FarcasterFrameProvider>
 					</RainbowKitProvider>
 				</OnchainKitProvider>
 			</QueryClientProvider>

@@ -203,6 +203,16 @@ const BirdDetails = () => {
                                         {context.account?.toLowerCase() ===
                                             "0x2d437771f6fbedf3d83633cbd3a31b6c6bdba2b1" && (
                                             <>
+                                                <button
+                                                    className="gift-button me-3"
+                                                    onClick={() => {
+                                                        setBirdToGift(bird);
+                                                        setIsSendingGift(true);
+                                                    }}>
+                                                    <i
+                                                        className="fa-solid fa-gift"
+                                                        style={{ fontSize: "18px" }} />
+                                                </button>
                                                 <Button
                                                     onClick={() =>
                                                         setShowTransferModal(

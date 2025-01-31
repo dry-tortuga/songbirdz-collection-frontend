@@ -1,4 +1,5 @@
-import { connectorsForWallets, getDefaultConfig } from "@rainbow-me/rainbowkit"; 
+import { farcasterFrame } from "@farcaster/frame-wagmi-connector/dist/connector.js";
+import { connectorsForWallets, getDefaultConfig } from "@rainbow-me/rainbowkit";
 import {
 	coinbaseWallet,
 	injectedWallet,
@@ -53,7 +54,7 @@ const config = getDefaultConfig({
 	appName: "Songbirdz",
 	appLogoUrl: "https://songbirdz.cc/android-chrome-192x192.png",
 	chains,
-	connectors,
+	connectors: [farcasterFrame(), ...connectors],
 	projectId: walletConnectProjectId,
 	transports,
 });

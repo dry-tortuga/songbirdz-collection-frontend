@@ -2,16 +2,9 @@ import React, {
 	useCallback,
 	useContext,
 	useEffect,
-	useState,
 } from "react";
 import { Interface } from "ethers";
-import { Modal } from "react-bootstrap";
-import {
-	useAccount,
-	useConnect,
-	useDisconnect,
-	useSwitchChain,
-} from "wagmi";
+import { useAccount, useSwitchChain } from "wagmi";
 import { useCapabilities } from "wagmi/experimental";
 import {
 	readContract,
@@ -22,8 +15,6 @@ import {
 import { parseEther } from "viem";
 
 import SongBirdzContract from "../abi/SongBirdz.json";
-
-import WalletOptions from "../components/WalletOptions";
 
 import config from "../config";
 
@@ -42,8 +33,6 @@ const useWalletContext = () => useContext(WalletContext);
 const WalletProvider = ({ children }) => {
 
 	const { address, chainId, isConnected } = useAccount();
-	const { connectors, connect } = useConnect();
-	const { disconnect } = useDisconnect();
 	const { switchChain } = useSwitchChain();
 
 	const account = address;
@@ -51,8 +40,6 @@ const WalletProvider = ({ children }) => {
 	const { data: availableCapabilities } = useCapabilities({ account });
 
 	const [currentUser, setCurrentUser] = useCurrentUser({ account });
-
-	const [isModalOpen, setIsModalOpen] = useState(false);
 
 	useEffect(() => {
 
@@ -63,20 +50,7 @@ const WalletProvider = ({ children }) => {
 		    switchChain({ chainId: EXPECTED_CHAIN_ID });
 	    }
 
-	    // Close the modal once we are connected
-
-	    if (isConnected && isModalOpen) {
-	    	setIsModalOpen(false);
-	    }
-
-	}, [isConnected, isModalOpen, chainId]);
-
-	const onClick = useCallback((selectedConnector) => {
-
-		connect({ connector: selectedConnector });
-		setIsModalOpen(false);
-
-	}, [connect]);
+	}, [isConnected, chainId]);
 
 	// Callback function to fetch the owner of a bird
 	const ownerOf = useCallback(async (id) => {
@@ -198,7 +172,6 @@ const WalletProvider = ({ children }) => {
 	const isPaymasterSupported = Boolean(availableCapabilities?.[EXPECTED_CHAIN_ID]?.paymasterService?.supported);
 
 	console.debug("----------------------");
-	console.debug(connectors);
 	console.debug(availableCapabilities);
 	console.debug(`account=${account}`);
 	console.debug(`chainId=${chainId}`);
@@ -222,8 +195,6 @@ const WalletProvider = ({ children }) => {
 				contractAddress: SONGBIRDZ_CONTRACT_ADDRESS,
 				contractInterface: new Interface(SongBirdzContract.abi),
 				onchainGiftContractAddress: ONCHAIN_GIFT_CONTRACT_ADDRESS,
-				onConnectWallet: () => setIsModalOpen(true),
-				onDisconnectWallet: disconnect,
 				actions: {
 					ownerOf,
 					publicMint,
@@ -235,18 +206,6 @@ const WalletProvider = ({ children }) => {
 				setCurrentUser,
 			}}>
 			{children}
-			<Modal
-				show={isModalOpen}
-				onHide={() => setIsModalOpen(false)}>
-				<Modal.Header closeButton>
-					<Modal.Title>
-						{"Select Wallet"}
-					</Modal.Title>
-				</Modal.Header>
-				<Modal.Body className="d-flex flex-column align-items-center">
-					<WalletOptions onClick={onClick} />
-				</Modal.Body>
-			</Modal>
 		</WalletContext.Provider>
 	);
 
