@@ -7,17 +7,20 @@ import {
 	RouterProvider,
 } from "react-router-dom";
 
+import { GiftProvider } from "./contexts/gift";
 import { WalletProvider } from "./contexts/wallet";
 
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
 
-const AppWrapper = (props) => {
+const AppWrapper = () => {
 
 	return (
 		<WalletProvider>
-			<Navbar />
-			<Outlet />
+		    <GiftProvider>
+                <Navbar />
+                <Outlet />
+			</GiftProvider>
 		</WalletProvider>
 	);
 

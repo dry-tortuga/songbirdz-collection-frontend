@@ -16,6 +16,8 @@ import DailyStreakStatus from "../components/DailyStreakStatus";
 import WalletConnectionStatus from "../components/WalletConnectionStatus";
 
 import { COLLECTIONS } from "../constants";
+
+import { useGiftContext } from "../contexts/gift";
 import { useWalletContext } from "../contexts/wallet";
 
 import useAlreadyIdentifiedList from "../hooks/useAlreadyIdentifiedList";
@@ -120,6 +122,7 @@ const GridBirdCard = (props) => {
 const BirdGallery = () => {
 
 	const context = useWalletContext();
+	const { setIsSendingGift, setBirdToGift } = useGiftContext();
 
 	const { currentUser, setCurrentUser } = context;
 
@@ -192,6 +195,9 @@ const BirdGallery = () => {
                     dailyStreakTracker: updatedTracker,
                 }));
             }
+
+            setBirdToGift(updatedBirdData);
+
         },
 
     });
@@ -364,7 +370,7 @@ const BirdGallery = () => {
                         <BirdIdentificationTransactionStatus
                             tx={txMintSmartWallet}
                             onClose={resetTxMintSmartWallet}
-                        />
+                            onSendGift={() => setIsSendingGift(true)} />
                     )}
                 {/* Non-Smart Wallet Users */}
                 {(txMintNonSmartWallet?.pending ||
@@ -373,7 +379,7 @@ const BirdGallery = () => {
                         <BirdIdentificationTransactionStatusNonSmartWallet
                             tx={txMintNonSmartWallet}
                             onClose={resetTxMintNonSmartWallet}
-                        />
+                            onSendGift={() => setIsSendingGift(true)} />
                     )}
                 {(currentUser?.dailyStreakTracker?.status === "created" ||
                     currentUser?.dailyStreakTracker?.status ===
