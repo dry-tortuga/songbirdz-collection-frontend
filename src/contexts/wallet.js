@@ -6,12 +6,7 @@ import React, {
 import { Interface } from "ethers";
 import { useAccount, useSwitchChain } from "wagmi";
 import { useCapabilities } from "wagmi/experimental";
-import {
-	readContract,
-	simulateContract,
-	waitForTransactionReceipt,
-	writeContract,
-} from "@wagmi/core";
+import { readContract } from "@wagmi/core";
 import { parseEther } from "viem";
 
 import SongBirdzContract from "../abi/SongBirdz.json";
@@ -77,7 +72,7 @@ const WalletProvider = ({ children }) => {
 
 	}, []);
 
-	// Callback function to mint a new bird for smart wallet users
+	// Callback function to mint a new bird
 	const publicMint = useCallback(async (id, speciesGuess) => {
 
 		try {
@@ -138,36 +133,6 @@ const WalletProvider = ({ children }) => {
 
 	}, []);
 
-	// Callback function to mint a new bird for non-smart wallet users
-	const publicMintNonSmartWallet = useCallback(async (id, proof, guess, mintPrice) => {
-
-		try {
-
-			const { request } = await simulateContract(config, {
-				abi: SongBirdzContract.abi,
-				address: SONGBIRDZ_CONTRACT_ADDRESS,
-				functionName: "publicMint",
-				args: [id, proof, guess],
-				chainId: EXPECTED_CHAIN_ID,
-				value: parseEther(mintPrice),
-			});
-
-			const hash = await writeContract(config, request);
-
-			const txReceipt = await waitForTransactionReceipt(config, {
-				chainId: EXPECTED_CHAIN_ID,
-				hash,
-			});
-
-			return [txReceipt, null];
-
-		} catch (error) {
-			console.error(error);
-			return [null, error];
-		}
-
-	}, []);
-
 	const isOnCorrectChain = chainId === EXPECTED_CHAIN_ID;
 	const isPaymasterSupported = Boolean(availableCapabilities?.[EXPECTED_CHAIN_ID]?.paymasterService?.supported);
 
@@ -175,8 +140,6 @@ const WalletProvider = ({ children }) => {
 	console.debug(availableCapabilities);
 	console.debug(`account=${account}`);
 	console.debug(`chainId=${chainId}`);
-	// console.debug(`ensName=${ensName}`);
-	// console.debug(`ensAvatar=${ensAvatar}`);
 	console.debug(`isConnected=${isConnected}`);
 	console.debug(`isOnCorrectChain=${isOnCorrectChain}`);
 	console.debug(`isPaymasterSupported=${isPaymasterSupported}`);
@@ -198,7 +161,6 @@ const WalletProvider = ({ children }) => {
 				actions: {
 					ownerOf,
 					publicMint,
-					publicMintNonSmartWallet,
 					approve,
 					safeTransferFrom,
 				},

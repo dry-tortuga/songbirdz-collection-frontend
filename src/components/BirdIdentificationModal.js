@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useMemo, useState } from "react";
+import React, { useCallback, useMemo, useState } from "react";
 import {
     Transaction,
     TransactionButton,
@@ -7,7 +7,7 @@ import {
     TransactionStatusAction,
     TransactionStatusLabel,
 } from "@coinbase/onchainkit/transaction";
-import { Button, Form, Modal } from "react-bootstrap";
+import { Form, Modal } from "react-bootstrap";
 import Select from "react-select";
 
 import AccountOwner from "./AccountOwner";
@@ -34,8 +34,8 @@ const BirdIdentificationModal = (props) => {
         id,
         cached,
         isOpen,
-        onSubmitSmartWallet,
-        onSubmitNonSmartWallet,
+        onError,
+        onSuccess,
         onToggle,
     } = props;
 
@@ -58,40 +58,21 @@ const BirdIdentificationModal = (props) => {
 
     const handleInputChange = (selectedOption) => {
 
-        if (isPaymasterSupported) {
+        // Reset the selected species to use as the guess so we can wait for the result
+        // of the async API call to fetch the merkle proof for the "publicMint" contract call
 
-            // Reset the selected species to use as the guess so we can wait for the result
-            // of the async API call to fetch the merkle proof for the "publicMint" contract call
+        setContractCall(async () => {
 
-            setContractCall(async () => {
+            const result = await actions.publicMint(
+                bird.id,
+                selectedOption.value,
+            );
 
-                const result = await actions.publicMint(
-                    bird.id,
-                    selectedOption.value,
-                );
+            return [result];
 
-                return [result];
-
-            });
-
-        }
+        });
 
         setFormData({ species: selectedOption.value });
-
-    };
-
-    // Handle submitting a new transaction for non-smart wallet users
-    const handleSubmitNonSmartWallet = async () => {
-
-        if (formData.species) {
-
-            // Close the modal
-            onToggle();
-
-            // Submit the transaction
-            await onSubmitNonSmartWallet(bird, formData.species);
-
-        }
 
     };
 
@@ -103,11 +84,13 @@ const BirdIdentificationModal = (props) => {
             onToggle();
 
             // Handle and parse the successful response
-            onSubmitSmartWallet(bird, status.statusData);
+            onSuccess(bird, status.statusData);
 
         } else if (status.statusName === "error") {
+
             console.error(status);
-            // TODO: Error handler
+            onError(bird, status.statusData);
+
         }
 
     }, [bird]);
@@ -288,34 +271,22 @@ const BirdIdentificationModal = (props) => {
                                 </>
                             )}
                             {account && isOnCorrectChain && (
-                                <>
-                                    {isPaymasterSupported && (
-                                        <Transaction
-                                            address={account}
-                                            className="bird-identification-transaction-container"
-                                            calls={contractCall}
-                                            isSponsored={isPaymasterSupported}
-                                            onStatus={handleOnStatus}>
-                                            <TransactionButton
-                                                className="btn btn-info w-100"
-                                                disabled={!formData.species}
-                                                text="Submit" />
-                                            <TransactionSponsor text="SongBirdz" />
-                                            <TransactionStatus>
-                                                <TransactionStatusLabel />
-                                                <TransactionStatusAction />
-                                            </TransactionStatus>
-                                        </Transaction>
-                                    )}
-                                    {!isPaymasterSupported && (
-                                        <Button
-                                            className="w-100"
-                                            variant="info"
-                                            onClick={handleSubmitNonSmartWallet}>
-                                            {"Submit"}
-                                        </Button>
-                                    )}
-                                </>
+                                <Transaction
+                                    address={account}
+                                    className="bird-identification-transaction-container"
+                                    calls={contractCall}
+                                    isSponsored={isPaymasterSupported}
+                                    onStatus={handleOnStatus}>
+                                    <TransactionButton
+                                        className="btn btn-info w-100"
+                                        disabled={!formData.species}
+                                        text="Submit" />
+                                    <TransactionSponsor text="SongBirdz" />
+                                    <TransactionStatus>
+                                        <TransactionStatusLabel />
+                                        <TransactionStatusAction />
+                                    </TransactionStatus>
+                                </Transaction>
                             )}
                         </>
                     }
