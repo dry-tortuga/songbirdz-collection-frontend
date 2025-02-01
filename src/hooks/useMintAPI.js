@@ -103,9 +103,12 @@ const useMintAPI = ({ context }) => {
 
         console.error(response);
 
-        //  error: true,
-        // errorMsg:
-        // error?.data?.message || "Oops there was an error...",
+        setTxMint((prev) => ({
+            ...prev,
+            success: false,
+            error: true,
+            // errorMsg: response?.statusData, // || { message: "Oops there as an error..." },
+        }));
 
     }, []);
 

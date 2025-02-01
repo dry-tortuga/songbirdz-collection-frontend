@@ -95,7 +95,7 @@ const WalletProvider = ({ children }) => {
 				abi: SongBirdzContract.abi,
 				address: SONGBIRDZ_CONTRACT_ADDRESS,
 				functionName: "publicMint",
-				args: [id, responseData.proof, responseData.species_guess],
+				args: [BigInt(id), responseData.proof, responseData.species_guess],
 				chainId: EXPECTED_CHAIN_ID,
 				value: parseEther(MINT_PRICE),
 			};

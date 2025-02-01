@@ -2,7 +2,6 @@ import React, { useEffect } from "react";
 import { createRoot } from "react-dom/client";
 import { OnchainKitProvider } from "@coinbase/onchainkit";
 import FrameSDK from "@farcaster/frame-sdk";
-import { RainbowKitProvider } from "@rainbow-me/rainbowkit";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { base, baseSepolia, hardhat } from "viem/chains";
 import { WagmiProvider } from "wagmi";
@@ -11,7 +10,6 @@ import App from "./App";
 import config from "./config";
 
 import "@coinbase/onchainkit/styles.css";
-import "@rainbow-me/rainbowkit/styles.css";
 import "bootswatch/dist/sketchy/bootstrap.min.css";
 import "./index.css";
 
@@ -69,11 +67,9 @@ root.render(
                             // privacyUrl: 'https://...',
                         },
                     }}>
-		 			<RainbowKitProvider modalSize="compact">
-						<FarcasterFrameProvider>
-					        <App />
-						</FarcasterFrameProvider>
-					</RainbowKitProvider>
+					<FarcasterFrameProvider>
+				        <App />
+					</FarcasterFrameProvider>
 				</OnchainKitProvider>
 			</QueryClientProvider>
 		</WagmiProvider>

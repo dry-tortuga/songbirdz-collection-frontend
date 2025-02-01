@@ -27,9 +27,7 @@ const BirdIdentificationTransactionStatus = (props) => {
     let variant;
     let message;
 
-    if (!tx) {
-        return null;
-    }
+    if (!tx) { return null; }
 
     if (tx.success) {
 
@@ -58,10 +56,25 @@ const BirdIdentificationTransactionStatus = (props) => {
             message = `You incorrectly identified Songbird #${birdId} as a ${speciesNameGuess}. Please try again!`;
         }
 
-    } else if (tx.error) {
+    } else if (tx.error && tx.errorMsg) {
+
         variant = "danger";
         message = `${tx.errorMsg.name}: ${tx.errorMsg.details}`;
+
+    } else if (tx.pending) {
+
+        variant = "info";
+
+        if (tx.transaction) {
+            message = "Hang tight, we're trying to verify your submission!";
+        } else {
+            message =
+                "Please confirm the submission in your wallet. After submitting, it may take a few seconds to verify your guess!";
+        }
+
     }
+
+    if (!message || !variant) { return null; }
 
     return (
         <Toast
@@ -79,19 +92,25 @@ const BirdIdentificationTransactionStatus = (props) => {
                     style={{ width: "20px", height: "20px" }}
                     alt="" />
                 <strong>{"Base"}</strong>
-                <span className="ms-1 me-auto">
-                    {" - "}
-                    <a
-                        href={`${process.env.REACT_APP_BASESCAN_URL}/tx/${tx.transactionHash}`}
-                        target="_blank"
-                        rel="noopener noreferrer nofollow">
-                        {tx.transactionHash.slice(0, 8)}
-                    </a>
-                </span>
-                <small>{dayjs(tx.timestamp).fromNow()}</small>
+                {tx.transactionHash &&
+                    <span className="ms-1 me-auto">
+                        {" - "}
+                        <a
+                            href={`${process.env.REACT_APP_BASESCAN_URL}/tx/${tx.transactionHash}`}
+                            target="_blank"
+                            rel="noopener noreferrer nofollow">
+                            {tx.transactionHash.slice(0, 8)}
+                        </a>
+                    </span>
+                }
+                {tx.timestamp &&
+                    <small>{dayjs(tx.timestamp).fromNow()}</small>
+                }
             </Toast.Header>
             <Toast.Body className="text-white">
-                <div className="mb-1 text-center">{message}</div>
+                <div className="mb-1 text-center">
+                    {message}
+                </div>
                 {tx.bird && tx.transferEvent && (
                     <>
                         <img

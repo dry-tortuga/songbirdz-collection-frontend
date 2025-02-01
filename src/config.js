@@ -1,14 +1,7 @@
 import { farcasterFrame } from "@farcaster/frame-wagmi-connector/dist/connector.js";
-import { connectorsForWallets, getDefaultConfig } from "@rainbow-me/rainbowkit";
-import {
-	coinbaseWallet,
-	injectedWallet,
-	metaMaskWallet,
-	rainbowWallet,
-	walletConnectWallet,
-} from "@rainbow-me/rainbowkit/wallets";
-import { http } from "wagmi";
+import { createConfig, http } from "wagmi";
 import { base, baseSepolia, hardhat } from "wagmi/chains";
+import { coinbaseWallet, metaMask, injected, safe, walletConnect } from 'wagmi/connectors';
 
 const walletConnectProjectId = process.env.REACT_APP_WALLET_CONNECT_PROJECT_ID;
 const rpcNetworkURL = process.env.REACT_APP_BASE_NETWORK_RPC_URL;
@@ -33,29 +26,24 @@ if (process.env.REACT_APP_NODE_ENV === "development") {
 
 }
 
-const connectors = connectorsForWallets(
-	[{
-		groupName: "Recommended Wallet",
-		wallets: [coinbaseWallet],
-	}, {
-		groupName: "Other Wallets",
-		wallets: [rainbowWallet, metaMaskWallet, walletConnectWallet, injectedWallet],
-	}],
-	{
-		appName: "Songbirdz",
-		projectId: walletConnectProjectId,
-	},
-);
-
-console.debug(process.env.REACT_APP_NODE_ENV);
-console.debug(chains);
-
-const config = getDefaultConfig({
-	appName: "Songbirdz",
-	appLogoUrl: "https://songbirdz.cc/android-chrome-192x192.png",
-	chains,
-	connectors: [farcasterFrame(), ...connectors],
-	projectId: walletConnectProjectId,
+const config = createConfig({
+    chains,
+    connectors: [
+        farcasterFrame(),
+        injected(),
+        metaMask(),
+        walletConnect({
+            appName: "Songbirdz",
+            projectId: walletConnectProjectId,
+        }),
+        coinbaseWallet({
+           appName: 'Songbirdz',
+           appLogoUrl: "https://songbirdz.cc/android-chrome-192x192.png",
+           reloadOnDisconnect: false,
+           enableMobileWalletLink: true,
+        }),
+        safe(),
+    ],
 	transports,
 });
 

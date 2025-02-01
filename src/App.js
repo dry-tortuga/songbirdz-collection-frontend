@@ -8,7 +8,7 @@ import {
 } from "react-router-dom";
 
 import { GiftProvider } from "./contexts/gift";
-import { IdentificationProvider } from "./contextxs/identification";
+import { IdentificationProvider } from "./contexts/identification";
 import { WalletProvider } from "./contexts/wallet";
 
 import Navbar from "./components/Navbar";

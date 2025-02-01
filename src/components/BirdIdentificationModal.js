@@ -47,8 +47,6 @@ const BirdIdentificationModal = (props) => {
         species: "",
     });
 
-    const [contractCall, setContractCall] = useState(async () => {});
-
     const {
         account,
         isOnCorrectChain,
@@ -57,23 +55,7 @@ const BirdIdentificationModal = (props) => {
     } = context;
 
     const handleInputChange = (selectedOption) => {
-
-        // Reset the selected species to use as the guess so we can wait for the result
-        // of the async API call to fetch the merkle proof for the "publicMint" contract call
-
-        setContractCall(async () => {
-
-            const result = await actions.publicMint(
-                bird.id,
-                selectedOption.value,
-            );
-
-            return [result];
-
-        });
-
         setFormData({ species: selectedOption.value });
-
     };
 
     const handleOnStatus = useCallback((status) => {
@@ -138,6 +120,28 @@ const BirdIdentificationModal = (props) => {
         return result;
 
     }, [bird?.id]);
+
+    // Reset the selected species to use as the guess so we can wait for the result
+    // of the async API call to fetch the merkle proof for the "publicMint" contract call
+
+    const callsCallback = useMemo(() => {
+
+        const mint = async () => {
+
+            const result = await actions.publicMint(
+                bird.id,
+                formData.species,
+            );
+
+            console.debug(result);
+
+            return [result];
+
+        };
+
+        return mint;
+
+    }, [formData.species]);
 
     /*
     useEffect(() => {
@@ -270,23 +274,25 @@ const BirdIdentificationModal = (props) => {
                                     }
                                 </>
                             )}
-                            {account && isOnCorrectChain && (
-                                <Transaction
-                                    address={account}
-                                    className="bird-identification-transaction-container"
-                                    calls={contractCall}
-                                    isSponsored={isPaymasterSupported}
-                                    onStatus={handleOnStatus}>
-                                    <TransactionButton
-                                        className="btn btn-info w-100"
-                                        disabled={!formData.species}
-                                        text="Submit" />
-                                    <TransactionSponsor text="SongBirdz" />
-                                    <TransactionStatus>
-                                        <TransactionStatusLabel />
-                                        <TransactionStatusAction />
-                                    </TransactionStatus>
-                                </Transaction>
+                            {account && isOnCorrectChain && formData.species && (
+                                <div key={formData.species}>
+                                    <Transaction
+                                        address={account}
+                                        className="bird-identification-transaction-container"
+                                        calls={callsCallback}
+                                        // isSponsored={isPaymasterSupported}
+                                        onStatus={handleOnStatus}>
+                                        <TransactionButton
+                                            className="btn btn-info w-100"
+                                            disabled={!formData.species}
+                                            text="Submit" />
+                                        <TransactionSponsor text="SongBirdz" />
+                                        <TransactionStatus>
+                                            <TransactionStatusLabel />
+                                            <TransactionStatusAction />
+                                        </TransactionStatus>
+                                    </Transaction>
+                                </div>
                             )}
                         </>
                     }
