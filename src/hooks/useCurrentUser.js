@@ -17,7 +17,10 @@ const useCurrentUser = ({ account }) => {
 
 				const tracker = await fetchDailyStreak(account);
 
-				setData({ dailyStreakTracker: tracker });
+				setData({
+				    dailyStreakTracker: tracker,
+                    identified: {},
+				});
 
 			};
 

@@ -1,28 +1,19 @@
-import React, { useCallback, useEffect, useState, forwardRef } from "react";
+import React, { useCallback, useState, forwardRef } from "react";
 import { useLocation } from "react-router-dom";
 import {
 	Col,
 	Container,
 	Form,
 	Row,
-	ToastContainer,
 } from "react-bootstrap";
 import { VirtuosoGrid } from "react-virtuoso";
 
-import BirdIdentificationModal from "../components/BirdIdentificationModal";
-import BirdIdentificationTransactionStatus from "../components/BirdIdentificationTransactionStatus";
-import BirdIdentificationTransactionStatusNonSmartWallet from "../components/BirdIdentificationTransactionStatusNonSmartWallet";
-import DailyStreakStatus from "../components/DailyStreakStatus";
-import WalletConnectionStatus from "../components/WalletConnectionStatus";
-
 import { COLLECTIONS } from "../constants";
 
-import { useGiftContext } from "../contexts/gift";
-import { useWalletContext } from "../contexts/wallet";
+import { useIdentificationContext } from "../contexts/identification";
 
 import useAlreadyIdentifiedList from "../hooks/useAlreadyIdentifiedList";
 import useBirdsV2 from "../hooks/useBirdsV2";
-import useMintAPI from "../hooks/useMintAPI";
 
 import './BirdGallery.css';
 
@@ -121,10 +112,7 @@ const GridBirdCard = (props) => {
 
 const BirdGallery = () => {
 
-	const context = useWalletContext();
-	const { setIsSendingGift, setBirdToGift } = useGiftContext();
-
-	const { currentUser, setCurrentUser } = context;
+	const { setIsIdentifyingBird, setBirdToID } = useIdentificationContext();
 
 	const { search } = useLocation();
 
@@ -136,13 +124,6 @@ const BirdGallery = () => {
 
 	// Check if filtering the list to remove "already identified" birds
 	const hideAlreadyIdentifiedParam = queryParams.get("hide_already_identified") === "true";
-
-	// Keep track of the bird to identify
-	const [birdToID, setBirdToID] = useState(null);
-
-	// Keep track of the wallet connection state
-    const [showWalletConnectionInfo, setShowWalletConnectionInfo] =
-        useState(false);
 
     // Keep track of the active bird song to play
     const [activeAudio, setActiveAudio] = useState({ id: -1,  audioPlayer: null });
@@ -158,49 +139,12 @@ const BirdGallery = () => {
 	const {
 		data: birds,
 		filters,
-		identifiedCurrentSession,
 		onChangeFilter,
-		onChangeIdentified,
 	} = useBirdsV2({
-		context,
 		collectionId: filteredCollectionId,
 		showOnlyUnidentifiedBirds,
 		alreadyIdentifiedList,
 	});
-
-	const {
-        // Callback functions to submit the tx onchain
-        handleMintSmartWallet,
-        handleMintNonSmartWallet,
-
-        // Keep track of the tx state
-        txMintSmartWallet,
-        txMintNonSmartWallet,
-
-        // Reset the tx state
-        resetTxMintSmartWallet,
-        resetTxMintNonSmartWallet,
-    } = useMintAPI({
-        context,
-        // Handle updates to the local state after successful mint
-        cb: (updatedBirdData, updatedTracker) => {
-
-            if (updatedBirdData) {
-                onChangeIdentified(updatedBirdData.id);
-            }
-
-            if (updatedTracker) {
-                setCurrentUser((prev) => ({
-                    ...prev,
-                    dailyStreakTracker: updatedTracker,
-                }));
-            }
-
-            setBirdToGift(updatedBirdData);
-
-        },
-
-    });
 
 	const handlePlaySong = useCallback((event, bird) => {
 
@@ -221,9 +165,6 @@ const BirdGallery = () => {
         }
 
         const audioPlayer = new Audio(bird.audio);
-
-        console.log(bird.audio);
-        console.log(audioPlayer);
 
         audioPlayer.loop = true;
         audioPlayer.play();
@@ -246,21 +187,6 @@ const BirdGallery = () => {
 
 	// Get the collection data
 	const collection = COLLECTIONS[filters.collectionId];
-
-	// Re-load the twitter share button if the identified bird changes
-    useEffect(() => {
-
-        if (identifiedCurrentSession && window.twttr?.widgets) {
-            window.twttr.widgets.load(document.getElementById("gallery-page"));
-        }
-
-    }, [identifiedCurrentSession]);
-
-	console.debug("-------------- BirdGallery -----------");
-	console.debug(birds);
-	console.debug(collection);
-	console.debug(context);
-	console.debug("--------------------------------------")
 
 	return (
 		<div
@@ -288,7 +214,11 @@ const BirdGallery = () => {
                                 }}>
 								<option value={"-1"}>{"Choose a flock"}</option>
 								{COLLECTIONS.map((collection, index) => (
-									<option value={index}>{collection.name}</option>
+									<option
+									   key={collection.name}
+									   value={index}>
+									   {collection.name}
+									</option>
 								))}
 							</Form.Select>
 							<Form className="ms-lg-3 mb-2 mb-lg-0 ">
@@ -335,6 +265,8 @@ const BirdGallery = () => {
                                         onClick={(bird) => {
 
                                             handleStopSong();
+
+                                            setIsIdentifyingBird(true);
                                             setBirdToID(bird);
 
                                         }}
@@ -344,51 +276,6 @@ const BirdGallery = () => {
 					</Col>
 				</Row>
 			</Container>
-			{birdToID && (
-                <BirdIdentificationModal
-                    id={birdToID?.id}
-                    cached={Boolean(birdToID?.cached)}
-                    isOpen={Boolean(birdToID)}
-                    context={context}
-                    onSubmitNonSmartWallet={handleMintNonSmartWallet}
-                    onSubmitSmartWallet={handleMintSmartWallet}
-                    onToggle={() => setBirdToID(null)} />
-            )}
-            <ToastContainer
-                className="p-3"
-                style={{ zIndex: 5 }}
-                position="top-end">
-                {showWalletConnectionInfo && (
-                    <WalletConnectionStatus
-                        onClose={() => setShowWalletConnectionInfo(false)}
-                    />
-                )}
-                {/* Smart Wallet Users */}
-                {(txMintSmartWallet?.pending ||
-                    txMintSmartWallet?.success ||
-                    txMintSmartWallet?.error) && (
-                        <BirdIdentificationTransactionStatus
-                            tx={txMintSmartWallet}
-                            onClose={resetTxMintSmartWallet}
-                            onSendGift={() => setIsSendingGift(true)} />
-                    )}
-                {/* Non-Smart Wallet Users */}
-                {(txMintNonSmartWallet?.pending ||
-                    txMintNonSmartWallet?.success ||
-                    txMintNonSmartWallet?.error) && (
-                        <BirdIdentificationTransactionStatusNonSmartWallet
-                            tx={txMintNonSmartWallet}
-                            onClose={resetTxMintNonSmartWallet}
-                            onSendGift={() => setIsSendingGift(true)} />
-                    )}
-                {(currentUser?.dailyStreakTracker?.status === "created" ||
-                    currentUser?.dailyStreakTracker?.status ===
-                    "updated") && (
-                        <DailyStreakStatus
-                            data={currentUser?.dailyStreakTracker}
-                        />
-                    )}
-            </ToastContainer>
 		</div>
 	);
 

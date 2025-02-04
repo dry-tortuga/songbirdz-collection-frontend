@@ -1,7 +1,12 @@
 import { farcasterFrame } from "@farcaster/frame-wagmi-connector/dist/connector.js";
 import { createConfig, http } from "wagmi";
 import { base, baseSepolia, hardhat } from "wagmi/chains";
-import { coinbaseWallet, metaMask, injected, safe, walletConnect } from 'wagmi/connectors';
+import {
+    coinbaseWallet,
+    metaMask,
+    injected,
+    walletConnect,
+} from "wagmi/connectors";
 
 const walletConnectProjectId = process.env.REACT_APP_WALLET_CONNECT_PROJECT_ID;
 const rpcNetworkURL = process.env.REACT_APP_BASE_NETWORK_RPC_URL;
@@ -10,20 +15,14 @@ let chains = [];
 let transports = {};
 
 if (process.env.REACT_APP_NODE_ENV === "development") {
-
-	chains.push(hardhat);
-	transports[hardhat.id] = http(rpcNetworkURL);
-
+    chains.push(hardhat);
+    transports[hardhat.id] = http(rpcNetworkURL);
 } else if (process.env.REACT_APP_NODE_ENV === "staging") {
-
-	chains.push(baseSepolia);
-	transports[baseSepolia.id] = http(rpcNetworkURL);
-
+    chains.push(baseSepolia);
+    transports[baseSepolia.id] = http(rpcNetworkURL);
 } else if (process.env.REACT_APP_NODE_ENV === "production") {
-
-	chains.push(base);
-	transports[base.id] = http(rpcNetworkURL);
-
+    chains.push(base);
+    transports[base.id] = http(rpcNetworkURL);
 }
 
 const config = createConfig({
@@ -37,14 +36,13 @@ const config = createConfig({
             projectId: walletConnectProjectId,
         }),
         coinbaseWallet({
-           appName: 'Songbirdz',
-           appLogoUrl: "https://songbirdz.cc/android-chrome-192x192.png",
-           reloadOnDisconnect: false,
-           enableMobileWalletLink: true,
+            appName: "Songbirdz",
+            appLogoUrl: "https://songbirdz.cc/android-chrome-192x192.png",
+            reloadOnDisconnect: false,
+            enableMobileWalletLink: true,
         }),
-        safe(),
     ],
-	transports,
+    transports,
 });
 
 export default config;

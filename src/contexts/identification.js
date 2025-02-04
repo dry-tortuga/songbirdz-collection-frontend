@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useCallback, useState } from "react";
+import React, { createContext, useContext, useCallback, useEffect, useState } from "react";
 import { ToastContainer } from "react-bootstrap";
 
 import BirdIdentificationModal from "../components/BirdIdentificationModal";
@@ -20,7 +20,6 @@ export const IdentificationProvider = ({ children }) => {
     // True, if the modal is open
     const [isIdentifyingBird, setIsIdentifyingBird] = useState(false);
     const [birdToID, setBirdToID] = useState(null);
-    const [onSuccessID, setOnSuccessID] = useState(null);
 
     const { currentUser, setCurrentUser } = context;
 
@@ -33,24 +32,36 @@ export const IdentificationProvider = ({ children }) => {
 
     const handleMintSuccess = useCallback(async (bird, statusData) => {
 
+        console.debug('---- handleMintSuccess');
+        console.debug(bird);
+        console.debug(statusData);
+
         const [updatedBird, updatedTracker] = await onMint(bird, statusData);
 
-        if (updatedTracker) {
+        if (updatedBird) {
 
             setCurrentUser((prev) => ({
-                ...prev,
-                dailyStreakTracker: updatedTracker,
+                dailyStreakTracker: updatedTracker || prev.dailyStreakTracker,
+                identified: {
+                    ...prev.identified,
+                    [updatedBird.id]: updatedBird,
+                },
             }));
 
         }
 
         setBirdToGift(updatedBird);
 
-        onSuccessID(updatedBird, updatedTracker);
+    }, [onMint]);
 
-    }, []);
+    // Re-load the twitter share button if the identified bird changes
+    useEffect(() => {
 
-    console.debug(currentUser?.dailyStreakTracker);
+        if (window.twttr?.widgets) {
+            window.twttr.widgets.load(document.getElementById("bird-identification-tx-status-twitter-share-btn"));
+        }
+
+    }, [birdToID]);
 
     return (
         <IdentificationContext.Provider
@@ -60,13 +71,12 @@ export const IdentificationProvider = ({ children }) => {
                 txMint,
                 setIsIdentifyingBird,
                 setBirdToID,
-                setOnSuccessID,
             }}>
             {children}
             {isIdentifyingBird && birdToID &&
                 <BirdIdentificationModal
                     id={birdToID.id}
-                    cached={false}
+                    cached={Boolean(birdToID?.cached)}
                     isOpen={isIdentifyingBird}
                     context={context}
                     onError={onError}
@@ -75,7 +85,6 @@ export const IdentificationProvider = ({ children }) => {
 
                         setIsIdentifyingBird(false);
                         setBirdToID(null);
-                        setOnSuccessID(null);
 
                     }} />
             }

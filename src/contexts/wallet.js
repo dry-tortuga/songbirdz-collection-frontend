@@ -7,7 +7,7 @@ import { Interface } from "ethers";
 import { useAccount, useSwitchChain } from "wagmi";
 import { useCapabilities } from "wagmi/experimental";
 import { readContract } from "@wagmi/core";
-import { parseEther } from "viem";
+import { encodeFunctionData, parseEther } from "viem";
 
 import SongBirdzContract from "../abi/SongBirdz.json";
 
@@ -92,12 +92,13 @@ const WalletProvider = ({ children }) => {
 			const responseData = await response.json();
 
 			return {
-				abi: SongBirdzContract.abi,
-				address: SONGBIRDZ_CONTRACT_ADDRESS,
-				functionName: "publicMint",
-				args: [BigInt(id), responseData.proof, responseData.species_guess],
-				chainId: EXPECTED_CHAIN_ID,
-				value: parseEther(MINT_PRICE),
+                to: SONGBIRDZ_CONTRACT_ADDRESS,
+                value: parseEther(MINT_PRICE),
+                data: encodeFunctionData({
+                    abi: SongBirdzContract.abi,
+                    functionName: "publicMint",
+                    args: [BigInt(id), responseData.proof, responseData.species_guess],
+                }),
 			};
 
 		} catch (error) {

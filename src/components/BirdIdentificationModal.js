@@ -49,6 +49,7 @@ const BirdIdentificationModal = (props) => {
 
     const {
         account,
+        expectedChainId,
         isOnCorrectChain,
         isPaymasterSupported,
         actions,
@@ -62,11 +63,11 @@ const BirdIdentificationModal = (props) => {
 
         if (status.statusName === "success") {
 
-            // Close the modal
-            onToggle();
-
             // Handle and parse the successful response
             onSuccess(bird, status.statusData);
+
+            // Close the modal
+            onToggle();
 
         } else if (status.statusName === "error") {
 
@@ -274,25 +275,24 @@ const BirdIdentificationModal = (props) => {
                                     }
                                 </>
                             )}
-                            {account && isOnCorrectChain && formData.species && (
-                                <div key={formData.species}>
-                                    <Transaction
-                                        address={account}
-                                        className="bird-identification-transaction-container"
-                                        calls={callsCallback}
-                                        // isSponsored={isPaymasterSupported}
-                                        onStatus={handleOnStatus}>
-                                        <TransactionButton
-                                            className="btn btn-info w-100"
-                                            disabled={!formData.species}
-                                            text="Submit" />
-                                        <TransactionSponsor text="SongBirdz" />
-                                        <TransactionStatus>
-                                            <TransactionStatusLabel />
-                                            <TransactionStatusAction />
-                                        </TransactionStatus>
-                                    </Transaction>
-                                </div>
+                            {account && isOnCorrectChain && (
+                                <Transaction
+                                    address={account}
+                                    className="bird-identification-transaction-container"
+                                    chainId={expectedChainId}
+                                    calls={callsCallback}
+                                    isSponsored={isPaymasterSupported}
+                                    onStatus={handleOnStatus}>
+                                    <TransactionButton
+                                        className="btn btn-info w-100"
+                                        disabled={!formData.species}
+                                        text="Submit" />
+                                    <TransactionSponsor text="SongBirdz" />
+                                    <TransactionStatus>
+                                        <TransactionStatusLabel />
+                                        <TransactionStatusAction />
+                                    </TransactionStatus>
+                                </Transaction>
                             )}
                         </>
                     }

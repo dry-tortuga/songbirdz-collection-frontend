@@ -1,13 +1,8 @@
 import React, { useCallback, useEffect, useState } from "react";
-import { Badge, Button, Form, ToastContainer } from "react-bootstrap";
+import { Badge, Button, Form } from "react-bootstrap";
 import { Link } from "react-router-dom";
 
-import BirdIdentificationModal from "../components/BirdIdentificationModal";
-import BirdIdentificationTransactionStatus from "../components/BirdIdentificationTransactionStatus";
-import BirdIdentificationTransactionStatusNonSmartWallet from "../components/BirdIdentificationTransactionStatusNonSmartWallet";
-import DailyStreakStatus from "../components/DailyStreakStatus";
-import WalletConnectionStatus from "../components/WalletConnectionStatus";
-
+import { useIdentificationContext } from "../contexts/identification";
 import { useWalletContext } from "../contexts/wallet";
 
 import useMintAPI from "../hooks/useMintAPI";
@@ -52,7 +47,9 @@ const MemoryMatchGame = () => {
 
     const context = useWalletContext();
 
-    const { account, currentUser, setCurrentUser } = context;
+    const { account, currentUser } = context;
+
+   	const { setIsIdentifyingBird, setBirdToID } = useIdentificationContext();
 
     const [selected, setSelected] = useState({
         firstGuess: -1,
@@ -71,18 +68,12 @@ const MemoryMatchGame = () => {
     const [timeUsed, setTimeUsed] = useState(0);
     const [timeUsedSlow, setTimeUsedSlow] = useState(0);
 
-    const [birdToID, setBirdToID] = useState(null);
-
     const [activeAudio, setActiveAudio] = useState({
         index: -1,
         audioPlayer: null,
     });
 
     const [hasLoggedResult, setHasLoggedResult] = useState(false);
-
-    // Keep track of the wallet connection state
-    const [showWalletConnectionInfo, setShowWalletConnectionInfo] =
-        useState(false);
 
     const isFinished = birds.length > 0 && matched.length === birds.length;
 
@@ -189,44 +180,6 @@ const MemoryMatchGame = () => {
 
     };
 
-    const {
-        // Callback functions to submit the tx onchain
-        handleMintSmartWallet,
-        handleMintNonSmartWallet,
-
-        // Keep track of the tx state
-        txMintSmartWallet,
-        txMintNonSmartWallet,
-
-        // Reset the tx state
-        resetTxMintSmartWallet,
-        resetTxMintNonSmartWallet,
-    } = useMintAPI({
-        context,
-        // Handle updates to the local state after successful mint
-        cb: (updatedBirdData, updatedTracker) => {
-            if (updatedBirdData) {
-                setBirds((prev) => {
-                    return prev.map((bird) => {
-                        if (bird.id === updatedBirdData.id) {
-                            return {
-                                ...bird,
-                                species: updatedBirdData.species,
-                            };
-                        }
-                        return bird;
-                    });
-                });
-            }
-            if (updatedTracker) {
-                setCurrentUser((prev) => ({
-                    ...prev,
-                    dailyStreakTracker: updatedTracker,
-                }));
-            }
-        },
-    });
-
     const handlePlayBirdSong = (bird, index) => {
 
         if (activeAudio?.audioPlayer) {
@@ -314,8 +267,6 @@ const MemoryMatchGame = () => {
             // and the first guess matches the second match...
             if (firstName === secondName) {
 
-                console.log("MATCH");
-
                 // run the match function
                 setTimeout(() => {
 
@@ -337,7 +288,6 @@ const MemoryMatchGame = () => {
                 }, hasAudioSecond ? 3000 : 1000);
 
             } else {
-                console.log("INCORRECT");
 
                 // reset the guesses
                 setTimeout(() => {
@@ -359,27 +309,37 @@ const MemoryMatchGame = () => {
 
     }, [selected.firstGuess, selected.secondGuess]);
 
-    // Re-load the twitter share button if the bird ID or species changes
+    // Re-load the birds if any are successfully identified in the current session
+    useEffect(() => {
+
+        if (currentUser?.identified) {
+
+            setBirds((prev) => {
+                return prev.map((bird) => {
+                    if (currentUser?.identified?.[bird.id]) {
+                        return {
+                            id: parseInt(bird.name.split("#")[1], 10),
+                            name: bird.name,
+                            image: bird.image,
+                            audio: bird.animation_url,
+                            species: currentUser?.identified?.[bird.id].species,
+                            cached: false,
+                        };
+                    }
+                    return bird;
+                });
+            });
+
+        }
+
+    }, [birds, currentUser?.identified]);
+
+    // Re-load the twitter share button if the game ends or re-starts
     useEffect(() => {
         if (window.twttr?.widgets) {
             window.twttr.widgets.load(document.getElementById("game"));
         }
-    }, [
-        isFinished,
-        birdToID,
-        txMintSmartWallet?.success,
-        txMintNonSmartWallet?.success,
-    ]);
-
-    console.log("------------------");
-    console.log(birds);
-    console.log(selected);
-    console.log(matched);
-    console.log(`hasStarted=${hasStarted}`);
-    console.log(`isFinished=${isFinished}`);
-    console.log(`movesUsed=${movesUsed}`);
-    console.log(`timeUsed=${timeUsed}`);
-    console.log("------------------");
+    }, [isFinished]);
 
     return (
         <div id="game" className={`container ${isFinished ? "game-over" : ""}`}>
@@ -524,14 +484,13 @@ const MemoryMatchGame = () => {
                                             <button
                                                 className="icon-btn"
                                                 style={{ cursor: "pointer" }}
-                                                onClick={() =>
-                                                    setBirdToID(bird)
-                                                }
-                                            >
+                                                onClick={() => {
+                                                    setIsIdentifyingBird(true);
+                                                    setBirdToID(bird);
+                                                }}>
                                                 <i
                                                     className="fas fa-binoculars"
-                                                    style={{ color: "#ffffff" }}
-                                                ></i>
+                                                    style={{ color: "#ffffff" }} />
                                             </button>
                                         )}
                                         <Link
@@ -580,55 +539,6 @@ const MemoryMatchGame = () => {
                     </div>
                 ))}
             </div>
-            {birdToID && (
-                <BirdIdentificationModal
-                    id={birdToID?.id}
-                    cached={false}
-                    isOpen={Boolean(birdToID)}
-                    context={context}
-                    onSubmitNonSmartWallet={handleMintNonSmartWallet}
-                    onSubmitSmartWallet={handleMintSmartWallet}
-                    onToggle={() => setBirdToID(null)}
-                />
-            )}
-            {isFinished && (
-                <ToastContainer
-                    className="p-3"
-                    style={{ zIndex: 5 }}
-                    position="top-end"
-                >
-                    {showWalletConnectionInfo && (
-                        <WalletConnectionStatus
-                            onClose={() => setShowWalletConnectionInfo(false)}
-                        />
-                    )}
-                    {/* Smart Wallet Users */}
-                    {(txMintSmartWallet?.pending ||
-                        txMintSmartWallet?.success ||
-                        txMintSmartWallet?.error) && (
-                        <BirdIdentificationTransactionStatus
-                            tx={txMintSmartWallet}
-                            onClose={resetTxMintSmartWallet}
-                        />
-                    )}
-                    {/* Non-Smart Wallet Users */}
-                    {(txMintNonSmartWallet?.pending ||
-                        txMintNonSmartWallet?.success ||
-                        txMintNonSmartWallet?.error) && (
-                        <BirdIdentificationTransactionStatusNonSmartWallet
-                            tx={txMintNonSmartWallet}
-                            onClose={resetTxMintNonSmartWallet}
-                        />
-                    )}
-                    {(currentUser?.dailyStreakTracker?.status === "created" ||
-                        currentUser?.dailyStreakTracker?.status ===
-                            "updated") && (
-                        <DailyStreakStatus
-                            data={currentUser?.dailyStreakTracker}
-                        />
-                    )}
-                </ToastContainer>
-            )}
         </div>
     );
 };
@@ -696,6 +606,7 @@ async function loadGameCards(numBirds, difficulty) {
         image: bird.image,
         audio: bird.animation_url,
         species: bird.species,
+        cached: false,
     }));
 
     // Make a copy of the card objects

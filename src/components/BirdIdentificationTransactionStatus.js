@@ -127,7 +127,9 @@ const BirdIdentificationTransactionStatus = (props) => {
                         />
                         <div className="bg-white rounded text-black p-2 d-flex align-items-center">
                             <span className="me-2">{"Show it off:"}</span>
-                            <span className="me-3">
+                            <span
+                                id="bird-identification-tx-status-twitter-share-btn"
+                                className="me-3">
                                 <a
                                     href={`https://twitter.com/intent/tweet?text=${encodeURIComponent(`I just identified this ${tx.bird.species} in the @songbirdz_cc collection on @base!\n\n Join me and play the onchain bird watching game at https://songbirdz.cc/collection?hide_already_identified=true\n\n`)}`}
                                     className="twitter-share-button"

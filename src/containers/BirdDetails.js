@@ -38,11 +38,10 @@ const BirdDetails = () => {
         txMint,
         setIsIdentifyingBird,
         setBirdToID,
-        setOnSuccessID,
     } = useIdentificationContext();
 
     // Get the bird details
-    const [bird, setBird] = useBird({
+    const [bird] = useBird({
         context,
         id: parseInt(params.id, 10),
         cached: true,
@@ -53,15 +52,6 @@ const BirdDetails = () => {
 
     // Keep track of the state of the transfer modal
     const [showTransferModal, setShowTransferModal] = useState(false);
-
-    // Handle updates to the local state after successful mint
-    const onMintSuccess = (updatedBirdData) => {
-
-        if (updatedBirdData) {
-            setBird(updatedBirdData);
-        }
-
-    };
 
     // Re-load the twitter share button if the bird ID or species changes
     useEffect(() => {
@@ -80,10 +70,6 @@ const BirdDetails = () => {
     ) {
         return null;
     }
-
-    console.debug("-------------- BirdDetails -----------");
-    console.debug(bird);
-    console.debug("--------------------------------------");
 
     return (
         <div id="details-page" className="details-page">
@@ -329,7 +315,6 @@ const BirdDetails = () => {
                                                         onClick={() => {
                                                             setIsIdentifyingBird(true);
                                                             setBirdToID(bird);
-                                                            setOnSuccessID(onMintSuccess);
                                                         }}>
                                                         {"Identify"}
                                                     </Button>
