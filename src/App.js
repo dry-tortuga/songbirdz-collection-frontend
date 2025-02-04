@@ -17,14 +17,14 @@ import Footer from "./components/Footer";
 const AppWrapper = () => {
 
 	return (
-		<WalletProvider>
-		    <GiftProvider>
-    		    <IdentificationProvider>
+        <WalletProvider>
+            <GiftProvider>
+                <IdentificationProvider>
                     <Navbar />
                     <Outlet />
-    			</IdentificationProvider>
-		    </GiftProvider>
-		</WalletProvider>
+                </IdentificationProvider>
+            </GiftProvider>
+        </WalletProvider>
 	);
 
 };

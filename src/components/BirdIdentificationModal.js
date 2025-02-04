@@ -134,8 +134,6 @@ const BirdIdentificationModal = (props) => {
                 formData.species,
             );
 
-            console.debug(result);
-
             return [result];
 
         };

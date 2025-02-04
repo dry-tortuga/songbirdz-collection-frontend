@@ -3,9 +3,14 @@ import { useCallback } from "react";
 import useTransaction from "./useTransaction";
 
 import { EVENTS } from "../constants";
+
+import { useWalletContext } from "../contexts/wallet";
+
 import { populateMetadata, updateDailyStreak } from "../utils/data";
 
-const useMintAPI = ({ context }) => {
+const useMintAPI = () => {
+
+    const context = useWalletContext();
 
     // Keep track of the state of back-end transactions
     const [txMint, setTxMint, resetTxMint] = useTransaction();
@@ -97,7 +102,7 @@ const useMintAPI = ({ context }) => {
         // Trigger the callback with the updated bird and daily streak data
         return [finalData, updatedTracker];
 
-    }, []);
+    }, [context.contractAddress, context.contractInterface, context.account]);
 
     const onError = useCallback((response) => {
 

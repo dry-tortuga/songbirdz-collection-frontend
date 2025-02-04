@@ -62,8 +62,6 @@ const CreateGiftPack = (props: Props) => {
             return result + value.toString(16).padStart(2, '0');
         }, '');
 
-        console.debug(randomHex);
-
         return SALT_SEPARATOR + randomHex;
 
     }, []);
@@ -105,7 +103,6 @@ const CreateGiftPack = (props: Props) => {
     }, []);
 
     const handleOnStatus = useCallback((status: LifecycleStatus) => {
-        console.debug('handleOnStatus');
 
         if (status.statusName === "success") {
             setIsCreated(true);
@@ -161,8 +158,6 @@ const CreateGiftPack = (props: Props) => {
                     )
                 );
 
-                console.debug(`alreadyUsed=${alreadyUsed}`);
-
                 setHash((prev) => ({ ...prev, isValid: !alreadyUsed, loading: false }));
 
             } catch (error) {
@@ -175,9 +170,6 @@ const CreateGiftPack = (props: Props) => {
         checkHashStatus();
 
     }, [debouncedHash, expectedChainId, onchainGiftContractAddress]);
-
-    console.debug(erc721ApprovalTransaction);
-    console.debug(createGiftPackTransaction);
 
     return (
         <Modal

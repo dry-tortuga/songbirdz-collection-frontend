@@ -28,13 +28,9 @@ export const IdentificationProvider = ({ children }) => {
         onMint,
         onError,
         resetTxMint,
-    } = useMintAPI({ context });
+    } = useMintAPI();
 
     const handleMintSuccess = useCallback(async (bird, statusData) => {
-
-        console.debug('---- handleMintSuccess');
-        console.debug(bird);
-        console.debug(statusData);
 
         const [updatedBird, updatedTracker] = await onMint(bird, statusData);
 

@@ -1,5 +1,4 @@
-import React, { useState } from "react";
-import { toast } from "react-toastify";
+import React from "react";
 
 type Props = {
     account: string,
@@ -17,7 +16,7 @@ const Password = (props: Props) => {
         onChangePassword,
     } = props;
 
-    const [hasSeenToast, setHasSeenToast] = useState(false);
+    // const [hasSeenToast, setHasSeenToast] = useState(false);
 
     return (
         <div className="w-full max-w-sm mx-auto">
@@ -25,12 +24,12 @@ const Password = (props: Props) => {
                 placeholder="Enter a message for your recipient!"
                 value={password}
                 onChange={(event) => onChangePassword(event.target.value)}
-                onFocus={() => {
-                    if (!hasSeenToast) {
-                        toast.info("Be careful with this message! Anyone can use this message to claim your gift.");
-                        setHasSeenToast(true);
-                    }
-                }}
+                // onFocus={() => {
+                  //   if (!hasSeenToast) {
+                 //        toast.info("Be careful with this message! Anyone can use this message to claim your gift.");
+                   //      setHasSeenToast(true);
+                 //    }
+               //  }}
                 className="w-full p-2 border rounded-md border-gray-300 text-center"
             />
             <details className={password ? 'block' : 'hidden'}>
@@ -48,7 +47,7 @@ const Password = (props: Props) => {
                         <button
                             onClick={() => {
                                 void navigator.clipboard.writeText(saltedPassword);
-                                toast.success('Copied to clipboard!');
+                                // toast.success('Copied to clipboard!');
                             }}
                             className="p-2 text-gray-600 hover:text-gray-900">
                             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">

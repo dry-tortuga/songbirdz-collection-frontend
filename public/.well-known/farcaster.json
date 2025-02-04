@@ -5,13 +5,13 @@
     "signature": "MHgxOTEwMTljNzY5YWMyMDM0OTM5ZGE1NjM0MjJkM2VjNGNhMjlmMDZkY2JiMmYwOTQ0MmViNzZkNmYwMzdiMzk4M2QzOWJhN2I3ZDEwMDE4MmQwMTI3NWUwNDM3ODkzYjQ4ZmUyNmFjMmVhMTAxMGRiYWVkMDQ0NjRjMWRiMzVkZDFi"
   },
   "frame": {
-    "version": "1",
+    "version": "2",
     "name": "Songbirdz",
-    "iconUrl": "https://songbirdz.cc/favicon.ico",
+    "iconUrl": "https://songbirdz.cc/android-chrome-192x192.png",
     "homeUrl": "https://songbirdz.cc",
     "imageUrl": "https://songbirdz.cc/android-chrome-192x192.png",
     "buttonTitle": "Play bird watching game",
-    "splashImageUrl": "https://songbirdz.cc/favicon.ico",
+    "splashImageUrl": "https://songbirdz.cc/android-chrome-192x192.png",
     "splashBackgroundColor": "#131313"
   }
 }

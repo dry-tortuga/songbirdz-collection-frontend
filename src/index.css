@@ -79,6 +79,10 @@ code {
 	background-color: #fff;
 }
 
+.toast-container {
+    position: fixed;
+}
+
 @media (max-width: 575px) {
 
     .home-page,
