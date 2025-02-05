@@ -2,10 +2,10 @@ import React, { useCallback, useEffect, useState } from "react";
 import { Badge, Button, Form } from "react-bootstrap";
 import { Link } from "react-router-dom";
 
+import { NUM_BIRDS_TOTAL } from "../constants";
+
 import { useIdentificationContext } from "../contexts/identification";
 import { useWalletContext } from "../contexts/wallet";
-
-import useMintAPI from "../hooks/useMintAPI";
 
 import { storeMemoryMatchGameResult } from "../utils/data";
 
@@ -387,8 +387,7 @@ const MemoryMatchGame = () => {
                             <Badge
                                 className="ms-1 ms-md-2 align-middle"
                                 bg="secondary"
-                                pill
-                            >
+                                pill>
                                 <span>{movesUsed}</span>
                             </Badge>
                         </span>
@@ -411,9 +410,8 @@ const MemoryMatchGame = () => {
                                     <a
                                         href={`https://twitter.com/intent/tweet?text=${encodeURIComponent(`I just scored ${finalScore}/1000 in the memory match game from @songbirdz_cc on @base!\n\n Can you beat my score?\n\n Play at`)}`}
                                         className="twitter-share-button"
-                                        data-hashtags="songbirdz,birds,onchain,matchinggame,games"
-                                        data-url="https://songbirdz.cc/memory-match"
-                                    >
+                                        data-hashtags="songbirdz,birds,onchain,matchinggame"
+                                        data-url="https://songbirdz.cc/memory-match">
                                         <i className="fa-brands fa-x-twitter" />
                                     </a>
                                 </span>
@@ -422,8 +420,7 @@ const MemoryMatchGame = () => {
                                         href={`https://warpcast.com/~/compose?text=${encodeURIComponent(`I just scored ${finalScore}/1000 in the Songbirdz memory match game from @dry-tortuga on @base!\n\n Can you beat my score?\n\n Play at https://songbirdz.cc/memory-match`)}`}
                                         className="farcaster-share-button"
                                         target="_blank"
-                                        rel="noopener noreferrer"
-                                    >
+                                        rel="noopener noreferrer">
                                         <img
                                             className="warpcast-logo"
                                             src={warpcastLogo}
@@ -435,8 +432,7 @@ const MemoryMatchGame = () => {
                             <Button
                                 className="new-game-btn"
                                 variant="primary"
-                                onClick={() => handleResetGame(difficultyMode)}
-                            >
+                                onClick={() => handleResetGame(difficultyMode)}>
                                 {"New Game"}
                             </Button>
                         </div>
@@ -452,8 +448,7 @@ const MemoryMatchGame = () => {
 								${selected.firstGuess === index || selected.secondGuess === index ? "selected" : ""}
 								${matched.includes(index) ? "match" : ""}
 							`}
-                            onClick={() => debouncedHandleClick(bird, index)}
-                        >
+                            onClick={() => debouncedHandleClick(bird, index)}>
                             <div className="front" />
                             <div
                                 className="back"
@@ -497,12 +492,10 @@ const MemoryMatchGame = () => {
                                             to={`/collection/${bird.id}`}
                                             className="icon-btn"
                                             target="_blank"
-                                            rel="noopener noreferrer"
-                                        >
+                                            rel="noopener noreferrer">
                                             <i
                                                 className="fas fa-info-circle"
-                                                style={{ color: "#ffffff" }}
-                                            ></i>
+                                                style={{ color: "#ffffff" }} />
                                         </Link>
                                         {bird.species !== "UNIDENTIFIED" && (
                                             <>
@@ -510,24 +503,20 @@ const MemoryMatchGame = () => {
                                                     <a
                                                         href={`https://opensea.io/assets/base/${context.contractAddress}/${bird.id}`}
                                                         target="_blank"
-                                                        rel="noopener noreferrer"
-                                                    >
+                                                        rel="noopener noreferrer">
                                                         <img
                                                             src={openseaLogo}
-                                                            alt="OpenSea"
-                                                        />
+                                                            alt="OpenSea" />
                                                     </a>
                                                 </button>
                                                 <button className="icon-btn d-none d-sm-flex">
                                                     <a
                                                         href={`https://magiceden.io/item-details/base/${context.contractAddress}/${bird.id}`}
                                                         target="_blank"
-                                                        rel="noopener noreferrer"
-                                                    >
+                                                        rel="noopener noreferrer">
                                                         <img
                                                             src={magicedenLogo}
-                                                            alt="MagicEden"
-                                                        />
+                                                            alt="MagicEden" />
                                                     </a>
                                                 </button>
                                             </>
@@ -578,11 +567,11 @@ function calculateGameScore(width, timeDelay, movesUsed, timeUsed) {
 
 async function loadGameCards(numBirds, difficulty) {
 
-    // Generate array of random numbers 0-5999 without duplicates
+    // Generate array of random bird IDs (without duplicates)
     let cardArray = [];
 
     while (cardArray.length < numBirds) {
-        let num = Math.floor(Math.random() * 5999);
+        let num = Math.floor(Math.random() * (NUM_BIRDS_TOTAL - 1));
         if (!cardArray.includes(num)) {
             cardArray.push(num);
         }

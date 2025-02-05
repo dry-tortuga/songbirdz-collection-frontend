@@ -31,7 +31,9 @@ const Leaderboard = () => {
                 <Row className="mb-3">
                     <Col>
                         <h1 className="d-flex align-items-center">
-                            <span className="me-auto">{"Leaderboard"}</span>
+                            <span className="me-auto">
+                                {"Leaderboard"}
+                            </span>
                         </h1>
                     </Col>
                 </Row>

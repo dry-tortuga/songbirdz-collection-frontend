@@ -14,7 +14,7 @@ import AccountOwner from "../components/AccountOwner";
 import BirdAudioFile from "../components/BirdAudioFile";
 import BirdTransferModal from "../components/BirdTransferModal";
 
-import { COLLECTIONS } from "../constants";
+import { COLLECTIONS, NUM_BIRDS_TOTAL } from "../constants";
 
 import { useGiftContext } from "../contexts/gift";
 import { useIdentificationContext } from "../contexts/identification";
@@ -66,7 +66,7 @@ const BirdDetails = () => {
 
     if (
         bird &&
-        (bird.id < COLLECTIONS[0].min_id || bird.id > COLLECTIONS[5].max_id)
+        (bird.id < 0 || bird.id >= NUM_BIRDS_TOTAL)
     ) {
         return null;
     }
@@ -84,7 +84,7 @@ const BirdDetails = () => {
                                 <h1 className="d-flex align-items-center">
                                     {bird.name}
                                 </h1>
-                                {bird.id > COLLECTIONS[0].min_id && (
+                                {bird.id > 0 && (
                                     <Link
                                         className="btn btn-outline-primary ms-3"
                                         to={`/collection/${bird.id - 1}`}>
@@ -101,7 +101,7 @@ const BirdDetails = () => {
                                         </svg>
                                     </Link>
                                 )}
-                                {bird.id < COLLECTIONS[5].max_id && (
+                                {bird.id < (NUM_BIRDS_TOTAL - 1) && (
                                     <Link
                                         className="btn btn-outline-primary ms-3"
                                         to={`/collection/${bird.id + 1}`}>
@@ -219,30 +219,6 @@ const BirdDetails = () => {
                                 </Col>
                             </Row>
                         )}
-                        {/*
-							<Alert variant="success">
-								<p className="mb-1"><b>{"The "Deep Blue" flock of Songbirdz is now 100% identified... but stay tuned for details about the release of the 3rd flock of 1,000 birds!"}</b></p>
-								<p className="mb-1">
-									<span className="me-1">
-										{"Follow on"}
-									</span><a
-									href="https://twitter.com/songbirdz_cc"
-									target="_blank"
-									rel="noopener noreferrer nofollower">
-									{"Twitter"}
-								</a></p>
-								<p className="mb-1">
-									<span className="me-1">
-										{"Join the"}
-									</span>
-									<a
-									href="https://discord.gg/UKGgRsJXzr"
-									target="_blank"
-									rel="noopener noreferrer nofollower">
-									{"Discord"}
-								</a></p>
-							</Alert>
-						*/}
                         <Row>
                             <Col>
                                 <Card>
@@ -325,26 +301,6 @@ const BirdDetails = () => {
                                 </Card>
                             </Col>
                         </Row>
-                        {/*
-							<Row>
-								<Col>
-									<Card>
-										<h2 className="m-3">{"History"}</h2>
-										<ListGroup>
-											<ListGroup.Item>
-												{`Correctly identified as ${bird.species} by ${bird.owner} on ${new Date()}!`}
-											</ListGroup.Item>
-											<ListGroup.Item>
-												{`Incorrectly identified as Mallard by ${bird.owner} on ${new Date()}...`}
-											</ListGroup.Item>
-											<ListGroup.Item>
-												{`Incorrectly identified as Northern Cardinal by ${bird.owner} on ${new Date()}...`}
-											</ListGroup.Item>
-										</ListGroup>
-									</Card>
-								</Col>
-							</Row>
-						*/}
                     </>
                 )}
             </Container>

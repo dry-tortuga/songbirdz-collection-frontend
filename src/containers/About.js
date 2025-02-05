@@ -219,6 +219,17 @@ const About = () => {
                                     {"NOW MINTING:  The 6th flock of 1,000 birds in the Songbirdz collection (5000-5999). Features 50 different species, with various amounts of birds per species of either 1, 5, 10, 20, 25, 30, etc. Includes 4 \"1 of 1\" birds that are the only one of their species! This flock features birds at the top of the food chain and also those in the bottom. It's about the eternal dance of survival and the constant fight to stay alive for both predator and prey. The hunter and the hunted."}
                                 </span>
                             </li>
+                            <li>
+                                <a
+                                    href="https://songbirdz.cc/collection?number=6&hide_already_identified=true"
+                                    target="_blank"
+                                    rel="noopener noreferrer nofollow">
+                                    <b>{"Lovebirds:"}</b>
+                                </a>
+                                <span className="ms-1">
+                                    {"NOW MINTING:  The 7th flock of 1,000 birds in the Songbirdz collection (6000-6999). Features 50 different species, with various amounts of birds per species of either 1, 5, 10, 20, 30, 50 etc. Includes 4 \"1 of 1\" birds that are the only one of their species! This flock features ... TODO..."}
+                                </span>
+                            </li>
                         </ul>
                         <h2>{"Royalties: 1%"}</h2>
                         <ul style={{ listStyle: "disc" }}>
