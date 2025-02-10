@@ -24,7 +24,7 @@
         "react-virtuoso": "^4.12.3",
         "typescript": "^5.5.4",
         "viem": "^2.21.28",
-        "wagmi": "^2.12.19"
+        "wagmi": "^2.14.11"
     },
     "devDependencies": {
         "@babel/plugin-proposal-private-property-in-object": "^7.21.11",
