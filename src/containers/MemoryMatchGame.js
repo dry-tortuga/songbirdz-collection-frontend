@@ -581,7 +581,7 @@ async function loadGameCards(numBirds, difficulty) {
     const cardData = await Promise.all(
         cardArray.map(async (birdId) => {
             const response = await fetch(
-                `https://songbirdz.cc/birds/metadata/${birdId}`,
+                `${process.env.REACT_APP_SONGBIRDZ_BACKEND_URL}/birds/metadata/${birdId}`,
             );
             const metadata = await response.json();
             return metadata;
