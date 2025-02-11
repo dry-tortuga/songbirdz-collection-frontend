@@ -17,6 +17,7 @@ import {
 import { encodeFunctionData } from "viem";
 
 import { EVENTS } from "../constants";
+
 import { useWalletContext } from "../contexts/wallet";
 
 import SoundsOfSummerContract from "../abi/SoundsOfSummer.json";

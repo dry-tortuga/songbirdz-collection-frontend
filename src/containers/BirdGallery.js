@@ -20,38 +20,42 @@ import './BirdGallery.css';
 // Ensure that this stays out of the component,
 // Otherwise the grid will remount with each render due to new component instances.
 const gridComponents = {
-  List: forwardRef(({ style, children, ...props }, ref) => (
-    <div
-      ref={ref}
-      {...props}
-      style={{
-        display: "flex",
-        flexWrap: "wrap",
-        ...style,
-      }}
-    >
-      {children}
-    </div>
-  )),
-  Item: ({ children, ...props }) => (
-    <div
-      {...props}
-      style={{
-        padding: '0.5rem',
-        display: "flex",
-        flex: "none",
-        alignContent: "stretch",
-        boxSizing: "border-box",
-      }}
-    >
-      {children}
-    </div>
-  )
+    List: forwardRef(({ style, children, ...props }, ref) => (
+        <div
+            ref={ref}
+            {...props}
+            style={{
+                display: "flex",
+                flexWrap: "wrap",
+                ...style,
+            }}>
+                {children}
+        </div>
+    )),
+    Item: ({ children, ...props }) => (
+        <div
+            {...props}
+            style={{
+                padding: '0.5rem',
+                display: "flex",
+                flex: "none",
+                alignContent: "stretch",
+                boxSizing: "border-box",
+            }}>
+            {children}
+        </div>
+    )
 }
 
 const GridBirdCard = (props) => {
 
-    const { bird, activeAudio, onClick, onPlaySong, ...restProps } = props;
+    const {
+        bird,
+        activeAudio,
+        onClick,
+        onPlaySong,
+        ...restProps
+    } = props;
 
     return (
         <div

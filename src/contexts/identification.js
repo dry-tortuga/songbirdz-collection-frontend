@@ -15,7 +15,7 @@ const IdentificationContext = createContext({});
 export const IdentificationProvider = ({ children }) => {
 
     const context = useWalletContext();
-    const { setIsSendingGift, setBirdToGift } = useGiftContext();
+    const { setBirdToGift } = useGiftContext();
 
     // True, if the modal is open
     const [isIdentifyingBird, setIsIdentifyingBird] = useState(false);
@@ -45,8 +45,6 @@ export const IdentificationProvider = ({ children }) => {
             }));
 
         }
-
-        setBirdToGift(updatedBird);
 
     }, [onMint]);
 
@@ -94,7 +92,7 @@ export const IdentificationProvider = ({ children }) => {
                     <BirdIdentificationTransactionStatus
                         tx={txMint}
                         onClose={resetTxMint}
-                        onSendGift={() => setIsSendingGift(true)} />
+                        onSendGift={(bird) => setBirdToGift(bird)} />
                 )}
                 {(currentUser?.dailyStreakTracker?.status ===
                     "created" ||

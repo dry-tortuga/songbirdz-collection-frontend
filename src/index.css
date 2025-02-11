@@ -17,6 +17,12 @@ body {
     position: relative;
 }
 
+.modal-header .modal-title {
+    justify-content: center;
+    flex: 1;
+    display: flex;
+}
+
 code {
 	font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
 	monospace;

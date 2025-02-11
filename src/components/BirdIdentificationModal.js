@@ -19,6 +19,7 @@ import {
     ANSWER_CHOICES_FLOCK_3,
     ANSWER_CHOICES_FLOCK_4,
     ANSWER_CHOICES_FLOCK_5,
+    ANSWER_CHOICES_FLOCK_6,
     COLLECTIONS,
 } from "../constants";
 
@@ -43,9 +44,7 @@ const BirdIdentificationModal = (props) => {
 
     const [bird] = useBird({ id, cached, context });
 
-    const [formData, setFormData] = useState({
-        species: "",
-    });
+    const [formData, setFormData] = useState({ species: "" });
 
     const {
         account,
@@ -96,6 +95,8 @@ const BirdIdentificationModal = (props) => {
             answerChoices = ANSWER_CHOICES_FLOCK_4;
         } else if (bird.id >= 5000 && bird.id <= 5999) {
             answerChoices = ANSWER_CHOICES_FLOCK_5;
+        } else if (bird.id >= 6000 && bird.id <= 6999) {
+            answerChoices = ANSWER_CHOICES_FLOCK_6;
         }
 
         // Get the bird's final index relative to ONLY the current collection
@@ -107,6 +108,7 @@ const BirdIdentificationModal = (props) => {
         }));
 
         result.sort((a, b) => {
+
             if (a.value < b.value) {
                 return -1;
             }
@@ -116,6 +118,7 @@ const BirdIdentificationModal = (props) => {
             }
 
             return 0;
+
         });
 
         return result;
@@ -255,9 +258,7 @@ const BirdIdentificationModal = (props) => {
                                 <Form.Text className="text-muted d-block">
                                     <span className="fw-bold me-2">{"NOTE: "}</span>
                                     <span>
-                                        {
-                                            "If you submit an incorrect guess, you will be automatically refunded 0.00125 ETH."
-                                        }
+                                        {"If you submit an incorrect guess, you will be automatically refunded 0.00125 ETH."}
                                     </span>
                                 </Form.Text>
                             </Form.Group>

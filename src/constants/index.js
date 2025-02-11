@@ -2,10 +2,11 @@ import ANSWER_CHOICES_FLOCK_2 from './answer-choices/small-and-mighty-2-options'
 import ANSWER_CHOICES_FLOCK_3 from './answer-choices/night-and-day-3-options';
 import ANSWER_CHOICES_FLOCK_4 from './answer-choices/fire-and-ice-4-options';
 import ANSWER_CHOICES_FLOCK_5 from './answer-choices/predator-and-prey-5-options.json';
+import ANSWER_CHOICES_FLOCK_6 from './answer-choices/love-birds-6-options.json';
 
 import FAMILIES from './families';
 
-const NUM_BIRDS_TOTAL = 6000;
+const NUM_BIRDS_TOTAL = 7000;
 
 const COLLECTION_BIRD_SIZE = 1000;
 
@@ -39,10 +40,12 @@ const COLLECTIONS = [{
     count: 1000,
     min_id: 5000,
     max_id: 5999,
+}, {
+    name: "Lovebirds",
+    count: 1000,
+    min_id: 6000,
+    max_id: 6999
 }];
-
-const CURRENT_COLLECTION_MIN_ID = process.env.REACT_APP_NODE_ENV === "production" ? 2000 : 0;
-const CURRENT_COLLECTION_MAX_ID = 5999;
 
 const EVENTS = {
 	BIRD_ID: "BirdIdentification",
@@ -56,12 +59,11 @@ export {
 	ANSWER_CHOICES_FLOCK_3,
 	ANSWER_CHOICES_FLOCK_4,
 	ANSWER_CHOICES_FLOCK_5,
+	ANSWER_CHOICES_FLOCK_6,
 	FAMILIES,
 	NUM_BIRDS_TOTAL,
 	COLLECTION_BIRD_SIZE,
 	COLLECTIONS,
-	CURRENT_COLLECTION_MIN_ID,
-	CURRENT_COLLECTION_MAX_ID,
 	EVENTS,
 	ALREADY_IDENTIFIED_BIRDS,
 };

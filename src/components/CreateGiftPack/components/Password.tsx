@@ -30,14 +30,16 @@ const Password = (props: Props) => {
                    //      setHasSeenToast(true);
                  //    }
                //  }}
-                className="w-full p-2 border rounded-md border-gray-300 text-center"
-            />
-            <details className={password ? 'block' : 'hidden'}>
+                className="w-full p-2 border rounded-md border-gray-300 text-center" />
+            <details
+                className={password ? 'block' : 'hidden'}>
                 <summary className="text-sm text-center">
                     {"View gift secret"}
                 </summary>
-                <div className="flex flex-col p-2 text-center">
-                    <p className="text-xs">
+                <div
+                    className="flex flex-col p-2 text-center"
+                    style={{ border: "1px solid #ccc", borderRadius: 8 }}>
+                    <p className="text-sm fw-bold">
                         {"Secret phrase to claim gift:"}
                     </p>
                     <div className="flex items-center gap-2">
@@ -57,14 +59,15 @@ const Password = (props: Props) => {
                         </button>
                     </div>
                     <p className="text-xs mt-2 p-2 bg-blue-100 text-blue-800 rounded-md">
-                        {"The secret phrase is used to claim your gift. Keep it safe! It is created using your message and a random string. If you lose it, you can reclaim your gift in the Gifts From Me section at "}
+                        {"The secret phrase is used to claim your gift. Keep it safe! It is created using your message and a random string. If you lose it, you can reclaim your gift in the "}
                         <a
+                            className="fw-bold"
                             href={`https://www.onchaingift.com/from/${account}`}
                             rel="noopener noreferrer nofollow"
                             target="_blank">
-                            {"onchaingift.com"}
+                            {"Gifts From Me"}
                         </a>
-                        {"."}
+                        {" page."}
                     </p>
                 </div>
             </details>

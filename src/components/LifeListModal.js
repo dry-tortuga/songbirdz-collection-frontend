@@ -153,6 +153,8 @@ const LifeListModal = (props) => {
 			collectionId = 4;
 		} else if (species.id >= 400 && species.id < 450) {
 			collectionId = 5;
+		} else if (species.id >= 450 && species.id < 500) {
+			collectionId = 6;
 		} else if (species.id >= 1000) {
 			collectionId = -1;
 		}
@@ -202,6 +204,8 @@ const LifeListModal = (props) => {
 			collectionId = 4;
 		} else if (filter === "Predator & Prey") {
 			collectionId = 5;
+		} else if (filter === "Lovebirds") {
+			collectionId = 6;
 		}
 
 		if (collectionId >= 0) {
@@ -229,6 +233,10 @@ const LifeListModal = (props) => {
 				}
 
 				if (collectionId === 5 && species.id >= 400 && species.id < 450) {
+					return true;
+				}
+
+				if (collectionId === 6 && species.id >= 450 && species.id < 500) {
 					return true;
 				}
 
@@ -304,7 +312,11 @@ const LifeListModal = (props) => {
 					<option value="2">{"Season 2"}</option>
 					<option value="3">{"Season 3"}</option>
 					{COLLECTIONS.map((collection) => (
-						<option value={collection.name}>{collection.name}</option>
+						<option
+						    key={collection.name}
+						    value={collection.name}>
+							{collection.name}
+						</option>
 					))}
 				</Form.Select>
 				{sortedFamilies.map((family) => (

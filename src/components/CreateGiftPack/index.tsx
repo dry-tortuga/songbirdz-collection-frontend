@@ -33,6 +33,14 @@ type Props = {
 const ONCHAIN_GIFT_URL = "https://www.onchaingift.com";
 const SALT_SEPARATOR = ":::";
 
+const DEFAULT_MESSAGES = [
+    (species: string) => `I think you're cuter than these ${species}s!`,
+    (species: string) => `Owl you need is love... and this ${species}!`,
+    () => `You really ruffle my feathers in all the right ways!`,
+    () => `Let's flock together this Valentine's Day!`,
+    (species: string) => `You make my heart take flight like a ${species}!`,
+];
+
 const generateSaltedPassword = (password: string, salt: string) => password + salt;
 const generateHashedPassword = (saltedPassword: string) =>
     keccak256(encodeAbiParameters([{ type: "string" }], [saltedPassword]))
@@ -66,14 +74,16 @@ const CreateGiftPack = (props: Props) => {
 
     }, []);
 
-    const [password, setPassword] = useState<string>(`I think you're cuter than these ${bird.species}s!`);
+    const [password, setPassword] = useState<string>(
+        DEFAULT_MESSAGES[Math.floor(Math.random() * 5)](bird.species)
+    );
     const [saltedPassword, setSaltedPassword] = useState<string>(
         generateSaltedPassword(password, salt)
     );
     const [hash, setHash] = useState<object>({
         value: generateHashedPassword(saltedPassword),
         isValid: false,
-        loading: false,
+        loading: true,
     });
 
     const [isCreated, setIsCreated] = useState(false);
@@ -84,9 +94,9 @@ const CreateGiftPack = (props: Props) => {
     // Encode and hash the password on changes
     const handleChangePassword = useCallback((newValue: string) => {
 
-        const isValid = newValue.length > 0;
+        const isLengthValid = newValue.length > 0;
 
-        if (isValid) {
+        if (isLengthValid) {
 
             const newSaltedPassword = generateSaltedPassword(newValue, salt);
             const newHash = generateHashedPassword(newSaltedPassword);
@@ -204,7 +214,7 @@ const CreateGiftPack = (props: Props) => {
                     }}
                     alt="" />
                 <div className="text-center">
-                    {`${bird.name} -> ${bird.species}`}
+                    {bird.species}
                 </div>
                 <div className="mt-3 flex flex-col items-center justify-center">
                     <Transaction
@@ -226,7 +236,6 @@ const CreateGiftPack = (props: Props) => {
                         </TransactionStatus>
                     </Transaction>
                     {isCreated && (
-                        // TODO: Add back toasts...
                         <div className="w-100 flex flex-col items-center gap-2 border border-gray-200 p-4 rounded">
                             <p className="text-sm text-gray-600 fw-bold">
                                 {"Share this link with the recipient:"}
@@ -279,6 +288,18 @@ const CreateGiftPack = (props: Props) => {
                     )}
                 </div>
             </Modal.Body>
+            <Modal.Footer className="justify-content-center">
+                <span className="me-0">
+                    {"Powered by Onchain Gift from"}
+                </span>
+                <a
+                    className="fw-bold"
+                    href="https://x.com/mykcryptodev"
+                    rel="noopener noreferrer nofollow"
+                    target="_blank">
+                    {"myk.eth"}
+                </a>
+            </Modal.Footer>
         </Modal>
     );
 }
