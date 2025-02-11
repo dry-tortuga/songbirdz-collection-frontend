@@ -21,22 +21,7 @@ const TAB_DAILY_STREAK_ACTIVE = "daily-streak-active";
 const Leaderboard = () => {
 
     const [activeTab, setActiveTab] = useState(TAB_SEASON_3);
-
-    let season = -1;
-
-    if (activeTab === TAB_SEASON_1) {
-        season = 1;
-    } else if (activeTab === TAB_SEASON_2) {
-        season = 2;
-    } else if (activeTab === TAB_SEASON_3) {
-        season = 3;
-    }
-
     const [lifeListModalAddress, setLifeListModalAddress] = useState(null);
-
-    console.debug("-------------- Leaderboard -----------");
-    console.debug(`season=${season}`);
-    console.debug("--------------------------------------");
 
     return (
         <div

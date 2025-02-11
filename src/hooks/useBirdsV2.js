@@ -1,20 +1,22 @@
 import { useEffect, useState } from "react";
 
 import { COLLECTIONS, NUM_BIRDS_TOTAL } from "../constants";
+
+import { useWalletContext } from "../contexts/wallet";
+
 import { fetchBird } from "../utils/data";
 
 const useBirdsV2 = (props) => {
 
 	const {
-		context,
 		collectionId,
 		showOnlyUnidentifiedBirds,
 		alreadyIdentifiedList,
 	} = props;
 
-	const [filters, setFilters] = useState({ collectionId });
+	const { currentUser } = useWalletContext();
 
-	const [identifiedCurrentSession, setIdentifiedCurrentSession] = useState({});
+	const [filters, setFilters] = useState({ collectionId });
 
 	const [data, setData] = useState(null);
 
@@ -36,7 +38,7 @@ const useBirdsV2 = (props) => {
 				filters.collectionId,
 				showOnlyUnidentifiedBirds,
 				alreadyIdentifiedList,
-				identifiedCurrentSession,
+				currentUser?.identified,
 			);
 
 			if (idsToFetch) {
@@ -50,10 +52,18 @@ const useBirdsV2 = (props) => {
 
 					const owner = null;
 
-					// Fetch the metadata from the backend server
-					const bird = await fetchBird(id, owner, cached);
+					if (currentUser?.identified?.[id]) {
 
-					results.push(bird);
+					   results.push(currentUser.identified[id]);
+
+					} else {
+
+    					// Fetch the metadata from the backend server
+    					const bird = await fetchBird(id, owner, cached);
+
+    					results.push(bird);
+
+					}
 
 				}
 
@@ -66,27 +76,23 @@ const useBirdsV2 = (props) => {
 		fetch();
 
 	}, [
-		context.actions,
 		filters.collectionId,
 		showOnlyUnidentifiedBirds,
 		alreadyIdentifiedList,
-		identifiedCurrentSession,
+		currentUser?.identified,
 	]);
 
 	return {
 		data,
 		filters,
-		identifiedCurrentSession,
 		onChangeFilter,
-		onChangeIdentified:
-			(id) => setIdentifiedCurrentSession((prev) => ({ ...prev, [id]: true })),
 	};
 
 };
 
 export default useBirdsV2;
 
-function initBirdsState(collectionId, showOnlyUnidentifiedBirds, alreadyIdentifiedList, identifiedCurrentSession) {
+function initBirdsState(collectionId, showOnlyUnidentifiedBirds, alreadyIdentifiedList, identifiedCurrentSession = {}) {
 
 	let result = [];
 

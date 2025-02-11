@@ -7,18 +7,24 @@ import {
 	RouterProvider,
 } from "react-router-dom";
 
+import { GiftProvider } from "./contexts/gift";
+import { IdentificationProvider } from "./contexts/identification";
 import { WalletProvider } from "./contexts/wallet";
 
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
 
-const AppWrapper = (props) => {
+const AppWrapper = () => {
 
 	return (
-		<WalletProvider>
-			<Navbar />
-			<Outlet />
-		</WalletProvider>
+        <WalletProvider>
+            <GiftProvider>
+                <IdentificationProvider>
+                    <Navbar />
+                    <Outlet />
+                </IdentificationProvider>
+            </GiftProvider>
+        </WalletProvider>
 	);
 
 };

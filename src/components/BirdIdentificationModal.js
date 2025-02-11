@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from "react";
+import React, { useCallback, useMemo, useState } from "react";
 import {
     Transaction,
     TransactionButton,
@@ -7,7 +7,7 @@ import {
     TransactionStatusAction,
     TransactionStatusLabel,
 } from "@coinbase/onchainkit/transaction";
-import { Button, Form, Modal } from "react-bootstrap";
+import { Form, Modal } from "react-bootstrap";
 import Select from "react-select";
 
 import AccountOwner from "./AccountOwner";
@@ -20,9 +20,9 @@ import {
     ANSWER_CHOICES_FLOCK_4,
     ANSWER_CHOICES_FLOCK_5,
     COLLECTIONS,
-    CURRENT_COLLECTION_MIN_ID,
-    CURRENT_COLLECTION_MAX_ID,
 } from "../constants";
+
+import { useWalletContext } from "../contexts/wallet";
 
 import useBird from "../hooks/useBird";
 
@@ -33,12 +33,13 @@ const BirdIdentificationModal = (props) => {
     const {
         id,
         cached,
-        context,
         isOpen,
-        onSubmitSmartWallet,
-        onSubmitNonSmartWallet,
+        onError,
+        onSuccess,
         onToggle,
     } = props;
+
+    const context = useWalletContext();
 
     const [bird] = useBird({ id, cached, context });
 
@@ -46,50 +47,36 @@ const BirdIdentificationModal = (props) => {
         species: "",
     });
 
-    const [contractCall, setContractCall] = useState([]);
+    const {
+        account,
+        expectedChainId,
+        isOnCorrectChain,
+        isPaymasterSupported,
+        actions,
+    } = context;
 
-    const handleInputChange = async (selectedOption) => {
-
-        if (context.isPaymasterSupported) {
-
-            // Reset the selected species to use as the guess so we can wait for the result
-            // of the async API call to fetch the merkle proof for the "publicMint" contract call
-
-            setContractCall([]);
-
-            try {
-
-                const result = await context.actions.publicMint(
-                    bird.id,
-                    selectedOption.value,
-                );
-
-                setContractCall([result]);
-
-            } catch (error) {
-                // TODO: Show an error message?
-            }
-
-        } else {
-            setFormData({ species: selectedOption.value });
-        }
-
+    const handleInputChange = (selectedOption) => {
+        setFormData({ species: selectedOption.value });
     };
 
-    // Handle submitting a new transaction for non-smart wallet users
-    const handleSubmitNonSmartWallet = async () => {
+    const handleOnStatus = useCallback((status) => {
 
-        if (formData.species) {
+        if (status.statusName === "success") {
+
+            // Handle and parse the successful response
+            onSuccess(bird, status.statusData);
 
             // Close the modal
             onToggle();
 
-            // Submit the transaction
-            await onSubmitNonSmartWallet(bird, formData.species);
+        } else if (status.statusName === "error") {
+
+            console.error(status);
+            onError(bird, status.statusData);
 
         }
 
-    };
+    }, [bird]);
 
     const options = useMemo(() => {
 
@@ -134,6 +121,46 @@ const BirdIdentificationModal = (props) => {
         return result;
 
     }, [bird?.id]);
+
+    // Reset the selected species to use as the guess so we can wait for the result
+    // of the async API call to fetch the merkle proof for the "publicMint" contract call
+
+    const callsCallback = useMemo(() => {
+
+        const mint = async () => {
+
+            const result = await actions.publicMint(
+                bird.id,
+                formData.species,
+            );
+
+            return [result];
+
+        };
+
+        return mint;
+
+    }, [formData.species]);
+
+    /*
+    useEffect(() => {
+
+        const button = document.querySelector('button[data-testid="ockConnectButton"]');
+
+        console.debug('button-listener');
+        console.debug(button);
+
+        // Close the modal
+        const handleClick = () => { onToggle(); };
+
+        button?.addEventListener('click', handleClick);
+
+        return () => {
+            button?.removeEventListener('click', handleClick);
+        };
+
+    }, [account, isOnCorrectChain]);
+    */
 
     // Extra safety check here to prevent users from submitting invalid transactions...
     if (!bird) {
@@ -216,7 +243,7 @@ const BirdIdentificationModal = (props) => {
                                     className="bird-identification-species-selector"
                                     classNamePrefix="bird-identification-species"
                                     options={options}
-                                    isDisabled={!context.account}
+                                    isDisabled={!account}
                                     onChange={handleInputChange}
                                 />
                             </Form.Group>
@@ -234,62 +261,36 @@ const BirdIdentificationModal = (props) => {
                                     </span>
                                 </Form.Text>
                             </Form.Group>
-                            {(!context.account || !context.isOnCorrectChain) && (
-                                <WalletConnectionStatus />
-                            )}
-                            {context.account && context.isOnCorrectChain && (
+                            {(!account || !isOnCorrectChain) && (
                                 <>
-                                    {context.isPaymasterSupported && (
-                                        <Transaction
-                                            key={contractCall.length} // Re-mount when contract call changes
-                                            address={context.account}
-                                            className="bird-identification-transaction-container"
-                                            capabilities={
-                                                context.isPaymasterSupported
-                                                    ? {
-                                                          paymasterService: {
-                                                              url: process.env
-                                                                  .REACT_APP_COINBASE_PAYMASTER_AND_BUNDLER_ENDPOINT,
-                                                          },
-                                                      }
-                                                    : null
-                                            }
-                                            contracts={contractCall}
-                                            onError={(error) => {
-                                                console.error(error);
-
-                                                // TODO: Show more relevant error messages???
-                                            }}
-                                            onSuccess={(response) => {
-                                                // Close the modal
-                                                onToggle();
-
-                                                // Handle and parse the successful response
-                                                onSubmitSmartWallet(bird, response);
-                                            }}
-                                        >
-                                            <TransactionButton
-                                                className="btn btn-info w-100"
-                                                disabled={contractCall.length === 0}
-                                                text="Submit"
-                                            />
-                                            <TransactionSponsor text="SongBirdz" />
-                                            <TransactionStatus>
-                                                <TransactionStatusLabel />
-                                                <TransactionStatusAction />
-                                            </TransactionStatus>
-                                        </Transaction>
-                                    )}
-                                    {!context.isPaymasterSupported && (
-                                        <Button
-                                            className="w-100"
-                                            variant="info"
-                                            onClick={handleSubmitNonSmartWallet}
-                                        >
-                                            {"Submit"}
-                                        </Button>
-                                    )}
+                                    {!account &&
+                                        <span className="fw-bold">
+                                            {"Please connect your wallet..."}
+                                        </span>
+                                    }
+                                    {account && !isOnCorrectChain &&
+                                        <WalletConnectionStatus />
+                                    }
                                 </>
+                            )}
+                            {account && isOnCorrectChain && (
+                                <Transaction
+                                    address={account}
+                                    className="bird-identification-transaction-container"
+                                    chainId={expectedChainId}
+                                    calls={callsCallback}
+                                    isSponsored={isPaymasterSupported}
+                                    onStatus={handleOnStatus}>
+                                    <TransactionButton
+                                        className="btn btn-info w-100"
+                                        disabled={!formData.species}
+                                        text="Submit" />
+                                    <TransactionSponsor text="SongBirdz" />
+                                    <TransactionStatus>
+                                        <TransactionStatusLabel />
+                                        <TransactionStatusAction />
+                                    </TransactionStatus>
+                                </Transaction>
                             )}
                         </>
                     }

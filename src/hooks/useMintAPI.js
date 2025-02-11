@@ -1,22 +1,21 @@
+import { useCallback } from "react";
+
 import useTransaction from "./useTransaction";
 
 import { EVENTS } from "../constants";
+
+import { useWalletContext } from "../contexts/wallet";
+
 import { populateMetadata, updateDailyStreak } from "../utils/data";
 
-const MINT_PRICE = "0.0015"; // 0.0015 ETH
+const useMintAPI = () => {
 
-const useMintAPI = ({ context, cb }) => {
+    const context = useWalletContext();
+
     // Keep track of the state of back-end transactions
-    const [txMintSmartWallet, setTxMintSmartWallet, resetTxMintSmartWallet] =
-        useTransaction();
+    const [txMint, setTxMint, resetTxMint] = useTransaction();
 
-    const [
-        txMintNonSmartWallet,
-        setTxMintNonSmartWallet,
-        resetTxMintNonSmartWallet,
-    ] = useTransaction();
-
-    const handleMintSmartWallet = async (bird, response) => {
+    const onMint = useCallback(async (bird, response) => {
 
         const receipt = response.transactionReceipts?.[0];
 
@@ -85,7 +84,7 @@ const useMintAPI = ({ context, cb }) => {
         }
 
         // Store the successful state for the transaction
-        setTxMintSmartWallet({
+        setTxMint({
             transactionHash,
             receipt,
             idEvent,
@@ -101,163 +100,25 @@ const useMintAPI = ({ context, cb }) => {
         });
 
         // Trigger the callback with the updated bird and daily streak data
-        cb(finalData, updatedTracker);
+        return [finalData, updatedTracker];
 
-    };
+    }, [context.contractAddress, context.contractInterface, context.account]);
 
-    const handleMintNonSmartWallet = async (bird, speciesGuess) => {
+    const onError = useCallback((response) => {
 
-        try {
+        console.error(response);
 
-            if (!context.isOnCorrectChain) {
-                throw new Error(
-                    "Double check to make sure you're on the Base network!",
-                );
-            }
+        setTxMint((prev) => ({
+            ...prev,
+            success: false,
+            error: true,
+            // errorMsg: response?.statusData, // || { message: "Oops there as an error..." },
+        }));
 
-            // Fetch the merkle tree proof from the back-end server
+    }, []);
 
-            const proofParams = new URLSearchParams({
-                species_guess: speciesGuess,
-            });
+    return { txMint, onMint, onError, resetTxMint };
 
-            const response = await fetch(
-                `${process.env.REACT_APP_SONGBIRDZ_BACKEND_URL}/birds/merkle-proof/${bird.id}?${proofParams}`,
-            );
-
-            if (response.status !== 200) {
-                throw new Error(
-                    `Unable to fetch merkle proof for bird=${bird.id}...`,
-                );
-            }
-
-            const responseData = await response.json();
-
-            // Store the pending state for the transaction
-            setTxMintNonSmartWallet((prev) =>
-                Object.assign({}, prev, {
-                    timestamp: null,
-                    transaction: null,
-                    pending: true,
-                    success: false,
-                    error: false,
-                    errorMsg: null,
-                }),
-            );
-
-            // Build the transaction to mint the bird
-            const [txSuccess, txError] =
-                await context.actions.publicMintNonSmartWallet(
-                    bird.id,
-                    responseData.proof,
-                    responseData.species_guess,
-                    MINT_PRICE,
-                );
-
-            let events = [];
-
-            if (txSuccess) {
-
-                console.debug(`handleMint, gasUsed=${txSuccess.gasUsed}`);
-
-                events = txSuccess.logs.map((log) => {
-                    return context.contractInterface.parseLog({
-                        data: log.data,
-                        topics: log.topics,
-                    });
-                });
-
-            }
-
-            // Find the event(s) from the back-end
-
-            const idEvent = events.find(
-                (event) => event.name === EVENTS.BIRD_ID,
-            );
-
-            const transferEvent = events.find(
-                (event) => event.name === EVENTS.TRANSFER,
-            );
-
-            let finalData, updatedTracker;
-
-            // Check if the user successfully identified the bird, i.e. is now the owner
-            if (transferEvent) {
-
-                const updatedData = { ...bird, owner: context.account };
-
-                try {
-                    // Update the metadata for the bird
-                    finalData = await populateMetadata(updatedData);
-                } catch (error) {
-                    console.error(error);
-                }
-
-                try {
-                    // Update the daily streak for the user
-                    updatedTracker = await updateDailyStreak(context.account);
-                } catch (error) {
-                    console.error(error);
-                }
-
-            }
-
-            // Store the success/error state for the transaction
-            setTxMintNonSmartWallet((prev) => {
-                return Object.assign({}, prev, {
-                    timestamp: new Date(),
-                    transaction: txSuccess,
-                    idEvent,
-                    transferEvent,
-                    pending: false,
-                    success: Boolean(txSuccess),
-                    error: Boolean(txError),
-                    errorMsg: txError,
-                    bird: {
-                        ...bird,
-                        ...finalData,
-                    },
-                });
-            });
-
-            // Notify the front-end of the event(s)
-            cb(finalData, updatedTracker);
-
-        } catch (error) {
-
-            console.error(error);
-
-            setTxMintNonSmartWallet((prev) =>
-                Object.assign({}, prev, {
-                    timestamp: new Date(),
-                    transaction: null,
-                    idEvent: null,
-                    transferEvent: null,
-                    pending: false,
-                    success: false,
-                    error: true,
-                    errorMsg:
-                        error?.data?.message || "Oops there was an error...",
-                }),
-            );
-
-        }
-
-    };
-
-    return {
-        // Callback functions to submit the tx onchain
-        handleMintSmartWallet,
-        handleMintNonSmartWallet,
-
-        // Keep track of the tx state
-        txMintSmartWallet,
-        txMintNonSmartWallet,
-
-        // Reset the tx state
-        resetTxMintSmartWallet,
-        resetTxMintNonSmartWallet,
-    };
 };
 
 export default useMintAPI;

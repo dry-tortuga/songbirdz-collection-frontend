@@ -2,33 +2,14 @@ import React, {
 	useCallback,
 	useContext,
 	useEffect,
-	useMemo,
-	useState,
 } from "react";
 import { Interface } from "ethers";
-import { Button, Modal } from "react-bootstrap";
-import {
-	Connector,
-	useAccount,
-	useConnect,
-	useDisconnect,
-	useEnsAvatar,
-	useEnsName,
-	useSwitchChain,
-} from "wagmi";
-import { base, baseSepolia, hardhat } from "wagmi/chains";
+import { useAccount, useSwitchChain } from "wagmi";
 import { useCapabilities } from "wagmi/experimental";
-import {
-	readContract,
-	simulateContract,
-	waitForTransactionReceipt,
-	writeContract,
-} from "@wagmi/core";
-import { getContract, parseEther } from "viem";
+import { readContract } from "@wagmi/core";
+import { encodeFunctionData, parseEther } from "viem";
 
 import SongBirdzContract from "../abi/SongBirdz.json";
-
-import WalletOptions from "../components/WalletOptions";
 
 import config from "../config";
 
@@ -36,6 +17,7 @@ import useCurrentUser from "../hooks/useCurrentUser";
 
 const EXPECTED_CHAIN_ID = parseInt(process.env.REACT_APP_BASE_NETWORK_CHAIN_ID, 10);
 const SONGBIRDZ_CONTRACT_ADDRESS = process.env.REACT_APP_SONGBIRDZ_CONTRACT_ADDRESS;
+const ONCHAIN_GIFT_CONTRACT_ADDRESS = process.env.REACT_APP_ONCHAIN_GIFT_CONTRACT_ADDRESS;
 
 const MINT_PRICE = "0.0015"; // 0.0015 ETH
 
@@ -46,10 +28,6 @@ const useWalletContext = () => useContext(WalletContext);
 const WalletProvider = ({ children }) => {
 
 	const { address, chainId, isConnected } = useAccount();
-	const { connectors, connect } = useConnect();
-	const { disconnect } = useDisconnect();
-	// const { data: ensName } = useEnsName({ address });
-	// const { data: ensAvatar } = useEnsAvatar({ name: ensName });
 	const { switchChain } = useSwitchChain();
 
 	const account = address;
@@ -57,8 +35,6 @@ const WalletProvider = ({ children }) => {
 	const { data: availableCapabilities } = useCapabilities({ account });
 
 	const [currentUser, setCurrentUser] = useCurrentUser({ account });
-
-	const [isModalOpen, setIsModalOpen] = useState(false);
 
 	useEffect(() => {
 
@@ -69,20 +45,7 @@ const WalletProvider = ({ children }) => {
 		    switchChain({ chainId: EXPECTED_CHAIN_ID });
 	    }
 
-	    // Close the modal once we are connected
-
-	    if (isConnected && isModalOpen) {
-	    	setIsModalOpen(false);
-	    }
-
-	}, [isConnected, isModalOpen, chainId]);
-
-	const onClick = useCallback((selectedConnector) => {
-
-		connect({ connector: selectedConnector });
-		setIsModalOpen(false);
-
-	}, [connect]);
+	}, [isConnected, chainId]);
 
 	// Callback function to fetch the owner of a bird
 	const ownerOf = useCallback(async (id) => {
@@ -109,7 +72,7 @@ const WalletProvider = ({ children }) => {
 
 	}, []);
 
-	// Callback function to mint a new bird for smart wallet users
+	// Callback function to mint a new bird
 	const publicMint = useCallback(async (id, speciesGuess) => {
 
 		try {
@@ -129,18 +92,32 @@ const WalletProvider = ({ children }) => {
 			const responseData = await response.json();
 
 			return {
-				abi: SongBirdzContract.abi,
-				address: SONGBIRDZ_CONTRACT_ADDRESS,
-				functionName: "publicMint",
-				args: [id, responseData.proof, responseData.species_guess],
-				chainId: EXPECTED_CHAIN_ID,
-				value: parseEther(MINT_PRICE), 
+                to: SONGBIRDZ_CONTRACT_ADDRESS,
+                value: parseEther(MINT_PRICE),
+                data: encodeFunctionData({
+                    abi: SongBirdzContract.abi,
+                    functionName: "publicMint",
+                    args: [BigInt(id), responseData.proof, responseData.species_guess],
+                }),
 			};
 
 		} catch (error) {
 			console.error(error);
 			throw error;
 		}
+
+	}, []);
+
+	// Callback function to approve transfer of bird for smart wallet users
+	const approve = useCallback((to, tokenId) => {
+
+		return {
+			abi: SongBirdzContract.abi,
+			address: SONGBIRDZ_CONTRACT_ADDRESS,
+			functionName: "approve",
+			args: [to, tokenId],
+			chainId: EXPECTED_CHAIN_ID,
+		};
 
 	}, []);
 
@@ -157,46 +134,13 @@ const WalletProvider = ({ children }) => {
 
 	}, []);
 
-	// Callback function to mint a new bird for non-smart wallet users
-	const publicMintNonSmartWallet = useCallback(async (id, proof, guess, mintPrice) => {
-
-		try {
-
-			const { request } = await simulateContract(config, {
-				abi: SongBirdzContract.abi,
-				address: SONGBIRDZ_CONTRACT_ADDRESS,
-				functionName: "publicMint",
-				args: [id, proof, guess],
-				chainId: EXPECTED_CHAIN_ID,
-				value: parseEther(mintPrice), 
-			});
-
-			const hash = await writeContract(config, request);
-
-			const txReceipt = await waitForTransactionReceipt(config, {
-				chainId: EXPECTED_CHAIN_ID,
-				hash,
-			});
-
-			return [txReceipt, null];
-
-		} catch (error) {
-			console.error(error);
-			return [null, error];
-		}
-
-	}, []);
-
 	const isOnCorrectChain = chainId === EXPECTED_CHAIN_ID;
 	const isPaymasterSupported = Boolean(availableCapabilities?.[EXPECTED_CHAIN_ID]?.paymasterService?.supported);
 
 	console.debug("----------------------");
-	console.debug(connectors);
 	console.debug(availableCapabilities);
 	console.debug(`account=${account}`);
 	console.debug(`chainId=${chainId}`);
-	// console.debug(`ensName=${ensName}`);
-	// console.debug(`ensAvatar=${ensAvatar}`);
 	console.debug(`isConnected=${isConnected}`);
 	console.debug(`isOnCorrectChain=${isOnCorrectChain}`);
 	console.debug(`isPaymasterSupported=${isPaymasterSupported}`);
@@ -214,30 +158,17 @@ const WalletProvider = ({ children }) => {
 				isPaymasterSupported,
 				contractAddress: SONGBIRDZ_CONTRACT_ADDRESS,
 				contractInterface: new Interface(SongBirdzContract.abi),
-				onConnectWallet: () => setIsModalOpen(true),
-				onDisconnectWallet: disconnect,
+				onchainGiftContractAddress: ONCHAIN_GIFT_CONTRACT_ADDRESS,
 				actions: {
 					ownerOf,
 					publicMint,
-					publicMintNonSmartWallet,
+					approve,
 					safeTransferFrom,
 				},
 				currentUser,
 				setCurrentUser,
 			}}>
 			{children}
-			<Modal
-				show={isModalOpen}
-				onHide={() => setIsModalOpen(false)}>
-				<Modal.Header closeButton>
-					<Modal.Title>
-						{"Select Wallet"}
-					</Modal.Title>
-				</Modal.Header>
-				<Modal.Body className="d-flex flex-column align-items-center">
-					<WalletOptions onClick={onClick} />
-				</Modal.Body>
-			</Modal>
 		</WalletContext.Provider>
 	);
 
