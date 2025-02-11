@@ -12,7 +12,11 @@ dayjs.extend(relativeTime);
 
 const BirdIdentificationTransactionStatus = (props) => {
 
-    const { tx, onClose, onSendGift } = props;
+    const {
+        tx,
+        onClose,
+        onSendGift,
+    } = props;
 
     const { contractAddress } = useWalletContext();
 
@@ -158,17 +162,16 @@ const BirdIdentificationTransactionStatus = (props) => {
                                     />
                                 </a>
                             </span>
-                            {/*
                             <span className="me-3">
                                 <button
                                     className="gift-button"
-                                    onClick={onSendGift}>
+                                    title={`Send ${tx.bird.name} as a gift`}
+                                    onClick={() => onSendGift(tx.bird)}>
                                     <i
                                         className="fa-solid fa-gift"
-                                        style={{ fontSize: "18px" }} />
+                                        style={{ fontSize: "18px", marginTop: "3px" }} />
                                 </button>
                             </span>
-                            */}
                             <span className="ms-auto">
                                 <a
                                     href={`/collection/${tx.bird.id}`}

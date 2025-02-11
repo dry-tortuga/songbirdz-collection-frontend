@@ -32,13 +32,15 @@ const BirdDetails = () => {
     const params = useParams();
 
     const context = useWalletContext();
-    const { setIsSendingGift, setBirdToGift } = useGiftContext();
+    const { setBirdToGift } = useGiftContext();
     const {
         isIdentifyingBird,
         txMint,
         setIsIdentifyingBird,
         setBirdToID,
     } = useIdentificationContext();
+
+    const { account } = context;
 
     // Get the bird details
     const [bird] = useBird({
@@ -70,6 +72,9 @@ const BirdDetails = () => {
     ) {
         return null;
     }
+
+    const isOwner = (account && bird) ? bird.owner?.toLowerCase() === account.toLowerCase() : false;
+    const isAdmin = isOwner && account?.toLowerCase() === "0x2d437771f6fbedf3d83633cbd3a31b6c6bdba2b1";
 
     return (
         <div id="details-page" className="details-page">
@@ -132,16 +137,27 @@ const BirdDetails = () => {
                                             data-url={`https://opensea.io/assets/base/${context.contractAddress}/${bird.id}`}   >
                                             {"Tweet"}
                                         </a>
+                                        {isOwner &&
+                                            <button
+                                                className="gift-button ms-4"
+                                                title={`Send ${bird.name} as a gift`}
+                                                onClick={() => setBirdToGift(bird)}>
+                                                <i
+                                                    className="fa-solid fa-gift"
+                                                    style={{ fontSize: "25px", verticalAlign: "middle" }} />
+                                            </button>
+                                        }
                                         <a
                                             className="btn btn-clear ms-3"
                                             href={`https://opensea.io/assets/base/${context.contractAddress}/${bird.id}`}
                                             rel="noopener noreferrer nofollow"
-                                            target="_blank">
+                                            target="_blank"
+                                            title={`View ${bird.name} on OpenSea`}>
                                             <img
                                                 alt=""
                                                 src={openseaLogo}
                                                 style={{
-                                                    width: "35px",
+                                                    width: "30px",
                                                     height: "auto",
                                                 }} />
                                         </a>
@@ -149,28 +165,18 @@ const BirdDetails = () => {
                                             className="btn btn-clear"
                                             href={`https://basescan.org/token/${context.contractAddress}?a=${bird.id}`}
                                             rel="noopener noreferrer nofollow"
-                                            target="_blank">
+                                            target="_blank"
+                                            title={`View ${bird.name} on BaseScan`}>
                                             <img
                                                 alt=""
                                                 src={etherscanLogo}
                                                 style={{
-                                                    width: "35px",
+                                                    width: "30px",
                                                     height: "auto",
                                                 }} />
                                         </a>
-                                        {context.account?.toLowerCase() ===
-                                            "0x2d437771f6fbedf3d83633cbd3a31b6c6bdba2b1" && (
+                                        {isAdmin && (
                                             <>
-                                                <button
-                                                    className="gift-button me-3"
-                                                    onClick={() => {
-                                                        setBirdToGift(bird);
-                                                        setIsSendingGift(true);
-                                                    }}>
-                                                    <i
-                                                        className="fa-solid fa-gift"
-                                                        style={{ fontSize: "18px" }} />
-                                                </button>
                                                 <Button
                                                     onClick={() =>
                                                         setShowTransferModal(

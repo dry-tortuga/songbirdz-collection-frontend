@@ -6,23 +6,20 @@ const GiftContext = createContext({});
 
 export const GiftProvider = ({ children }) => {
 
-    const [isSendingGift, setIsSendingGift] = useState(false);
     const [birdToGift, setBirdToGift] = useState(null);
 
     return (
         <GiftContext.Provider
             value={{
-                isSendingGift,
-                setIsSendingGift,
                 birdToGift,
                 setBirdToGift
             }}>
             {children}
-            {isSendingGift && birdToGift &&
+            {birdToGift &&
                 <CreateGiftPack
                     bird={birdToGift}
-                    isOpen={isSendingGift}
-                    onToggle={() => setIsSendingGift(false)}  />
+                    isOpen={Boolean(birdToGift)}
+                    onToggle={() => setBirdToGift(null)}  />
             }
         </GiftContext.Provider>
     );
