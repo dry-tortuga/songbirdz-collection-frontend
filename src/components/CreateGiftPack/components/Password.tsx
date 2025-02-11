@@ -30,8 +30,7 @@ const Password = (props: Props) => {
                    //      setHasSeenToast(true);
                  //    }
                //  }}
-                className="w-full p-2 border rounded-md border-gray-300 text-center"
-            />
+                className="w-full p-2 border rounded-md border-gray-300 text-center" />
             <details
                 className={password ? 'block' : 'hidden'}>
                 <summary className="text-sm text-center">

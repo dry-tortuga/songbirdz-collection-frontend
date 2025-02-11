@@ -32,7 +32,9 @@ const BirdDetails = () => {
     const params = useParams();
 
     const context = useWalletContext();
+
     const { setBirdToGift } = useGiftContext();
+
     const {
         isIdentifyingBird,
         txMint,
@@ -177,6 +179,16 @@ const BirdDetails = () => {
                                         </a>
                                         {isAdmin && (
                                             <>
+                                                <button
+                                                    className="gift-button me-3"
+                                                    onClick={() => {
+                                                        setBirdToGift(bird);
+                                                        setIsSendingGift(true);
+                                                    }}>
+                                                    <i
+                                                        className="fa-solid fa-gift"
+                                                        style={{ fontSize: "18px" }} />
+                                                </button>
                                                 <Button
                                                     onClick={() =>
                                                         setShowTransferModal(

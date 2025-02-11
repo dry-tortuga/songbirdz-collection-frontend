@@ -236,7 +236,6 @@ const CreateGiftPack = (props: Props) => {
                         </TransactionStatus>
                     </Transaction>
                     {isCreated && (
-                        // TODO: Add back toasts...
                         <div className="w-100 flex flex-col items-center gap-2 border border-gray-200 p-4 rounded">
                             <p className="text-sm text-gray-600 fw-bold">
                                 {"Share this link with the recipient:"}
