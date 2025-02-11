@@ -179,22 +179,7 @@ const BirdDetails = () => {
                                         </a>
                                         {isAdmin && (
                                             <>
-                                                <button
-                                                    className="gift-button me-3"
-                                                    onClick={() => {
-                                                        setBirdToGift(bird);
-                                                        setIsSendingGift(true);
-                                                    }}>
-                                                    <i
-                                                        className="fa-solid fa-gift"
-                                                        style={{ fontSize: "18px" }} />
-                                                </button>
-                                                <Button
-                                                    onClick={() =>
-                                                        setShowTransferModal(
-                                                            true,
-                                                        )
-                                                    }>
+                                                <Button onClick={() => setShowTransferModal(true)}>
                                                     {"Send"}
                                                 </Button>
                                                 {showTransferModal && (
@@ -202,11 +187,7 @@ const BirdDetails = () => {
                                                         context={context}
                                                         bird={bird}
                                                         isOpen
-                                                        onToggle={() =>
-                                                            setShowTransferModal(
-                                                                false,
-                                                            )
-                                                        } />
+                                                        onToggle={() => setShowTransferModal(false)} />
                                                 )}
                                             </>
                                         )}
