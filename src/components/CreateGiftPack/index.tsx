@@ -83,7 +83,7 @@ const CreateGiftPack = (props: Props) => {
     const [hash, setHash] = useState<object>({
         value: generateHashedPassword(saltedPassword),
         isValid: false,
-        loading: false,
+        loading: true,
     });
 
     const [isCreated, setIsCreated] = useState(false);
@@ -94,9 +94,9 @@ const CreateGiftPack = (props: Props) => {
     // Encode and hash the password on changes
     const handleChangePassword = useCallback((newValue: string) => {
 
-        const isValid = newValue.length > 0;
+        const isLengthValid = newValue.length > 0;
 
-        if (isValid) {
+        if (isLengthValid) {
 
             const newSaltedPassword = generateSaltedPassword(newValue, salt);
             const newHash = generateHashedPassword(newSaltedPassword);
