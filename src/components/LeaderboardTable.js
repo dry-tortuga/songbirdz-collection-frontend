@@ -23,12 +23,16 @@ const LeaderboardTable = (props) => {
                     user.address.toLowerCase() !==
                         "0x585d3ef48e12cb1be6837109b0853afe78b5ebe3" &&
                     user.address.toLowerCase() !==
-                        "0x2d437771f6fbedf3d83633cbd3a31b6c6bdba2b1",
+                        "0x2d437771f6fbedf3d83633cbd3a31b6c6bdba2b1" &&
+                    user.address.toLowerCase() !==
+                    	// Based Media X contract
+                    	"0x13918a541e129a7ef210183e5e9c54486da3fb04"
             )
             .slice(0, 51);
 
         result.sort((temp1, temp2) => {
-            if (temp1.total > temp2.total) {
+
+        	if (temp1.total > temp2.total) {
                 return -1;
             }
 
@@ -37,6 +41,7 @@ const LeaderboardTable = (props) => {
             }
 
             return 0;
+
         });
 
         return result;

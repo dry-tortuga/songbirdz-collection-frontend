@@ -51,6 +51,29 @@ const SEASON_3_BONUS_POINT_SPECIES = [{
 	label: 'Hit 30 Day Streak',
 }];
 
+const SEASON_4_BONUS_POINT_SPECIES = [{
+	id: 1013,
+	label: 'Posted on X',
+}, {
+	id: 1014,
+	label: 'Posted on Farcaster',
+}, {
+	id: 1015,
+	label: 'Joined Telegram',
+}, {
+	id: 1016,
+	label: 'Joined Farcaster Channel',
+}, {
+	id: 1017,
+	label: 'Hit 7 Day Streak',
+}, {
+	id: 1018,
+	label: 'Hit 14 Day Streak',
+}, {
+	id: 1019,
+	label: 'Hit 30 Day Streak',
+}];
+
 const sortedFamilies = FAMILIES.sort((family1, family2) => {
 
 	if (family1.name < family2.name) {
@@ -82,6 +105,7 @@ const LifeListModal = (props) => {
 		const speciesByIDSeason1 = data?.season_1 || {};
 		const speciesByIDSeason2 = data?.season_2 || {};
 		const speciesByIDSeason3 = data?.season_3 || {};
+		const speciesByIDSeason4 = data?.season_4 || {};
 
         let results = {}, total = 0;
 
@@ -101,11 +125,19 @@ const LifeListModal = (props) => {
 				total += data.amount;
 			});
 
-        } else if (filter === "3") {
+		} else if (filter === "3") {
 
-            results = { ...speciesByIDSeason3 };
+			results = { ...speciesByIDSeason3 };
 
-            Object.values(speciesByIDSeason3).forEach((data) => {
+			Object.values(speciesByIDSeason3).forEach((data) => {
+				total += data.amount;
+			});
+
+		} else if (filter === "4") {
+
+            results = { ...speciesByIDSeason4 };
+
+            Object.values(speciesByIDSeason4).forEach((data) => {
 				total += data.amount;
 			});
 
@@ -115,6 +147,7 @@ const LifeListModal = (props) => {
                 ...speciesByIDSeason1,
                 ...speciesByIDSeason2,
                 ...speciesByIDSeason3,
+                ...speciesByIDSeason4,
             };
 
             if (filter === "0") {
@@ -128,6 +161,10 @@ const LifeListModal = (props) => {
     			});
 
                 Object.values(speciesByIDSeason3).forEach((data) => {
+    				total += data.amount;
+    			});
+
+                Object.values(speciesByIDSeason4).forEach((data) => {
     				total += data.amount;
     			});
 
@@ -173,7 +210,12 @@ const LifeListModal = (props) => {
 						{`(${collection.name})`}
 					</span>
 				}
-				{isIdentified && (filter === "1" || filter === "2") &&
+				{isIdentified && (
+					filter === "1" ||
+					filter === "2" ||
+					filter === "3" ||
+					filter === "4"
+				) &&
 					<Badge
 						className="ms-2"
 						bg="info">
@@ -290,7 +332,12 @@ const LifeListModal = (props) => {
 								: "Birder Points"
 							}
 						</Badge>
-						{(filter === "1" || filter === "2") && address.rank &&
+						{(
+							filter === "1" ||
+							filter === "2" ||
+							filter === "3" ||
+							filter === "4"
+						) && address.rank &&
 							<Badge
 								className="ms-sm-3"
 								bg="success">
@@ -311,6 +358,7 @@ const LifeListModal = (props) => {
 					<option value="1">{"Season 1"}</option>
 					<option value="2">{"Season 2"}</option>
 					<option value="3">{"Season 3"}</option>
+					<option value="4">{"Season 4"}</option>
 					{COLLECTIONS.map((collection) => (
 						<option
 						    key={collection.name}
@@ -340,6 +388,14 @@ const LifeListModal = (props) => {
 						<h4>{"Bonus Points"}</h4>
 						<div className="mb-4">
 							{renderSpeciesList(SEASON_3_BONUS_POINT_SPECIES)}
+						</div>
+					</div>
+				}
+				{filter === "4" &&
+					<div>
+						<h4>{"Bonus Points"}</h4>
+						<div className="mb-4">
+							{renderSpeciesList(SEASON_4_BONUS_POINT_SPECIES)}
 						</div>
 					</div>
 				}
