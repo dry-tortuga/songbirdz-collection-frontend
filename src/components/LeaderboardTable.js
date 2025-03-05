@@ -52,7 +52,7 @@ const LeaderboardTable = (props) => {
         <Table className="leaderboard-table fw-normal" hover responsive>
             <thead>
                 <tr>
-                    <th scope="col">{"Rank"}</th>
+                    <th scope="col">{"#"}</th>
                     <th className="ps-5" scope="col">
                         {"Account"}
                     </th>
