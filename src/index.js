@@ -22,11 +22,22 @@ const container = document.getElementById("root");
 
 const root = createRoot(container);
 
+// TODO: Use await sdk.actions.addFrame() after the user has played a game or identified a bird
+// TODO: Update index.html to launch into correct url based on the cast
+// TODO: Add webhook handler + receive notifications when users install/uninstall the frame
+
 const FarcasterFrameProvider = ({ children }) => {
 
     useEffect(() => {
 
-        const load = async () => { FrameSDK.actions.ready(); }
+    	// TODO: Provide the context values down to the children components?
+
+        const load = async () => {
+			FrameSDK.actions.ready().then(() => {
+				console.log(FrameSDK.context());
+				FrameSDK.context().then((result) => console.log(result || 'EMPTY CONTEXT FARCASTER'));
+         	});
+        }
 
         load();
 

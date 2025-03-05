@@ -9,8 +9,6 @@ import { useWalletContext } from "../contexts/wallet";
 
 import { storeMemoryMatchGameResult } from "../utils/data";
 
-import openseaLogo from "../images/opensea-logomark-blue.svg";
-import magicedenLogo from "../images/magiceden-logo.png";
 import warpcastLogo from "../images/warpcast-logo.png";
 
 import "./MemoryMatchGame.css";
@@ -341,6 +339,10 @@ const MemoryMatchGame = () => {
         }
     }, [isFinished]);
 
+    // TODO: How to check if inside the farcaster frame???
+	console.log(window.sdk);
+	console.log(window.frame);
+
     return (
         <div id="game" className={`container ${isFinished ? "game-over" : ""}`}>
             <div className="row">
@@ -356,8 +358,7 @@ const MemoryMatchGame = () => {
                             <Badge
                                 className="ms-1 ms-md-2 align-middle"
                                 bg="success"
-                                pill
-                            >
+                                pill>
                                 <span>{isFinished ? finalScore : "TBD"}</span>
                             </Badge>
                         </span>
@@ -366,8 +367,7 @@ const MemoryMatchGame = () => {
                             <Badge
                                 className="ms-1 ms-md-2 align-middle"
                                 bg="info"
-                                pill
-                            >
+                                pill>
                                 {isFinished && (
                                     <span>
                                         {timeUsed / 1000}
@@ -403,131 +403,151 @@ const MemoryMatchGame = () => {
                         </Form.Select>
                     </div>
                     {isFinished && (
-                        <div className="d-flex align-items-center justify-content-center flex-wrap">
-                            <div className="social-media-share d-flex align-items-center me-4">
-                                <span className="me-2">{"Share on:"}</span>
-                                <span className="me-2">
-                                    <a
-                                        href={`https://twitter.com/intent/tweet?text=${encodeURIComponent(`I just scored ${finalScore}/1000 in the memory match game from @songbirdz_cc on @base!\n\n Can you beat my score?\n\n Play at`)}`}
-                                        className="twitter-share-button"
-                                        data-hashtags="songbirdz,birds,onchain,matchinggame"
-                                        data-url="https://songbirdz.cc/memory-match">
-                                        <i className="fa-brands fa-x-twitter" />
-                                    </a>
-                                </span>
-                                <span>
-                                    <a
-                                        href={`https://warpcast.com/~/compose?text=${encodeURIComponent(`I just scored ${finalScore}/1000 in the Songbirdz memory match game from @dry-tortuga on @base!\n\n Can you beat my score?\n\n Play at https://songbirdz.cc/memory-match`)}`}
-                                        className="farcaster-share-button"
-                                        target="_blank"
-                                        rel="noopener noreferrer">
-                                        <img
-                                            className="warpcast-logo"
-                                            src={warpcastLogo}
-                                            alt="Warpcast"
-                                        />
-                                    </a>
-                                </span>
-                            </div>
-                            <Button
-                                className="new-game-btn"
-                                variant="primary"
-                                onClick={() => handleResetGame(difficultyMode)}>
-                                {"New Game"}
-                            </Button>
+                        <div className="d-flex flex-column gap-3 mb-3 align-items-center justify-content-center">
+	                       	<Button
+	                            className="w-100"
+	                            variant="primary"
+	                            onClick={() => handleResetGame(difficultyMode)}>
+	                            {"New Game"}
+	                        </Button>
+	                        <a
+	                        	href={`https://warpcast.com/~/compose?text=${encodeURIComponent(`I just scored ${finalScore}/1000 in the memory match game (${difficultyMode} mode) from /songbirdz on @base!\n\n Think you can you beat my score?\n\nPlay at https://songbirdz.cc/memory-match`)}`}
+								className="btn btn-dark w-100 d-flex align-items-center justify-content-center"
+								target="_blank"
+								rel="noopener noreferrer">
+								<img
+									className="warpcast-logo me-2"
+									src={warpcastLogo}
+									alt=""
+									style={{ height: 20, width: 20 }} />
+								{"Share on Warpcast"}
+							</a>
+							<a
+								href={`https://twitter.com/intent/tweet?text=${encodeURIComponent(`I just scored ${finalScore}/1000 in the memory match game (${difficultyMode} mode) from @songbirdz_cc on @base!\n\nThink you can beat my score?\n\nPlay at https://songbirdz.cc/memory-match`)}`}
+								className="btn btn-dark w-100"
+								target="_blank"
+								rel="noopener noreferrer">
+								<i className="fa-brands fa-x-twitter me-2" />
+								{"Share on X"}
+							</a>
+							<Button
+								className="w-100"
+								variant="secondary">
+								<i className="fas fa-trophy me-2" />
+								{"View Leaderboard"}
+							</Button>
                         </div>
                     )}
                 </div>
             </div>
-            <div className="row">
-                {birds.map((bird, index) => (
-                    <div key={index} className="col-3">
-                        <div
-                            className={`
-								grid-card
-								${selected.firstGuess === index || selected.secondGuess === index ? "selected" : ""}
-								${matched.includes(index) ? "match" : ""}
-							`}
-                            onClick={() => debouncedHandleClick(bird, index)}>
-                            <div className="front" />
-                            <div
-                                className="back"
-                                style={(bird.audioPlayer && !isFinished) ? { backgroundColor: '#eee' } : { backgroundImage: `url(${bird.image})` }}>
-                                    {bird.audioPlayer && !isFinished &&
-                                        <i className={
-                                            `fa-solid
-                                                fa-music
-                                                ${((selected.firstGuess === index && selected.secondGuess === -1) || selected.secondGuess === index) ? 'fa-beat' : ''}`
-                                        } />
-                                    }
-                            </div>
-                            {isFinished && (
-                                <div className="species-row flex-column">
-                                    <span className="species-name text-center">
-                                        {bird.species}
-                                    </span>
-                                    <div className="icon-buttons flex align-items-center gap-2">
-                                        <button
-                                            className="icon-btn"
-                                            style={{ cursor: "pointer" }}
-                                            onClick={() => handlePlayBirdSong(bird, index)}>
-                                            <i
-                                                className={`fa-solid fa-music ${activeAudio?.index === index ? 'fa-beat' : ''}`}
-                                                style={{ color: "#ffffff" }} />
-                                        </button>
-                                        {bird.species === "UNIDENTIFIED" && (
-                                            <button
-                                                className="icon-btn"
-                                                style={{ cursor: "pointer" }}
-                                                onClick={() => {
-                                                    setIsIdentifyingBird(true);
-                                                    setBirdToID(bird);
-                                                }}>
-                                                <i
-                                                    className="fas fa-binoculars"
-                                                    style={{ color: "#ffffff" }} />
-                                            </button>
-                                        )}
-                                        <Link
-                                            to={`/collection/${bird.id}`}
-                                            className="icon-btn"
-                                            target="_blank"
-                                            rel="noopener noreferrer">
-                                            <i
-                                                className="fas fa-info-circle"
-                                                style={{ color: "#ffffff" }} />
-                                        </Link>
-                                        {bird.species !== "UNIDENTIFIED" && (
-                                            <>
-                                                <button className="icon-btn d-none d-sm-flex">
-                                                    <a
-                                                        href={`https://opensea.io/assets/base/${context.contractAddress}/${bird.id}`}
-                                                        target="_blank"
-                                                        rel="noopener noreferrer">
-                                                        <img
-                                                            src={openseaLogo}
-                                                            alt="OpenSea" />
-                                                    </a>
-                                                </button>
-                                                <button className="icon-btn d-none d-sm-flex">
-                                                    <a
-                                                        href={`https://magiceden.io/item-details/base/${context.contractAddress}/${bird.id}`}
-                                                        target="_blank"
-                                                        rel="noopener noreferrer">
-                                                        <img
-                                                            src={magicedenLogo}
-                                                            alt="MagicEden" />
-                                                    </a>
-                                                </button>
-                                            </>
-                                        )}
-                                    </div>
-                                </div>
-                            )}
-                        </div>
-                    </div>
-                ))}
-            </div>
+            {!hasStarted &&
+				<div className="row">
+					<div className="col">
+						<div className="d-flex flex-column gap-3">
+							<Button
+								className="w-100"
+								variant="primary"
+								onClick={() => setHasStarted(true)}>
+								{"Start Game"}
+							</Button>
+							<a
+								href={`https://warpcast.com/~/compose?text=${encodeURIComponent('Join me for a game of memory match from /songbirdz on @base!\n\nThink you can beat me?\n\nPlay at https://songbirdz.cc/memory-match')}`}
+								className="btn btn-dark w-100 d-flex align-items-center justify-content-center"
+								target="_blank"
+								rel="noopener noreferrer">
+								<img
+									className="warpcast-logo me-2"
+									src={warpcastLogo}
+									alt=""
+									style={{ height: 20, width: 20 }} />
+								{"Share on Warpcast"}
+							</a>
+							<a
+								href={`https://twitter.com/intent/tweet?text=${encodeURIComponent('Join me for a game of memory match from @songbirdz_cc on @base!\n\nThink you can beat me?\n\nPlay at https://songbirdz.cc/memory-match')}`}
+								className="btn btn-dark w-100"
+								target="_blank"
+								rel="noopener noreferrer">
+								<i className="fa-brands fa-x-twitter me-2" />
+								{"Share on X"}
+							</a>
+							<Button
+								className="w-100"
+								variant="secondary">
+								<i className="fas fa-trophy me-2" />
+								{"View Leaderboard"}
+							</Button>
+						</div>
+					</div>
+				</div>
+            }
+            {birds.length > 0 && hasStarted &&
+	            <div className="row mb-3">
+	                {birds.map((bird, index) => (
+	                    <div key={index} className="col-3">
+	                        <div
+	                            className={`
+									grid-card
+									${selected.firstGuess === index || selected.secondGuess === index ? "selected" : ""}
+									${matched.includes(index) ? "match" : ""}
+								`}
+	                            onClick={() => debouncedHandleClick(bird, index)}>
+	                            <div className="front" />
+	                            <div
+	                                className="back"
+	                                style={(bird.audioPlayer && !isFinished) ? { backgroundColor: '#eee' } : { backgroundImage: `url(${bird.image})` }}>
+	                                    {bird.audioPlayer && !isFinished &&
+	                                        <i className={
+	                                            `fa-solid
+	                                                fa-music
+	                                                ${((selected.firstGuess === index && selected.secondGuess === -1) || selected.secondGuess === index) ? 'fa-beat' : ''}`
+	                                        } />
+	                                    }
+	                            </div>
+	                            {isFinished && (
+	                                <div className="species-row flex-column">
+	                                    <span className="species-name text-center">
+	                                        {bird.species}
+	                                    </span>
+	                                    <div className="icon-buttons flex align-items-center gap-4">
+	                                        <button
+	                                            className="icon-btn"
+	                                            style={{ cursor: "pointer" }}
+	                                            onClick={() => handlePlayBirdSong(bird, index)}>
+	                                            <i
+	                                                className={`fa-solid fa-music ${activeAudio?.index === index ? 'fa-beat' : ''}`}
+	                                                style={{ color: "#ffffff" }} />
+	                                        </button>
+											{bird.species === "UNIDENTIFIED" ? (
+												<button
+													className="icon-btn"
+													style={{ cursor: "pointer" }}
+													onClick={() => {
+														setIsIdentifyingBird(true);
+														setBirdToID(bird);
+													}}>
+													<i
+														className="fas fa-binoculars"
+														style={{ color: "#ffffff" }} />
+												</button>
+											) : (
+												<Link
+													to={`/collection/${bird.id}`}
+													className="icon-btn"
+													target="_blank"
+													rel="noopener noreferrer">
+													<i
+														className="fas fa-info-circle"
+														style={{ color: "#ffffff" }} />
+												</Link>
+											)}
+	                                    </div>
+	                                </div>
+	                            )}
+	                        </div>
+	                    </div>
+	                ))}
+	            </div>
+            }
         </div>
     );
 };
@@ -572,7 +592,7 @@ async function loadGameCards(numBirds, difficulty) {
 
     while (cardArray.length < numBirds) {
         let num = Math.floor(Math.random() * (NUM_BIRDS_TOTAL - 1));
-        if (!cardArray.includes(num)) {
+        if (!cardArray.includes(num) && num >= 6000) {
             cardArray.push(num);
         }
     }

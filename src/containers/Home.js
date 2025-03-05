@@ -17,18 +17,23 @@ const HomeContainer = () => {
 				<div className="container px-md-5">
 					<div className="row gx-5 align-items-center">
 						<div className="col-lg-6">
-							<div className="mb-5 mb-lg-0 text-center text-lg-start">
+							<div className="mb-5 mb-lg-0 text-center">
 								<h1 className="display-1 lh-1 mb-3">
 									{"Songbirdz"}
 								</h1>
 								<p className="lead fw-normal mb-md-5">
-									{"An onchain bird watching game. Identify new birds, earn birder points, and build your life list."}
+									{"An onchain bird watching game"}
 								</p>
-								<div className="d-flex flex-column flex-lg-row align-items-center">
+								<div className="d-flex flex-column flex-lg-row gap-3 align-items-center justify-content-center">
 									<a
-										className="me-lg-3 btn btn-secondary"
+										className="btn btn-secondary"
 										href="/collection?number=6&hide_already_identified=true">
 										{"Explore Collection"}
+									</a>
+									<a
+										className="btn btn-secondary"
+										href="/memory-match">
+										{"Play Memory Match Game"}
 									</a>
 								</div>
 							</div>

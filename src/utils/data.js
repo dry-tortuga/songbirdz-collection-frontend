@@ -7,9 +7,9 @@ async function fetchBird(id, owner, cached) {
 		name: `Songbird #${id}`,
 		owner,
 		species: null,
-		audio: `${process.env.PUBLIC_URL}/audio/${id}.mp3`,
-		image: `${process.env.PUBLIC_URL}/images/${id}.jpg`,
-		imageLg:  `${process.env.PUBLIC_URL}/images/${id}-lg.jpg`,
+		audio: `${process.env.REACT_APP_SONGBIRDZ_STATIC_URL}/audio/${id}.mp3`,
+		image: `${process.env.REACT_APP_SONGBIRDZ_STATIC_URL}/images/${id}.jpg`,
+		imageLg: `${process.env.REACT_APP_SONGBIRDZ_STATIC_URL}/images/${id}-lg.jpg`,
 		collection: Math.floor(id / COLLECTION_BIRD_SIZE),
 		cached,
 	};
