@@ -45,379 +45,385 @@ SOFTWARE.
 
 const MemoryMatchGame = () => {
 
-    const context = useWalletContext();
+	const context = useWalletContext();
 
-    const { account, currentUser } = context;
+	const { account, currentUser } = context;
 
-   	const { setIsIdentifyingBird, setBirdToID } = useIdentificationContext();
+	const { setIsIdentifyingBird, setBirdToID } = useIdentificationContext();
 
-    const [selected, setSelected] = useState({
-        firstGuess: -1,
-        secondGuess: -1,
-    });
+	const [selected, setSelected] = useState({
+		firstGuess: -1,
+		secondGuess: -1,
+	});
 
-    const [birds, setBirds] = useState([]);
+	const [birds, setBirds] = useState([]);
 
-    const [difficultyMode, setDifficultyMode] = useState("easy");
+	const [difficultyMode, setDifficultyMode] = useState("easy");
+	const [sortBy, setSortBy] = useState("total");
 
-    const [matched, setMatched] = useState([]);
+	const [matched, setMatched] = useState([]);
 
-    const [movesUsed, setMovesUsed] = useState(0);
+	const [movesUsed, setMovesUsed] = useState(0);
 
-    const [hasStarted, setHasStarted] = useState(false);
-    const [timeUsed, setTimeUsed] = useState(0);
-    const [timeUsedSlow, setTimeUsedSlow] = useState(0);
+	const [hasStarted, setHasStarted] = useState(false);
+	const [timeUsed, setTimeUsed] = useState(0);
+	const [timeUsedSlow, setTimeUsedSlow] = useState(0);
 
-    const [activeAudio, setActiveAudio] = useState({
-        index: -1,
-        audioPlayer: null,
-    });
+	const [activeAudio, setActiveAudio] = useState({
+		index: -1,
+		audioPlayer: null,
+	});
 
-    const [hasLoggedResult, setHasLoggedResult] = useState(false);
+	const [hasLoggedResult, setHasLoggedResult] = useState(false);
 
 	const {
 		showLeaderboard,
 		setShowLeaderboard,
 		leaderboardData,
 		// setLeaderboardData,
-	} = useMemoryMatchGameLeaderboard({ account, difficultyMode });
+	} = useMemoryMatchGameLeaderboard({ account, difficultyMode, sortBy });
 
-    const isFinished = birds.length > 0 && matched.length === birds.length;
+	const isFinished = birds.length > 0 && matched.length === birds.length;
 
-    let finalScore = 0;
+	let finalScore = 0;
 
-    if (isFinished) {
+	if (isFinished) {
+		finalScore = calculateGameScore(
+			birds.length,
+			1000,
+			movesUsed,
+			timeUsed,
+		);
+	}
 
-        finalScore = calculateGameScore(
-            birds.length,
-            1000,
-            movesUsed,
-            timeUsed,
-        );
+	const handleClick = (card, index) => {
 
-    }
+		// Ignore clicks until the birds are loaded
+		if (birds.length === 0) {
+			return;
+		}
 
-    const handleClick = (card, index) => {
+		// Ignore clicks once the game is over
+		if (isFinished) {
+			return;
+		}
 
-        // Ignore clicks until the birds are loaded
-        if (birds.length === 0) {
-            return;
-        }
+		// Ignore clicks on an already matched card
+		if (matched.includes(index)) {
+			return;
+		}
 
-        // Ignore clicks once the game is over
-        if (isFinished) {
-            return;
-        }
+		// Ignore clicks on the same card twice
+		if (selected.firstGuess === index || selected.secondGuess === index) {
+			return;
+		}
 
-        // Ignore clicks on an already matched card
-        if (matched.includes(index)) {
-            return;
-        }
+		if (!hasStarted) {
+			setHasStarted(true);
+		}
 
-        // Ignore clicks on the same card twice
-        if (selected.firstGuess === index || selected.secondGuess === index) {
-            return;
-        }
+		if (selected.firstGuess === -1) {
 
-        if (!hasStarted) {
-            setHasStarted(true);
-        }
+			// Start playing the audio for the first bird...
+			const selectedFirstBird = birds[index];
 
-        if (selected.firstGuess === -1) {
+			if (selectedFirstBird.audioPlayer) {
+				selectedFirstBird.audioPlayer.loop = true;
+				selectedFirstBird.audioPlayer.play();
+			}
 
-            // Start playing the audio for the first bird...
-            const selectedFirstBird = birds[index];
+			setSelected((prev) => ({ ...prev, firstGuess: index }));
 
-            if (selectedFirstBird.audioPlayer) {
-                selectedFirstBird.audioPlayer.loop = true;
-                selectedFirstBird.audioPlayer.play();
-            }
+			return;
 
-            setSelected((prev) => ({ ...prev, firstGuess: index }));
+		}
 
-            return;
+		if (selected.secondGuess === -1) {
 
-        }
+			// Stop playing the audio (if any) for the first bird...
+			const selectedFirstBird = birds[selected.firstGuess];
 
-        if (selected.secondGuess === -1) {
+			if (selectedFirstBird.audioPlayer) {
+				selectedFirstBird.audioPlayer.pause();
+			}
 
-            // Stop playing the audio (if any) for the first bird...
-            const selectedFirstBird = birds[selected.firstGuess];
+			// Start playing the audio (if any) for the second bird...
+			const selectedSecondBird = birds[index];
 
-            if (selectedFirstBird.audioPlayer) {
-                selectedFirstBird.audioPlayer.pause();
-            }
+			if (selectedSecondBird.audioPlayer) {
+				selectedSecondBird.audioPlayer.loop = true;
+				selectedSecondBird.audioPlayer.play();
+			}
 
-            // Start playing the audio (if any) for the second bird...
-            const selectedSecondBird = birds[index];
+			setSelected((prev) => ({ ...prev, secondGuess: index }));
 
-            if (selectedSecondBird.audioPlayer) {
-                selectedSecondBird.audioPlayer.loop = true;
-                selectedSecondBird.audioPlayer.play();
-            }
+			return;
 
-            setSelected((prev) => ({ ...prev, secondGuess: index }));
+		}
 
-            return;
+	};
 
-        }
+	const debouncedHandleClick = useCallback(
+		debounce(handleClick, 50),
+		[handleClick]
+	);
 
-    };
+	const handleResetGame = async (difficulty, autoStart = false) => {
 
-    const debouncedHandleClick = useCallback(
-        debounce(handleClick, 50),
-        [handleClick]
-    );
-
-    const handleResetGame = async (difficulty, autoStart = false) => {
-
-        setBirds([]);
+		setBirds([]);
 		setHasStarted(false);
-        setMovesUsed(0);
-        setTimeUsed(0);
-        setTimeUsedSlow(0);
-        setSelected({ firstGuess: -1, secondGuess: -1 });
-        setMatched([]);
-        setActiveAudio({ index: -1, audioPlayer: null })
-        setHasLoggedResult(false);
+		setMovesUsed(0);
+		setTimeUsed(0);
+		setTimeUsedSlow(0);
+		setSelected({ firstGuess: -1, secondGuess: -1 });
+		setMatched([]);
+		setActiveAudio({ index: -1, audioPlayer: null })
+		setHasLoggedResult(false);
 
-        const newCards = await loadGameCards(8, difficulty);
+		const newCards = await loadGameCards(8, difficulty);
 
-        setBirds(newCards);
-        setHasStarted(autoStart);
+		setBirds(newCards);
+		setHasStarted(autoStart);
 
-    };
+	};
 
-    const handlePlayBirdSong = (bird, index) => {
+	const handlePlayBirdSong = (bird, index) => {
 
-        if (activeAudio?.audioPlayer) {
+		if (activeAudio?.audioPlayer) {
+			activeAudio.audioPlayer.pause();
 
-            activeAudio.audioPlayer.pause();
+			if (index === activeAudio.index) {
+				setActiveAudio({ index: -1, audioPlayer: null });
+				return;
+			}
+		}
 
-            if (index === activeAudio.index) {
+		if (!bird.audioPlayer) { bird.audioPlayer = new Audio(bird.audio); }
 
-                setActiveAudio({ index: -1, audioPlayer: null });
+		bird.audioPlayer.loop = true;
+		bird.audioPlayer.play();
 
-                return;
+		setActiveAudio({
+			index,
+			audioPlayer: bird.audioPlayer,
+		});
 
-            }
+	};
 
-        }
+	// Load the birds on initial load
+	useEffect(() => { handleResetGame(difficultyMode, false) }, [difficultyMode]);
 
-        if (!bird.audioPlayer) { bird.audioPlayer = new Audio(bird.audio); }
+	// Store result of the game once it is finished and prompt for wallet connect if needed
+	useEffect(() => {
 
-        bird.audioPlayer.loop = true;
-        bird.audioPlayer.play();
+		if (isFinished && !hasLoggedResult && account) {
 
-        setActiveAudio({
-            index,
-            audioPlayer: bird.audioPlayer,
-        });
+			// TODO: Add prompt for wallet connection if needed...
 
-    };
+			setHasLoggedResult(true);
 
-    // Load the birds on initial load
-    useEffect(() => { handleResetGame(difficultyMode, false) }, [difficultyMode]);
+			storeMemoryMatchGameResult(account, difficultyMode, {
+				score: finalScore,
+				duration: timeUsed,
+				moves: movesUsed,
+			});
 
-    // Store result of the game once it is finished
-    useEffect(() => {
+		}
 
-        if (isFinished && !hasLoggedResult) {
+	}, [
+		isFinished,
+		hasLoggedResult,
+		account,
+		difficultyMode,
+		finalScore,
+		timeUsed,
+		movesUsed,
+	]);
 
-            setHasLoggedResult(true);
+	// Increase the time used by the user every 25 milliseconds until the game is finished
+	useEffect(() => {
 
-            storeMemoryMatchGameResult(account, difficultyMode, {
-                score: finalScore,
-                duration: timeUsed,
-                moves: movesUsed,
-            });
+		if (birds.length > 0 && hasStarted && !isFinished) {
 
-        }
+			const listener1 = setInterval(
+				() => setTimeUsed((prev) => prev + 25),
+				25,
+			);
 
-    }, [isFinished, hasLoggedResult, account, difficultyMode, finalScore, timeUsed, movesUsed]);
+			const listener2 = setInterval(
+				() => setTimeUsedSlow((prev) => prev + 1),
+				1000,
+			);
 
-    // Increase the time used by the user every 25 milliseconds until the game is finished
-    useEffect(() => {
+			return () => {
+				clearInterval(listener1);
+				clearInterval(listener2);
+			};
 
-        if (birds.length > 0 && hasStarted && !isFinished) {
+		}
 
-            const listener1 = setInterval(
-                () => setTimeUsed((prev) => prev + 25),
-                25,
-            );
+	}, [birds, hasStarted, isFinished]);
 
-            const listener2 = setInterval(
-                () => setTimeUsedSlow((prev) => prev + 1),
-                1000,
-            );
+	useEffect(() => {
 
-            return () => {
-                clearInterval(listener1);
-                clearInterval(listener2);
-            };
+		if (selected.firstGuess !== -1 && selected.secondGuess !== -1) {
 
-        }
+			// Increase the number of moves used by the user
+			setMovesUsed((prev) => prev + 1);
 
-    }, [birds, hasStarted, isFinished]);
+			const firstName = birds[selected.firstGuess].name;
+			const secondName = birds[selected.secondGuess].name;
 
-    useEffect(() => {
+			const hasAudioSecond = Boolean(birds[selected.secondGuess].audioPlayer);
 
-        if (selected.firstGuess !== -1 && selected.secondGuess !== -1) {
+			// and the first guess matches the second match...
+			if (firstName === secondName) {
 
-            // Increase the number of moves used by the user
-            setMovesUsed((prev) => prev + 1);
+				// run the match function
+				setTimeout(() => {
 
-            const firstName = birds[selected.firstGuess].name;
-            const secondName = birds[selected.secondGuess].name;
+					setMatched((prev) => [
+						...prev,
+						selected.firstGuess,
+						selected.secondGuess,
+					]);
 
-            const hasAudioSecond = Boolean(birds[selected.secondGuess].audioPlayer);
+					// Stop playing the audio (if any) for the second bird...
+					const selectedSecondBird = birds[selected.secondGuess];
 
-            // and the first guess matches the second match...
-            if (firstName === secondName) {
+					if (selectedSecondBird.audioPlayer) {
+						selectedSecondBird.audioPlayer.pause();
+					}
 
-                // run the match function
-                setTimeout(() => {
+					setSelected({ firstGuess: -1, secondGuess: -1 });
 
-                    setMatched((prev) => [
-                        ...prev,
-                        selected.firstGuess,
-                        selected.secondGuess,
-                    ]);
+				}, hasAudioSecond ? 3000 : 1000);
 
-                    // Stop playing the audio (if any) for the second bird...
-                    const selectedSecondBird = birds[selected.secondGuess];
+			} else {
 
-                    if (selectedSecondBird.audioPlayer) {
-                        selectedSecondBird.audioPlayer.pause();
-                    }
+				// reset the guesses
+				setTimeout(() => {
 
-                    setSelected({ firstGuess: -1, secondGuess: -1 });
+					// Stop playing the audio (if any) for the second bird...
+					const selectedSecondBird = birds[selected.secondGuess];
 
-                }, hasAudioSecond ? 3000 : 1000);
+					if (selectedSecondBird.audioPlayer) {
+						selectedSecondBird.audioPlayer.pause();
+					}
 
-            } else {
+					setSelected({ firstGuess: -1, secondGuess: -1 });
 
-                // reset the guesses
-                setTimeout(() => {
+				}, hasAudioSecond ? 3000 : 1000);
 
-                    // Stop playing the audio (if any) for the second bird...
-                    const selectedSecondBird = birds[selected.secondGuess];
+			}
 
-                    if (selectedSecondBird.audioPlayer) {
-                        selectedSecondBird.audioPlayer.pause();
-                    }
+		}
 
-                    setSelected({ firstGuess: -1, secondGuess: -1 });
+	}, [selected.firstGuess, selected.secondGuess]);
 
-                }, hasAudioSecond ? 3000 : 1000);
+	// Re-load the birds if any are successfully identified in the current session
+	useEffect(() => {
 
-            }
+		if (currentUser?.identified) {
 
-        }
+			setBirds((prev) => {
+				return prev.map((bird) => {
 
-    }, [selected.firstGuess, selected.secondGuess]);
+					if (currentUser?.identified?.[bird.id]) {
+						return {
+							id: parseInt(bird.name.split("#")[1], 10),
+							name: bird.name,
+							image: bird.image,
+							audio: bird.animation_url,
+							species: currentUser?.identified?.[bird.id].species,
+							cached: false,
+						};
+					}
 
-    // Re-load the birds if any are successfully identified in the current session
-    useEffect(() => {
+					return bird;
+				});
+			});
 
-        if (currentUser?.identified) {
+		}
 
-            setBirds((prev) => {
-                return prev.map((bird) => {
-                    if (currentUser?.identified?.[bird.id]) {
-                        return {
-                            id: parseInt(bird.name.split("#")[1], 10),
-                            name: bird.name,
-                            image: bird.image,
-                            audio: bird.animation_url,
-                            species: currentUser?.identified?.[bird.id].species,
-                            cached: false,
-                        };
-                    }
-                    return bird;
-                });
-            });
+	}, [birds, currentUser?.identified]);
 
-        }
+	// Re-load the twitter share button if the game ends or re-starts
+	useEffect(() => {
+		if (window.twttr?.widgets) {
+			window.twttr.widgets.load(document.getElementById("game"));
+		}
+	}, [isFinished]);
 
-    }, [birds, currentUser?.identified]);
-
-    // Re-load the twitter share button if the game ends or re-starts
-    useEffect(() => {
-        if (window.twttr?.widgets) {
-            window.twttr.widgets.load(document.getElementById("game"));
-        }
-    }, [isFinished]);
-
-    // TODO: How to check if inside the farcaster frame???
+	// TODO: How to check if inside the farcaster frame???
 	console.log(window.sdk);
 	console.log(window.frame);
 
-    return (
-        <div id="game" className={`container ${isFinished ? "game-over" : ""}`}>
-            <div className="row">
-                <div className="col">
-                    <h1 className="text-center">
-                        <span className="mb-2 mb-md-3">
-                            {(isFinished && !showLeaderboard) ? "Game Over!" : "Memory Match"}
-                        </span>
-                    </h1>
-                    <div className="d-flex align-items-center justify-content-center mb-2 mb-md-3">
-                    	{showLeaderboard &&
+	return (
+		<div id="game" className={`container ${isFinished ? "game-over" : ""}`}>
+			<div className="row">
+				<div className="col">
+					<h1 className="text-center">
+						<span className="mb-2 mb-md-3">
+							{(isFinished && !showLeaderboard) ? "Game Over!" : "Memory Match"}
+						</span>
+					</h1>
+					<div className="d-flex align-items-center justify-content-center mb-2 mb-md-3">
+						{showLeaderboard &&
 							<h3 className="mb-0 me-4">{"Leaderboard"}</h3>
-                     	}
-                    	{!showLeaderboard &&
-                     		<>
-		                    	<span className="game-score me-1 me-md-3">
-		                            {"Score:"}
-		                            <Badge
-		                                className="ms-1 ms-md-2 align-middle"
-		                                bg="success"
-		                                pill>
-		                                <span>{isFinished ? finalScore : "TBD"}</span>
-		                            </Badge>
-		                        </span>
-		                        <span className="game-time me-1 me-md-3">
-		                            {"Time:"}
-		                            <Badge
-		                                className="ms-1 ms-md-2 align-middle"
-		                                bg="info"
-		                                pill>
-		                                {isFinished && (
-		                                    <span>
-		                                        {timeUsed / 1000}
-		                                        {"s"}
-		                                    </span>
-		                                )}
-		                                {!isFinished && (
-		                                    <span>
-		                                        {timeUsedSlow}
-		                                        {"s"}
-		                                    </span>
-		                                )}
-		                            </Badge>
-		                        </span>
-		                        <span className="game-moves me-1 me-md-3">
-		                            {"Moves:"}
-		                            <Badge
-		                                className="ms-1 ms-md-2 align-middle"
-		                                bg="secondary"
-		                                pill>
-		                                <span>{movesUsed}</span>
-		                            </Badge>
-		                        </span>
-                       		</>
 						}
-                        <Form.Select
-                            className="game-mode-select"
-                            value={difficultyMode}
-                            disabled={hasStarted && !isFinished}
-                            style={{ maxWidth: "100px" }}
-                            onChange={(event) => setDifficultyMode(event.target.value)}>
-                            <option value="easy">Easy</option>
-                            <option value="medium">Medium</option>
-                            <option value="hard">Hard</option>
-                        </Form.Select>
+						{!showLeaderboard &&
+							<>
+								<span className="game-score me-1 me-md-3">
+									{"Score:"}
+									<Badge
+										className="ms-1 ms-md-2 align-middle"
+										bg="success"
+										pill>
+										<span>{isFinished ? finalScore : "TBD"}</span>
+									</Badge>
+								</span>
+								<span className="game-time me-1 me-md-3">
+									{"Time:"}
+									<Badge
+										className="ms-1 ms-md-2 align-middle"
+										bg="info"
+										pill>
+										{isFinished && (
+											<span>
+												{timeUsed / 1000}
+												{"s"}
+											</span>
+										)}
+										{!isFinished && (
+											<span>
+												{timeUsedSlow}
+												{"s"}
+											</span>
+										)}
+									</Badge>
+								</span>
+								<span className="game-moves me-1 me-md-3">
+									{"Moves:"}
+									<Badge
+										className="ms-1 ms-md-2 align-middle"
+										bg="secondary"
+										pill>
+										<span>{movesUsed}</span>
+									</Badge>
+								</span>
+							</>
+						}
+						<Form.Select
+							className="game-mode-select"
+							value={difficultyMode}
+							disabled={hasStarted && !isFinished}
+							style={{ maxWidth: "100px" }}
+							onChange={(event) => setDifficultyMode(event.target.value)}>
+							<option value="easy">Easy</option>
+							<option value="medium">Medium</option>
+							<option value="hard">Hard</option>
+						</Form.Select>
 						{showLeaderboard &&
 							<Button
 								variant="outline-secondary"
@@ -426,12 +432,12 @@ const MemoryMatchGame = () => {
 								<i className="fas fa-arrow-left me-2" />
 								{"Back"}
 							</Button>
-					    }
-                    </div>
-                </div>
-            </div>
-            {showLeaderboard &&
-           		<div className="row">
+						}
+					</div>
+				</div>
+			</div>
+			{showLeaderboard &&
+				<div className="row">
 					<div className="col">
 						{leaderboardData.loading && (
 							<div className="text-center">
@@ -456,11 +462,23 @@ const MemoryMatchGame = () => {
 										<th scope="col">
 											{"Account"}
 										</th>
-										<th scope="col">
+										<th
+											scope="col"
+											style={{cursor: "pointer"}}
+											onClick={() => setSortBy("today")}>
 											{"Today"}
+											{sortBy === "today" &&
+												<i className="fas fa-sort" />
+											}
 										</th>
-										<th scope="col">
+										<th
+											scope="col"
+											style={{cursor: "pointer"}}
+											onClick={() => setSortBy("total")}>
 											{"Total"}
+											{sortBy === "total" &&
+												<i className="fas fa-sort" />
+											}
 										</th>
 									</tr>
 								</thead>
@@ -495,11 +513,11 @@ const MemoryMatchGame = () => {
 							</Table>
 						)}
 					</div>
-             	</div>
-            }
-            {!showLeaderboard &&
-            	<>
-		            {!hasStarted &&
+				</div>
+			}
+			{!showLeaderboard &&
+				<>
+					{!hasStarted &&
 						<div className="row">
 							<div className="col">
 								<div className="d-flex flex-column gap-3">
@@ -539,25 +557,25 @@ const MemoryMatchGame = () => {
 								</div>
 							</div>
 						</div>
-		            }
+					}
 					{isFinished && (
-                        <div className="d-flex flex-column gap-3 mb-3 align-items-center justify-content-center">
-		                  	<Button
-		                       className="w-100"
-		                       variant="primary"
-		                       onClick={() => handleResetGame(difficultyMode, true)}>
-		                       {"New Game"}
-		                   </Button>
-		                   <a
-			                   	href={`https://warpcast.com/~/compose?text=${encodeURIComponent(`I just scored ${finalScore}/1000 in the memory match game (${difficultyMode} mode) from /songbirdz on @base!\n\n Think you can you beat my score?\n\nPlay at https://songbirdz.cc/memory-match`)}`}
+						<div className="d-flex flex-column gap-3 mb-3 align-items-center justify-content-center">
+							<Button
+								className="w-100"
+								variant="primary"
+								onClick={() => handleResetGame(difficultyMode, true)}>
+								{"New Game"}
+							</Button>
+							<a
+								href={`https://warpcast.com/~/compose?text=${encodeURIComponent(`I just scored ${finalScore}/1000 in the memory match game (${difficultyMode} mode) from /songbirdz on @base!\n\n Think you can you beat my score?\n\nPlay at https://songbirdz.cc/memory-match`)}`}
 								className="btn btn-dark w-100 d-flex align-items-center justify-content-center"
 								target="_blank"
 								rel="noopener noreferrer">
-							<img
-								className="warpcast-logo me-2"
-								src={warpcastLogo}
-								alt=""
-								style={{ height: 20, width: 20 }} />
+								<img
+									className="warpcast-logo me-2"
+									src={warpcastLogo}
+									alt=""
+									style={{ height: 20, width: 20 }} />
 								{"Share on Warpcast"}
 							</a>
 							<a
@@ -575,45 +593,45 @@ const MemoryMatchGame = () => {
 								<i className="fas fa-trophy me-2" />
 								{"View Leaderboard"}
 							</Button>
-                        </div>
-                    )}
-		            {birds.length > 0 && hasStarted &&
-			            <div className="row mb-3">
-			                {birds.map((bird, index) => (
-			                    <div key={index} className="col-3">
-			                        <div
-			                            className={`
+						</div>
+					)}
+					{birds.length > 0 && hasStarted &&
+						<div className="row mb-3">
+							{birds.map((bird, index) => (
+								<div key={index} className="col-3">
+									<div
+										className={`
 											grid-card
 											${selected.firstGuess === index || selected.secondGuess === index ? "selected" : ""}
 											${matched.includes(index) ? "match" : ""}
 										`}
-			                            onClick={() => debouncedHandleClick(bird, index)}>
-			                            <div className="front" />
-			                            <div
-			                                className="back"
-			                                style={(bird.audioPlayer && !isFinished) ? { backgroundColor: '#eee' } : { backgroundImage: `url(${bird.image})` }}>
-			                                    {bird.audioPlayer && !isFinished &&
-			                                        <i className={
-			                                            `fa-solid
-			                                                fa-music
-			                                                ${((selected.firstGuess === index && selected.secondGuess === -1) || selected.secondGuess === index) ? 'fa-beat' : ''}`
-			                                        } />
-			                                    }
-			                            </div>
-			                            {isFinished && (
-			                                <div className="species-row flex-column">
-			                                    <span className="species-name text-center">
-			                                        {bird.species}
-			                                    </span>
-			                                    <div className="icon-buttons flex align-items-center gap-4">
-			                                        <button
-			                                            className="icon-btn"
-			                                            style={{ cursor: "pointer" }}
-			                                            onClick={() => handlePlayBirdSong(bird, index)}>
-			                                            <i
-			                                                className={`fa-solid fa-music ${activeAudio?.index === index ? 'fa-beat' : ''}`}
-			                                                style={{ color: "#ffffff" }} />
-			                                        </button>
+										onClick={() => debouncedHandleClick(bird, index)}>
+										<div className="front" />
+										<div
+											className="back"
+											style={(bird.audioPlayer && !isFinished) ? { backgroundColor: '#eee' } : { backgroundImage: `url(${bird.image})` }}>
+											{bird.audioPlayer && !isFinished &&
+												<i className={
+													`fa-solid
+													fa-music
+													${((selected.firstGuess === index && selected.secondGuess === -1) || selected.secondGuess === index) ? 'fa-beat' : ''}`
+												} />
+											}
+										</div>
+										{isFinished && (
+											<div className="species-row flex-column">
+												<span className="species-name text-center">
+													{bird.species}
+												</span>
+												<div className="icon-buttons flex align-items-center gap-4">
+													<button
+														className="icon-btn"
+														style={{ cursor: "pointer" }}
+														onClick={() => handlePlayBirdSong(bird, index)}>
+														<i
+															className={`fa-solid fa-music ${activeAudio?.index === index ? 'fa-beat' : ''}`}
+															style={{ color: "#ffffff" }} />
+													</button>
 													{bird.species === "UNIDENTIFIED" ? (
 														<button
 															className="icon-btn"
@@ -637,18 +655,19 @@ const MemoryMatchGame = () => {
 																style={{ color: "#ffffff" }} />
 														</Link>
 													)}
-			                                    </div>
-			                                </div>
-			                            )}
-			                        </div>
-			                    </div>
-			                ))}
-			            </div>
-		            }
-             	</>
-            }
-        </div>
-    );
+												</div>
+											</div>
+										)}
+									</div>
+								</div>
+							))}
+						</div>
+					}
+				</>
+			}
+		</div>
+	);
+
 };
 
 export default MemoryMatchGame;
@@ -656,115 +675,115 @@ export default MemoryMatchGame;
 // Perfect score = 1,000 points
 function calculateGameScore(width, timeDelay, movesUsed, timeUsed) {
 
-    // Calculate the minimum number of tries required to win
-    const minRequiredTries = width / 2;
+	// Calculate the minimum number of tries required to win
+	const minRequiredTries = width / 2;
 
-    // Calculate the minimum number of time required to win (in milliseconds)
-    const minRequiredTime = timeDelay * minRequiredTries;
+	// Calculate the minimum number of time required to win (in milliseconds)
+	const minRequiredTime = timeDelay * minRequiredTries;
 
-    const numTriesBoost = 50 + minRequiredTries;
+	const numTriesBoost = 50 + minRequiredTries;
 
-    const timeUsedBoost = 50000 + minRequiredTime;
+	const timeUsedBoost = 50000 + minRequiredTime;
 
-    // (deduct) 0.008 points for each millisecond = max of 500 pts
-    let timebonus = ((timeUsedBoost - timeUsed) * 8) / 1000;
+	// (deduct) 0.008 points for each millisecond = max of 500 pts
+	let timebonus = ((timeUsedBoost - timeUsed) * 8) / 1000;
 
-    // (deduct) 10 points for each move = max of 500 pts
-    let triesbonus = (numTriesBoost - movesUsed) * 10;
+	// (deduct) 10 points for each move = max of 500 pts
+	let triesbonus = (numTriesBoost - movesUsed) * 10;
 
-    if (timebonus < 0) {
-        timebonus = 0;
-    }
+	if (timebonus < 0) {
+		timebonus = 0;
+	}
 
-    if (triesbonus < 0) {
-        triesbonus = 0;
-    }
+	if (triesbonus < 0) {
+		triesbonus = 0;
+	}
 
-    return Math.floor(timebonus + triesbonus);
+	return Math.floor(timebonus + triesbonus);
 
 }
 
 async function loadGameCards(numBirds, difficulty) {
 
-    // Generate array of random bird IDs (without duplicates)
-    let cardArray = [];
+	// Generate array of random bird IDs (without duplicates)
+	let cardArray = [];
 
-    while (cardArray.length < numBirds) {
-        let num = Math.floor(Math.random() * (NUM_BIRDS_TOTAL - 1));
-        if (!cardArray.includes(num) && num >= 6000) {
-            cardArray.push(num);
-        }
-    }
+	while (cardArray.length < numBirds) {
+		let num = Math.floor(Math.random() * (NUM_BIRDS_TOTAL - 1));
+		if (!cardArray.includes(num) && num >= 6000) {
+			cardArray.push(num);
+		}
+	}
 
-    // Await all metadata calls in parallel
-    const cardData = await Promise.all(
-        cardArray.map(async (birdId) => {
-            const response = await fetch(
-                `${process.env.REACT_APP_SONGBIRDZ_BACKEND_URL}/birds/metadata/${birdId}`,
-            );
-            const metadata = await response.json();
-            return metadata;
-        }),
-    );
+	// Await all metadata calls in parallel
+	const cardData = await Promise.all(
+		cardArray.map(async (birdId) => {
+			const response = await fetch(
+				`${process.env.REACT_APP_SONGBIRDZ_BACKEND_URL}/birds/metadata/${birdId}`,
+			);
+			const metadata = await response.json();
+			return metadata;
+		}),
+	);
 
-    // Map to card objects
-    const gameCardsOriginal = cardData.map((bird) => ({
-        id: parseInt(bird.name.split("#")[1], 10),
-        name: bird.name,
-        image: bird.image,
-        audio: bird.animation_url,
-        species: bird.species,
-        cached: false,
-    }));
+	// Map to card objects
+	const gameCardsOriginal = cardData.map((bird) => ({
+		id: parseInt(bird.name.split("#")[1], 10),
+		name: bird.name,
+		image: bird.image,
+		audio: bird.animation_url,
+		species: bird.species,
+		cached: false,
+	}));
 
-    // Make a copy of the card objects
-    const gameCardsCopy = [...gameCardsOriginal.map((bird) => ({ ...bird }))];
+	// Make a copy of the card objects
+	const gameCardsCopy = [...gameCardsOriginal.map((bird) => ({ ...bird }))];
 
-    let result = [];
+	let result = [];
 
-    if (difficulty === "easy") {
+	if (difficulty === "easy") {
 
-        result = [...gameCardsOriginal, ...gameCardsCopy];
+		result = [...gameCardsOriginal, ...gameCardsCopy];
 
-    } else if (difficulty === "medium") {
+	} else if (difficulty === "medium") {
 
-        result = [
-            ...gameCardsOriginal,
-            ...gameCardsCopy.map((bird) => ({
-                ...bird,
-                audioPlayer: new Audio(bird.audio),
-            })),
-        ];
+		result = [
+			...gameCardsOriginal,
+			...gameCardsCopy.map((bird) => ({
+				...bird,
+				audioPlayer: new Audio(bird.audio),
+			})),
+		];
 
-    } else if (difficulty === "hard") {
+	} else if (difficulty === "hard") {
 
-        result = [
-            ...gameCardsOriginal.map((bird) => ({
-                ...bird,
-                audioPlayer: new Audio(bird.audio),
-            })),
-            ...gameCardsCopy.map((bird) => ({
-                ...bird,
-                audioPlayer: new Audio(bird.audio),
-            })),
-        ];
+		result = [
+			...gameCardsOriginal.map((bird) => ({
+				...bird,
+				audioPlayer: new Audio(bird.audio),
+			})),
+			...gameCardsCopy.map((bird) => ({
+				...bird,
+				audioPlayer: new Audio(bird.audio),
+			})),
+		];
 
-    }
+	}
 
-    // Randomize order
-    result.sort(() => 0.5 - Math.random());
-    result.sort(() => 0.5 - Math.random());
-    result.sort(() => 0.5 - Math.random());
-    result.sort(() => 0.5 - Math.random());
+	// Randomize order
+	result.sort(() => 0.5 - Math.random());
+	result.sort(() => 0.5 - Math.random());
+	result.sort(() => 0.5 - Math.random());
+	result.sort(() => 0.5 - Math.random());
 
-    return result;
+	return result;
 
 }
 
 function debounce(fn, delay) {
-  let timerId;
-  return (...args) => {
-    clearTimeout(timerId);
-    timerId = setTimeout(() => fn(...args), delay);
-  }
+	let timerId;
+	return (...args) => {
+		clearTimeout(timerId);
+		timerId = setTimeout(() => fn(...args), delay);
+	}
 }
