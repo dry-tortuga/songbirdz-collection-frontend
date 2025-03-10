@@ -15,6 +15,7 @@ const Footer = () => (
                         {"Built with "}
                         &#9829;
                         {" by "}
+                        {/* DEFAULT TO FARCASTER ACCOUNT IF IN A FARCASTESR FRAME */}
                         <a
                             href="https://twitter.com/dry_tortuga"
                             target="_blank"
@@ -37,16 +38,9 @@ const Footer = () => (
 							className="btn btn-clear text-white me-md-2">
 							<i className="fa fa-brands fa-telegram"></i>
              			</a>
-               	        <a
-							href="https://discord.gg/UKGgRsJXzr"
-							target="_blank"
-							rel="noopener noreferrer nofollow"
-							className="btn btn-clear text-white  me-md-2">
-							<i className="fa fa-brands fa-discord"></i>
-						</a>
                         <a
                             className="btn btn-clear  me-md-2"
-							href="https://warpcast.com/dry-tortuga"
+							href="https://warpcast.com/~/channel/songbirdz"
                             rel="noopener noreferrer nofollow"
 							target="_blank">
 								<img

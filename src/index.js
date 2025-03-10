@@ -26,6 +26,9 @@ const root = createRoot(container);
 // TODO: Update index.html to launch into correct url based on the cast
 // TODO: Add webhook handler + receive notifications when users install/uninstall the frame
 
+
+// What I’m doing is checking the sdk.context exists & if not go full on webapp.
+
 const FarcasterFrameProvider = ({ children }) => {
 
     useEffect(() => {

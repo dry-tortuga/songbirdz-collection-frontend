@@ -247,6 +247,35 @@ async function updateDailyStreak(address) {
 
 }
 
+async function getMemoryMatchGamesPlayedToday(address) {
+
+	try {
+
+		// Fetch the number of games played today for the current user from
+		// the memory match game API in the back-end server
+
+		const response = await fetch(
+			`${process.env.REACT_APP_SONGBIRDZ_BACKEND_URL}/birds/memory-match/games-played?address=${address}`,
+		);
+
+		if (response.status !== 200) {
+			console.error("Error fetching the memory match games played...");
+			return { count: 3 };
+		}
+
+		const responseData = await response.json();
+
+		return responseData.count;
+
+	} catch (error) {
+
+		console.error(error);
+		return null;
+
+	}
+
+}
+
 async function storeMemoryMatchGameResult(address, mode, result) {
 
 	try {
@@ -298,5 +327,6 @@ export {
 	fetchDailyStreak,
 	updateDailyStreak,
 	populateMetadata,
+	getMemoryMatchGamesPlayedToday,
 	storeMemoryMatchGameResult,
 };

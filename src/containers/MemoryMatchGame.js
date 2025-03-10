@@ -1,12 +1,15 @@
 import React, { useCallback, useEffect, useState } from "react";
-import { Badge, Button, Form, Table } from "react-bootstrap";
+import { Alert, Badge, Button, Form, Table } from "react-bootstrap";
 import { Link } from "react-router-dom";
+
+import AccountOwner from "../components/AccountOwner";
 
 import { NUM_BIRDS_TOTAL } from "../constants";
 
 import { useIdentificationContext } from "../contexts/identification";
 import { useWalletContext } from "../contexts/wallet";
 
+import useMemoryMatchGamesPlayed from "../hooks/useMemoryMatchGamesPlayed";
 import useMemoryMatchGameLeaderboard from "../hooks/useMemoryMatchGameLeaderboard";
 
 import { storeMemoryMatchGameResult } from "../utils/data";
@@ -75,6 +78,9 @@ const MemoryMatchGame = () => {
 	});
 
 	const [hasLoggedResult, setHasLoggedResult] = useState(false);
+	const [showConnectWallet, setShowConnectWallet] = useState(false);
+
+	const { gamesPlayedToday, setGamesPlayedToday } = useMemoryMatchGamesPlayed({ account });
 
 	const {
 		showLeaderboard,
@@ -168,10 +174,9 @@ const MemoryMatchGame = () => {
 		[handleClick]
 	);
 
-	const handleResetGame = async (difficulty, autoStart = false) => {
+	const handleResetGame = async (difficulty, autoStart) => {
 
 		setBirds([]);
-		setHasStarted(false);
 		setMovesUsed(0);
 		setTimeUsed(0);
 		setTimeUsedSlow(0);
@@ -179,6 +184,7 @@ const MemoryMatchGame = () => {
 		setMatched([]);
 		setActiveAudio({ index: -1, audioPlayer: null })
 		setHasLoggedResult(false);
+		setShowConnectWallet(false);
 
 		const newCards = await loadGameCards(8, difficulty);
 
@@ -216,17 +222,24 @@ const MemoryMatchGame = () => {
 	// Store result of the game once it is finished and prompt for wallet connect if needed
 	useEffect(() => {
 
-		if (isFinished && !hasLoggedResult && account) {
+		if (isFinished && !hasLoggedResult) {
 
-			// TODO: Add prompt for wallet connection if needed...
+			if (!account) {
 
-			setHasLoggedResult(true);
+				setShowConnectWallet(true);
 
-			storeMemoryMatchGameResult(account, difficultyMode, {
-				score: finalScore,
-				duration: timeUsed,
-				moves: movesUsed,
-			});
+			} else if (gamesPlayedToday < 3) {
+
+				setHasLoggedResult(true);
+				setGamesPlayedToday((prev) => prev + 1);
+
+				storeMemoryMatchGameResult(account, difficultyMode, {
+					score: finalScore,
+					duration: timeUsed,
+					moves: movesUsed,
+				});
+
+			}
 
 		}
 
@@ -242,6 +255,11 @@ const MemoryMatchGame = () => {
 
 	// Increase the time used by the user every 25 milliseconds until the game is finished
 	useEffect(() => {
+
+		console.log('------------ setTimeUsed --------------');
+		console.log(birds.length);
+		console.log(`hasStarted=${hasStarted}`);
+		console.log(`isFinished=${isFinished}`);
 
 		if (birds.length > 0 && hasStarted && !isFinished) {
 
@@ -262,7 +280,7 @@ const MemoryMatchGame = () => {
 
 		}
 
-	}, [birds, hasStarted, isFinished]);
+	}, [birds.length, hasStarted, isFinished]);
 
 	useEffect(() => {
 
@@ -361,6 +379,22 @@ const MemoryMatchGame = () => {
 
 	return (
 		<div id="game" className={`container ${isFinished ? "game-over" : ""}`}>
+			{gamesPlayedToday >= 3 && (
+				<Alert
+					variant="warning"
+					className="my-3">
+					{"Heads Up: You've played 3 games today! You can keep playing as much as you want, but you'll have to come back tomorrow in order to add to the leaderboard!"}
+				</Alert>
+			)}
+			{showConnectWallet && (
+				<Alert
+					variant="info"
+					className="my-3"
+					dismissible
+					onClose={() => setShowConnectWallet(false)}>
+						{"Heads Up: Connect your wallet to add your score to the leaderboard! (FYI: No transaction or signing required.)"}
+				</Alert>
+			)}
 			<div className="row">
 				<div className="col">
 					<h1 className="text-center">
@@ -426,7 +460,7 @@ const MemoryMatchGame = () => {
 						</Form.Select>
 						{showLeaderboard &&
 							<Button
-								variant="outline-secondary"
+								variant="outline-primary"
 								className="ms-auto"
 								onClick={() => setShowLeaderboard(false)}>
 								<i className="fas fa-arrow-left me-2" />
@@ -466,42 +500,69 @@ const MemoryMatchGame = () => {
 											scope="col"
 											style={{cursor: "pointer"}}
 											onClick={() => setSortBy("today")}>
-											{"Today"}
-											{sortBy === "today" &&
-												<i className="fas fa-sort" />
-											}
+											<div className="d-flex align-items-center">
+												<span>{"Today"}</span>
+												{sortBy === "today" &&
+													<i
+														className="fas fa-sort-down ms-1"
+														style={{ marginTop: '-0.25rem' }} />
+												}
+											</div>
 										</th>
 										<th
 											scope="col"
 											style={{cursor: "pointer"}}
 											onClick={() => setSortBy("total")}>
-											{"Total"}
-											{sortBy === "total" &&
-												<i className="fas fa-sort" />
-											}
+											<div className="d-flex align-items-center">
+												<span>{"Total"}</span>
+												{sortBy === "total" &&
+													<i
+														className="fas fa-sort-down ms-1"
+														style={{ marginTop: '-0.25rem' }} />
+												}
+											</div>
 										</th>
 									</tr>
 								</thead>
 								<tbody>
-									{leaderboardData.data.map((entry, index) => (
-										<tr
-											key={index}
-											className={entry.isCurrentUser ? 'table-primary' : ''}>
-											<td>{index + 1}</td>
-											<td>
-												{entry.username || entry.address.slice(0, 6) + '...' + entry.address.slice(-4)}
-												{entry.isCurrentUser &&
-													<Badge
-														bg="info"
-														className="ms-2">
-														{"You"}
-													</Badge>
-												}
-											</td>
-											<td>{entry.today}</td>
-											<td>{entry.total}</td>
-										</tr>
-									))}
+									{leaderboardData.data.map((entry, index) => {
+
+										let spacer;
+
+										if (index === 20) {
+											spacer = (
+												<tr key={index}>
+													<td colSpan="4" className="text-center">
+														<i className="fas fa-ellipsis-h" />
+													</td>
+												</tr>
+											);
+										}
+
+										return (
+											<>
+												{spacer}
+												<tr
+													key={index}
+													className={entry.address === account?.toLowerCase() ? 'table-primary' : ''}>
+													<td>{entry.rank}</td>
+													<td>
+														<AccountOwner account={entry.address} />
+														{entry.address === account?.toLowerCase() &&
+															<Badge
+																bg="info"
+																className="ms-2">
+																{"You"}
+															</Badge>
+														}
+													</td>
+													<td>{entry.today}</td>
+													<td>{entry.total}</td>
+												</tr>
+											</>
+										);
+
+									})}
 									{leaderboardData.data.length === 0 && (
 										<tr>
 											<td colSpan="6" className="text-center">
