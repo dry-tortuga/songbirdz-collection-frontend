@@ -7,9 +7,9 @@ async function fetchBird(id, owner, cached) {
 		name: `Songbird #${id}`,
 		owner,
 		species: null,
-		audio: `${process.env.PUBLIC_URL}/audio/${id}.mp3`,
-		image: `${process.env.PUBLIC_URL}/images/${id}.jpg`,
-		imageLg:  `${process.env.PUBLIC_URL}/images/${id}-lg.jpg`,
+		audio: `${process.env.REACT_APP_SONGBIRDZ_STATIC_URL}/audio/${id}.mp3`,
+		image: `${process.env.REACT_APP_SONGBIRDZ_STATIC_URL}/images/${id}.jpg`,
+		imageLg: `${process.env.REACT_APP_SONGBIRDZ_STATIC_URL}/images/${id}-lg.jpg`,
 		collection: Math.floor(id / COLLECTION_BIRD_SIZE),
 		cached,
 	};
@@ -21,13 +21,13 @@ async function fetchBird(id, owner, cached) {
 
 }
 
-async function fetchLeaderboard(season, address, size) {
+async function fetchPointsLeaderboard(season, address, size) {
 
 	let finalData;
 
 	try {
 
-		let url = `${process.env.REACT_APP_SONGBIRDZ_BACKEND_URL}/birds/leaderboard?season=${season}&limit=${size}`;
+		let url = `${process.env.REACT_APP_SONGBIRDZ_BACKEND_URL}/birds/points/leaderboard?season=${season}&limit=${size}`;
 
 		if (address) {
 			url += `&address=${address.toLowerCase()}`;
@@ -53,7 +53,7 @@ async function fetchLeaderboard(season, address, size) {
 
 }
 
-async function fetchLifeList(address) {
+async function fetchLifeListData(address) {
 
 	let finalData;
 
@@ -61,7 +61,7 @@ async function fetchLifeList(address) {
 
 		// Fetch the points data from the back-end server
 		const response = await fetch(
-			`${process.env.REACT_APP_SONGBIRDZ_BACKEND_URL}/birds/life-list?address=${address}`
+			`${process.env.REACT_APP_SONGBIRDZ_BACKEND_URL}/birds/life-list/data?address=${address}`
 		);
 
 		// Parse the points data
@@ -72,6 +72,38 @@ async function fetchLifeList(address) {
 	} catch (error) {
 
 		console.debug("---- ERROR FETCHING LIFE LIST DATA ----");
+		console.debug(error);
+		console.debug("--------------------------------------");
+
+	}
+
+	return finalData;
+
+}
+
+async function fetchLifeListLeaderboard(address, size) {
+
+	let finalData;
+
+	try {
+
+		let url = `${process.env.REACT_APP_SONGBIRDZ_BACKEND_URL}/birds/life-list/leaderboard?limit=${size}`;
+
+		if (address) {
+			url += `&address=${address.toLowerCase()}`;
+		}
+
+		// Fetch the leaderboard data from the back-end server
+		const response = await fetch(url);
+
+		// Parse the leaderboard data
+		if (response.status === 200) {
+			finalData = await response.json();
+		}
+
+	} catch (error) {
+
+		console.debug("---- ERROR FETCHING LIFE LIST LEADERBOARD DATA ----");
 		console.debug(error);
 		console.debug("--------------------------------------");
 
@@ -247,6 +279,35 @@ async function updateDailyStreak(address) {
 
 }
 
+async function getMemoryMatchGamesPlayedToday(address) {
+
+	try {
+
+		// Fetch the number of games played today for the current user from
+		// the memory match game API in the back-end server
+
+		const response = await fetch(
+			`${process.env.REACT_APP_SONGBIRDZ_BACKEND_URL}/birds/memory-match/games-played?address=${address}`,
+		);
+
+		if (response.status !== 200) {
+			console.error("Error fetching the memory match games played...");
+			return { count: 3 };
+		}
+
+		const responseData = await response.json();
+
+		return responseData.count;
+
+	} catch (error) {
+
+		console.error(error);
+		return null;
+
+	}
+
+}
+
 async function storeMemoryMatchGameResult(address, mode, result) {
 
 	try {
@@ -262,11 +323,11 @@ async function storeMemoryMatchGameResult(address, mode, result) {
 					'Content-Type': 'application/json'
 				},
 				body: JSON.stringify({
-				    address,
+								address,
 					mode,
-                    score: result.score,
-                    duration: result.duration,
-                    moves: result.moves,
+																				score: result.score,
+																				duration: result.duration,
+																				moves: result.moves,
 				}),
 			},
 		);
@@ -291,12 +352,14 @@ async function storeMemoryMatchGameResult(address, mode, result) {
 
 export {
 	fetchBird,
-	fetchLeaderboard,
-	fetchLifeList,
+	fetchPointsLeaderboard,
+	fetchLifeListData,
+	fetchLifeListLeaderboard,
 	fetchUnidentifiedList,
 	fetchDailyStreaksActive,
 	fetchDailyStreak,
 	updateDailyStreak,
 	populateMetadata,
+	getMemoryMatchGamesPlayedToday,
 	storeMemoryMatchGameResult,
 };

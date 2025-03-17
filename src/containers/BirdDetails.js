@@ -24,6 +24,7 @@ import useBird from "../hooks/useBird";
 
 import etherscanLogo from "../images/etherscan-logo-circle.svg";
 import openseaLogo from "../images/opensea-logomark-blue.svg";
+import warpcastLogo from "../images/warpcast-logo.png";
 
 import "./BirdDetails.css";
 
@@ -79,7 +80,9 @@ const BirdDetails = () => {
     const isAdmin = isOwner && account?.toLowerCase() === "0x2d437771f6fbedf3d83633cbd3a31b6c6bdba2b1";
 
     return (
-        <div id="details-page" className="details-page">
+        <div
+			id="details-page"
+			className="details-page">
             <Container className="my-4">
                 {!bird && (
                     <i className="fa-solid fa-spinner fa-spin fa-xl me-2" />
@@ -130,18 +133,26 @@ const BirdDetails = () => {
                                         className="flex align-items-center ms-auto"
                                         key={bird.id}>
                                         <a
-                                            href={`https://twitter.com/intent/tweet?text=${encodeURIComponent(`Check out this ${bird.species} in the @songbirdz_cc collection on @base!\n\n Play the onchain bird watching game at https://songbirdz.cc/collection?hide_already_identified=true\n\n`)}`}
+                                            href={`https://twitter.com/intent/tweet?text=${encodeURIComponent(`Check out this ${bird.species} in the @songbirdz_cc collection on @base!\n\n`)}`}
                                             className="twitter-share-button"
                                             data-show-count="false"
                                             data-size="large"
-                                            data-hashtags="songbirdz,birds,nfts,pfts,onchain"
-                                            data-via="opensea"
-                                            data-url={`https://opensea.io/assets/base/${context.contractAddress}/${bird.id}`}   >
+                                            data-hashtags="birds,birding,nfts,based">
                                             {"Tweet"}
+                                        </a>
+                                        <a
+                                            href={`https://warpcast.com/~/compose?text=${encodeURIComponent(`Check out this ${bird.species} in the Songbirdz collection on @base!\n\nhttps://songbirdz.cc/collection/${bird.id}`)}&channelKey=songbirdz&embeds[]=${encodeURIComponent(bird.imageLg)}&embeds[]=${encodeURIComponent(`https://songbirdz.cc/collection/${bird.id}`)})}`}
+                                            className="farcaster-share-button ms-4"
+                                            target="_blank"
+                                            rel="noopener noreferrer nofollow">
+                                            <img
+                                                src={warpcastLogo}
+                                                alt="Warpcast"
+                                                style={{ width: "30px", height: "30px" }} />
                                         </a>
                                         {isOwner &&
                                             <button
-                                                className="gift-button ms-4"
+                                                className="gift-button ms-3"
                                                 title={`Send ${bird.name} as a gift`}
                                                 onClick={() => setBirdToGift(bird)}>
                                                 <i
@@ -179,22 +190,7 @@ const BirdDetails = () => {
                                         </a>
                                         {isAdmin && (
                                             <>
-                                                <button
-                                                    className="gift-button me-3"
-                                                    onClick={() => {
-                                                        setBirdToGift(bird);
-                                                        setIsSendingGift(true);
-                                                    }}>
-                                                    <i
-                                                        className="fa-solid fa-gift"
-                                                        style={{ fontSize: "18px" }} />
-                                                </button>
-                                                <Button
-                                                    onClick={() =>
-                                                        setShowTransferModal(
-                                                            true,
-                                                        )
-                                                    }>
+                                                <Button onClick={() => setShowTransferModal(true)}>
                                                     {"Send"}
                                                 </Button>
                                                 {showTransferModal && (
@@ -202,11 +198,7 @@ const BirdDetails = () => {
                                                         context={context}
                                                         bird={bird}
                                                         isOpen
-                                                        onToggle={() =>
-                                                            setShowTransferModal(
-                                                                false,
-                                                            )
-                                                        } />
+                                                        onToggle={() => setShowTransferModal(false)} />
                                                 )}
                                             </>
                                         )}

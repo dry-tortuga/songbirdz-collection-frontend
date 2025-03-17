@@ -14,9 +14,6 @@ const LeaderboardTabSeason1 = ({ onUserClick }) => {
                     <LeaderboardTable
                         users={data}
                         onUserClick={onUserClick} />
-                    <div className="text-center">
-                        {data.timestampMessage}
-                    </div>
                 </Col>
             </Row>
             <Row className="mb-3">
@@ -31,7 +28,7 @@ const LeaderboardTabSeason1 = ({ onUserClick }) => {
             <Row>
                 <Col>
                     <p>
-                        {"Ran from the Songbirdz genesis date (i.e. April 4th, 2024) to the last day of Onchain Summer on Base (i.e. August 31st, 2024 at 11PM UTC)."}
+                        {"Ran from the Songbirdz genesis date (i.e. April 4th, 2024) to the last day of Onchain Summer on Base (i.e. August 31st, 2024)."}
                     </p>
                     <p>
                         {"Accounts with the most Birder Points received:"}

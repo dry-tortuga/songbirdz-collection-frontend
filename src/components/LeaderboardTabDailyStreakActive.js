@@ -7,9 +7,7 @@ import useDailyStreaksActive from "../hooks/useDailyStreaksActive";
 
 import AccountOwner from "./AccountOwner";
 
-import "./DailyStreakActiveResults.css";
-
-const DailyStreakActiveResults = () => {
+const LeaderboardTabDailyStreakActive = ({ onUserClick }) => {
 
 	const { account } = useWalletContext();
 
@@ -25,7 +23,7 @@ const DailyStreakActiveResults = () => {
 					<thead>
 						<tr>
 							<th scope="col">
-								{"Rank"}
+								{"#"}
 							</th>
 							<th
 								className="ps-5"
@@ -65,7 +63,17 @@ const DailyStreakActiveResults = () => {
 										}
 									</td>
 									<td>
-										<AccountOwner account={user.address} />
+										<a
+											href="#"
+											title="View Life List"
+											onClick={() =>
+												onUserClick({
+													account: user.address,
+													total: 0,
+												})
+											}>
+											<AccountOwner account={user.address} />
+										</a>
 									</td>
 									<td>
 										{user.login_streak}
@@ -92,13 +100,13 @@ const DailyStreakActiveResults = () => {
 						</p>
 						<ul style={{ listStyle: 'disc' }}>
 							<li>
-								{"Once your active streak hits 7 days, you'll earn 50 bonus Birder Points in Season 3."}
+								{"Once your active streak hits 7 days, you'll earn 50 bonus Birder Points in Season 4."}
 							</li>
 							<li>
-								{"Once your active streak hits 14 days, you'll earn 125 bonus Birder Points in Season 3."}
+								{"Once your active streak hits 14 days, you'll earn 125 bonus Birder Points in Season 4."}
 							</li>
 							<li>
-								{"Once your active streak hits 30 days, you'll earn 300 bonus Birder Points in Season 3."}
+								{"Once your active streak hits 30 days, you'll earn 300 bonus Birder Points in Season 4."}
 							</li>
 						</ul>
 						<p>
@@ -112,4 +120,4 @@ const DailyStreakActiveResults = () => {
 
 };
 
-export default DailyStreakActiveResults;
+export default LeaderboardTabDailyStreakActive;

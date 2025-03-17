@@ -14,9 +14,6 @@ const LeaderboardTabSeason2 = ({ onUserClick }) => {
                     <LeaderboardTable
                         users={data}
                         onUserClick={onUserClick} />
-                    <div className="text-center">
-                        {data.timestampMessage}
-                    </div>
                 </Col>
             </Row>
             <Row className="mb-3">
@@ -31,7 +28,7 @@ const LeaderboardTabSeason2 = ({ onUserClick }) => {
             <Row>
                 <Col>
                     <p>
-                        {"Ran from September 1st, 2024 4PM UTC to November 30th, 2024 11PM UTC."}
+                        {"Ran from September 1st, 2024 to November 30th, 2024."}
                     </p>
                     <p>
                         {"Accounts with the most Birder Points received:"}

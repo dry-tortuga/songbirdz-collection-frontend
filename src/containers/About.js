@@ -79,14 +79,6 @@ const About = () => {
                             </li>
                             <li>
                                 <a
-                                    href="https://discord.gg/UKGgRsJXzr"
-                                    target="_blank"
-                                    rel="noopener noreferrer nofollow">
-                                    <b>{"Discord"}</b>
-                                </a>
-                            </li>
-                            <li>
-                                <a
                                     href="https://x.com/BitHomepage/status/1844090067876548734"
                                     target="_blank"
                                     rel="noopener noreferrer nofollow">

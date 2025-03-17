@@ -1,4 +1,4 @@
-import React, { useMemo } from "react";
+import React from "react";
 import { Table } from "react-bootstrap";
 
 import { useWalletContext } from "../contexts/wallet";
@@ -13,41 +13,11 @@ const LeaderboardTable = (props) => {
 
     const { account } = useWalletContext();
 
-    const filteredUsers = useMemo(() => {
-
-        let result = users
-            .filter(
-                (user) =>
-                    user.address.toLowerCase() !==
-                        "0x3fb4920e09493b2bc7e9b7e14ea7585ca8babf21" &&
-                    user.address.toLowerCase() !==
-                        "0x585d3ef48e12cb1be6837109b0853afe78b5ebe3" &&
-                    user.address.toLowerCase() !==
-                        "0x2d437771f6fbedf3d83633cbd3a31b6c6bdba2b1",
-            )
-            .slice(0, 51);
-
-        result.sort((temp1, temp2) => {
-            if (temp1.total > temp2.total) {
-                return -1;
-            }
-
-            if (temp1.total < temp2.total) {
-                return 1;
-            }
-
-            return 0;
-        });
-
-        return result;
-
-    }, [users]);
-
     return (
         <Table className="leaderboard-table fw-normal" hover responsive>
             <thead>
                 <tr>
-                    <th scope="col">{"Rank"}</th>
+                    <th scope="col">{"#"}</th>
                     <th className="ps-5" scope="col">
                         {"Account"}
                     </th>
@@ -55,8 +25,8 @@ const LeaderboardTable = (props) => {
                 </tr>
             </thead>
             <tbody>
-                {filteredUsers.length === 0 && <span>{"Nothing to show here..."}</span>}
-                {filteredUsers.map((user, index) => (
+                {users.length === 0 && <span>{"Nothing to show here..."}</span>}
+                {users.map((user, index) => (
                     <tr
                         key={index}
                         className={

@@ -135,31 +135,28 @@ const BirdIdentificationTransactionStatus = (props) => {
                                 id="bird-identification-tx-status-twitter-share-btn"
                                 className="me-3">
                                 <a
-                                    href={`https://twitter.com/intent/tweet?text=${encodeURIComponent(`I just identified this ${tx.bird.species} in the @songbirdz_cc collection on @base!\n\n Join me and play the onchain bird watching game at https://songbirdz.cc/collection?hide_already_identified=true\n\n`)}`}
+                                    href={`https://twitter.com/intent/tweet?text=${encodeURIComponent(`I just identified this ${tx.bird.species} in the @songbirdz_cc collection on @base!\n\nhttps://songbirdz.cc/collection/${tx.bird.id}\n\nThink you have what it takes to identify a new bird onchain?`)}`}
                                     className="twitter-share-button"
-                                    data-hashtags="songbirdz,birds,nfts,pfps,onchain"
-                                    data-via="magiceden"
-                                    data-url={`https://magiceden.io/item-details/base/${contractAddress}/${tx.bird.id}`}>
+                                    data-show-count="false"
+                                    data-hashtags="birds,birding,nfts,based">
                                     <i
                                         className="fa-brands fa-x-twitter"
                                         style={{
                                             fontSize: "20px",
                                             marginTop: "3px",
-                                        }}
-                                    ></i>
+                                        }} />
                                 </a>
                             </span>
                             <span className="me-3">
                                 <a
-                                    href={`https://warpcast.com/~/compose?text=${encodeURIComponent(`I just identified this ${tx.bird.species} in the Songbirdz collection on @base!\n\n Join me and play the onchain bird watching game at https://songbirdz.cc/collection?hide_already_identified=true\n\nhttps://magiceden.io/item-details/base/${contractAddress}/${tx.bird.id}`)}`}
+                                    href={`https://warpcast.com/~/compose?text=${encodeURIComponent(`I just identified this ${tx.bird.species} in the Songbirdz collection on @base!\n\nhttps://songbirdz.cc/collection/${tx.bird.id}\n\nThink you have what it takes to identify a new bird onchain?`)}&channelKey=songbirdz&embeds[]=${encodeURIComponent(tx.bird.imageLg)}&embeds[]=${encodeURIComponent(`https://songbirdz.cc/collection/${tx.bird.id}`)})}`}
                                     className="farcaster-share-button"
                                     target="_blank"
                                     rel="noopener noreferrer">
                                     <img
                                         src={warpcastLogo}
                                         alt="Warpcast"
-                                        style={{ width: "20px", height: "20px" }}
-                                    />
+                                        style={{ width: "20px", height: "20px" }} />
                                 </a>
                             </span>
                             <span className="me-3">

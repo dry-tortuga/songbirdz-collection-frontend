@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 
-import { fetchLifeList } from "../utils/data";
+import { fetchLifeListData } from "../utils/data";
 
-const useLifeList = ({ address }) => {
+const useLifeListData = ({ address }) => {
 
 	const [data, setData] = useState(null);
 
@@ -14,17 +14,19 @@ const useLifeList = ({ address }) => {
 			const fetch = async () => {
 
 				// Fetch the life list data from the backend server
-				const results = await fetchLifeList(address);
+				const results = await fetchLifeListData(address);
 
 				const resultsSeason1 = results.season_1;
 				const resultsSeason2 = results.season_2;
                 const resultsSeason3 = results.season_3;
+                const resultsSeason4 = results.season_4;
 
 				// Convert results into map of species ID -> data
 				const speciesByID = {
 					season_1: {},
 					season_2: {},
                     season_3: {},
+                    season_4: {},
 				};
 
 				for (let i = 0, len = resultsSeason1.length; i < len; i++) {
@@ -57,6 +59,16 @@ const useLifeList = ({ address }) => {
 
 				}
 
+				for (let i = 0, len = resultsSeason4.length; i < len; i++) {
+
+					const temp = resultsSeason4[i];
+
+					speciesByID.season_4[temp.species_id] = {
+						...temp,
+					};
+
+				}
+
 				setData(speciesByID);
 
 			};
@@ -71,4 +83,4 @@ const useLifeList = ({ address }) => {
 
 };
 
-export default useLifeList;
+export default useLifeListData;
