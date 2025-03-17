@@ -3,7 +3,7 @@ import { Col, Row } from "react-bootstrap";
 
 import { useWalletContext } from "../contexts/wallet";
 
-import useLeaderboard from "../hooks/useLeaderboard";
+import usePointsLeaderboard from "../hooks/usePointsLeaderboard";
 
 import LeaderboardTable from "./LeaderboardTable";
 
@@ -12,7 +12,7 @@ const LeaderboardTabSeason3 = ({ onUserClick }) => {
     const { account } = useWalletContext();
 
     // Get the list of users in the top 50
-    const { data } = useLeaderboard({ account, season: 4 });
+    const { data } = usePointsLeaderboard({ account, season: 4 });
 
     // Re-load the twitter share button
 	useEffect(() => {
@@ -34,16 +34,16 @@ const LeaderboardTabSeason3 = ({ onUserClick }) => {
                     {!data && (
                         <i className="fa-solid fa-spinner fa-spin fa-xl me-2" />
                     )}
-                    {data?.users && (
+                    {data && (
                         <>
                             <LeaderboardTable
-                                users={data.users}
+                                users={data}
                                 onUserClick={onUserClick} />
                         </>
                     )}
                 </Col>
             </Row>
-            {data?.users && (
+            {data && (
                 <>
                     <Row className="mb-3">
                         <Col>
@@ -63,10 +63,20 @@ const LeaderboardTabSeason3 = ({ onUserClick }) => {
                                 {"Accounts with the most Birder Points at the end of Season 4 will receive:"}
                             </p>
                             <ul style={{ listStyle: "disc" }}>
-                                <li>
-                                    <strong>{"Top 10 -> "}</strong>
-                                    {"TBD"}
-                                </li>
+	                           	<li>
+			                        <strong>{"Top 10 -> "}</strong>
+			                        {"0.25 ETH split amongst the top 10 (% based on Birder Points)"}
+			                    </li>
+                           		<li>
+	                                <strong>{"1st Place -> "}</strong>
+	                                {"4 "}
+	                                <a
+	                                    href="https://www.coingecko.com/en/coins/bmx"
+	                                    target="_blank"
+	                                    rel="noopener noreferrer nofollow">
+	                                    <b>{"BMX"}</b>
+	                                </a>
+	                            </li>
                             </ul>
                             <p>
                                 {"In addition to these, there could always be additional prizes in the future but this competition is mostly just for fun. Not financial advice. DYOR :)"}

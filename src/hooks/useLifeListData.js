@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 
-import { fetchLifeList } from "../utils/data";
+import { fetchLifeListData } from "../utils/data";
 
-const useLifeList = ({ address }) => {
+const useLifeListData = ({ address }) => {
 
 	const [data, setData] = useState(null);
 
@@ -14,7 +14,7 @@ const useLifeList = ({ address }) => {
 			const fetch = async () => {
 
 				// Fetch the life list data from the backend server
-				const results = await fetchLifeList(address);
+				const results = await fetchLifeListData(address);
 
 				const resultsSeason1 = results.season_1;
 				const resultsSeason2 = results.season_2;
@@ -83,4 +83,4 @@ const useLifeList = ({ address }) => {
 
 };
 
-export default useLifeList;
+export default useLifeListData;

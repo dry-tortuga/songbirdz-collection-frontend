@@ -21,13 +21,13 @@ async function fetchBird(id, owner, cached) {
 
 }
 
-async function fetchLeaderboard(season, address, size) {
+async function fetchPointsLeaderboard(season, address, size) {
 
 	let finalData;
 
 	try {
 
-		let url = `${process.env.REACT_APP_SONGBIRDZ_BACKEND_URL}/birds/leaderboard?season=${season}&limit=${size}`;
+		let url = `${process.env.REACT_APP_SONGBIRDZ_BACKEND_URL}/birds/points/leaderboard?season=${season}&limit=${size}`;
 
 		if (address) {
 			url += `&address=${address.toLowerCase()}`;
@@ -53,7 +53,7 @@ async function fetchLeaderboard(season, address, size) {
 
 }
 
-async function fetchLifeList(address) {
+async function fetchLifeListData(address) {
 
 	let finalData;
 
@@ -61,7 +61,7 @@ async function fetchLifeList(address) {
 
 		// Fetch the points data from the back-end server
 		const response = await fetch(
-			`${process.env.REACT_APP_SONGBIRDZ_BACKEND_URL}/birds/life-list?address=${address}`
+			`${process.env.REACT_APP_SONGBIRDZ_BACKEND_URL}/birds/life-list/data?address=${address}`
 		);
 
 		// Parse the points data
@@ -72,6 +72,38 @@ async function fetchLifeList(address) {
 	} catch (error) {
 
 		console.debug("---- ERROR FETCHING LIFE LIST DATA ----");
+		console.debug(error);
+		console.debug("--------------------------------------");
+
+	}
+
+	return finalData;
+
+}
+
+async function fetchLifeListLeaderboard(address, size) {
+
+	let finalData;
+
+	try {
+
+		let url = `${process.env.REACT_APP_SONGBIRDZ_BACKEND_URL}/birds/life-list/leaderboard?limit=${size}`;
+
+		if (address) {
+			url += `&address=${address.toLowerCase()}`;
+		}
+
+		// Fetch the leaderboard data from the back-end server
+		const response = await fetch(url);
+
+		// Parse the leaderboard data
+		if (response.status === 200) {
+			finalData = await response.json();
+		}
+
+	} catch (error) {
+
+		console.debug("---- ERROR FETCHING LIFE LIST LEADERBOARD DATA ----");
 		console.debug(error);
 		console.debug("--------------------------------------");
 
@@ -291,11 +323,11 @@ async function storeMemoryMatchGameResult(address, mode, result) {
 					'Content-Type': 'application/json'
 				},
 				body: JSON.stringify({
-				    address,
+								address,
 					mode,
-                    score: result.score,
-                    duration: result.duration,
-                    moves: result.moves,
+																				score: result.score,
+																				duration: result.duration,
+																				moves: result.moves,
 				}),
 			},
 		);
@@ -320,8 +352,9 @@ async function storeMemoryMatchGameResult(address, mode, result) {
 
 export {
 	fetchBird,
-	fetchLeaderboard,
-	fetchLifeList,
+	fetchPointsLeaderboard,
+	fetchLifeListData,
+	fetchLifeListLeaderboard,
 	fetchUnidentifiedList,
 	fetchDailyStreaksActive,
 	fetchDailyStreak,

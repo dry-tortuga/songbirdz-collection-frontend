@@ -18,7 +18,9 @@ import warpcastLogo from "../images/warpcast-logo.png";
 
 import "./MemoryMatchGame.css";
 
-// TODO: Fetch leaderboard top 20 in each mode + current user's scores
+// TODO: Allow 3 games per day in each difficulty mode
+// TODO: Neynar API for rendering farcaster user pfps and names???
+// TODO: Check if inside the farcaster frame and update/hide share links
 
 /*
 

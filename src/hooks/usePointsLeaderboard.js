@@ -1,10 +1,12 @@
 import { useEffect, useState } from "react";
 
-import { fetchLeaderboard } from "../utils/data";
+import { ADRESSES_TO_IGNORE } from "../constants";
+
+import { fetchPointsLeaderboard } from "../utils/data";
 
 const TOTAL_SIZE = 54;
 
-const useLeaderboard = ({ account, season }) => {
+const usePointsLeaderboard = ({ account, season }) => {
 
     const [data, setData] = useState(null);
 
@@ -19,9 +21,13 @@ const useLeaderboard = ({ account, season }) => {
             const fetch = async () => {
 
                 // Fetch the leaderboard data from the backend server
-                const users = await fetchLeaderboard(season, account, TOTAL_SIZE);
+                let users = await fetchPointsLeaderboard(season, account, TOTAL_SIZE);
 
-                setData({ users });
+                users = users
+                	.filter((user) => !ADRESSES_TO_IGNORE.includes(user.address))
+                 	.slice(0, 51);
+
+                setData(users);
 
             };
 
@@ -35,4 +41,4 @@ const useLeaderboard = ({ account, season }) => {
 
 };
 
-export default useLeaderboard;
+export default usePointsLeaderboard;

@@ -2,7 +2,7 @@ import React, { useMemo, useState } from "react";
 import { Badge, Form, Modal } from "react-bootstrap";
 
 import { COLLECTIONS, FAMILIES } from "../constants";
-import useLifeList from "../hooks/useLifeList";
+import useLifeListData from "../hooks/useLifeListData";
 
 import AccountOwner from "./AccountOwner";
 
@@ -92,7 +92,7 @@ const LifeListModal = (props) => {
 
 	const { address, isOpen, onToggle } = props;
 
-	const { data } = useLifeList({ address: address?.account });
+	const { data } = useLifeListData({ address: address?.account });
 
 	const [filter, setFilter] = useState("0");
 

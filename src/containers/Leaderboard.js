@@ -7,17 +7,19 @@ import {
     Tabs,
 } from "react-bootstrap";
 
-const DailyStreakActiveResults = lazy(() => import("../components/DailyStreakActiveResults"));
 const LeaderboardTabSeason1 = lazy(() => import("../components/LeaderboardTabSeason1"));
 const LeaderboardTabSeason2 = lazy(() => import("../components/LeaderboardTabSeason2"));
 const LeaderboardTabSeason3 = lazy(() => import("../components/LeaderboardTabSeason3"));
 const LeaderboardTabSeason4 = lazy(() => import("../components/LeaderboardTabSeason4"));
+const LeaderboardTabSpeciesRanks = lazy(() => import("../components/LeaderboardTabSpeciesRanks"));
+const LeaderboardTabDailyStreakActive = lazy(() => import("../components/LeaderboardTabDailyStreakActive"));
 const LifeListModal = lazy(() => import("../components/LifeListModal"));
 
 const TAB_SEASON_1 = "season-1";
 const TAB_SEASON_2 = "season-2";
 const TAB_SEASON_3 = "season-3";
 const TAB_SEASON_4 = "season-4";
+const TAB_LIFE_LIST_SPECIES_RANKS = "life-list-species-ranks";
 const TAB_DAILY_STREAK_ACTIVE = "daily-streak-active";
 
 const Leaderboard = () => {
@@ -54,11 +56,20 @@ const Leaderboard = () => {
                         }
                     </Tab>
                     <Tab
+                    	eventKey={TAB_LIFE_LIST_SPECIES_RANKS}
+                     	title="Species (Active)">
+                      	{activeTab === TAB_LIFE_LIST_SPECIES_RANKS &&
+                       		<Suspense fallback={<div />}>
+                         		<LeaderboardTabSpeciesRanks onUserClick={setLifeListModalAddress} />
+                         	</Suspense>
+                       	}
+                    </Tab>
+                    <Tab
                     	eventKey={TAB_DAILY_STREAK_ACTIVE}
                      	title="Daily Streak (Active)">
                         {activeTab === TAB_DAILY_STREAK_ACTIVE &&
                             <Suspense fallback={<div />}>
-                                <DailyStreakActiveResults />
+                                <LeaderboardTabDailyStreakActive onUserClick={setLifeListModalAddress} />
                             </Suspense>
                         }
                     </Tab>
