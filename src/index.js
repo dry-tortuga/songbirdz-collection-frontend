@@ -27,26 +27,26 @@ const root = createRoot(container);
 // TODO: Add webhook handler + receive notifications when users install/uninstall the frame
 
 
-// What I’m doing is checking the sdk.context exists & if not go full on webapp.
+// What I'm doing is checking the sdk.context exists & if not go full on webapp.
 
 const FarcasterFrameProvider = ({ children }) => {
 
-    useEffect(() => {
+	useEffect(() => {
 
-    	// TODO: Provide the context values down to the children components?
+		// TODO: Provide the context values down to the children components?
 
-        const load = async () => {
+		const load = async () => {
 			FrameSDK.actions.ready().then(() => {
 				console.log(FrameSDK.context());
 				FrameSDK.context().then((result) => console.log(result || 'EMPTY CONTEXT FARCASTER'));
-         	});
-        }
+			});
+		}
 
-        load();
+		load();
 
-    }, []);
+	}, []);
 
-    return children;
+	return children;
 
 };
 
@@ -63,26 +63,27 @@ console.debug(chain);
 
 root.render(
 	<React.StrictMode>
-		 <WagmiProvider config={config}>
-		 	<QueryClientProvider client={queryClient}>
-		 		<OnchainKitProvider
-                    apiKey={ONCHAIN_KIT_API_KEY}
-                    projectId={CB_DEV_PLATFORM_PROJECT_ID}
-                    chain={chain}
-                    config={{
-                        appearance: {
-                            name: 'Songbirdz',
-                           	logo: "https://songbirdz.cc/android-chrome-192x192.png",
-                        },
-                        paymaster: process.env.REACT_APP_COINBASE_PAYMASTER_AND_BUNDLER_ENDPOINT,
-                        wallet: {
-                            display: 'modal',
-                            // termsUrl: 'https://...',
-                            // privacyUrl: 'https://...',
-                        },
-                    }}>
+		<WagmiProvider config={config}>
+			<QueryClientProvider client={queryClient}>
+				<OnchainKitProvider
+					apiKey={ONCHAIN_KIT_API_KEY}
+					projectId={CB_DEV_PLATFORM_PROJECT_ID}
+					chain={chain}
+					config={{
+						analytics: false,
+						appearance: {
+							name: 'Songbirdz',
+							logo: "https://songbirdz.cc/android-chrome-192x192.png",
+						},
+						paymaster: process.env.REACT_APP_COINBASE_PAYMASTER_AND_BUNDLER_ENDPOINT,
+						wallet: {
+							display: 'modal',
+							// termsUrl: 'https://...',
+							// privacyUrl: 'https://...',
+						},
+					}}>
 					<FarcasterFrameProvider>
-				        <App />
+						<App />
 					</FarcasterFrameProvider>
 				</OnchainKitProvider>
 			</QueryClientProvider>
