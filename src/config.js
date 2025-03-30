@@ -5,10 +5,8 @@ import {
     coinbaseWallet,
     metaMask,
     injected,
-    walletConnect,
 } from "wagmi/connectors";
 
-const walletConnectProjectId = process.env.REACT_APP_WALLET_CONNECT_PROJECT_ID;
 const rpcNetworkURL = process.env.REACT_APP_BASE_NETWORK_RPC_URL;
 
 let chains = [];
@@ -31,15 +29,10 @@ const config = createConfig({
         farcasterFrame(),
         injected(),
         metaMask(),
-        walletConnect({
-            appName: "Songbirdz",
-            projectId: walletConnectProjectId,
-        }),
         coinbaseWallet({
             appName: "Songbirdz",
             appLogoUrl: "https://songbirdz.cc/android-chrome-192x192.png",
-            reloadOnDisconnect: false,
-            enableMobileWalletLink: true,
+            preference: 'all',
         }),
     ],
     transports,

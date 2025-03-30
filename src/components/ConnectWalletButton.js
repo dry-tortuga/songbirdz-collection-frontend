@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from "react";
-import { getOnrampBuyUrl } from "@coinbase/onchainkit/fund";
-import { 
-	ConnectWallet, 
-	Wallet, 
+// import { getOnrampBuyUrl } from "@coinbase/onchainkit/fund";
+import {
+	ConnectWallet,
+	Wallet,
 	WalletDropdown,
 	WalletDropdownBasename,
-	WalletDropdownDisconnect, 
-	WalletDropdownFundLink,
+	WalletDropdownDisconnect,
+	// WalletDropdownFundLink,
 } from "@coinbase/onchainkit/wallet";
 import {
 	Address,
@@ -24,7 +24,7 @@ import binosOn from "../images/binos-on.svg";
 
 import "./ConnectWalletButton.css";
 
-const CB_DEV_PLATFORM_PROJECT_ID = process.env.REACT_APP_COINBASE_DEV_PLATFORM_PROJECT_ID;
+// const CB_DEV_PLATFORM_PROJECT_ID = process.env.REACT_APP_COINBASE_DEV_PLATFORM_PROJECT_ID;
 
 const ConnectWalletButton = ({ className }) => {
 
@@ -32,11 +32,11 @@ const ConnectWalletButton = ({ className }) => {
 
 	const [countdownText, setCountdownText] = useState(null);
 
-	const onrampBuyUrl = getOnrampBuyUrl({
-		projectId: CB_DEV_PLATFORM_PROJECT_ID,
-		addresses: { "0x1": ["base"] },
-		assets: ["ETH"],
-	});
+	// const onrampBuyUrl = getOnrampBuyUrl({
+	//	projectId: CB_DEV_PLATFORM_PROJECT_ID,
+	//	addresses: { "0x1": ["base"] },
+	//	assets: ["ETH"],
+	// });
 
 	const tracker = currentUser?.dailyStreakTracker;
 
@@ -104,7 +104,7 @@ const ConnectWalletButton = ({ className }) => {
 				</div>
 			}
 			<Wallet>
-				<ConnectWallet withWalletAggregator>
+				<ConnectWallet>
 					<Avatar />
 					<Name />
 				</ConnectWallet>
@@ -115,7 +115,7 @@ const ConnectWalletButton = ({ className }) => {
 						<Address className={color.foregroundMuted} />
 						<EthBalance />
 					</Identity>
-					<WalletDropdownFundLink fundingUrl={onrampBuyUrl} />
+					{/* <WalletDropdownFundLink fundingUrl={onrampBuyUrl} /> */}
 					<WalletDropdownBasename />
 					<WalletDropdownDisconnect />
 				</WalletDropdown>
