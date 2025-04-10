@@ -57,7 +57,7 @@ const LeaderboardTabSeason3 = ({ onUserClick }) => {
                     <Row>
                         <Col>
 							<p>
-								{"Runs from March 1st, 2025 to May 31st, 2025 (11PM UTC). Points will attempt to auto-update in real-time, but will also be manually confirmed on a bi-weekly basis. Last confirmed on March 3rd, 2025 (10PM UTC)."}
+								{"Runs from March 1st, 2025 to May 31st, 2025 (11PM UTC). Points will attempt to auto-update in real-time, but will also be manually confirmed on a bi-weekly basis. Last confirmed on April 10th, 2025 (7PM UTC)."}
 							</p>
                             <p>
                                 {"Accounts with the most Birder Points at the end of Season 4 will receive:"}
@@ -67,6 +67,17 @@ const LeaderboardTabSeason3 = ({ onUserClick }) => {
 			                        <strong>{"Top 10 -> "}</strong>
 			                        {"0.25 ETH split amongst the top 10 (% based on Birder Points)"}
 			                    </li>
+								<li>
+		                            <strong>{"Top 10 -> "}</strong>
+		                            {"1 "}
+		                            <a
+		                                href="https://x.com/base_colors"
+		                                target="_blank"
+		                                rel="noopener noreferrer nofollow">
+		                                <b>{"Base Colors"}</b>
+		                            </a>
+		                            {" NFT each"}
+		                        </li>
                            		<li>
 	                                <strong>{"1st Place -> "}</strong>
 	                                {"4 "}
@@ -75,6 +86,16 @@ const LeaderboardTabSeason3 = ({ onUserClick }) => {
 	                                    target="_blank"
 	                                    rel="noopener noreferrer nofollow">
 	                                    <b>{"BMX"}</b>
+	                                </a>
+	                            </li>
+								<li>
+	                                <strong>{"1st Place -> "}</strong>
+	                                {"100,000 "}
+	                                <a
+	                                    href="https://dexscreener.com/base/0xf02c421e15abdf2008bb6577336b0f3d7aec98f0"
+	                                    target="_blank"
+	                                    rel="noopener noreferrer nofollow">
+	                                    <b>{"QR"}</b>
 	                                </a>
 	                            </li>
                             </ul>
