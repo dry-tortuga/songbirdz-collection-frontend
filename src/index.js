@@ -1,13 +1,13 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { createRoot } from "react-dom/client";
 import { OnchainKitProvider } from "@coinbase/onchainkit";
-import FrameSDK from "@farcaster/frame-sdk";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { base, baseSepolia, hardhat } from "viem/chains";
 import { WagmiProvider } from "wagmi";
 
 import App from "./App";
 import config from "./config";
+import { FarcasterProvider } from "./contexts/farcaster";
 
 import "@coinbase/onchainkit/styles.css";
 import "bootswatch/dist/sketchy/bootstrap.min.css";
@@ -21,34 +21,6 @@ const queryClient = new QueryClient();
 const container = document.getElementById("root");
 
 const root = createRoot(container);
-
-// TODO: Use await sdk.actions.addFrame() after the user has played a game or identified a bird
-// TODO: Update index.html to launch into correct url based on the cast
-// TODO: Add webhook handler + receive notifications when users install/uninstall the frame
-
-
-// What I'm doing is checking the sdk.context exists & if not go full on webapp.
-
-const FarcasterFrameProvider = ({ children }) => {
-
-	useEffect(() => {
-
-		// TODO: Provide the context values down to the children components?
-
-		const load = async () => {
-			FrameSDK.actions.ready().then(() => {
-				console.log(FrameSDK.context());
-				FrameSDK.context().then((result) => console.log(result || 'EMPTY CONTEXT FARCASTER'));
-			});
-		}
-
-		load();
-
-	}, []);
-
-	return children;
-
-};
 
 let chain = base;
 
@@ -82,9 +54,9 @@ root.render(
 							// privacyUrl: 'https://...',
 						},
 					}}>
-					<FarcasterFrameProvider>
+					<FarcasterProvider>
 						<App />
-					</FarcasterFrameProvider>
+					</FarcasterProvider>
 				</OnchainKitProvider>
 			</QueryClientProvider>
 		</WagmiProvider>
