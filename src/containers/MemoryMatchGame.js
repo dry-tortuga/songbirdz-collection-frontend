@@ -6,6 +6,7 @@ import AccountOwner from "../components/AccountOwner";
 
 import { NUM_BIRDS_TOTAL } from "../constants";
 
+import { useFarcasterContext } from "../contexts/farcaster";
 import { useIdentificationContext } from "../contexts/identification";
 import { useWalletContext } from "../contexts/wallet";
 
@@ -51,6 +52,8 @@ SOFTWARE.
 const MemoryMatchGame = () => {
 
 	const context = useWalletContext();
+
+	const { fComposeCast } = useFarcasterContext();
 
 	const { account, currentUser } = context;
 
@@ -591,10 +594,14 @@ const MemoryMatchGame = () => {
 										{"Start Game"}
 									</Button>
 									<a
-										href={`https://warpcast.com/~/compose?text=${encodeURIComponent('Join me for a game of memory match from /songbirdz on @base!\n\nThink you can beat me?\n\nPlay at https://songbirdz.cc/memory-match')}`}
+										href={`https://warpcast.com/~/compose?text=${encodeURIComponent('Join me for a game of memory match from /songbirdz on @base!\n\nThink you can beat me?')}&embeds[]=${encodeURIComponent('https://songbirdz.cc/memory-match')}`}
 										className="btn btn-dark w-100 d-flex align-items-center justify-content-center"
 										target="_blank"
-										rel="noopener noreferrer">
+										rel="noopener noreferrer"
+										onClick={(event) => fComposeCast(event, {
+											text: `Join me for a game of memory match from /songbirdz on @base!\n\nThink you can beat me?`,
+											embeds: ['https://songbirdz.cc/memory-match'],
+										})}>
 										<img
 											className="warpcast-logo me-2"
 											src={warpcastLogo}
@@ -630,10 +637,14 @@ const MemoryMatchGame = () => {
 								{"New Game"}
 							</Button>
 							<a
-								href={`https://warpcast.com/~/compose?text=${encodeURIComponent(`I just scored ${finalScore}/1000 in the memory match game (${difficultyMode} mode) from /songbirdz on @base!\n\n Think you can you beat my score?\n\nPlay at https://songbirdz.cc/memory-match`)}`}
+								href={`https://warpcast.com/~/compose?text=${encodeURIComponent(`I just scored ${finalScore}/1000 in the memory match game (${difficultyMode} mode) from /songbirdz on @base!\n\nThink you can you beat me?`)}&embeds[]=${encodeURIComponent('https://songbirdz.cc/memory-match')}`}
 								className="btn btn-dark w-100 d-flex align-items-center justify-content-center"
 								target="_blank"
-								rel="noopener noreferrer">
+								rel="noopener noreferrer"
+								onClick={(event) => fComposeCast(event, {
+									text: `I just scored ${finalScore}/1000 in the memory match game (${difficultyMode} mode) from /songbirdz on @base!\n\nThink you can you beat me?`,
+									embeds: ['https://songbirdz.cc/memory-match'],
+								})}>
 								<img
 									className="warpcast-logo me-2"
 									src={warpcastLogo}
@@ -642,7 +653,7 @@ const MemoryMatchGame = () => {
 								{"Share on Warpcast"}
 							</a>
 							<a
-								href={`https://twitter.com/intent/tweet?text=${encodeURIComponent(`I just scored ${finalScore}/1000 in the memory match game (${difficultyMode} mode) from @songbirdz_cc on @base!\n\nThink you can beat my score?\n\nPlay at https://songbirdz.cc/memory-match`)}`}
+								href={`https://twitter.com/intent/tweet?text=${encodeURIComponent(`I just scored ${finalScore}/1000 in the memory match game (${difficultyMode} mode) from @songbirdz_cc on @base!\n\nThink you can beat me?\n\nPlay at https://songbirdz.cc/memory-match`)}`}
 								className="btn btn-dark w-100"
 								target="_blank"
 								rel="noopener noreferrer">

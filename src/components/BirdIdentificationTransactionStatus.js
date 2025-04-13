@@ -3,7 +3,9 @@ import { Toast } from "react-bootstrap";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
 
+import { useFarcasterContext } from "../contexts/farcaster";
 import { useWalletContext } from "../contexts/wallet";
+
 import warpcastLogo from "../images/warpcast-logo.png";
 
 import "./BirdIdentificationTransactionStatus.css";
@@ -19,6 +21,8 @@ const BirdIdentificationTransactionStatus = (props) => {
     } = props;
 
     const { contractAddress } = useWalletContext();
+
+    const { fComposeCast } = useFarcasterContext();
 
     const [isOpen, setIsOpen] = useState(true);
 
@@ -149,10 +153,17 @@ const BirdIdentificationTransactionStatus = (props) => {
                             </span>
                             <span className="me-3">
                                 <a
-                                    href={`https://warpcast.com/~/compose?text=${encodeURIComponent(`I just identified this ${tx.bird.species} in the Songbirdz collection on @base!\n\nhttps://songbirdz.cc/collection/${tx.bird.id}\n\nThink you have what it takes to identify a new bird onchain?`)}&channelKey=songbirdz&embeds[]=${encodeURIComponent(tx.bird.imageLg)}&embeds[]=${encodeURIComponent(`https://songbirdz.cc/collection/${tx.bird.id}`)})}`}
+                                    href={`https://warpcast.com/~/compose?text=${encodeURIComponent(`I just identified this ${tx.bird.species} in the /songbirdz collection on @base!\n\nhttps://songbirdz.cc/collection/${tx.bird.id}\n\nThink you have what it takes to identify a new bird onchain?`)}&embeds[]=${encodeURIComponent(tx.bird.imageLg)}&embeds[]=${encodeURIComponent(`https://songbirdz.cc/collection/${tx.bird.id}`)}`}
                                     className="farcaster-share-button"
                                     target="_blank"
-                                    rel="noopener noreferrer">
+                                    rel="noopener noreferrer"
+                                    onClick={(event) => fComposeCast(event, {
+                                        text: `I just identified this ${tx.bird.species} in the /songbirdz collection on @base!\n\nhttps://songbirdz.cc/collection/${tx.bird.id}\n\nThink you have what it takes to identify a bird onchain?`,
+                                        embeds: [
+                                        	tx.bird.imageLg,
+                                        	`https://songbirdz.cc/collection/${tx.bird.id}`,
+                                        ]
+                                    })}>
                                     <img
                                         src={warpcastLogo}
                                         alt="Warpcast"

@@ -2,7 +2,12 @@ import React from "react";
 import { Col, Container, Row } from "react-bootstrap";
 import { Link } from "react-router-dom";
 
+import { useFarcasterContext } from "../contexts/farcaster";
+
 const About = () => {
+
+	const { fOpenLinkToOwner } = useFarcasterContext();
+
     return (
         <div className="about-page">
             <Container className="mt-4">
@@ -283,12 +288,13 @@ const About = () => {
                                         <b>{"X"}</b>
                                     </a>
                                     <span>|</span>
-                                    <a
-                                        href="https://warpcast.com/dry-tortuga"
-                                        target="_blank"
-                                        rel="noopener noreferrer nofollow">
-                                        <b>{"Farcaster"}</b>
-                                    </a>
+									<a
+										href="https://warpcast.com/dry-tortuga"
+										target="_blank"
+										rel="noopener noreferrer nofollow"
+										onClick={fOpenLinkToOwner}>
+										<b>{"Farcaster"}</b>
+									</a>
                                 </div>
                             </div>
                             <div

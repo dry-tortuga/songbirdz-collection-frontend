@@ -1,15 +1,18 @@
 import React, { useEffect } from "react";
 import { Col, Row } from "react-bootstrap";
 
+import { useFarcasterContext } from "../contexts/farcaster";
 import { useWalletContext } from "../contexts/wallet";
 
 import usePointsLeaderboard from "../hooks/usePointsLeaderboard";
 
 import LeaderboardTable from "./LeaderboardTable";
 
-const LeaderboardTabSeason3 = ({ onUserClick }) => {
+const LeaderboardTabSeason4 = ({ onUserClick }) => {
 
     const { account } = useWalletContext();
+
+    const { fComposeCast, fOpenLinkToOwner } = useFarcasterContext();
 
     // Get the list of users in the top 50
     const { data } = usePointsLeaderboard({ account, season: 4 });
@@ -242,7 +245,8 @@ const LeaderboardTabSeason3 = ({ onUserClick }) => {
                                             <a
                                                 href="https://warpcast.com/dry-tortuga"
                                                 target="_blank"
-                                                rel="noopener noreferrer nofollow">
+                                                rel="noopener noreferrer nofollow"
+                                               	onClick={fOpenLinkToOwner}>
                                                 {"@dry-tortuga"}
                                             </a>
                                         </li>
@@ -251,11 +255,15 @@ const LeaderboardTabSeason3 = ({ onUserClick }) => {
                                         </li>
                                         <li>
                                             <a
-                                                href={`https://warpcast.com/~/compose?text=${encodeURIComponent(`Check out the Songbirdz project from @dry-tortuga on @base!\n\nYOUR OWN WORDS HERE\n\nJoin me and play the bird watching game at https://songbirdz.cc/collection?number=6&hide_already_identified=true`)}`}
+                                                href={`https://warpcast.com/~/compose?text=${encodeURIComponent(`Check out the /songbirdz project from @dry-tortuga on @base!\n\nYOUR OWN WORDS HERE\n\n`)}&embeds[]=${encodeURIComponent('https://songbirdz.cc')}`}
                                                 className="farcaster-share-button"
                                                 target="_blank"
-                                                rel="noopener noreferrer nofollow">
-                                                {"Share on Farcaster"}
+                                                rel="noopener noreferrer nofollow"
+												onClick={(event) => fComposeCast(event, {
+													text: `Check out the /songbirdz project from @dry-tortuga on @base!\n\nYOUR OWN WORDS HERE`,
+													embeds: ['https://songbirdz.cc'],
+												})}>
+                                                {"Share on Farcaster :)"}
                                             </a>
                                         </li>
                                     </ul>
@@ -287,4 +295,4 @@ const LeaderboardTabSeason3 = ({ onUserClick }) => {
     );
 };
 
-export default LeaderboardTabSeason3;
+export default LeaderboardTabSeason4;
