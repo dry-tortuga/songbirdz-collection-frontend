@@ -323,11 +323,11 @@ async function storeMemoryMatchGameResult(address, mode, result) {
 					'Content-Type': 'application/json'
 				},
 				body: JSON.stringify({
-								address,
+					address,
 					mode,
-																				score: result.score,
-																				duration: result.duration,
-																				moves: result.moves,
+					score: result.score,
+					duration: result.duration,
+					moves: result.moves,
 				}),
 			},
 		);

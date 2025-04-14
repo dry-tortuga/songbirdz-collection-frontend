@@ -143,6 +143,17 @@ const About = () => {
                                     {"NOW MINTING:  The 7th flock of 1,000 birds in the Songbirdz collection (6000-6999). Features 50 different species, with various amounts of birds per species of either 1, 5, 10, 20, 30, 50 etc. Includes 4 \"1 of 1\" birds that are the only one of their species! This flock is in tribute to your partner in crime, bff, ride or die, main squeeze, better-half, whatever you want to call it... life is just better surrounded by the people you love."}
                                 </span>
                             </li>
+                            <li>
+                                <a
+                                    href="https://songbirdz.cc/collection?number=7&hide_already_identified=true"
+                                    target="_blank"
+                                    rel="noopener noreferrer nofollow">
+                                    <b>{"Eggstravaganza:"}</b>
+                                </a>
+                                <span className="ms-1">
+                                    {"NOW MINTING:  The 8th flock of 1,000 birds in the Songbirdz collection (7000-7999). Features 50 different species, with various amounts of birds per species of either 1, 5, 10, 20, 30, 50 etc. Includes 4 \"1 of 1\" birds that are the only one of their species! This flock celebrates birds that symbolize rebirth, new beginnings, and the beauty of eggs. From those with striking egg-like plumage to famous nest-builders, it highlights the wonders of avian reproduction and the spirit of springtime."}
+                                </span>
+                            </li>
                         </ul>
                         <h2>{"Royalties: 1%"}</h2>
                         <ul style={{ listStyle: "disc" }}>

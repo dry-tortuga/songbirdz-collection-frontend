@@ -784,7 +784,7 @@ async function loadGameCards(numBirds, difficulty) {
 
 	while (cardArray.length < numBirds) {
 		let num = Math.floor(Math.random() * (NUM_BIRDS_TOTAL - 1));
-		if (!cardArray.includes(num) && num >= 6000) {
+		if (!cardArray.includes(num)) {
 			cardArray.push(num);
 		}
 	}

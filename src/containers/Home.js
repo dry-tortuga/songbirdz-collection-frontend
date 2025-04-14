@@ -27,7 +27,7 @@ const HomeContainer = () => {
 								<div className="d-flex flex-column flex-lg-row gap-3 align-items-center justify-content-center">
 									<a
 										className="btn btn-secondary"
-										href="/collection?number=6&hide_already_identified=true">
+										href="/collection?number=7&hide_already_identified=true">
 										{"Explore Collection"}
 									</a>
 									<a
@@ -62,7 +62,7 @@ const HomeContainer = () => {
 					<div className="d-flex flex-column flex-lg-row align-items-center justify-content-center">
 						<Link
 							className="btn btn-outline-light me-lg-3 mb-4 mb-lg-0 py-3 px-4 rounded-pill"
-							to="/collection?number=6&hide_already_identified=true">
+							to="/collection?number=7&hide_already_identified=true">
 							{"Get Started"}
 						</Link>
 					</div>

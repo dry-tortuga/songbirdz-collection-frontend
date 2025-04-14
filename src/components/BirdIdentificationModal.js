@@ -20,6 +20,7 @@ import {
     ANSWER_CHOICES_FLOCK_4,
     ANSWER_CHOICES_FLOCK_5,
     ANSWER_CHOICES_FLOCK_6,
+    ANSWER_CHOICES_FLOCK_7,
     COLLECTIONS,
 } from "../constants";
 
@@ -97,6 +98,8 @@ const BirdIdentificationModal = (props) => {
             answerChoices = ANSWER_CHOICES_FLOCK_5;
         } else if (bird.id >= 6000 && bird.id <= 6999) {
             answerChoices = ANSWER_CHOICES_FLOCK_6;
+        } else if (bird.id >= 7000 && bird.id <= 7999) {
+            answerChoices = ANSWER_CHOICES_FLOCK_7;
         }
 
         // Get the bird's final index relative to ONLY the current collection

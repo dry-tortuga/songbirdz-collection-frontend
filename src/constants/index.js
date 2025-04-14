@@ -3,12 +3,15 @@ import ANSWER_CHOICES_FLOCK_3 from './answer-choices/night-and-day-3-options';
 import ANSWER_CHOICES_FLOCK_4 from './answer-choices/fire-and-ice-4-options';
 import ANSWER_CHOICES_FLOCK_5 from './answer-choices/predator-and-prey-5-options.json';
 import ANSWER_CHOICES_FLOCK_6 from './answer-choices/love-birds-6-options.json';
+import ANSWER_CHOICES_FLOCK_7 from './answer-choices/eggstravaganza-7-options.json';
 
 import FAMILIES from './families';
 
-const NUM_BIRDS_TOTAL = 7000;
+const NUM_BIRDS_TOTAL = 8000;
 
 const COLLECTION_BIRD_SIZE = 1000;
+
+const FIRST_ID_TO_IDENTIFY = 2402;
 
 const COLLECTIONS = [{
 	name: "Picasso Genesis",
@@ -36,15 +39,20 @@ const COLLECTIONS = [{
 	min_id: 4000,
 	max_id: 4999,
 }, {
-    name: "Predator & Prey",
-    count: 1000,
-    min_id: 5000,
-    max_id: 5999,
+	name: "Predator & Prey",
+	count: 1000,
+	min_id: 5000,
+	max_id: 5999,
 }, {
-    name: "Lovebirds",
-    count: 1000,
-    min_id: 6000,
-    max_id: 6999
+	name: "Lovebirds",
+	count: 1000,
+	min_id: 6000,
+	max_id: 6999
+}, {
+	name: "Eggstravaganza",
+	count: 1000,
+	min_id: 7000,
+	max_id: 7999
 }];
 
 const EVENTS = {
@@ -68,9 +76,11 @@ export {
 	ANSWER_CHOICES_FLOCK_4,
 	ANSWER_CHOICES_FLOCK_5,
 	ANSWER_CHOICES_FLOCK_6,
+	ANSWER_CHOICES_FLOCK_7,
 	FAMILIES,
 	NUM_BIRDS_TOTAL,
 	COLLECTION_BIRD_SIZE,
+	FIRST_ID_TO_IDENTIFY,
 	COLLECTIONS,
 	EVENTS,
 	ALREADY_IDENTIFIED_BIRDS,

@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 
-import { COLLECTIONS, NUM_BIRDS_TOTAL } from "../constants";
+import { COLLECTIONS, FIRST_ID_TO_IDENTIFY, NUM_BIRDS_TOTAL } from "../constants";
 
 import { useWalletContext } from "../contexts/wallet";
 
@@ -116,7 +116,7 @@ function initBirdsState(collectionId, showOnlyUnidentifiedBirds, alreadyIdentifi
 		// Check if filtering results to hide already identified birds
 		if (showOnlyUnidentifiedBirds) {
 
-			if (i >= 2335 &&
+			if (i >= FIRST_ID_TO_IDENTIFY &&
 				i < NUM_BIRDS_TOTAL &&
 				!alreadyIdentifiedList[i] &&
 				!identifiedCurrentSession[i]) {
@@ -127,7 +127,7 @@ function initBirdsState(collectionId, showOnlyUnidentifiedBirds, alreadyIdentifi
 		} else {
 
             const cached =
-                i < 2335 ||
+                i < FIRST_ID_TO_IDENTIFY ||
                 alreadyIdentifiedList[i] ||
                 identifiedCurrentSession[i];
 
