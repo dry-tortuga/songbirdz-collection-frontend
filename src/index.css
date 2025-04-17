@@ -89,6 +89,10 @@ code {
     position: fixed;
 }
 
+div[data-testid="ockModalOverlay"] > button {
+	background-color: var(--ock-bg-default);
+}
+
 @media (max-width: 575px) {
 
     .home-page,
