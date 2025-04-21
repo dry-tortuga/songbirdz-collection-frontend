@@ -36,16 +36,13 @@ const WalletProvider = ({ children }) => {
 
 	const [currentUser, setCurrentUser] = useCurrentUser({ account });
 
-	useEffect(() => {
+	// Switch to the preferred chain based on the environment
+	const connectToBase = useCallback(() => {
 
-		// Auto-switch to the preferred chain based on the environment
+		console.debug(`Switching to chain=${EXPECTED_CHAIN_ID}...`);
+	    switchChain({ chainId: EXPECTED_CHAIN_ID });
 
-		if (isConnected && chainId !== EXPECTED_CHAIN_ID) {
-			console.debug(`Switching from chain=${chainId} to chain=${EXPECTED_CHAIN_ID}...`);
-		    switchChain({ chainId: EXPECTED_CHAIN_ID });
-	    }
-
-	}, [isConnected, chainId]);
+	}, [switchChain]);
 
 	// Callback function to fetch the owner of a bird
 	const ownerOf = useCallback(async (id) => {
@@ -160,6 +157,7 @@ const WalletProvider = ({ children }) => {
 				contractInterface: new Interface(SongBirdzContract.abi),
 				onchainGiftContractAddress: ONCHAIN_GIFT_CONTRACT_ADDRESS,
 				actions: {
+					connectToBase,
 					ownerOf,
 					publicMint,
 					approve,
