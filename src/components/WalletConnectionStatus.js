@@ -1,4 +1,5 @@
 import React from "react";
+import { Button } from 'react-bootstrap';
 
 import ConnectWalletButton from "./ConnectWalletButton";
 
@@ -6,17 +7,17 @@ import { useWalletContext } from "../contexts/wallet";
 
 const WalletConnectionStatus = () => {
 
-    const context = useWalletContext();
+    const { account, isOnCorrectChain, actions } = useWalletContext();
 
-    if (!context.account) {
+    if (!account) {
         return <ConnectWalletButton />;
     }
 
-    if (!context.isOnCorrectChain) {
+    if (!isOnCorrectChain) {
         return (
-            <span>
-                {"Double check to make sure you're on the Base network..."}
-            </span>
+			<Button onClick={actions.connectToBase}>
+				{'Switch to Base'}
+			</Button>
         );
     }
 
