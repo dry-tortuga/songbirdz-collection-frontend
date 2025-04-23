@@ -3,7 +3,7 @@ import ANSWER_CHOICES_FLOCK_3 from './answer-choices/night-and-day-3-options';
 import ANSWER_CHOICES_FLOCK_4 from './answer-choices/fire-and-ice-4-options';
 import ANSWER_CHOICES_FLOCK_5 from './answer-choices/predator-and-prey-5-options.json';
 import ANSWER_CHOICES_FLOCK_6 from './answer-choices/love-birds-6-options.json';
-import ANSWER_CHOICES_FLOCK_7 from './answer-choices/eggstravaganza-7-options.json';
+import ANSWER_CHOICES_FLOCK_7 from './answer-choices/hatchlings-7-options.json';
 
 import FAMILIES from './families';
 
@@ -49,7 +49,7 @@ const COLLECTIONS = [{
 	min_id: 6000,
 	max_id: 6999
 }, {
-	name: "Eggstravaganza",
+	name: "Hatchlings",
 	count: 1000,
 	min_id: 7000,
 	max_id: 7999
