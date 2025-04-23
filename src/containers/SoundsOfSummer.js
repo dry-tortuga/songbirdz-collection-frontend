@@ -10,6 +10,7 @@ import {
 import { Interface } from "ethers";
 import {
 	Alert,
+	Button,
 	Col,
 	Container,
 	Row,
@@ -121,7 +122,9 @@ const HiddenMint = () => {
 				}
 				{context.account && !context.isOnCorrectChain &&
 					<div className="text-center">
-						{"Double check to make sure you're on the Base network..."}
+						<Button onClick={context.actions.connectToBase}>
+							{'Switch to Base'}
+						</Button>
 					</div>
 				}
 				{context.account && !proof &&
