@@ -192,6 +192,8 @@ const LifeListModal = (props) => {
 			collectionId = 5;
 		} else if (species.id >= 450 && species.id < 500) {
 			collectionId = 6;
+		} else if (species.id >= 500 && species.id < 550) {
+			collectionId = 7;
 		} else if (species.id >= 1000) {
 			collectionId = -1;
 		}
@@ -248,6 +250,8 @@ const LifeListModal = (props) => {
 			collectionId = 5;
 		} else if (filter === "Lovebirds") {
 			collectionId = 6;
+		} else if (filter === "Hatchlings") {
+			collectionId = 7;
 		}
 
 		if (collectionId >= 0) {
@@ -279,6 +283,10 @@ const LifeListModal = (props) => {
 				}
 
 				if (collectionId === 6 && species.id >= 450 && species.id < 500) {
+					return true;
+				}
+
+				if (collectionId === 7 && species.id >= 500 && species.id < 550) {
 					return true;
 				}
 

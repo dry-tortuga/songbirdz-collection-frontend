@@ -1,6 +1,8 @@
 import React from "react";
 import { Badge, Col, Row, Table } from "react-bootstrap";
 
+import { NUM_SPECIES_TOTAL } from "../constants";
+
 import { useWalletContext } from "../contexts/wallet";
 
 import useLifeListLeaderboard from "../hooks/useLifeListLeaderboard";
@@ -94,7 +96,7 @@ const LeaderboardTabSpeciesRanks = ({ onUserClick }) => {
 													}
 												</td>
 												<td>{entry.count}</td>
-												<td>{`${((entry.count / 500) * 100).toFixed(0)}%`}</td>
+												<td>{`${((entry.count / NUM_SPECIES_TOTAL) * 100).toFixed(0)}%`}</td>
 											</tr>
 										</>
 									);
@@ -120,7 +122,7 @@ const LeaderboardTabSpeciesRanks = ({ onUserClick }) => {
 						{"Keep track of your progress towards identifying (i.e. owning) each unique species in the Songbirdz collection!"}
 					</p>
 					<p>
-						{"As of now, there are 500 unique species to identify, with a final total of 650 once all the flocks are released into the wild!"}
+						{`As of now, there are ${NUM_SPECIES_TOTAL} unique species to identify, with a "pending" final total of 800 once all the flocks are released into the wild!`}
 					</p>
 					<p>
 						{"Once you identify (i.e. own) a species, it will be permanently stored in the Life List for your address, so you are free to sell or trade with others. No need to hoard all your birds :)"}
