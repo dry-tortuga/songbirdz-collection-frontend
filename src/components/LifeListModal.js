@@ -250,7 +250,7 @@ const LifeListModal = (props) => {
 			collectionId = 5;
 		} else if (filter === "Lovebirds") {
 			collectionId = 6;
-		} else if (filter === "Eggstravaganza") {
+		} else if (filter === "Hatchlings") {
 			collectionId = 7;
 		}
 
