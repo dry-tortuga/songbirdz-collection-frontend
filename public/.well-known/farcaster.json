@@ -8,10 +8,30 @@
     "version": "1",
     "name": "Songbirdz",
     "iconUrl": "https://songbirdz.cc/android-chrome-192x192.png",
-    "homeUrl": "https://songbirdz.cc",
-    "imageUrl": "https://songbirdz.cc/android-chrome-192x192.png",
-    "buttonTitle": "Play Bird Watching Game",
     "splashImageUrl": "https://songbirdz.cc/android-chrome-192x192.png",
-    "splashBackgroundColor": "#f8f9fa"
+    "splashBackgroundColor": "#f8f9fa",
+    "subtitle": "An onchain bird watching game",
+    "description": "A community-driven ecosystem to learn about birds (and web3) in a fun and interactive way. Identify new species, earn birder points, and build your onchain life list.",
+    "screenshotUrls": [
+       "https://songbirdz.cc/app-preview-screenshot-1.jpeg",
+       "https://songbirdz.cc/app-preview-screenshot-2.jpeg",
+       "https://songbirdz.cc/app-preview-screenshot-3.jpeg"
+    ],
+    "primaryCategory": "games",
+    "tags": [
+      "nfts",
+   	  "pfps",
+   	  "birdwatching",
+      "birds",
+   	  "gaming"
+    ],
+    "heroImageUrl": "https://songbirdz.cc/songbirdz-banner-img-1200x630.png",
+    "tagline": "Identify Birds Onchain",
+    "homeUrl": "https://songbirdz.cc",
+    "ogTitle": "Songbirdz - Birding Onchain",
+    "ogDescription": "Identify new species, earn birder points, and build your onchain life list.",
+    "ogImageUrl": "https://songbirdz.cc/songbirdz-banner-img-1200x630.png",
+    "imageUrl": "https://songbirdz.cc/android-chrome-192x192.png",
+    "buttonTitle": "Play"
   }
 }
