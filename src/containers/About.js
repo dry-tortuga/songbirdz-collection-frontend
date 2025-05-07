@@ -271,7 +271,8 @@ const About = () => {
 	                        style={{
 	                            display: "flex",
 	                            flexDirection: "row",
-	                            gap: "2rem"
+	                            gap: "2rem",
+								flexWrap: "wrap",
 	                        }}>
                             <div
 	                            style={{
@@ -281,7 +282,7 @@ const About = () => {
 		                            marginBottom: "1.5rem"
 	                            }}>
                                 <img
-                                    src="https://songbirdz.cc/images/2.jpg"
+                                    src="https://songbirdz.cc/images/2-lg.jpg"
                                     className="rounded mb-2"
                                     title="Red-winged Blackbird"
                                     style={{ width: "150px", height: "150px", objectFit: "cover" }} />
@@ -316,7 +317,7 @@ const About = () => {
 									marginBottom: "1.5rem"
                              	}}>
                                 <img
-                                    src="https://songbirdz.cc/images/1077.jpg"
+                                    src="https://songbirdz.cc/images/1077-lg.jpg"
                                     className="rounded mb-2"
                                     title="King Eider (1 of 1)"
                                     style={{ width: "150px", height: "150px", objectFit: "cover" }} />
@@ -324,11 +325,38 @@ const About = () => {
                                 	{"Paesan"}
                                 </h3>
                                 <p style={{ margin: "0 0 0.5rem 0", fontStyle: "italic" }}>
-                                 {"Community Spotter"}
+                                	{"Community Spotter"}
                                 </p>
                                 <div style={{ display: "flex", alignItems: "center" }}>
                                     <a
                                         href="https://x.com/paesan5"
+                                        target="_blank"
+                                        rel="noopener noreferrer nofollow">
+                                        <b>{"X"}</b>
+                                    </a>
+                                </div>
+                            </div>
+                            <div
+                            	style={{
+                             		display: "flex",
+                               		flexDirection: "column",
+									alignItems: "center",
+									marginBottom: "1.5rem"
+                             	}}>
+                                <img
+                                    src="https://songbirdz.cc/images/5660-lg.jpg"
+                                    className="rounded mb-2"
+                                    title="Violet-crowned Hummingbird (1 of 1)"
+                                    style={{ width: "150px", height: "150px", objectFit: "cover" }} />
+                                <h3 style={{ margin: "0.25rem 0" }}>
+                                	{"Arcturus"}
+                                </h3>
+                                <p style={{ margin: "0 0 0.5rem 0", fontStyle: "italic" }}>
+                                	{"Community Spotter"}
+                                </p>
+                                <div style={{ display: "flex", alignItems: "center" }}>
+                                    <a
+                                        href="https://x.com/Arcturus_TA"
                                         target="_blank"
                                         rel="noopener noreferrer nofollow">
                                         <b>{"X"}</b>
