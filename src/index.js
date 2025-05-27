@@ -15,6 +15,7 @@ import "./index.css";
 
 const ONCHAIN_KIT_API_KEY = process.env.REACT_APP_COINBASE_DEV_PLATFORM_API_KEY;
 const CB_DEV_PLATFORM_PROJECT_ID = process.env.REACT_APP_COINBASE_DEV_PLATFORM_PROJECT_ID;
+const RPC_NETWORK_URL = process.env.REACT_APP_BASE_NETWORK_RPC_URL;
 
 const queryClient = new QueryClient();
 
@@ -32,6 +33,7 @@ if (process.env.REACT_APP_NODE_ENV === "development") {
 
 console.debug(process.env.REACT_APP_NODE_ENV);
 console.debug(chain);
+console.debug(RPC_NETWORK_URL);
 
 root.render(
 	<React.StrictMode>
@@ -53,7 +55,8 @@ root.render(
 							// termsUrl: 'https://...',
 							// privacyUrl: 'https://...',
 						},
-					}}>
+					}}
+					rpcUrl={RPC_NETWORK_URL}>
 					<FarcasterProvider>
 						<App />
 					</FarcasterProvider>

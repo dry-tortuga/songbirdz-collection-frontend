@@ -23,6 +23,10 @@ if (process.env.REACT_APP_NODE_ENV === "development") {
     transports[base.id] = http(rpcNetworkURL);
 }
 
+console.debug(process.env.REACT_APP_NODE_ENV);
+console.debug(chains);
+console.debug(transports);
+
 const config = createConfig({
 	chains,
 	connectors: [

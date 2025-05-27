@@ -58,6 +58,21 @@ const BirdIdentificationTransactionStatus = (props) => {
                 message = `You correctly identified Songbird #${birdId} as a ${speciesNameGuess}. This is a "1 of 1", so it is the only ${speciesNameGuess} in the entire Songbirdz collection. You are now the proud owner!`;
             }
 
+            // Check if it is the "paradox nft" winning species
+            if (birdId === parseInt(process.env.REACT_APP_FLOCK_PARADOX_NFT_WINNER, 10)) {
+            	message = `You correctly identified Songbird #${birdId} as a ${speciesNameGuess}. You are now the proud owner, and you've also found the "Paradox (Javpixel)" hidden bonus prize, so you will be sent Paradox NFT #1251 (reach out to @dry_tortuga on X to confirm your prize)!`;
+            }
+
+            // Check if it is the "ok-boomer nft" winning species
+            if (birdId === parseInt(process.env.REACT_APP_FLOCK_OKBOOMER_NFT_WINNER, 10)) {
+            	message = `You correctly identified Songbird #${birdId} as a ${speciesNameGuess}. You are now the proud owner, and you've also found the "OK Boomer" hidden bonus prize, so you will be sent OK Boomer NFT #579 (reach out to @dry_tortuga on X to confirm your prize)!`;
+            }
+
+            // Check if it is the "chilibangs nft" winning species
+            if (birdId === parseInt(process.env.REACT_APP_FLOCK_CHILIBANGS_NFT_WINNER, 10)) {
+            	message = `You correctly identified Songbird #${birdId} as a ${speciesNameGuess}. You are now the proud owner, and you've also found the "Chilibangs" hidden bonus prize, so you will be sent Chilibangs NFT #9693 (reach out to @dry_tortuga on X to confirm your prize)!`;
+            }
+
         // Otherwise, the bird species was not identified correctly
         } else {
             variant = "danger";
