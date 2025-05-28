@@ -73,6 +73,21 @@ const BirdIdentificationTransactionStatus = (props) => {
             	message = `You correctly identified Songbird #${birdId} as a ${speciesNameGuess}. You are now the proud owner, and you've also found the "Chilibangs" hidden bonus prize, so you will be sent Chilibangs NFT #9693 (reach out to @dry_tortuga on X to confirm your prize)!`;
             }
 
+            // Check if it is the first "base-bulls nft" winning species
+            if (birdId === parseInt(process.env.REACT_APP_FLOCK_BASEBULLS_1_NFT_WINNER, 10)) {
+            	message = `You correctly identified Songbird #${birdId} as a ${speciesNameGuess}. You are now the proud owner, and you've also found a "Base Bulls" hidden bonus prize, so you will be sent Base Bulls NFT #8312 (reach out to @dry_tortuga on X to confirm your prize)!`;
+            }
+
+            // Check if it is the first "base-bulls nft" winning species
+            if (birdId === parseInt(process.env.REACT_APP_FLOCK_BASEBULLS_2_NFT_WINNER, 10)) {
+            	message = `You correctly identified Songbird #${birdId} as a ${speciesNameGuess}. You are now the proud owner, and you've also found a "Base Bulls" hidden bonus prize, so you will be sent Base Bulls NFT #8486 (reach out to @dry_tortuga on X to confirm your prize)!`;
+            }
+
+            // Check if it is the first "base-bulls nft" winning species
+            if (birdId === parseInt(process.env.REACT_APP_FLOCK_BASEBULLS_3_NFT_WINNER, 10)) {
+            	message = `You correctly identified Songbird #${birdId} as a ${speciesNameGuess}. You are now the proud owner, and you've also found a "Base Bulls" hidden bonus prize, so you will be sent Base Bulls NFT #8687 (reach out to @dry_tortuga on X to confirm your prize)!`;
+            }
+
         // Otherwise, the bird species was not identified correctly
         } else {
             variant = "danger";
