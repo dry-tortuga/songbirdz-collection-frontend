@@ -60,7 +60,7 @@ const LeaderboardTabSeason4 = ({ onUserClick }) => {
                     <Row>
                         <Col>
 							<p>
-								{"Runs from March 1st, 2025 to May 31st, 2025 (11PM UTC). Points will attempt to auto-update in real-time, but will also be manually confirmed on a bi-weekly basis. Last confirmed on May 27th, 2025 (9:30PM UTC)."}
+								{"Runs from March 1st, 2025 to May 31st, 2025 (11PM UTC). Points will attempt to auto-update in real-time, but will also be manually confirmed on a bi-weekly basis. Last confirmed on May 28th, 2025 (10PM UTC)."}
 							</p>
                             <p>
                                 {"Accounts with the most Birder Points at the end of Season 4 will receive:"}
@@ -82,15 +82,15 @@ const LeaderboardTabSeason4 = ({ onUserClick }) => {
 		                            {" NFT each"}
 		                        </li>
 								<li>
-		                            <strong>{"Top 3 -> "}</strong>
-		                            {"1 custom Pixel Art NFT each from "}
-		                            <a
-		                                href="x.com/xPoli_arts"
-		                                target="_blank"
-		                                rel="noopener noreferrer nofollow">
-		                                <b>{"xPoli"}</b>
-		                            </a>
-		                        </li>
+				                    <strong>{"Top 3 -> "}</strong>
+				                    {"1 custom Pixel Art NFT each from "}
+				                    <a
+				                        href="https://x.com/xPoli_arts"
+				                        target="_blank"
+				                        rel="noopener noreferrer nofollow">
+				                        <b>{"xPoli"}</b>
+				                    </a>
+				                </li>
                            		<li>
 	                                <strong>{"1st Place -> "}</strong>
 	                                {"4 "}
