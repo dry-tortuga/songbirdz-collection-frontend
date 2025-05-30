@@ -194,6 +194,8 @@ const LifeListModal = (props) => {
 			collectionId = 6;
 		} else if (species.id >= 500 && species.id < 550) {
 			collectionId = 7;
+		} else if (species.id >= 550 && species.id < 600) {
+			collectionId = 8;
 		} else if (species.id >= 1000) {
 			collectionId = -1;
 		}
@@ -252,6 +254,8 @@ const LifeListModal = (props) => {
 			collectionId = 6;
 		} else if (filter === "Hatchlings") {
 			collectionId = 7;
+		} else if (filter === "Masters of Disguise") {
+			collectionId = 8;
 		}
 
 		if (collectionId >= 0) {
@@ -287,6 +291,10 @@ const LifeListModal = (props) => {
 				}
 
 				if (collectionId === 7 && species.id >= 500 && species.id < 550) {
+					return true;
+				}
+
+				if (collectionId === 8 && species.id >= 550 && species.id < 600) {
 					return true;
 				}
 

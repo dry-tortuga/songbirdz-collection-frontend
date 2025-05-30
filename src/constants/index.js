@@ -4,12 +4,13 @@ import ANSWER_CHOICES_FLOCK_4 from './answer-choices/fire-and-ice-4-options';
 import ANSWER_CHOICES_FLOCK_5 from './answer-choices/predator-and-prey-5-options.json';
 import ANSWER_CHOICES_FLOCK_6 from './answer-choices/love-birds-6-options.json';
 import ANSWER_CHOICES_FLOCK_7 from './answer-choices/hatchlings-7-options.json';
+import ANSWER_CHOICES_FLOCK_8 from './answer-choices/masters-of-disguise-8-options.json';
 
 import FAMILIES from './families';
 
-const NUM_BIRDS_TOTAL = 8000;
+const NUM_BIRDS_TOTAL = 9000;
 
-const NUM_SPECIES_TOTAL = 550;
+const NUM_SPECIES_TOTAL = 600;
 
 const COLLECTION_BIRD_SIZE = 1000;
 
@@ -55,6 +56,11 @@ const COLLECTIONS = [{
 	count: 1000,
 	min_id: 7000,
 	max_id: 7999
+}, {
+	name: "Masters of Disguise",
+	count: 1000,
+	min_id: 8000,
+	max_id: 8999
 }];
 
 const EVENTS = {
@@ -79,6 +85,7 @@ export {
 	ANSWER_CHOICES_FLOCK_5,
 	ANSWER_CHOICES_FLOCK_6,
 	ANSWER_CHOICES_FLOCK_7,
+	ANSWER_CHOICES_FLOCK_8,
 	FAMILIES,
 	NUM_BIRDS_TOTAL,
 	NUM_SPECIES_TOTAL,

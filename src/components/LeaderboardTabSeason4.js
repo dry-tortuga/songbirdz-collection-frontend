@@ -85,7 +85,7 @@ const LeaderboardTabSeason4 = ({ onUserClick }) => {
 				                    <strong>{"Top 3 -> "}</strong>
 				                    {"1 custom Pixel Art NFT each from "}
 				                    <a
-				                        href="x.com/xPoli_arts"
+				                        href="https://x.com/xPoli_arts"
 				                        target="_blank"
 				                        rel="noopener noreferrer nofollow">
 				                        <b>{"xPoli"}</b>

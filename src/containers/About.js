@@ -154,6 +154,17 @@ const About = () => {
                                     {"NOW MINTING:  The 8th flock of 1,000 birds in the Songbirdz collection (7000-7999). Features 50 new species, with various amounts of birds per species of either 1, 5, 10, 20, 30, 50 etc. Includes 4 \"1 of 1\" birds that are the only one of their species! This flock celebrates birds that symbolize rebirth, new beginnings, and the beauty of eggs. From those with striking egg-like plumage to famous nest-builders, it highlights the wonders of avian reproduction and the spirit of springtime."}
                                 </span>
                             </li>
+                            <li>
+                                <a
+                                    href="https://songbirdz.cc/collection?number=8&hide_already_identified=true"
+                                    target="_blank"
+                                    rel="noopener noreferrer nofollow">
+                                    <b>{"Masters of Disguise:"}</b>
+                                </a>
+                                <span className="ms-1">
+                                    {"NOW MINTING:  The 9th flock of 1,000 birds in the Songbirdz collection (8000-8999). Features 50 new species, with various amounts of birds per species of either 1, 5, 10, 20, 30, 50 etc. Includes 4 \"1 of 1\" birds that are the only one of their species! This flock honors those that master the art of camouflage, each blending seamlessly into nature's earthy canvas. From leaf-littered forests to windswept rocky shores, these stealthy species are nature’s hidden wonders."}
+                                </span>
+                            </li>
                         </ul>
                         <h2>{"Royalties: 1%"}</h2>
                         <ul style={{ listStyle: "disc" }}>
@@ -171,15 +182,8 @@ const About = () => {
                             </li>
                             <li>
                                 <span className="ms-1">
-                                    {"Once the 10k collection is fully minted, 50% of the royalties will be donated to charities via "}
+                                    {"Once the 10k collection is fully minted, the community will vote on whether to keep royalties as is or set them permanently to 0%."}
                                 </span>
-                                <a
-                                    href="https://endaoment.org/"
-                                    target="_blank"
-                                    rel="noopener noreferrer nofollow">
-                                    <b>{"Endaoment"}</b>
-                                </a>
-                                {" and 50% will go to the project creators."}
                             </li>
                         </ul>
                         <h2>{"Resources"}</h2>
