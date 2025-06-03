@@ -263,6 +263,14 @@ const About = () => {
                             </li>
                             <li>
                                 <a
+                                    href="https://opensea.io/collection/songbirdz-hall-of-fame"
+                                    target="_blank"
+                                    rel="noopener noreferrer nofollow">
+                                    <b>{"Hall of Fame"}</b>
+                                </a>
+                            </li>
+                            <li>
+                                <a
                                     href="https://www.redbubble.com/people/drytortuga/shop"
                                     target="_blank"
                                     rel="noopener noreferrer nofollow">
@@ -305,7 +313,7 @@ const About = () => {
                                     </a>
                                     <span>|</span>
 									<a
-										href="https://warpcast.com/dry-tortuga"
+										href="https://farcaster.xyz/dry-tortuga"
 										target="_blank"
 										rel="noopener noreferrer nofollow"
 										onClick={fOpenLinkToOwner}>

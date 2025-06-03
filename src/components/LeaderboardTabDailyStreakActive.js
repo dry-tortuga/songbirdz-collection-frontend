@@ -100,13 +100,13 @@ const LeaderboardTabDailyStreakActive = ({ onUserClick }) => {
 						</p>
 						<ul style={{ listStyle: 'disc' }}>
 							<li>
-								{"Once your active streak hits 7 days, you'll earn 50 bonus Birder Points in Season 4."}
+								{"Once your active streak hits 7 days, you'll earn 50 bonus Birder Points in Season 5."}
 							</li>
 							<li>
-								{"Once your active streak hits 14 days, you'll earn 125 bonus Birder Points in Season 4."}
+								{"Once your active streak hits 14 days, you'll earn 125 bonus Birder Points in Season 5."}
 							</li>
 							<li>
-								{"Once your active streak hits 30 days, you'll earn 300 bonus Birder Points in Season 4."}
+								{"Once your active streak hits 30 days, you'll earn 300 bonus Birder Points in Season 5."}
 							</li>
 						</ul>
 						<p>

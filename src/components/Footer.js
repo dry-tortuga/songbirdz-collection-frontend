@@ -3,7 +3,7 @@ import React from "react";
 import { useFarcasterContext } from "../contexts/farcaster";
 
 import openseaLogo from "../images/opensea-logomark-blue.svg";
-import warpcastLogo from "../images/warpcast-logo.png";
+import farcasterLogo from "../images/farcaster-logo-white.png";
 import magicedenLogo from "../images/magiceden-logo.png";
 
 import "./Footer.css";
@@ -23,7 +23,7 @@ const Footer = () => {
 							{" by "}
 							{fContext &&
 								<a
-									href="https://warpcast.com/dry-tortuga"
+									href="https://farcaster.xyz/dry-tortuga"
 									target="_blank"
 									rel="noopener noreferrer nofollow"
 									onClick={fOpenLinkToOwner}>
@@ -56,13 +56,13 @@ const Footer = () => {
 							</a>
 							<a
 								className="btn btn-clear  me-md-2"
-								href="https://warpcast.com/~/channel/songbirdz"
+								href="https://farcaster.xyz/~/channel/songbirdz"
 								rel="noopener noreferrer nofollow"
 								target="_blank"
 								onClick={fOpenLinkToChannel}>
 								<img
 									alt=""
-									src={warpcastLogo}
+									src={farcasterLogo}
 									style={{
 										width: "1.5rem",
 										height: "auto",

@@ -11,6 +11,7 @@ const LeaderboardTabSeason1 = lazy(() => import("../components/LeaderboardTabSea
 const LeaderboardTabSeason2 = lazy(() => import("../components/LeaderboardTabSeason2"));
 const LeaderboardTabSeason3 = lazy(() => import("../components/LeaderboardTabSeason3"));
 const LeaderboardTabSeason4 = lazy(() => import("../components/LeaderboardTabSeason4"));
+const LeaderboardTabSeason5 = lazy(() => import("../components/LeaderboardTabSeason5"));
 const LeaderboardTabSpeciesRanks = lazy(() => import("../components/LeaderboardTabSpeciesRanks"));
 const LeaderboardTabDailyStreakActive = lazy(() => import("../components/LeaderboardTabDailyStreakActive"));
 const LifeListModal = lazy(() => import("../components/LifeListModal"));
@@ -19,12 +20,13 @@ const TAB_SEASON_1 = "season-1";
 const TAB_SEASON_2 = "season-2";
 const TAB_SEASON_3 = "season-3";
 const TAB_SEASON_4 = "season-4";
+const TAB_SEASON_5 = "season-5";
 const TAB_LIFE_LIST_SPECIES_RANKS = "life-list-species-ranks";
 const TAB_DAILY_STREAK_ACTIVE = "daily-streak-active";
 
 const Leaderboard = () => {
 
-    const [activeTab, setActiveTab] = useState(TAB_SEASON_4);
+    const [activeTab, setActiveTab] = useState(TAB_SEASON_5);
     const [lifeListModalAddress, setLifeListModalAddress] = useState(null);
 
     return (
@@ -47,11 +49,11 @@ const Leaderboard = () => {
                     activeKey={activeTab}
                     onSelect={setActiveTab}>
                     <Tab
-                    	eventKey={TAB_SEASON_4}
-                     	title="Season 4 (Active)">
-                        {activeTab === TAB_SEASON_4 &&
+                    	eventKey={TAB_SEASON_5}
+                     	title="Season 5 (Active)">
+                        {activeTab === TAB_SEASON_5 &&
                             <Suspense fallback={<div />}>
-                                <LeaderboardTabSeason4 onUserClick={setLifeListModalAddress} />
+                                <LeaderboardTabSeason5 onUserClick={setLifeListModalAddress} />
                             </Suspense>
                         }
                     </Tab>
@@ -70,6 +72,15 @@ const Leaderboard = () => {
                         {activeTab === TAB_DAILY_STREAK_ACTIVE &&
                             <Suspense fallback={<div />}>
                                 <LeaderboardTabDailyStreakActive onUserClick={setLifeListModalAddress} />
+                            </Suspense>
+                        }
+                    </Tab>
+                    <Tab
+                    	eventKey={TAB_SEASON_4}
+                     	title="Season 4">
+                        {activeTab === TAB_SEASON_4 &&
+                            <Suspense fallback={<div />}>
+                                <LeaderboardTabSeason4 onUserClick={setLifeListModalAddress} />
                             </Suspense>
                         }
                     </Tab>
