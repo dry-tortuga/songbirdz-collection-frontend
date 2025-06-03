@@ -15,7 +15,7 @@ import useMemoryMatchGameLeaderboard from "../hooks/useMemoryMatchGameLeaderboar
 
 import { storeMemoryMatchGameResult } from "../utils/data";
 
-import warpcastLogo from "../images/warpcast-logo.png";
+import farcasterLogo from "../images/farcaster-logo.svg";
 
 import "./MemoryMatchGame.css";
 
@@ -594,7 +594,7 @@ const MemoryMatchGame = () => {
 										{"Start Game"}
 									</Button>
 									<a
-										href={`https://warpcast.com/~/compose?text=${encodeURIComponent('Join me for a game of memory match from /songbirdz on @base!\n\nThink you can beat me?')}&embeds[]=${encodeURIComponent('https://songbirdz.cc/memory-match')}`}
+										href={`https://farcaster.xyz/~/compose?text=${encodeURIComponent('Join me for a game of memory match from /songbirdz on @base!\n\nThink you can beat me?')}&embeds[]=${encodeURIComponent('https://songbirdz.cc/memory-match')}`}
 										className="btn btn-dark w-100 d-flex align-items-center justify-content-center"
 										target="_blank"
 										rel="noopener noreferrer"
@@ -603,11 +603,11 @@ const MemoryMatchGame = () => {
 											embeds: ['https://songbirdz.cc/memory-match'],
 										})}>
 										<img
-											className="warpcast-logo me-2"
-											src={warpcastLogo}
+											className="farcaster-logo me-2"
+											src={farcasterLogo}
 											alt=""
 											style={{ height: 20, width: 20 }} />
-										{"Share on Warpcast"}
+										{"Share on Farcaster"}
 									</a>
 									<a
 										href={`https://twitter.com/intent/tweet?text=${encodeURIComponent('Join me for a game of memory match from @songbirdz_cc on @base!\n\nThink you can beat me?\n\nPlay at https://songbirdz.cc/memory-match')}`}
@@ -637,7 +637,7 @@ const MemoryMatchGame = () => {
 								{"New Game"}
 							</Button>
 							<a
-								href={`https://warpcast.com/~/compose?text=${encodeURIComponent(`I just scored ${finalScore}/1000 in the memory match game (${difficultyMode} mode) from /songbirdz on @base!\n\nThink you can you beat me?`)}&embeds[]=${encodeURIComponent('https://songbirdz.cc/memory-match')}`}
+								href={`https://farcaster.xyz/~/compose?text=${encodeURIComponent(`I just scored ${finalScore}/1000 in the memory match game (${difficultyMode} mode) from /songbirdz on @base!\n\nThink you can you beat me?`)}&embeds[]=${encodeURIComponent('https://songbirdz.cc/memory-match')}`}
 								className="btn btn-dark w-100 d-flex align-items-center justify-content-center"
 								target="_blank"
 								rel="noopener noreferrer"
@@ -646,11 +646,11 @@ const MemoryMatchGame = () => {
 									embeds: ['https://songbirdz.cc/memory-match'],
 								})}>
 								<img
-									className="warpcast-logo me-2"
-									src={warpcastLogo}
+									className="farcaster-logo me-2"
+									src={farcasterLogo}
 									alt=""
 									style={{ height: 20, width: 20 }} />
-								{"Share on Warpcast"}
+								{"Share on Farcaster"}
 							</a>
 							<a
 								href={`https://twitter.com/intent/tweet?text=${encodeURIComponent(`I just scored ${finalScore}/1000 in the memory match game (${difficultyMode} mode) from @songbirdz_cc on @base!\n\nThink you can beat me?\n\nPlay at https://songbirdz.cc/memory-match`)}`}

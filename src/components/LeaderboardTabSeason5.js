@@ -222,7 +222,7 @@ const LeaderboardTabSeason5 = ({ onUserClick }) => {
                                         <li>
                                             {"You must follow and tag "}
                                             <a
-                                                href="https://warpcast.com/dry-tortuga"
+                                                href="https://farcaster.xyz/dry-tortuga"
                                                 target="_blank"
                                                 rel="noopener noreferrer nofollow"
                                                	onClick={fOpenLinkToOwner}>
@@ -234,7 +234,7 @@ const LeaderboardTabSeason5 = ({ onUserClick }) => {
                                         </li>
                                         <li>
                                             <a
-                                                href={`https://warpcast.com/~/compose?text=${encodeURIComponent(`Check out the /songbirdz project from @dry-tortuga on @base!\n\nYOUR OWN WORDS HERE\n\n`)}&embeds[]=${encodeURIComponent('https://songbirdz.cc')}`}
+                                                href={`https://farcaster.xyz/~/compose?text=${encodeURIComponent(`Check out the /songbirdz project from @dry-tortuga on @base!\n\nYOUR OWN WORDS HERE\n\n`)}&embeds[]=${encodeURIComponent('https://songbirdz.cc')}`}
                                                 className="farcaster-share-button"
                                                 target="_blank"
                                                 rel="noopener noreferrer nofollow"
@@ -259,10 +259,10 @@ const LeaderboardTabSeason5 = ({ onUserClick }) => {
                                 <li>
                                     <b>{"10 points (Join Farcaster Channel): "}</b>
                                     <a
-                                        href="https://warpcast.com/~/channel/songbirdz"
+                                        href="https://farcaster.xyz/~/channel/songbirdz"
                                         target="_blank"
                                         rel="noopener noreferrer nofollow">
-                                        {"https://warpcast.com/~/channel/songbirdz"}
+                                        {"https://farcaster.xyz/~/channel/songbirdz"}
                                     </a>
                                 </li>
                             </ul>

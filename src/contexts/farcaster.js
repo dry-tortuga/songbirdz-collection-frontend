@@ -15,7 +15,7 @@ export function FarcasterProvider({ children }) {
 
 		if (context) {
 			event.preventDefault();
-			await sdk.actions.openUrl('https://warpcast.com/~/channel/songbirdz');
+			await sdk.actions.openUrl('https://farcaster.xyz/~/channel/songbirdz');
 		}
 
 	}, []);

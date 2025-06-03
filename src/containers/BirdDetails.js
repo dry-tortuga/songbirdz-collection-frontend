@@ -25,7 +25,7 @@ import useBird from "../hooks/useBird";
 
 import etherscanLogo from "../images/etherscan-logo-circle.svg";
 import openseaLogo from "../images/opensea-logomark-blue.svg";
-import warpcastLogo from "../images/warpcast-logo.png";
+import farcasterLogo from "../images/farcaster-logo.svg";
 
 import "./BirdDetails.css";
 
@@ -144,7 +144,7 @@ const BirdDetails = () => {
                                             {"Tweet"}
                                         </a>
                                         <a
-                                            href={`https://warpcast.com/~/compose?text=${encodeURIComponent(`Check out this ${bird.species} in the Songbirdz collection on @base!\n\nhttps://songbirdz.cc/collection/${bird.id}\n\n`)}&channelKey=songbirdz&embeds[]=${encodeURIComponent(bird.imageLg)}&embeds[]=${encodeURIComponent(`https://songbirdz.cc/collection/${bird.id}`)})}`}
+                                            href={`https://farcaster.xyz/~/compose?text=${encodeURIComponent(`Check out this ${bird.species} in the Songbirdz collection on @base!\n\nhttps://songbirdz.cc/collection/${bird.id}\n\n`)}&channelKey=songbirdz&embeds[]=${encodeURIComponent(bird.imageLg)}&embeds[]=${encodeURIComponent(`https://songbirdz.cc/collection/${bird.id}`)})}`}
                                             className="farcaster-share-button ms-4"
                                             target="_blank"
                                             rel="noopener noreferrer nofollow"
@@ -156,8 +156,8 @@ const BirdDetails = () => {
                                             	],
                                             })}>
                                             <img
-                                                src={warpcastLogo}
-                                                alt="Warpcast"
+                                                src={farcasterLogo}
+                                                alt="Farcaster"
                                                 style={{ width: "30px", height: "30px" }} />
                                         </a>
                                         {isOwner &&
