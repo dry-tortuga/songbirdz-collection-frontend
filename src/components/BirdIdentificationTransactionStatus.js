@@ -6,7 +6,7 @@ import relativeTime from "dayjs/plugin/relativeTime";
 import { useFarcasterContext } from "../contexts/farcaster";
 import { useWalletContext } from "../contexts/wallet";
 
-import farcasterLogo from "../images/farcaster-logo.svg";
+import farcasterLogo from "../images/farcaster-logo.png";
 
 import "./BirdIdentificationTransactionStatus.css";
 

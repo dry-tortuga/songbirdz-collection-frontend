@@ -106,13 +106,6 @@ const HiddenMint = () => {
 						</div>
 					</Col>
 				</Row>
-				<Row className="mb-3">
-					<Col className="col-md-4 offset-md-4">
-						<img
-							style={{ height: 'auto', width: '100%' }}
-							src="https://cdn.mint.fun/fc14620589b06fd2d9adf4e3373c79002a306437e41eba2822cc05bc374ecd41?format=auto" />
-					</Col>
-				</Row>
 				{!context.account &&
 					<>
 						<div className="text-center">

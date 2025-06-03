@@ -3,7 +3,7 @@ import React from "react";
 import { useFarcasterContext } from "../contexts/farcaster";
 
 import openseaLogo from "../images/opensea-logomark-blue.svg";
-import farcasterLogo from "../images/farcaster-logo.svg";
+import farcasterLogo from "../images/farcaster-logo-white.png";
 import magicedenLogo from "../images/magiceden-logo.png";
 
 import "./Footer.css";

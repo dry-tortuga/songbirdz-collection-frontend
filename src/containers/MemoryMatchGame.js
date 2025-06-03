@@ -15,7 +15,7 @@ import useMemoryMatchGameLeaderboard from "../hooks/useMemoryMatchGameLeaderboar
 
 import { storeMemoryMatchGameResult } from "../utils/data";
 
-import farcasterLogo from "../images/farcaster-logo.svg";
+import farcasterLogo from "../images/farcaster-logo.png";
 
 import "./MemoryMatchGame.css";
 

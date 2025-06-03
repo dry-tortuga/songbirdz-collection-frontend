@@ -25,7 +25,7 @@ import useBird from "../hooks/useBird";
 
 import etherscanLogo from "../images/etherscan-logo-circle.svg";
 import openseaLogo from "../images/opensea-logomark-blue.svg";
-import farcasterLogo from "../images/farcaster-logo.svg";
+import farcasterLogo from "../images/farcaster-logo.png";
 
 import "./BirdDetails.css";
 
