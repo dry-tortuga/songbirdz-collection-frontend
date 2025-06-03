@@ -74,6 +74,29 @@ const SEASON_4_BONUS_POINT_SPECIES = [{
 	label: 'Hit 30 Day Streak',
 }];
 
+const SEASON_5_BONUS_POINT_SPECIES = [{
+	id: 1020,
+	label: 'Posted on X',
+}, {
+	id: 1021,
+	label: 'Posted on Farcaster',
+}, {
+	id: 1022,
+	label: 'Joined Telegram',
+}, {
+	id: 1023,
+	label: 'Joined Farcaster Channel',
+}, {
+	id: 1024,
+	label: 'Hit 7 Day Streak',
+}, {
+	id: 1025,
+	label: 'Hit 14 Day Streak',
+}, {
+	id: 1026,
+	label: 'Hit 30 Day Streak',
+}];
+
 const sortedFamilies = FAMILIES.sort((family1, family2) => {
 
 	if (family1.name < family2.name) {
@@ -106,6 +129,7 @@ const LifeListModal = (props) => {
 		const speciesByIDSeason2 = data?.season_2 || {};
 		const speciesByIDSeason3 = data?.season_3 || {};
 		const speciesByIDSeason4 = data?.season_4 || {};
+		const speciesByIDSeason5 = data?.season_5 || {};
 
         let results = {}, total = 0;
 
@@ -141,6 +165,14 @@ const LifeListModal = (props) => {
 				total += data.amount;
 			});
 
+        } else if (filter === "5") {
+
+            results = { ...speciesByIDSeason5 };
+
+            Object.values(speciesByIDSeason5).forEach((data) => {
+				total += data.amount;
+			});
+
         } else {
 
             results = {
@@ -148,6 +180,7 @@ const LifeListModal = (props) => {
                 ...speciesByIDSeason2,
                 ...speciesByIDSeason3,
                 ...speciesByIDSeason4,
+                ...speciesByIDSeason5,
             };
 
             if (filter === "0") {
@@ -165,6 +198,10 @@ const LifeListModal = (props) => {
     			});
 
                 Object.values(speciesByIDSeason4).forEach((data) => {
+    				total += data.amount;
+    			});
+
+                Object.values(speciesByIDSeason5).forEach((data) => {
     				total += data.amount;
     			});
 
@@ -218,7 +255,8 @@ const LifeListModal = (props) => {
 					filter === "1" ||
 					filter === "2" ||
 					filter === "3" ||
-					filter === "4"
+					filter === "4" ||
+					filter === "5"
 				) &&
 					<Badge
 						className="ms-2"
@@ -352,7 +390,8 @@ const LifeListModal = (props) => {
 							filter === "1" ||
 							filter === "2" ||
 							filter === "3" ||
-							filter === "4"
+							filter === "4" ||
+							filter === "5"
 						) && address.rank &&
 							<Badge
 								className="ms-sm-3"
@@ -375,6 +414,7 @@ const LifeListModal = (props) => {
 					<option value="2">{"Season 2"}</option>
 					<option value="3">{"Season 3"}</option>
 					<option value="4">{"Season 4"}</option>
+					<option value="5">{"Season 5"}</option>
 					{COLLECTIONS.map((collection) => (
 						<option
 						    key={collection.name}
@@ -412,6 +452,14 @@ const LifeListModal = (props) => {
 						<h4>{"Bonus Points"}</h4>
 						<div className="mb-4">
 							{renderSpeciesList(SEASON_4_BONUS_POINT_SPECIES)}
+						</div>
+					</div>
+				}
+				{filter === "5" &&
+					<div>
+						<h4>{"Bonus Points"}</h4>
+						<div className="mb-4">
+							{renderSpeciesList(SEASON_5_BONUS_POINT_SPECIES)}
 						</div>
 					</div>
 				}

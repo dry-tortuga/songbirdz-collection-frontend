@@ -20,6 +20,7 @@ const useLifeListData = ({ address }) => {
 				const resultsSeason2 = results.season_2;
                 const resultsSeason3 = results.season_3;
                 const resultsSeason4 = results.season_4;
+                const resultsSeason5 = results.season_5;
 
 				// Convert results into map of species ID -> data
 				const speciesByID = {
@@ -27,6 +28,7 @@ const useLifeListData = ({ address }) => {
 					season_2: {},
                     season_3: {},
                     season_4: {},
+                    season_5: {},
 				};
 
 				for (let i = 0, len = resultsSeason1.length; i < len; i++) {
@@ -64,6 +66,16 @@ const useLifeListData = ({ address }) => {
 					const temp = resultsSeason4[i];
 
 					speciesByID.season_4[temp.species_id] = {
+						...temp,
+					};
+
+				}
+
+				for (let i = 0, len = resultsSeason5.length; i < len; i++) {
+
+					const temp = resultsSeason5[i];
+
+					speciesByID.season_5[temp.species_id] = {
 						...temp,
 					};
 
