@@ -7,8 +7,8 @@
     "license": "MIT",
     "dependencies": {
         "@coinbase/onchainkit": "^0.38.13",
-        "@farcaster/frame-sdk": "^0.0.34",
-        "@farcaster/frame-wagmi-connector": "^0.0.22",
+        "@farcaster/frame-sdk": "^0.0.63",
+        "@farcaster/frame-wagmi-connector": "^0.0.52",
         "@tanstack/react-query": "^5.71.0",
         "@wagmi/core": "^2.16.7",
         "bootstrap": "^5.1.3",

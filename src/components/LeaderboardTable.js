@@ -32,7 +32,7 @@ const LeaderboardTable = (props) => {
 			totalPages,
 			startIndex,
 			endIndex,
-		}
+		};
 
 	}, [users, currentPage]);
 
@@ -53,7 +53,9 @@ const LeaderboardTable = (props) => {
                     </tr>
                 </thead>
                 <tbody>
-                    {users.length === 0 && <span>{"Nothing to show here..."}</span>}
+                    {paginationState.currentUsers.length === 0 &&
+                    	<span>{"Nothing to show here..."}
+                     </span>}
                     {paginationState.currentUsers.map((user, index) => (
                         <tr
                             key={paginationState.startIndex + index}

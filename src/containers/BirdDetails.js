@@ -149,11 +149,12 @@ const BirdDetails = () => {
                                             target="_blank"
                                             rel="noopener noreferrer nofollow"
                                             onClick={(event) => fComposeCast(event, {
-                                            	text: `Check out this ${bird.species} in the /songbirdz collection on @base!\n\nhttps://songbirdz.cc/collection/${bird.id}\n\n`,
+                                            	text: `Check out this ${bird.species} in the Songbirdz collection on @base!\n\nhttps://songbirdz.cc/collection/${bird.id}\n\n`,
                                             	embeds: [
                                             		bird.imageLg,
                                             		`https://songbirdz.cc/collection/${bird.id}`,
                                             	],
+                                            	channelKey: 'songbirdz',
                                             })}>
                                             <img
                                                 src={farcasterLogo}

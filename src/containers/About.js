@@ -6,7 +6,7 @@ import { useFarcasterContext } from "../contexts/farcaster";
 
 const About = () => {
 
-	const { fOpenLinkToOwner } = useFarcasterContext();
+	const { fContext, fOpenLinkToOwner } = useFarcasterContext();
 
     return (
         <div className="about-page">
@@ -375,6 +375,9 @@ const About = () => {
                                     </a>
                                 </div>
                             </div>
+							{/*<p>
+                            	{fContext ? JSON.stringify(fContext) : "missing fContext"}
+                            </p>*/}
                         </div>
                     </Col>
                 </Row>

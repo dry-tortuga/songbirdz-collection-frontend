@@ -1,8 +1,8 @@
 import React, { useCallback, useEffect, useState } from "react";
-import { Alert, Badge, Button, Form, Table } from "react-bootstrap";
+import { Alert, Badge, Button, Form } from "react-bootstrap";
 import { Link } from "react-router-dom";
 
-import AccountOwner from "../components/AccountOwner";
+import MemoryMatchGameLeaderboard from "../components/MemoryMatchGameLeaderboard";
 
 import { NUM_BIRDS_TOTAL } from "../constants";
 
@@ -53,7 +53,7 @@ const MemoryMatchGame = () => {
 
 	const context = useWalletContext();
 
-	const { fComposeCast } = useFarcasterContext();
+	const { fAddMiniApp, fComposeCast } = useFarcasterContext();
 
 	const { account, currentUser } = context;
 
@@ -220,6 +220,11 @@ const MemoryMatchGame = () => {
 		});
 
 	};
+
+	// Prompt user to add mini-app on initial load
+	useEffect(() => {
+		fAddMiniApp();
+	}, [fAddMiniApp]);
 
 	// Load the birds on initial load
 	useEffect(() => { handleResetGame(difficultyMode, false) }, [difficultyMode]);
@@ -475,111 +480,11 @@ const MemoryMatchGame = () => {
 					</div>
 				</div>
 			</div>
-			{showLeaderboard &&
-				<div className="row">
-					<div className="col">
-						{leaderboardData.loading && (
-							<div className="text-center">
-								<i className="fas fa-spinner fa-spin" />
-							</div>
-						)}
-						{leaderboardData.error && (
-							<div className="alert alert-danger">
-								{leaderboardData.error}
-							</div>
-						)}
-						{leaderboardData.data && (
-							<Table
-								className="leaderboard-table fw-normal"
-								hover
-								responsive>
-								<thead>
-									<tr>
-										<th scope="col">
-											{"#"}
-										</th>
-										<th scope="col">
-											{"Account"}
-										</th>
-										<th
-											scope="col"
-											style={{cursor: "pointer"}}
-											onClick={() => setSortBy("today")}>
-											<div className="d-flex align-items-center">
-												<span>{"Today"}</span>
-												{sortBy === "today" &&
-													<i
-														className="fas fa-sort-down ms-1"
-														style={{ marginTop: '-0.25rem' }} />
-												}
-											</div>
-										</th>
-										<th
-											scope="col"
-											style={{cursor: "pointer"}}
-											onClick={() => setSortBy("total")}>
-											<div className="d-flex align-items-center">
-												<span>{"Total"}</span>
-												{sortBy === "total" &&
-													<i
-														className="fas fa-sort-down ms-1"
-														style={{ marginTop: '-0.25rem' }} />
-												}
-											</div>
-										</th>
-									</tr>
-								</thead>
-								<tbody>
-									{leaderboardData.data.map((entry, index) => {
-
-										let spacer;
-
-										if (index === 20) {
-											spacer = (
-												<tr key={index}>
-													<td colSpan="4" className="text-center">
-														<i className="fas fa-ellipsis-h" />
-													</td>
-												</tr>
-											);
-										}
-
-										return (
-											<>
-												{spacer}
-												<tr
-													key={index}
-													className={entry.address === account?.toLowerCase() ? 'table-primary' : ''}>
-													<td>{entry.rank}</td>
-													<td>
-														<AccountOwner account={entry.address} />
-														{entry.address === account?.toLowerCase() &&
-															<Badge
-																bg="info"
-																className="ms-2">
-																{"You"}
-															</Badge>
-														}
-													</td>
-													<td>{entry.today}</td>
-													<td>{entry.total}</td>
-												</tr>
-											</>
-										);
-
-									})}
-									{leaderboardData.data.length === 0 && (
-										<tr>
-											<td colSpan="6" className="text-center">
-												{"No scores recorded yet."}
-											</td>
-										</tr>
-									)}
-								</tbody>
-							</Table>
-						)}
-					</div>
-				</div>
+			{showLeaderboard && leaderboardData &&
+				<MemoryMatchGameLeaderboard
+					soryBy={sortBy}
+					setSortBy={setSortBy}
+					{...leaderboardData} />
 			}
 			{!showLeaderboard &&
 				<>
@@ -599,8 +504,9 @@ const MemoryMatchGame = () => {
 										target="_blank"
 										rel="noopener noreferrer"
 										onClick={(event) => fComposeCast(event, {
-											text: `Join me for a game of memory match from /songbirdz on @base!\n\nThink you can beat me?`,
+											text: `Join me for a game of Songbirdz memory match on @base!\n\nThink you can beat me?`,
 											embeds: ['https://songbirdz.cc/memory-match'],
+											channelKey: 'songbirdz',
 										})}>
 										<img
 											className="farcaster-logo me-2"
@@ -642,8 +548,9 @@ const MemoryMatchGame = () => {
 								target="_blank"
 								rel="noopener noreferrer"
 								onClick={(event) => fComposeCast(event, {
-									text: `I just scored ${finalScore}/1000 in the memory match game (${difficultyMode} mode) from /songbirdz on @base!\n\nThink you can you beat me?`,
+									text: `I just scored ${finalScore}/1000 in the Songbirdz memory match game (${difficultyMode} mode) on @base!\n\nThink you can you beat me?`,
 									embeds: ['https://songbirdz.cc/memory-match'],
+									channelKey: 'songbirdz',
 								})}>
 								<img
 									className="farcaster-logo me-2"
