@@ -543,12 +543,12 @@ const MemoryMatchGame = () => {
 								{"New Game"}
 							</Button>
 							<a
-								href={`https://farcaster.xyz/~/compose?text=${encodeURIComponent(`I just scored ${finalScore}/1000 in the memory match game (${difficultyMode} mode) from /songbirdz on @base!\n\nThink you can you beat me?`)}&embeds[]=${encodeURIComponent('https://songbirdz.cc/memory-match')}`}
+								href={`https://farcaster.xyz/~/compose?text=${encodeURIComponent(`I just scored ${finalScore}/1000 in the Songbirdz memory match game (${difficultyMode} mode)!\n\nThink you can you beat me?`)}&channelKey=songbirdz&embeds[]=${encodeURIComponent('https://songbirdz.cc/memory-match')}`}
 								className="btn btn-dark w-100 d-flex align-items-center justify-content-center"
 								target="_blank"
 								rel="noopener noreferrer"
 								onClick={(event) => fComposeCast(event, {
-									text: `I just scored ${finalScore}/1000 in the Songbirdz memory match game (${difficultyMode} mode) on @base!\n\nThink you can you beat me?`,
+									text: `I just scored ${finalScore}/1000 in the Songbirdz memory match game (${difficultyMode} mode)!\n\nThink you can you beat me?`,
 									embeds: ['https://songbirdz.cc/memory-match'],
 									channelKey: 'songbirdz',
 								})}>

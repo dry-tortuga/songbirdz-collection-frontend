@@ -144,12 +144,12 @@ const BirdDetails = () => {
                                             {"Tweet"}
                                         </a>
                                         <a
-                                            href={`https://farcaster.xyz/~/compose?text=${encodeURIComponent(`Check out this ${bird.species} in the Songbirdz collection on @base!\n\nhttps://songbirdz.cc/collection/${bird.id}\n\n`)}&channelKey=songbirdz&embeds[]=${encodeURIComponent(bird.imageLg)}&embeds[]=${encodeURIComponent(`https://songbirdz.cc/collection/${bird.id}`)})}`}
+                                            href={`https://farcaster.xyz/~/compose?text=${encodeURIComponent(`Check out this ${bird.species} in the Songbirdz collection!\n\nhttps://songbirdz.cc/collection/${bird.id}\n\n`)}&channelKey=songbirdz&embeds[]=${encodeURIComponent(bird.imageLg)}&embeds[]=${encodeURIComponent(`https://songbirdz.cc/collection/${bird.id}`)})}`}
                                             className="farcaster-share-button ms-4"
                                             target="_blank"
                                             rel="noopener noreferrer nofollow"
                                             onClick={(event) => fComposeCast(event, {
-                                            	text: `Check out this ${bird.species} in the Songbirdz collection on @base!\n\nhttps://songbirdz.cc/collection/${bird.id}\n\n`,
+                                            	text: `Check out this ${bird.species} in the Songbirdz collection!\n\nhttps://songbirdz.cc/collection/${bird.id}\n\n`,
                                             	embeds: [
                                             		bird.imageLg,
                                             		`https://songbirdz.cc/collection/${bird.id}`,

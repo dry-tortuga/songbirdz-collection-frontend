@@ -20,6 +20,20 @@ export function FarcasterProvider({ children }) {
 		}
 	}, [context]);
 
+	const openExternalURL = useCallback(async (event) => {
+
+		if (context) {
+			event.preventDefault();
+			try {
+				const url = event.target.href;
+				await sdk.actions.openUrl(url);
+			} catch (error) {
+				console.error(error);
+			}
+		}
+
+	}, [context]);
+
 	const openLinkToChannel = useCallback(async (event) => {
 
 		if (context) {
@@ -88,6 +102,7 @@ export function FarcasterProvider({ children }) {
 			fContext: context,
 			fAddMiniApp: addMiniApp,
 			fComposeCast: composeCast,
+			fOpenExternalURL: openExternalURL,
 			fOpenLinkToChannel: openLinkToChannel,
 			fOpenLinkToOwner: openLinkToOwner,
 		}}>

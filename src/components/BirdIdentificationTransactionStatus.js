@@ -183,12 +183,12 @@ const BirdIdentificationTransactionStatus = (props) => {
                             </span>
                             <span className="me-3">
                                 <a
-                                    href={`https://farcaster.xyz/~/compose?text=${encodeURIComponent(`I just identified this ${tx.bird.species} in the /songbirdz collection on @base!\n\nhttps://songbirdz.cc/collection/${tx.bird.id}\n\nThink you have what it takes to identify a new bird onchain?`)}&embeds[]=${encodeURIComponent(tx.bird.imageLg)}&embeds[]=${encodeURIComponent(`https://songbirdz.cc/collection/${tx.bird.id}`)}`}
+                                    href={`https://farcaster.xyz/~/compose?text=${encodeURIComponent(`I just identified this ${tx.bird.species} in the Songbirdz collection!\n\nhttps://songbirdz.cc/collection/${tx.bird.id}\n\nThink you have what it takes to identify a new bird onchain?`)}&channelKey=songbirdz&embeds[]=${encodeURIComponent(tx.bird.imageLg)}&embeds[]=${encodeURIComponent(`https://songbirdz.cc/collection/${tx.bird.id}`)}`}
                                     className="farcaster-share-button"
                                     target="_blank"
                                     rel="noopener noreferrer"
                                     onClick={(event) => fComposeCast(event, {
-                                        text: `I just identified this ${tx.bird.species} in the Songbirdz collection on @base!\n\nhttps://songbirdz.cc/collection/${tx.bird.id}\n\nThink you have what it takes to identify a bird onchain?`,
+                                        text: `I just identified this ${tx.bird.species} in the Songbirdz collection!\n\nhttps://songbirdz.cc/collection/${tx.bird.id}\n\nThink you have what it takes to identify a bird onchain?`,
                                         embeds: [
                                         	tx.bird.imageLg,
                                         	`https://songbirdz.cc/collection/${tx.bird.id}`,

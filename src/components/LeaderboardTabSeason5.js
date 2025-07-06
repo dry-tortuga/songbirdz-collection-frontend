@@ -234,12 +234,12 @@ const LeaderboardTabSeason5 = ({ onUserClick }) => {
                                         </li>
                                         <li>
                                             <a
-                                                href={`https://farcaster.xyz/~/compose?text=${encodeURIComponent(`Check out the /songbirdz project from @dry-tortuga on @base!\n\nYOUR OWN WORDS HERE\n\n`)}&embeds[]=${encodeURIComponent('https://songbirdz.cc')}`}
+                                                href={`https://farcaster.xyz/~/compose?text=${encodeURIComponent(`Check out the /songbirdz project, bird watching is cool!\n\nYOUR OWN WORDS HERE\n\n@dry-tortuga @base`)}&embeds[]=${encodeURIComponent('https://songbirdz.cc')}`}
                                                 className="farcaster-share-button"
                                                 target="_blank"
                                                 rel="noopener noreferrer nofollow"
 												onClick={(event) => fComposeCast(event, {
-													text: `Check out the /songbirdz project from @dry-tortuga on @base!\n\nYOUR OWN WORDS HERE`,
+													text: `Check out the /songbirdz project, bird watching is cool!\n\nYOUR OWN WORDS HERE\n\n@dry-tortuga @base`,
 													embeds: ['https://songbirdz.cc'],
 												})}>
                                                 {"Share on Farcaster :)"}
