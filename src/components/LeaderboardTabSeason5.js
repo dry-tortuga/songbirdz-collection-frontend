@@ -239,7 +239,7 @@ const LeaderboardTabSeason5 = ({ onUserClick }) => {
                                                 target="_blank"
                                                 rel="noopener noreferrer nofollow"
 												onClick={(event) => fComposeCast(event, {
-													text: `Check out the /songbirdz project, bird watching is cool!\n\nYOUR OWN WORDS HERE\n\n@dry-tortuga @base`,
+													text: `Check out the Songbirdz project, bird watching is cool!\n\nYOUR OWN WORDS HERE\n\n@dry-tortuga @base`,
 													embeds: ['https://songbirdz.cc'],
 												})}>
                                                 {"Share on Farcaster :)"}

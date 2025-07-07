@@ -40,6 +40,8 @@ const LeaderboardTable = (props) => {
         setCurrentPage(pageNumber);
     };
 
+	console.log(users);
+
     return (
         <>
             <Table className="leaderboard-table fw-normal" hover responsive>

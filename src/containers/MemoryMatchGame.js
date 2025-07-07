@@ -221,11 +221,6 @@ const MemoryMatchGame = () => {
 
 	};
 
-	// Prompt user to add mini-app on initial load
-	useEffect(() => {
-		fAddMiniApp();
-	}, [fAddMiniApp]);
-
 	// Load the birds on initial load
 	useEffect(() => { handleResetGame(difficultyMode, false) }, [difficultyMode]);
 
@@ -248,6 +243,9 @@ const MemoryMatchGame = () => {
 					duration: timeUsed,
 					moves: movesUsed,
 				});
+
+				// Prompt user to add the mini-app
+				fAddMiniApp();
 
 			}
 
@@ -499,12 +497,12 @@ const MemoryMatchGame = () => {
 										{"Start Game"}
 									</Button>
 									<a
-										href={`https://farcaster.xyz/~/compose?text=${encodeURIComponent('Join me for a game of memory match from /songbirdz on @base!\n\nThink you can beat me?')}&embeds[]=${encodeURIComponent('https://songbirdz.cc/memory-match')}`}
+										href={`https://farcaster.xyz/~/compose?text=${encodeURIComponent('Join me for a game of memory match from /songbirdz on @base!\n\nThink you\'ve got what it takes to beat me?')}&embeds[]=${encodeURIComponent('https://songbirdz.cc/memory-match')}`}
 										className="btn btn-dark w-100 d-flex align-items-center justify-content-center"
 										target="_blank"
 										rel="noopener noreferrer"
 										onClick={(event) => fComposeCast(event, {
-											text: `Join me for a game of Songbirdz memory match on @base!\n\nThink you can beat me?`,
+											text: `Join me for a game of Songbirdz memory match!\n\nThink you've got what it takes to beat me?`,
 											embeds: ['https://songbirdz.cc/memory-match'],
 											channelKey: 'songbirdz',
 										})}>

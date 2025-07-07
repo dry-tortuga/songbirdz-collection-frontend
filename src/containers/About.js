@@ -6,7 +6,7 @@ import { useFarcasterContext } from "../contexts/farcaster";
 
 const About = () => {
 
-	const { fContext, fOpenLinkToOwner } = useFarcasterContext();
+	const { fContext, fOpenExternalURL, fOpenLinkToOwner } = useFarcasterContext();
 
     return (
         <div className="about-page">
@@ -24,9 +24,10 @@ const About = () => {
                         <p>
                             {"This project was one of "}
                             <a
-                                href="https://onchain-summer.devfolio.co/projects?prizes=0ef9ac5fb88e4ed689def5674c73d2d0&show_winners=false"
-                                target="_blank"
-                                rel="noopener noreferrer nofollow">
+								href="https://onchain-summer.devfolio.co/projects?prizes=0ef9ac5fb88e4ed689def5674c73d2d0&show_winners=false"
+								target="_blank"
+								rel="noopener noreferrer nofollow"
+								onClick={fOpenExternalURL}>
                                 <b>{"11 winners"}</b>
                             </a>
                             {" chosen in the \"GAMING with thirdweb: Gaming\" category at the Onchain Summer Buildathon in June 2024."}

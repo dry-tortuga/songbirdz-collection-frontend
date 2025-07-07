@@ -73,11 +73,52 @@ export function FarcasterProvider({ children }) {
 
 	}, [context]);
 
+	const populateFarcasterUsers = useCallback(async (users) => {
+
+		console.log('Fetching farcaster user data....');
+
+		const result = [...users];
+
+		const options = {
+			method: 'GET',
+			headers: { 'x-api-key': process.env.REACT_APP_NEYNAR_API_KEY },
+		};
+
+		const url =
+			'https://api.neynar.com/v2/farcaster/user/bulk-by-address/' +
+			`?addresses=${result.map((user) => user.address).join(',')}`
+
+		try {
+
+			const response = await fetch(url, options);
+
+			const data = await response.json();
+
+			console.log(data);
+
+			// Loop through each user and populate with farcaster data (if any)
+			result.forEach((user, index) => {
+
+				const farcasterUserData = data.users[user.address.toLowerCase()];
+
+				result[index] = { ...user, farcaster: farcasterUserData };
+
+			});
+
+		} catch (err) {
+			console.error(err);
+		}
+
+		return result;
+
+	});
+
 	useEffect(() => {
 
 		const load = async () => {
 
 			try {
+
 				const fContext = await sdk.context;
 
 				setContext(fContext);
@@ -87,6 +128,7 @@ export function FarcasterProvider({ children }) {
 
 				// Integrate with a back navigation control provided by the Farcaster client
 				await sdk.back.enableWebNavigation();
+
 			} catch (error) {
 				console.error(error);
 			}
@@ -105,6 +147,7 @@ export function FarcasterProvider({ children }) {
 			fOpenExternalURL: openExternalURL,
 			fOpenLinkToChannel: openLinkToChannel,
 			fOpenLinkToOwner: openLinkToOwner,
+			fPopulateUsers: populateFarcasterUsers,
 		}}>
 			{children}
 		</FarcasterContext.Provider>
