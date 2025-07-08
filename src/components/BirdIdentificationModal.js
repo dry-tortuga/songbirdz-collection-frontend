@@ -223,7 +223,7 @@ const BirdIdentificationModal = (props) => {
                                 </Form.Label>
                                 <AccountOwner
                                     className="w-100"
-                                    account={bird.owner} />
+                                    user={{ address: bird.owner }} />
                                 <span
                                     style={{
                                         position: 'absolute',

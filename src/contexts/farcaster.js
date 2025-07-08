@@ -47,6 +47,18 @@ export function FarcasterProvider({ children }) {
 
 	}, [context]);
 
+	const openLinkToUser = useCallback(async (fid) => {
+
+		if (context) {
+			try {
+				await sdk.actions.viewProfile({ fid });
+			} catch (error) {
+				console.error(error);
+			}
+		}
+
+	}, [context]);
+
 	const openLinkToOwner = useCallback(async (event) => {
 
 		if (context) {
@@ -97,13 +109,13 @@ export function FarcasterProvider({ children }) {
 			console.log(data);
 
 			// Loop through each user and populate with farcaster data (if any)
-			result.forEach((user, index) => {
+			for (let i = 0; i < result.length; i++) {
 
-				const farcasterUserData = data.users[user.address.toLowerCase()];
+				const farcasterUserData = data[result[i].address.toLowerCase()]?.[0] || null;
 
-				result[index] = { ...user, farcaster: farcasterUserData };
+				result[i] = { ...result[i], farcaster: farcasterUserData };
 
-			});
+			}
 
 		} catch (err) {
 			console.error(err);
@@ -146,6 +158,7 @@ export function FarcasterProvider({ children }) {
 			fComposeCast: composeCast,
 			fOpenExternalURL: openExternalURL,
 			fOpenLinkToChannel: openLinkToChannel,
+			fOpenLinkToUser: openLinkToUser,
 			fOpenLinkToOwner: openLinkToOwner,
 			fPopulateUsers: populateFarcasterUsers,
 		}}>

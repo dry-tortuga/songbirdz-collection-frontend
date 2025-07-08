@@ -85,7 +85,7 @@ const LeaderboardTabSpeciesRanks = ({ onUserClick }) => {
 																total: 0,
 															})
 														}>
-														<AccountOwner account={entry.address} />
+														<AccountOwner user={{ address: entry.address }} />
 													</a>
 													{entry.address === account?.toLowerCase() &&
 														<Badge

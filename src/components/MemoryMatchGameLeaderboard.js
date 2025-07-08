@@ -122,7 +122,7 @@ const MemoryMatchGameLeaderboard = (props) => {
 												className={entry.address === account?.toLowerCase() ? 'table-primary' : ''}>
 												<td>{entry.rank}</td>
 												<td>
-													<AccountOwner account={entry.address} />
+													<AccountOwner user={{ address: entry.address }} />
 													{entry.address === account?.toLowerCase() &&
 														<Badge
 															bg="info"

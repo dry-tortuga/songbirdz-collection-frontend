@@ -374,7 +374,7 @@ const LifeListModal = (props) => {
 					</div>
 					<div className="flex flex-column flex-sm-row align-items-sm-center gap-2 user-details">
 						<AccountOwner
-							account={address?.account}
+							user={{ address: address?.account }}
 							size="lg" />
 						<Badge
 							className="ms-sm-auto"

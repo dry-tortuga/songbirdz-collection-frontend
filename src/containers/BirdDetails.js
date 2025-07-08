@@ -278,7 +278,7 @@ const BirdDetails = () => {
                                                     {bird.owner ? (
                                                         <AccountOwner
                                                             className="w-50 justify-center"
-                                                            account={bird.owner} />
+                                                            user={{ address: bird.owner }} />
                                                     ) : (
                                                         <span className="w-50 text-center">
                                                             {"None"}

@@ -5,3 +5,8 @@
 	background-color: var(--bs-success-bg-subtle) !important;
 	--bs-table-bg-state: var(--bs-success-bg-subtle) !important;
 }
+
+.leaderboard-table :not(.current-user) tr:hover td {
+	background-color: var(--bs-table-hover-bg) !important;
+	--bs-table-bg-state: var(--bs-table-hover-bg) !important;
+}

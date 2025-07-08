@@ -1,15 +1,11 @@
 import { useEffect, useState } from "react";
 
 import { ADRESSES_TO_IGNORE } from "../constants";
-
-import { useFarcasterContext } from "../contexts/farcaster";
 import { fetchPointsLeaderboard } from "../utils/data";
 
 const TOTAL_SIZE = 54;
 
 const usePointsLeaderboard = ({ account, season }) => {
-
-	const { fPopulateUsers } = useFarcasterContext();
 
     const [data, setData] = useState(null);
 
@@ -30,8 +26,6 @@ const usePointsLeaderboard = ({ account, season }) => {
                 	.filter((user) => !ADRESSES_TO_IGNORE.includes(user.address))
                  	.slice(0, 51);
 
-				users = await fPopulateUsers(users);
-
                 setData(users);
 
             };
@@ -40,7 +34,7 @@ const usePointsLeaderboard = ({ account, season }) => {
 
         }
 
-    }, [data, account, season, fPopulateUsers]);
+    }, [data, account, season]);
 
     return { data, setData };
 

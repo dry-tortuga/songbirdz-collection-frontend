@@ -72,7 +72,7 @@ const LeaderboardTabDailyStreakActive = ({ onUserClick }) => {
 													total: 0,
 												})
 											}>
-											<AccountOwner account={user.address} />
+											<AccountOwner user={{ address: user.address }} />
 										</a>
 									</td>
 									<td>

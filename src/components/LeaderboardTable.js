@@ -1,6 +1,7 @@
-import React, { useMemo, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { Table, Pagination } from "react-bootstrap";
 
+import { useFarcasterContext } from "../contexts/farcaster";
 import { useWalletContext } from "../contexts/wallet";
 
 import AccountOwner from "./AccountOwner";
@@ -13,19 +14,39 @@ const LeaderboardTable = (props) => {
 
     const { users, onUserClick } = props;
 
+   	const { fPopulateUsers } = useFarcasterContext();
     const { account } = useWalletContext();
 
     const [currentPage, setCurrentPage] = useState(1);
 
+    const [farcasterUsers, setFarcasterUsers] = useState(null);
+
+    // Add farcaster user data
+	useEffect(() => {
+
+		const populate = async () => {
+
+			const result = await fPopulateUsers(users);
+
+			setFarcasterUsers(result);
+
+		}
+
+		populate();
+
+	}, [users, fPopulateUsers]);
+
     // Calculate pagination
 	const paginationState = useMemo(() => {
 
-		const totalPages = Math.ceil(users.length / PAGE_SIZE);
+		if (!farcasterUsers) { return null; }
+
+		const totalPages = Math.ceil(farcasterUsers.length / PAGE_SIZE);
 
 		const startIndex = (currentPage - 1) * PAGE_SIZE;
 		const endIndex = startIndex + PAGE_SIZE;
 
-		const currentUsers = users.slice(startIndex, endIndex);
+		const currentUsers = farcasterUsers.slice(startIndex, endIndex);
 
 		return {
 			currentUsers,
@@ -34,13 +55,17 @@ const LeaderboardTable = (props) => {
 			endIndex,
 		};
 
-	}, [users, currentPage]);
+	}, [farcasterUsers, currentPage]);
 
     const handlePageChange = (pageNumber) => {
         setCurrentPage(pageNumber);
     };
 
-	console.log(users);
+	console.log(farcasterUsers);
+
+	if (!paginationState || !paginationState.currentUsers) {
+		return <i className="fa-solid fa-spinner fa-spin fa-xl me-2" />;
+	}
 
     return (
         <>
@@ -76,17 +101,20 @@ const LeaderboardTable = (props) => {
                                     )}
                             </td>
                             <td>
-                                <a
-                                    href="#"
-                                    title="View Life List"
-                                    onClick={() =>
-                                        onUserClick({
-                                            account: user.address,
-                                            total: user.total,
-                                        })
-                                    }>
-                                    <AccountOwner account={user.address} />
-                                </a>
+                            <a
+                                href="#"
+                                title="View Life List"
+                                style={{ textDecoration: 'none' }}
+                                onClick={() =>
+                                    onUserClick({
+                                        account: user.address,
+                                        total: user.total,
+                                    })
+                                }>
+                                <AccountOwner
+	                                user={{ address: user.address, farcaster: user.farcaster }}
+	                                showLinkToProfile={false} />
+                            </a>
                             </td>
                             <td>{user.total}</td>
                         </tr>
