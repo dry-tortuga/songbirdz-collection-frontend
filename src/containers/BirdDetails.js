@@ -35,7 +35,7 @@ const BirdDetails = () => {
 
     const context = useWalletContext();
 
-	const { fComposeCast } = useFarcasterContext();
+	const { fComposeCast, fPopulateUsers } = useFarcasterContext();
 
     const { setBirdToGift } = useGiftContext();
 
@@ -55,6 +55,8 @@ const BirdDetails = () => {
         cached: true,
     });
 
+    const [birdOwner, setBirdOwner] = useState(null);
+
     // Keep track of the state of the info alert
     const [showInfoAlert, setShowInfoAlert] = useState(true);
 
@@ -69,6 +71,26 @@ const BirdDetails = () => {
         }
 
     }, [bird?.id, bird?.species]);
+
+    // Add farcaster user data for the bird's current owner
+	useEffect(() => {
+
+		const populate = async () => {
+
+			if (!bird?.owner) {
+				setBirdOwner(null);
+				return;
+			}
+
+			const result = await fPopulateUsers([{ address: bird.owner }]);
+
+			setBirdOwner(result[0]);
+
+		}
+
+		populate();
+
+	}, [bird?.owner, fPopulateUsers]);
 
     const collection = bird ? COLLECTIONS[bird.collection] : null;
 
@@ -144,16 +166,17 @@ const BirdDetails = () => {
                                             {"Tweet"}
                                         </a>
                                         <a
-                                            href={`https://farcaster.xyz/~/compose?text=${encodeURIComponent(`Check out this ${bird.species} in the Songbirdz collection on @base!\n\nhttps://songbirdz.cc/collection/${bird.id}\n\n`)}&channelKey=songbirdz&embeds[]=${encodeURIComponent(bird.imageLg)}&embeds[]=${encodeURIComponent(`https://songbirdz.cc/collection/${bird.id}`)})}`}
+                                            href={`https://farcaster.xyz/~/compose?text=${encodeURIComponent(`Check out this ${bird.species} in the Songbirdz collection!\n\nhttps://songbirdz.cc/collection/${bird.id}\n\n`)}&channelKey=songbirdz&embeds[]=${encodeURIComponent(bird.imageLg)}&embeds[]=${encodeURIComponent(`https://songbirdz.cc/collection/${bird.id}`)})}`}
                                             className="farcaster-share-button ms-4"
                                             target="_blank"
                                             rel="noopener noreferrer nofollow"
                                             onClick={(event) => fComposeCast(event, {
-                                            	text: `Check out this ${bird.species} in the /songbirdz collection on @base!\n\nhttps://songbirdz.cc/collection/${bird.id}\n\n`,
+                                            	text: `Check out this ${bird.species} in the Songbirdz collection!\n\nhttps://songbirdz.cc/collection/${bird.id}\n\n`,
                                             	embeds: [
                                             		bird.imageLg,
                                             		`https://songbirdz.cc/collection/${bird.id}`,
                                             	],
+                                            	channelKey: 'songbirdz',
                                             })}>
                                             <img
                                                 src={farcasterLogo}
@@ -275,9 +298,16 @@ const BirdDetails = () => {
                                                         {"Owner"}
                                                     </span>
                                                     {bird.owner ? (
-                                                        <AccountOwner
-                                                            className="w-50 justify-center"
-                                                            account={bird.owner} />
+                                                    	<>
+							                                {birdOwner ? (
+																<AccountOwner
+																	className="w-50 justify-center"
+																	user={birdOwner}
+																	showLinkToProfile />
+															) : (
+																<span><i className="fa-solid fa-spinner fa-spin" /></span>
+															)}
+                                                     	</>
                                                     ) : (
                                                         <span className="w-50 text-center">
                                                             {"None"}

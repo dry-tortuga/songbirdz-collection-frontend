@@ -21,17 +21,18 @@
     "tags": [
       "nfts",
    	  "pfps",
-   	  "birdwatching",
+      "bird watching",
       "birds",
    	  "gaming"
     ],
     "heroImageUrl": "https://songbirdz.cc/songbirdz-banner-img-1200x630.png",
-    "tagline": "Identify Birds Onchain",
+    "tagline": "Onchain Bird Watching",
     "homeUrl": "https://songbirdz.cc",
     "ogTitle": "Songbirdz - Birding Onchain",
     "ogDescription": "Identify new species, earn birder points, and build your onchain life list.",
     "ogImageUrl": "https://songbirdz.cc/songbirdz-banner-img-1200x630.png",
     "imageUrl": "https://songbirdz.cc/android-chrome-192x192.png",
-    "buttonTitle": "Play"
+    "buttonTitle": "Play",
+    "webhookUrl": "https://api.neynar.com/f/app/29aaf900-c77b-4aee-9ca5-ca90747f534c/event"
   }
 }

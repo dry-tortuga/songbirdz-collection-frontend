@@ -10,7 +10,12 @@ import "./Footer.css";
 
 const Footer = () => {
 
-	const { fContext, fOpenLinkToChannel, fOpenLinkToOwner } = useFarcasterContext();
+	const {
+		fContext,
+		fOpenExternalURL,
+		fOpenLinkToChannel,
+		fOpenLinkToOwner,
+	} = useFarcasterContext();
 
 	return (
 		<footer className="footer py-2">
@@ -41,18 +46,20 @@ const Footer = () => {
 						</div>
 						<div className="icons-row d-flex align-items-center justify-content-center">
 							<a
+								className="btn btn-clear text-white me-md-2"
 								href="https://twitter.com/songbirdz_cc"
 								target="_blank"
 								rel="noopener noreferrer nofollow"
-								className="btn btn-clear text-white me-md-2">
-								<i className="fa fa-brands fa-twitter"></i>
+								onClick={fOpenExternalURL}>
+								<i className="fa fa-brands fa-twitter" />
 							</a>
 							<a
+								className="btn btn-clear text-white me-md-2"
 								href="https://t.me/songbirdz_cc"
 								target="_blank"
 								rel="noopener noreferrer nofollow"
-								className="btn btn-clear text-white me-md-2">
-								<i className="fa fa-brands fa-telegram"></i>
+								onClick={fOpenExternalURL}>
+								<i className="fa fa-brands fa-telegram" />
 							</a>
 							<a
 								className="btn btn-clear  me-md-2"
@@ -69,10 +76,11 @@ const Footer = () => {
 									}} />
 							</a>
 							<a
-								className="btn btn-clear  me-md-2"
+								className="btn btn-clear me-md-2"
 								href="https://opensea.io/collection/songbirdz"
 								rel="noopener noreferrer nofollow"
-								target="_blank">
+								target="_blank"
+								onClick={fOpenExternalURL}>
 								<img
 									alt=""
 									src={openseaLogo}
@@ -85,7 +93,8 @@ const Footer = () => {
 								className="btn btn-clear"
 								href="https://magiceden.io/collections/base/0x7c3b795e2174c5e0c4f7d563a2fb34f024c8390b"
 								rel="noopener noreferrer nofollow"
-								target="_blank">
+								target="_blank"
+								onClick={fOpenExternalURL}>
 								<img
 									alt=""
 									src={magicedenLogo}

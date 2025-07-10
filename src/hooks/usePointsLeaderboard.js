@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 
 import { ADRESSES_TO_IGNORE } from "../constants";
-
 import { fetchPointsLeaderboard } from "../utils/data";
 
 const TOTAL_SIZE = 54;

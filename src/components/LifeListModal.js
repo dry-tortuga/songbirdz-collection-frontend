@@ -1,4 +1,5 @@
 import React, { useMemo, useState } from "react";
+import PropTypes from "prop-types";
 import { Badge, Form, Modal } from "react-bootstrap";
 
 import { COLLECTIONS, FAMILIES } from "../constants";
@@ -374,8 +375,9 @@ const LifeListModal = (props) => {
 					</div>
 					<div className="flex flex-column flex-sm-row align-items-sm-center gap-2 user-details">
 						<AccountOwner
-							account={address?.account}
-							size="lg" />
+							user={{ address: address?.account, farcaster: address?.farcaster }}
+							size="lg"
+							showLinkToProfile />
 						<Badge
 							className="ms-sm-auto"
 							bg="info">
@@ -392,7 +394,7 @@ const LifeListModal = (props) => {
 							filter === "3" ||
 							filter === "4" ||
 							filter === "5"
-						) && address.rank &&
+						) && address?.rank &&
 							<Badge
 								className="ms-sm-3"
 								bg="success">
@@ -467,6 +469,16 @@ const LifeListModal = (props) => {
 		</Modal>
 	);
 
+};
+
+LifeListModal.propTypes = {
+	address: PropTypes.shape({
+		account: PropTypes.string,
+		rank: PropTypes.number,
+		farcaster: PropTypes.shape({}),
+	}),
+	isOpen: PropTypes.bool.isRequired,
+	onToggle: PropTypes.func.isRequired,
 };
 
 export default LifeListModal;
