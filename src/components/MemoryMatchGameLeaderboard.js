@@ -1,8 +1,10 @@
-import React, { useMemo, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { Badge, Pagination, Table } from "react-bootstrap";
+import PropTypes from "prop-types";
 
 import AccountOwner from "./AccountOwner";
 
+import { useFarcasterContext } from "../contexts/farcaster";
 import { useWalletContext } from "../contexts/wallet";
 
 const PAGE_SIZE = 10;
@@ -11,12 +13,15 @@ const MemoryMatchGameLeaderboard = (props) => {
 
 	const { data, loading, error, sortBy, setSortBy } = props;
 
+	const { fPopulateUsers } = useFarcasterContext();
 	const { account } = useWalletContext();
 
 	const [currentPage, setCurrentPage] = useState(1);
 
-    // Calculate pagination
-	const paginationState = useMemo(() => {
+	const [farcasterUsers, setFarcasterUsers] = useState(null);
+
+	// Calculate pagination
+	const paginationInfo = useMemo(() => {
 
 		const numItems = data ? data.length : 0;
 
@@ -25,10 +30,10 @@ const MemoryMatchGameLeaderboard = (props) => {
 		const startIndex = (currentPage - 1) * PAGE_SIZE;
 		const endIndex = startIndex + PAGE_SIZE;
 
-		const currentData = data ? data.slice(startIndex, endIndex) : null;
+		const currentUsers = data ? data.slice(startIndex, endIndex) : null;
 
 		return {
-			currentData,
+			currentUsers,
 			totalPages,
 			startIndex,
 			endIndex,
@@ -36,9 +41,43 @@ const MemoryMatchGameLeaderboard = (props) => {
 
 	}, [data, currentPage]);
 
-    const handlePageChange = (pageNumber) => {
-        setCurrentPage(pageNumber);
-    };
+	// Add farcaster user data for current page only
+	useEffect(() => {
+
+		const populate = async () => {
+
+			if (!paginationInfo || !paginationInfo.currentUsers) {
+				setFarcasterUsers(null);
+				return;
+			}
+
+			const result = await fPopulateUsers(paginationInfo.currentUsers);
+
+			setFarcasterUsers(result);
+
+		}
+
+		populate();
+
+	}, [paginationInfo, fPopulateUsers]);
+
+	// Calculate final pagination state
+	const paginationState = useMemo(() => {
+
+		if (!farcasterUsers || !paginationInfo) { return null; }
+
+		return {
+			currentUsers: farcasterUsers,
+			totalPages: paginationInfo.totalPages,
+			startIndex: paginationInfo.startIndex,
+			endIndex: paginationInfo.endIndex,
+		};
+
+	}, [farcasterUsers, paginationInfo]);
+
+	const handlePageChange = (pageNumber) => {
+		setCurrentPage(pageNumber);
+	};
 
 	return (
 		<div className="row">
@@ -53,7 +92,7 @@ const MemoryMatchGameLeaderboard = (props) => {
 						{error}
 					</div>
 				)}
-				{paginationState.currentData && (
+				{paginationState?.currentUsers && (
 					<>
 						<Table
 							className="leaderboard-table fw-normal"
@@ -96,7 +135,7 @@ const MemoryMatchGameLeaderboard = (props) => {
 								</tr>
 							</thead>
 							<tbody>
-								{paginationState.currentData.map((entry, index) => {
+								{paginationState.currentUsers.map((user, index) => {
 
 									const finalIndex = paginationState.startIndex + index;
 
@@ -119,11 +158,13 @@ const MemoryMatchGameLeaderboard = (props) => {
 											{spacer}
 											<tr
 												key={finalIndex}
-												className={entry.address === account?.toLowerCase() ? 'table-primary' : ''}>
-												<td>{entry.rank}</td>
+												className={user.address === account?.toLowerCase() ? 'table-primary' : ''}>
+												<td>{user.rank}</td>
 												<td>
-													<AccountOwner user={{ address: entry.address }} />
-													{entry.address === account?.toLowerCase() &&
+													<AccountOwner
+														user={{ address: user.address, farcaster: user.farcaster }}
+														showLinkToProfile />
+													{user.address === account?.toLowerCase() &&
 														<Badge
 															bg="info"
 															className="ms-2">
@@ -131,14 +172,14 @@ const MemoryMatchGameLeaderboard = (props) => {
 														</Badge>
 													}
 												</td>
-												<td>{entry.today}</td>
-												<td>{entry.total}</td>
+												<td>{user.today}</td>
+												<td>{user.total}</td>
 											</tr>
 										</>
 									);
 
 								})}
-								{paginationState.currentData.length === 0 && (
+								{paginationState.currentUsers.length === 0 && (
 									<tr>
 										<td colSpan="6" className="text-center">
 											{"No scores recorded yet."}
@@ -148,23 +189,23 @@ const MemoryMatchGameLeaderboard = (props) => {
 							</tbody>
 						</Table>
 						{paginationState.totalPages > 1 && (
-			                <Pagination className="justify-content-center">
-			                    <Pagination.First
-			                        onClick={() => handlePageChange(1)}
-			                        disabled={currentPage === 1} />
-			                    {[...Array(paginationState.totalPages)].map((_, index) => (
-			                        <Pagination.Item
-			                            key={index + 1}
-			                            active={(index + 1) === currentPage}
-			                            onClick={() => handlePageChange(index + 1)}>
-			                            {index + 1}
-			                        </Pagination.Item>
-			                    ))}
-			                    <Pagination.Last
-			                        onClick={() => handlePageChange(paginationState.totalPages)}
-			                        disabled={currentPage === paginationState.totalPages} />
-			                </Pagination>
-			            )}
+							<Pagination className="justify-content-center">
+								<Pagination.First
+									disabled={currentPage === 1}
+									onClick={() => handlePageChange(1)} />
+								{[...Array(paginationState.totalPages)].map((_, index) => (
+									<Pagination.Item
+										key={index + 1}
+										active={(index + 1) === currentPage}
+										onClick={() => handlePageChange(index + 1)}>
+										{index + 1}
+									</Pagination.Item>
+								))}
+								<Pagination.Last
+									disabled={currentPage === paginationState.totalPages}
+									onClick={() => handlePageChange(paginationState.totalPages)} />
+							</Pagination>
+						)}
 					</>
 				)}
 			</div>
@@ -172,5 +213,20 @@ const MemoryMatchGameLeaderboard = (props) => {
 	);
 
 };
+
+const propTypes = {
+	data: PropTypes.arrayOf(PropTypes.shape({
+		address: PropTypes.string.isRequired,
+		rank: PropTypes.number.isRequired,
+		today: PropTypes.number.isRequired,
+		total: PropTypes.number.isRequired,
+	})),
+	loading: PropTypes.bool,
+	error: PropTypes.string,
+	sortBy: PropTypes.string,
+	setSortBy: PropTypes.func.isRequired,
+};
+
+MemoryMatchGameLeaderboard.propTypes = propTypes;
 
 export default MemoryMatchGameLeaderboard;

@@ -1,6 +1,8 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import PropTypes from "prop-types";
 import { Col, Row, Table } from "react-bootstrap";
 
+import { useFarcasterContext } from "../contexts/farcaster";
 import { useWalletContext } from "../contexts/wallet";
 
 import useDailyStreaksActive from "../hooks/useDailyStreaksActive";
@@ -9,9 +11,32 @@ import AccountOwner from "./AccountOwner";
 
 const LeaderboardTabDailyStreakActive = ({ onUserClick }) => {
 
+	const { fPopulateUsers } = useFarcasterContext();
 	const { account } = useWalletContext();
 
 	const { data } = useDailyStreaksActive({ account });
+
+	const [farcasterUsers, setFarcasterUsers] = useState(null);
+
+	// Add farcaster user data
+	useEffect(() => {
+
+		const populate = async () => {
+
+			if (!data) {
+				setFarcasterUsers(null);
+				return;
+			}
+
+			const result = await fPopulateUsers(data);
+
+			setFarcasterUsers(result);
+
+		}
+
+		populate();
+
+	}, [data, fPopulateUsers]);
 
 	return (
 		<Row className="mb-4">
@@ -35,19 +60,19 @@ const LeaderboardTabDailyStreakActive = ({ onUserClick }) => {
 							</th>
 						</tr>
 					</thead>
-					{!data &&
+					{!farcasterUsers &&
 						<div className="mt-3">
 							<i className="fa-solid fa-spinner fa-spin fa-xl" />
 						</div>
 					}
-					{data?.length === 0 &&
+					{farcasterUsers?.length === 0 &&
 						<div className="mt-3">
 							{"Nothing to show here..."}
 						</div>
 					}
-					{data?.length > 0 &&
+					{farcasterUsers?.length > 0 &&
 						<tbody>
-							{data.map((user, index) => (
+							{farcasterUsers.map((user, index) => (
 								<tr
 									key={index}
 									className={
@@ -66,13 +91,17 @@ const LeaderboardTabDailyStreakActive = ({ onUserClick }) => {
 										<a
 											href="#"
 											title="View Life List"
+											style={{ textDecoration: 'none' }}
 											onClick={() =>
 												onUserClick({
 													account: user.address,
-													total: 0,
+													rank: null,
+													farcaster: user.farcaster,
 												})
 											}>
-											<AccountOwner user={{ address: user.address }} />
+											<AccountOwner
+												user={{ address: user.address, farcaster: user.farcaster }}
+												showLinkToProfile={false} />
 										</a>
 									</td>
 									<td>
@@ -119,5 +148,11 @@ const LeaderboardTabDailyStreakActive = ({ onUserClick }) => {
 	);
 
 };
+
+const propTypes = {
+	onUserClick: PropTypes.func.isRequired,
+};
+
+LeaderboardTabDailyStreakActive.propTypes = propTypes;
 
 export default LeaderboardTabDailyStreakActive;

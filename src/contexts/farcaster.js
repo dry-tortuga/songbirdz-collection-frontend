@@ -9,6 +9,8 @@ const FarcasterContext = createContext()
 export function FarcasterProvider({ children }) {
 
 	const [context, setContext] = useState(null);
+	const [cachedUsers, setCachedUsers] = useState({});
+	const [cachedUsersData, setCachedUsersData] = useState({});
 
 	const addMiniApp = useCallback(async () => {
 		if (context) {
@@ -87,9 +89,11 @@ export function FarcasterProvider({ children }) {
 
 	const populateFarcasterUsers = useCallback(async (users) => {
 
-		console.log('Fetching farcaster user data....');
-
 		const result = [...users];
+
+		let addressesToFetch = result
+			.map((user) => user.address.toLowerCase())
+			.filter((address) => !cachedUsers[address]);
 
 		const options = {
 			method: 'GET',
@@ -98,22 +102,44 @@ export function FarcasterProvider({ children }) {
 
 		const url =
 			'https://api.neynar.com/v2/farcaster/user/bulk-by-address/' +
-			`?addresses=${result.map((user) => user.address).join(',')}`
+			`?addresses=${addressesToFetch.join(',')}`
 
 		try {
 
-			const response = await fetch(url, options);
+			let fetchedData = {};
 
-			const data = await response.json();
+			if (addressesToFetch.length > 0) {
 
-			console.log(data);
+				const response = await fetch(url, options);
+
+				fetchedData = await response.json();
+
+				console.debug('Fetched farcaster user data:');
+				console.debug(fetchedData);
+
+			}
 
 			// Loop through each user and populate with farcaster data (if any)
 			for (let i = 0; i < result.length; i++) {
 
-				const farcasterUserData = data[result[i].address.toLowerCase()]?.[0] || null;
+				const address = result[i].address.toLowerCase();
 
-				result[i] = { ...result[i], farcaster: farcasterUserData };
+				let farcasterUserData = null;
+
+				if (cachedUsers[address]) {
+					farcasterUserData = cachedUsersData[address];
+				} else {
+					farcasterUserData = fetchedData[address]?.[0] || null;
+				}
+
+				// Store the farcaster user results in the cache
+				setCachedUsers((prev) => ({ ...prev, [address]: true }));
+				setCachedUsersData((prev) => ({ ...prev, [address]: farcasterUserData }));
+
+				result[i] = {
+					...result[i],
+					farcaster: farcasterUserData,
+				};
 
 			}
 
@@ -123,7 +149,7 @@ export function FarcasterProvider({ children }) {
 
 		return result;
 
-	});
+	}, [cachedUsers, cachedUsersData]);
 
 	useEffect(() => {
 

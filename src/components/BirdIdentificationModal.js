@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo, useState } from "react";
+import React, { useCallback, useEffect, useMemo, useState } from "react";
 import {
     Transaction,
     TransactionButton,
@@ -7,6 +7,7 @@ import {
     TransactionStatusAction,
     TransactionStatusLabel,
 } from "@coinbase/onchainkit/transaction";
+import PropTypes from "prop-types";
 import { Form, Modal } from "react-bootstrap";
 import Select from "react-select";
 
@@ -25,6 +26,7 @@ import {
     COLLECTIONS,
 } from "../constants";
 
+import { useFarcasterContext } from "../contexts/farcaster";
 import { useWalletContext } from "../contexts/wallet";
 
 import useBird from "../hooks/useBird";
@@ -42,11 +44,14 @@ const BirdIdentificationModal = (props) => {
         onToggle,
     } = props;
 
+   	const { fPopulateUsers } = useFarcasterContext();
     const context = useWalletContext();
 
     const [bird] = useBird({ id, cached, context });
 
     const [formData, setFormData] = useState({ species: "" });
+
+    const [birdOwner, setBirdOwner] = useState(null);
 
     const {
         account,
@@ -151,6 +156,26 @@ const BirdIdentificationModal = (props) => {
 
     }, [formData.species]);
 
+    // Add farcaster user data for the bird's current owner
+	useEffect(() => {
+
+		const populate = async () => {
+
+			if (!bird?.owner) {
+				setBirdOwner(null);
+				return;
+			}
+
+			const result = await fPopulateUsers([{ address: bird.owner }]);
+
+			setBirdOwner(result[0]);
+
+		}
+
+		populate();
+
+	}, [bird?.owner, fPopulateUsers]);
+
     /*
     useEffect(() => {
 
@@ -221,9 +246,14 @@ const BirdIdentificationModal = (props) => {
                                 <Form.Label className="d-block fw-bold">
                                     {"Owner"}
                                 </Form.Label>
-                                <AccountOwner
-                                    className="w-100"
-                                    user={{ address: bird.owner }} />
+								{birdOwner ? (
+									<AccountOwner
+										className="w-100"
+										user={birdOwner}
+										showLinkToProfile />
+								) : (
+									<span><i className="fa-solid fa-spinner fa-spin" /></span>
+								)}
                                 <span
                                     style={{
                                         position: 'absolute',
@@ -306,5 +336,16 @@ const BirdIdentificationModal = (props) => {
         </Modal>
     );
 };
+
+const propTypes = {
+	id: PropTypes.number.isRequired,
+	cached: PropTypes.bool,
+	isOpen: PropTypes.bool.isRequired,
+	onError: PropTypes.func.isRequired,
+	onSuccess: PropTypes.func.isRequired,
+	onToggle: PropTypes.func.isRequired,
+};
+
+BirdIdentificationModal.propTypes = propTypes;
 
 export default BirdIdentificationModal;

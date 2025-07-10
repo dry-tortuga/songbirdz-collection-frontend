@@ -35,7 +35,7 @@ const BirdDetails = () => {
 
     const context = useWalletContext();
 
-	const { fComposeCast } = useFarcasterContext();
+	const { fComposeCast, fPopulateUsers } = useFarcasterContext();
 
     const { setBirdToGift } = useGiftContext();
 
@@ -55,6 +55,8 @@ const BirdDetails = () => {
         cached: true,
     });
 
+    const [birdOwner, setBirdOwner] = useState(null);
+
     // Keep track of the state of the info alert
     const [showInfoAlert, setShowInfoAlert] = useState(true);
 
@@ -69,6 +71,26 @@ const BirdDetails = () => {
         }
 
     }, [bird?.id, bird?.species]);
+
+    // Add farcaster user data for the bird's current owner
+	useEffect(() => {
+
+		const populate = async () => {
+
+			if (!bird?.owner) {
+				setBirdOwner(null);
+				return;
+			}
+
+			const result = await fPopulateUsers([{ address: bird.owner }]);
+
+			setBirdOwner(result[0]);
+
+		}
+
+		populate();
+
+	}, [bird?.owner, fPopulateUsers]);
 
     const collection = bird ? COLLECTIONS[bird.collection] : null;
 
@@ -276,9 +298,16 @@ const BirdDetails = () => {
                                                         {"Owner"}
                                                     </span>
                                                     {bird.owner ? (
-                                                        <AccountOwner
-                                                            className="w-50 justify-center"
-                                                            user={{ address: bird.owner }} />
+                                                    	<>
+							                                {birdOwner ? (
+																<AccountOwner
+																	className="w-50 justify-center"
+																	user={birdOwner}
+																	showLinkToProfile />
+															) : (
+																<span><i className="fa-solid fa-spinner fa-spin" /></span>
+															)}
+                                                     	</>
                                                     ) : (
                                                         <span className="w-50 text-center">
                                                             {"None"}

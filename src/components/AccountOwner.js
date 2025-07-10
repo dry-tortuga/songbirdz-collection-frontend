@@ -49,14 +49,12 @@ const AccountOwner = (props) => {
 							alt={`${user.farcaster.display_name}'s profile picture`} />
 					</div>
 				</div>
-				<div className={`ms-2 flex flex-col ${size === "sm" ? "text-sm" : ""}`}>
-					<b>
-						<span
-							className="ock-font-family font-semibold ock-text-foreground"
-							data-testid="ockIdentity_Text">
-							{user.farcaster.display_name}
-						</span>
-					</b>
+				<div className={`ms-2 flex flex-col justify-center ${size === "sm" ? "text-sm" : ""}`}>
+					<span
+						className="ock-font-family font-semibold ock-text-foreground"
+						data-testid="ockIdentity_Text">
+						{user.farcaster.display_name}
+					</span>
 				</div>
 			</div>
 		);
@@ -69,11 +67,9 @@ const AccountOwner = (props) => {
 				address={user.address}
 				chain={chain} />
 			<div className={`ms-1 flex flex-col ${size === "sm" ? "text-sm" : ""}`}>
-				<b>
-					<Name
-						address={user.address}
-						chain={chain} />
-				</b>
+				<Name
+					address={user.address}
+					chain={chain} />
 			</div>
 		</div>
 	);
