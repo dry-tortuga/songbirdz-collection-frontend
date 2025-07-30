@@ -6,7 +6,10 @@ import { useFarcasterContext } from "../contexts/farcaster";
 
 const About = () => {
 
-	const { fContext, fOpenExternalURL, fOpenLinkToOwner } = useFarcasterContext();
+	const {
+		fOpenExternalURL,
+		fOpenLinkToOwner,
+	} = useFarcasterContext();
 
     return (
         <div className="about-page">
@@ -19,7 +22,7 @@ const About = () => {
                 <Row>
                     <Col>
                         <p>
-                            {"The Songbirdz project is bringing bird watching onchain to Base. Each species is hidden until successfully identified based on its image and song."}
+                            {"The Songbirdz project is bringing bird watching onchain to Base. Each bird (i.e. NFT) is hidden until the species is successfully identified (i.e. minted) based on that bird's image and song. The species verification happens fully onchain during the minting process."}
                         </p>
                         <p>
                             {"This project was one of "}
@@ -33,7 +36,7 @@ const About = () => {
                             {" chosen in the \"GAMING with thirdweb: Gaming\" category at the Onchain Summer Buildathon in June 2024."}
                         </p>
                         <p>
-                            {"There will be a total of 10 flocks, each consisting of 1,000 birds, which each flock rolled out one-at-a-time and with a distinct set of species, song audio, and images. Starting with the first flock of 1,000 (i.e. the Picasso Genesis flock), and ending once we've reached 10,000 total birds in the wild. The next flock of 1,000 birds won't be released until all birds in the previous flock have been successfully identified. Future flocks will introduce new species of birds, with input from the community."}
+                            {"There is a total of 10,000 birds to identify, split into 10 unique \"flocks\". Each flock consists of exactly 1,000 birds and each flock was rolled out one-at-a-time, with a distinct set of species, song audio, and images. There are a total of 800 unique species of birds to collect across the entire collection."}
                         </p>
                         <p>
                             {"Curated by a life-long birder, using images from "}
@@ -166,6 +169,17 @@ const About = () => {
                                     {"NOW MINTING:  The 9th flock of 1,000 birds in the Songbirdz collection (8000-8999). Features 50 new species, with various amounts of birds per species of either 1, 5, 10, 20, 30, 50 etc. Includes 4 \"1 of 1\" birds that are the only one of their species! This flock honors those that master the art of camouflage, each blending seamlessly into nature's earthy canvas. From leaf-littered forests to windswept rocky shores, these stealthy species are nature’s hidden wonders."}
                                 </span>
                             </li>
+                            <li>
+                                <a
+                                    href="https://songbirdz.cc/collection?number=9&hide_already_identified=true"
+                                    target="_blank"
+                                    rel="noopener noreferrer nofollow">
+                                    <b>{"Final Roost:"}</b>
+                                </a>
+                                <span className="ms-1">
+                                    {"NOW MINTING:  The 10th (and final) flock of 1,000 birds in the Songbirdz collection (9000-9999). Features 200 new species, with exactly 5 birds per species. This flock honors the chain and the community that made it all possible, as well as a homage to our first genesis flock."}
+                                </span>
+                            </li>
                         </ul>
                         <h2>{"Royalties: 1%"}</h2>
                         <ul style={{ listStyle: "disc" }}>
@@ -183,7 +197,7 @@ const About = () => {
                             </li>
                             <li>
                                 <span className="ms-1">
-                                    {"Once the 10k collection is fully minted, the community will vote on whether to keep royalties as is or set them permanently to 0%."}
+                                    {"Once the 10k collection is fully minted, the community will vote on whether to keep royalties as is, lower them, or set them permanently to 0%."}
                                 </span>
                             </li>
                         </ul>

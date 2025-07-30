@@ -234,6 +234,8 @@ const LifeListModal = (props) => {
 			collectionId = 7;
 		} else if (species.id >= 550 && species.id < 600) {
 			collectionId = 8;
+		} else if (species.id >= 600 && species.id < 800) {
+			collectionId = 9;
 		} else if (species.id >= 1000) {
 			collectionId = -1;
 		}
@@ -295,6 +297,8 @@ const LifeListModal = (props) => {
 			collectionId = 7;
 		} else if (filter === "Masters of Disguise") {
 			collectionId = 8;
+		} else if (filter === "Final Roost") {
+			collectionId = 9;
 		}
 
 		if (collectionId >= 0) {
@@ -334,6 +338,10 @@ const LifeListModal = (props) => {
 				}
 
 				if (collectionId === 8 && species.id >= 550 && species.id < 600) {
+					return true;
+				}
+
+				if (collectionId === 9 && species.id >= 600 && species.id < 800) {
 					return true;
 				}
 

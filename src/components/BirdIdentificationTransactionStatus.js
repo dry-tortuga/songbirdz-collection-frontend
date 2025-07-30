@@ -48,16 +48,6 @@ const BirdIdentificationTransactionStatus = (props) => {
             variant = "success";
             message = `You correctly identified Songbird #${birdId} as a ${speciesNameGuess}. You are now the proud owner!`;
 
-            // Check if it is one of the "1 of 1" species
-            if (
-                birdId === parseInt(process.env.REACT_APP_FLOCK_RARE_BIRD_1, 10) ||
-                birdId === parseInt(process.env.REACT_APP_FLOCK_RARE_BIRD_2, 10) ||
-                birdId === parseInt(process.env.REACT_APP_FLOCK_RARE_BIRD_3, 10) ||
-                birdId === parseInt(process.env.REACT_APP_FLOCK_RARE_BIRD_4, 10)
-            ) {
-                message = `You correctly identified Songbird #${birdId} as a ${speciesNameGuess}. This is a "1 of 1", so it is the only ${speciesNameGuess} in the entire Songbirdz collection. You are now the proud owner!`;
-            }
-
             // Check if it is the "paradox nft" winning species
             if (birdId === parseInt(process.env.REACT_APP_FLOCK_PARADOX_NFT_WINNER, 10)) {
             	message = `You correctly identified Songbird #${birdId} as a ${speciesNameGuess}. You are now the proud owner, and you've also found the "Paradox (Javpixel)" hidden bonus prize, so you will be sent Paradox NFT #1251 (reach out to @dry_tortuga on X to confirm your prize)!`;
