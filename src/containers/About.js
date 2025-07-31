@@ -58,7 +58,10 @@ const About = () => {
                             {"."}
                         </p>
                         <p>
-                            {"The contract uses merkle trees to store onchain hashes of the species names, images, and song audio for each flock in the collection. Once all 10,000 in the wild have been identified this data will be uploaded to ipfs. The back-end web server will be shut down in favor of a 2nd smart contract to manage the points system and life list. The long-term goal for this project is to be a community-driven ecosystem for bird enthusiasts, fostering a deeper connection with nature and promoting conservation efforts, while also providing a platform for users to engage with and learn about birds (and web3) in a fun and interactive way."}
+							{"The contract uses merkle trees to store onchain hashes of the species names, images, and song audio for each flock in the collection."}
+                        </p>
+                        <p>
+                        	{"The long-term goal for this project is to be a community-driven ecosystem for bird enthusiasts, fostering a deeper connection with nature and promoting conservation efforts, while also providing a platform for users to engage with and learn about birds (and web3) in a fun and interactive way."}
                         </p>
                         <p>
                             {"The smart contract governing the NFTs, the back-end code for the web server, and the front-end code for the web application are all open-source (MIT License). The images (and species metadata) associated with each NFT in the collection is released under the Creative Commons Zero (CC0) license, granting users freedom to use, remix, and share the artworks without any restrictions. "}
@@ -66,118 +69,90 @@ const About = () => {
                             {" If you wish to use the audio mp3 files in your own project, you must purchase them for $20.00 from \"The Cornell Guide to Bird Sounds: United States and Canada (v2021)\". See link above."}
                         </p>
                         <p>
-                            {"As a new onchain developer and an avid appreciator of birds, I hope you find this project interesting, useful, and enjoyable. I invite you to join the community and contribute to the project. Thank you!"}
+                            {"As avid appreciators of birds, we hope you find this project interesting, useful, and enjoyable. We invite you to join the community and contribute to the project. Thank you!"}
                         </p>
-                        <h2>{"Flocks in the Wild"}</h2>
+                        <h2>
+                        	{"Flocks in the Wild"}
+                        </h2>
                         <ul style={{ listStyle: "disc" }}>
                             <li>
-                                <a
-                                    href="https://songbirdz.cc/collection?number=0"
-                                    target="_blank"
-                                    rel="noopener noreferrer nofollow">
+                                <Link to="/collection?number=0">
                                     <b>{"Picasso Genesis:"}</b>
-                                </a>
+                                </Link>
                                 <span className="ms-1">
                                     {"SOLD OUT: The 1st flock of 1,000 birds in the Songbirdz collection (0-999). Features 200 new species, with exactly 5 birds of each species."}
                                 </span>
                             </li>
                             <li>
-                                <a
-                                    href="https://songbirdz.cc/collection?number=1"
-                                    target="_blank"
-                                    rel="noopener noreferrer nofollow">
-                                    <b>{"Deep Blue:"}</b>
-                                </a>
+	                            <Link to="/collection?number=1">
+	                                <b>{"Deep Blue:"}</b>
+	                            </Link>
                                 <span className="ms-1">
                                     {"SOLD OUT:  The 2nd flock of 1,000 birds in the Songbirdz collection (1000-1999). Features 50 new species, with various amounts of birds per species of either 1, 5, 10, 20, 30 or 50. Includes 5 \"1 of 1\" birds that are the only one of their species! This flock of birds live and breath all things water day in and day out, they make their home on the rivers, streams, ponds, lakes, and oceans near you."}
                                 </span>
                             </li>
                             <li>
-                                <a
-                                    href="https://songbirdz.cc/collection?number=2&hide_already_identified=true"
-                                    target="_blank"
-                                    rel="noopener noreferrer nofollow">
-                                    <b>{"Small & Mighty:"}</b>
-                                </a>
+	                           	<Link to="/collection?number=2&hide_already_identified=true">
+	                                <b>{"Small & Mighty:"}</b>
+	                            </Link>
                                 <span className="ms-1">
                                     {"NOW MINTING:  The 3rd flock of 1,000 birds in the Songbirdz collection (2000-2999). Features 50 new species, with various amounts of birds per species of either 1, 5, 10, 20, 30 or 50. Includes 5 \"1 of 1\" birds that are the only one of their species! This flock of birds are some of the tiniest in the avian world, with most having wing spans < 30cm, but they sing the most quintessential songs you'll hear in the wild."}
                                 </span>
                             </li>
                             <li>
-                                <a
-                                    href="https://songbirdz.cc/collection?number=3&hide_already_identified=true"
-                                    target="_blank"
-                                    rel="noopener noreferrer nofollow">
-                                    <b>{"Night & Day:"}</b>
-                                </a>
+                            	<Link to="/collection?number=3&hide_already_identified=true">
+	                                <b>{"Night & Day:"}</b>
+	                            </Link>
                                 <span className="ms-1">
                                     {"NOW MINTING:  The 4th flock of 1,000 birds in the Songbirdz collection (3000-3999). Features 50 new species, with various amounts of birds per species of either 1, 5, 10, 20, 30 or 50. Includes 4 \"1 of 1\" birds that are the only one of their species! This flock features some of our most mysterious and intriguing birds. Discover the birds that rule the night and those who break the silence at dawn. As the seasons change and the nights grow longer, there’s still plenty of them out there waiting to be seen."}
                                 </span>
                             </li>
                             <li>
-                                <a
-                                    href="https://songbirdz.cc/collection?number=4&hide_already_identified=true"
-                                    target="_blank"
-                                    rel="noopener noreferrer nofollow">
-                                    <b>{"Fire & Ice:"}</b>
-                                </a>
+                            	<Link to="/collection?number=4&hide_already_identified=true">
+	                                <b>{"Fire & Ice:"}</b>
+	                            </Link>
                                 <span className="ms-1">
                                     {"NOW MINTING:  The 5th flock of 1,000 birds in the Songbirdz collection (4000-4999). Features 50 new species, with various amounts of birds per species of either 1, 5, 10, 20, 30 or 50. Includes 4 \"1 of 1\" birds that are the only one of their species! This flock features birds that don’t just survive brutal conditions — they thrive in them, even without air conditioning, parkas, or winter hats. In the coldest nights of winter and the harshest heat of summer, no matter the conditions, they adapt to their environment."}
                                 </span>
                             </li>
                             <li>
-                                <a
-                                    href="https://songbirdz.cc/collection?number=5&hide_already_identified=true"
-                                    target="_blank"
-                                    rel="noopener noreferrer nofollow">
-                                    <b>{"Predator & Prey:"}</b>
-                                </a>
+                            	<Link to="/collection?number=5&hide_already_identified=true">
+	                                <b>{"Predator & Prey:"}</b>
+	                            </Link>
                                 <span className="ms-1">
                                     {"NOW MINTING:  The 6th flock of 1,000 birds in the Songbirdz collection (5000-5999). Features 50 new species, with various amounts of birds per species of either 1, 5, 10, 20, 25, 30, etc. Includes 4 \"1 of 1\" birds that are the only one of their species! This flock features birds at the top of the food chain and also those in the bottom. It's about the eternal dance of survival and the constant fight to stay alive for both predator and prey. The hunter and the hunted."}
                                 </span>
                             </li>
                             <li>
-                                <a
-                                    href="https://songbirdz.cc/collection?number=6&hide_already_identified=true"
-                                    target="_blank"
-                                    rel="noopener noreferrer nofollow">
-                                    <b>{"Lovebirds:"}</b>
-                                </a>
+                            	<Link to="/collection?number=6&hide_already_identified=true">
+	                                <b>{"Lovebirds:"}</b>
+	                            </Link>
                                 <span className="ms-1">
                                     {"NOW MINTING:  The 7th flock of 1,000 birds in the Songbirdz collection (6000-6999). Features 50 new species, with various amounts of birds per species of either 1, 5, 10, 20, 30, 50 etc. Includes 4 \"1 of 1\" birds that are the only one of their species! This flock is in tribute to your partner in crime, bff, ride or die, main squeeze, better-half, whatever you want to call it... life is just better surrounded by the people you love."}
                                 </span>
                             </li>
                             <li>
-                                <a
-                                    href="https://songbirdz.cc/collection?number=7&hide_already_identified=true"
-                                    target="_blank"
-                                    rel="noopener noreferrer nofollow">
-                                    <b>{"Hatchlings:"}</b>
-                                </a>
+                            	<Link to="/collection?number=7&hide_already_identified=true">
+	                                <b>{"Hatchlings:"}</b>
+	                            </Link>
                                 <span className="ms-1">
                                     {"NOW MINTING:  The 8th flock of 1,000 birds in the Songbirdz collection (7000-7999). Features 50 new species, with various amounts of birds per species of either 1, 5, 10, 20, 30, 50 etc. Includes 4 \"1 of 1\" birds that are the only one of their species! This flock celebrates birds that symbolize rebirth, new beginnings, and the beauty of eggs. From those with striking egg-like plumage to famous nest-builders, it highlights the wonders of avian reproduction and the spirit of springtime."}
                                 </span>
                             </li>
                             <li>
-                                <a
-                                    href="https://songbirdz.cc/collection?number=8&hide_already_identified=true"
-                                    target="_blank"
-                                    rel="noopener noreferrer nofollow">
-                                    <b>{"Masters of Disguise:"}</b>
-                                </a>
+                            	<Link to="/collection?number=8&hide_already_identified=true">
+	                                <b>{"Masters of Disguise:"}</b>
+	                            </Link>
                                 <span className="ms-1">
                                     {"NOW MINTING:  The 9th flock of 1,000 birds in the Songbirdz collection (8000-8999). Features 50 new species, with various amounts of birds per species of either 1, 5, 10, 20, 30, 50 etc. Includes 4 \"1 of 1\" birds that are the only one of their species! This flock honors those that master the art of camouflage, each blending seamlessly into nature's earthy canvas. From leaf-littered forests to windswept rocky shores, these stealthy species are nature’s hidden wonders."}
                                 </span>
                             </li>
                             <li>
-                                <a
-                                    href="https://songbirdz.cc/collection?number=9&hide_already_identified=true"
-                                    target="_blank"
-                                    rel="noopener noreferrer nofollow">
-                                    <b>{"Final Roost:"}</b>
-                                </a>
+                            	<Link to="/collection?number=9&hide_already_identified=true">
+	                                <b>{"Final Roost:"}</b>
+	                            </Link>
                                 <span className="ms-1">
-                                    {"NOW MINTING:  The 10th (and final) flock of 1,000 birds in the Songbirdz collection (9000-9999). Features 200 new species, with exactly 5 birds per species. This flock honors the chain and the community that made it all possible, as well as a homage to our first genesis flock."}
+                                    {"NOW MINTING:  The 10th (and final) flock of 1,000 birds in the Songbirdz collection (9000-9999). Features 200 new species, with exactly 5 birds per species. This flock honors the chain and the community that made it all possible, and is a homage to our first genesis flock."}
                                 </span>
                             </li>
                         </ul>

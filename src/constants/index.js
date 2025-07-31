@@ -9,7 +9,7 @@ import ANSWER_CHOICES_FLOCK_9 from './answer-choices/final-roost-9-options.json'
 
 import FAMILIES from './families';
 
-const NUM_BIRDS_TOTAL = 1000;
+const NUM_BIRDS_TOTAL = 10000;
 
 const NUM_SPECIES_TOTAL = 800;
 
