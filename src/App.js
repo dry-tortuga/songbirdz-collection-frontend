@@ -35,6 +35,9 @@ const router = createBrowserRouter(
 			path="/"
 			element={<AppWrapper />}>
 			<Route
+				path="admin"
+				lazy={() => import("./routes/admin")} />
+			<Route
 				path="about"
 				lazy={() => import("./routes/about")} />
 			<Route
