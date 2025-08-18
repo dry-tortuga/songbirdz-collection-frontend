@@ -24,14 +24,50 @@ const SONGBIRDZ_CONTRACT_ADDRESS = process.env.REACT_APP_SONGBIRDZ_CONTRACT_ADDR
 // }];
 
 const SPECIES_TO_BULK_MINT = [{
-	name: "Great Kiskadee",
-	ids: [6257, 6334],
+	name: "Sharp-tailed Grouse",
+	ids: [8184],
 }, {
-	name: "Thick-billed Parrot",
-	ids: [6258]
+	name: "Connecticut Warbler",
+	ids: [8183],
 }, {
-	name: "Red-cockaded Woodpecker",
-	ids: [6259, 6373]
+	name: "Eurasian Siskin",
+	ids: [8190,8243],
+}, {
+	name: "Mexican Whip-poor-will",
+	ids: [8198],
+}, {
+	name: "Common Nighthawk",
+	ids: [8200],
+}, {
+	name: "Buff-breasted Sandpiper",
+	ids: [8204],
+}, {
+	name: "Akikiki",
+	ids: [8205], // 7
+}, {
+	name: "Curlew Sandpiper",
+	ids: [8217],
+}, {
+	name: "Fork-tailed Storm-Petrel",
+	ids: [8231],
+}, {
+	name: "Pacific Wren",
+	ids: [8258,8313],
+}, {
+	name: "Northern Waterthrush",
+	ids: [8260],
+}, {
+	name: "Spruce Grouse",
+	ids: [8262],
+}, {
+	name: "Dusky Warbler",
+	ids: [8270],
+}, {
+	name: "Red-naped Sapsucker",
+	ids: [8284],
+}, {
+	name: "Arizona Woodpecker",
+	ids: [8298],
 }];
 
 const Admin = () => {
@@ -74,7 +110,25 @@ const Admin = () => {
 						data: encodeFunctionData({
 							abi: SongBirdzContract.abi,
 							functionName: "publicMint",
-							args: [BigInt(id), responseData.proof, responseData.species_guess],
+							args: [
+								BigInt(id),
+								responseData.proof,
+								responseData.species_guess,
+							],
+						}),
+					});
+
+					result.push({
+						to: SONGBIRDZ_CONTRACT_ADDRESS,
+						data: encodeFunctionData({
+							abi: SongBirdzContract.abi,
+							functionName: "safeTransferFrom",
+							args: [
+								context.account,
+								// "0x585D3eF48e12cb1be6837109b0853afe78B5eBE3",
+								"0x61d082120f622e22e491e6eb42dcc7fb0e39288e",
+								BigInt(id),
+							],
 						}),
 					});
 
