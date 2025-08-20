@@ -297,7 +297,7 @@ const LifeListModal = (props) => {
 			collectionId = 7;
 		} else if (filter === "Masters of Disguise") {
 			collectionId = 8;
-		} else if (filter === "Final Roost") {
+		} else if (filter === "Final Migration") {
 			collectionId = 9;
 		}
 

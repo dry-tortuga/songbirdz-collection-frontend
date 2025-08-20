@@ -149,10 +149,10 @@ const About = () => {
                             </li>
                             <li>
                             	<Link to="/collection?number=9&hide_already_identified=true">
-	                                <b>{"Final Roost:"}</b>
+	                                <b>{"Final Migration:"}</b>
 	                            </Link>
                                 <span className="ms-1">
-                                    {"NOW MINTING:  The 10th (and final) flock of 1,000 birds in the Songbirdz collection (9000-9999). Features 200 new species, with exactly 5 birds per species. This flock honors the chain and the community that made it all possible, and is a homage to our first genesis flock."}
+                                    {"NOW MINTING:  The 10th (and final) flock of 1,000 birds in the Songbirdz collection (9000-9999). Features 200 new species, with exactly 5 birds per species. This flock honors the chain and the community that made it all possible, and is a homage to our first genesis flock. The birds have now finished their long journey onchain and have arrived safely home to rest on Base."}
                                 </span>
                             </li>
                         </ul>
@@ -172,7 +172,7 @@ const About = () => {
                             </li>
                             <li>
                                 <span className="ms-1">
-                                    {"Once the 10k collection is fully minted, the community will vote on whether to keep royalties as is, lower them, or set them permanently to 0%."}
+                                    {"Once the 10k collection is fully minted, the royalties will be used to support the community, the project, and charities. They may be lowered to 0.5% or 0.25%."}
                                 </span>
                             </li>
                         </ul>
@@ -365,9 +365,6 @@ const About = () => {
                                     </a>
                                 </div>
                             </div>
-							{/*<p>
-                            	{fContext ? JSON.stringify(fContext) : "missing fContext"}
-                            </p>*/}
                         </div>
                     </Col>
                 </Row>
