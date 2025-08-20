@@ -4,6 +4,9 @@
     "payload": "eyJkb21haW4iOiJzb25nYmlyZHouY2MifQ",
     "signature": "MHgxOTEwMTljNzY5YWMyMDM0OTM5ZGE1NjM0MjJkM2VjNGNhMjlmMDZkY2JiMmYwOTQ0MmViNzZkNmYwMzdiMzk4M2QzOWJhN2I3ZDEwMDE4MmQwMTI3NWUwNDM3ODkzYjQ4ZmUyNmFjMmVhMTAxMGRiYWVkMDQ0NjRjMWRiMzVkZDFi"
   },
+  "baseBuilder": {
+      "allowedAddresses": ["0x2d437771F6fBeDf3d83633cbD3A31B6C6bdba2b1"]
+  },
   "frame": {
     "version": "1",
     "name": "Songbirdz",
