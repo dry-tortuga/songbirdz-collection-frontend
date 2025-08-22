@@ -282,7 +282,7 @@ const BirdIdentificationModal = (props) => {
 					{!bird.owner &&
 						<>
 							<Form.Group className="mb-3" controlId="species">
-								<Form.Label className="fw-bold">{"Species"}</Form.Label>
+								<Form.Label className="fw-bold">{"Choose Species"}</Form.Label>
 								<div className="d-grid gap-2">
 									{options.map((option, index) => (
 										<Button
@@ -302,7 +302,7 @@ const BirdIdentificationModal = (props) => {
 								<Form.Text className="text-muted d-block">
 									<span className="fw-bold me-2">{"NOTE: "}</span>
 									<span>
-										{"If you submit an incorrect guess, you will be automatically refunded 0.00125 ETH."}
+										{"If you submit an incorrect answer, you will be automatically refunded 0.00125 ETH."}
 									</span>
 								</Form.Text>
 							</Form.Group>

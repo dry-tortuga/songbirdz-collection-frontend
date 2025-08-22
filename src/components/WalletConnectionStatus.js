@@ -15,7 +15,9 @@ const WalletConnectionStatus = () => {
 
     if (!isOnCorrectChain) {
         return (
-			<Button onClick={actions.connectToBase}>
+			<Button
+				variant="info"
+				onClick={actions.connectToBase}>
 				{'Switch to Base'}
 			</Button>
         );
