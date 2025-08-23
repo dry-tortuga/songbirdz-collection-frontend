@@ -26,7 +26,7 @@ import "./ConnectWalletButton.css";
 
 // const CB_DEV_PLATFORM_PROJECT_ID = process.env.REACT_APP_COINBASE_DEV_PLATFORM_PROJECT_ID;
 
-const ConnectWalletButton = ({ className }) => {
+const ConnectWalletButton = ({ className, showDailyStreak = false }) => {
 
 	const { account, currentUser } = useWalletContext();
 
@@ -43,6 +43,8 @@ const ConnectWalletButton = ({ className }) => {
 	const hasIdentifiedToday = Boolean(tracker?.today);
 
 	useEffect(() => {
+
+		if (!showDailyStreak) { return () => { }; }
 
 		let now = new Date();
 
@@ -84,11 +86,11 @@ const ConnectWalletButton = ({ className }) => {
 
 		return () => clearInterval(countdownInterval);
 
-	}, [hasIdentifiedToday]);
+	}, [showDailyStreak, hasIdentifiedToday]);
 
 	return (
 		<div className={`connect-wallet-btn flex align-items-center ${className || ""}`}>
-			{account &&
+			{showDailyStreak && account &&
 				<div
 					className="flex align-items-center me-2"
 					title={countdownText}>
@@ -109,7 +111,9 @@ const ConnectWalletButton = ({ className }) => {
 					<Name />
 				</ConnectWallet>
 				<WalletDropdown>
-					<Identity className="px-4 pt-3 pb-2" hasCopyAddressOnClick>
+					<Identity
+						className="px-4 pt-3 pb-2"
+						hasCopyAddressOnClick>
 						<Avatar />
 						<Name />
 						<Address className={color.foregroundMuted} />

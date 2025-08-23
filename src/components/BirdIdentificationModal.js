@@ -8,12 +8,11 @@ import {
     TransactionStatusLabel,
 } from "@coinbase/onchainkit/transaction";
 import PropTypes from "prop-types";
-import { Form, Modal } from "react-bootstrap";
-import Select from "react-select";
+import { Button, Form, Modal } from "react-bootstrap";
 
 import AccountOwner from "./AccountOwner";
 import BirdAudioFile from "./BirdAudioFile";
-import WalletConnectionStatus from "./WalletConnectionStatus";
+import ConnectWalletButton from "./ConnectWalletButton";
 
 import {
     ANSWER_CHOICES_FLOCK_2,
@@ -61,9 +60,9 @@ const BirdIdentificationModal = (props) => {
         actions,
     } = context;
 
-    const handleInputChange = (selectedOption) => {
-        setFormData({ species: selectedOption.value });
-    };
+    const handleInputChange = (value) => {
+		setFormData({ species: value });
+	};
 
     const handleOnStatus = useCallback((status) => {
 
@@ -176,30 +175,10 @@ const BirdIdentificationModal = (props) => {
 
 	}, [bird?.owner, fPopulateUsers]);
 
-    /*
-    useEffect(() => {
-
-        const button = document.querySelector('button[data-testid="ockConnectButton"]');
-
-        console.debug('button-listener');
-        console.debug(button);
-
-        // Close the modal
-        const handleClick = () => { onToggle(); };
-
-        button?.addEventListener('click', handleClick);
-
-        return () => {
-            button?.removeEventListener('click', handleClick);
-        };
-
-    }, [account, isOnCorrectChain]);
-    */
-
-    // Extra safety check here to prevent users from submitting invalid transactions...
-    if (!bird) {
-        return null;
-    }
+	// Extra safety check here to prevent users from submitting invalid transactions...
+	if (!bird) {
+		return null;
+	}
 
     return (
         <Modal
@@ -223,7 +202,9 @@ const BirdIdentificationModal = (props) => {
                             }}
                             src={bird.image} />
                     </Form.Group>
-                    <Form.Group className="mb-3" controlId="song-audio">
+                    <Form.Group
+                    	className="mb-3"
+                    	controlId="song-audio">
                         <Form.Label className="d-block fw-bold">
                             {"Song Audio"}
                         </Form.Label>
@@ -231,7 +212,9 @@ const BirdIdentificationModal = (props) => {
                     </Form.Group>
                     {bird.owner &&
                         <>
-                            <Form.Group className="mb-3" controlId="bird-species">
+                            <Form.Group
+                            	className="mb-3"
+                            	controlId="bird-species">
                                 <Form.Label className="d-block fw-bold">
                                     {"Species"}
                                 </Form.Label>
@@ -274,42 +257,51 @@ const BirdIdentificationModal = (props) => {
                     }
                     {!bird.owner &&
                         <>
-                            <Form.Group className="mb-3" controlId="species">
-                                <Form.Label className="fw-bold">{"Species"}</Form.Label>
-                                <Select
-                                    id="species"
-                                    name="species"
-                                    className="bird-identification-species-selector"
-                                    classNamePrefix="bird-identification-species"
-                                    options={options}
-                                    isDisabled={!account}
-                                    onChange={handleInputChange}
-                                />
+                            <Form.Group
+	                            className="mb-3"
+	                            controlId="species">
+                                <Form.Label className="fw-bold">
+                                	{"Choose Species"}
+                                </Form.Label>
+                                <div className="d-grid gap-2">
+									{options.map((option, index) => (
+										<Button
+											key={index}
+											variant={formData.species === option.value ? "primary" : "outline-primary"}
+											onClick={() => handleInputChange(option.value)}>
+											{option.label}
+										</Button>
+									))}
+								</div>
                             </Form.Group>
                             <Form.Group className="mb-3">
                                 <Form.Text className="d-block">
-                                    <span className="fw-bold me-2">{"PRICE: "}</span>
+                                    <span className="fw-bold me-2">
+                                    	{"PRICE: "}
+                                    </span>
                                     <span>{"0.0015 ETH"}</span>
                                 </Form.Text>
                                 <Form.Text className="text-muted d-block">
-                                    <span className="fw-bold me-2">{"NOTE: "}</span>
+                                    <span className="fw-bold me-2">
+                                    	{"NOTE: "}
+                                    </span>
                                     <span>
-                                        {"If you submit an incorrect guess, you will be automatically refunded 0.00125 ETH."}
+                                        {"If you submit an incorrect species answer, you will be automatically refunded 0.00125 ETH."}
                                     </span>
                                 </Form.Text>
                             </Form.Group>
-                            {(!account || !isOnCorrectChain) && (
-                                <>
-                                    {!account &&
-                                        <span className="fw-bold">
-                                            {"Please connect your wallet..."}
-                                        </span>
-                                    }
-                                    {account && !isOnCorrectChain &&
-                                        <WalletConnectionStatus />
-                                    }
-                                </>
-                            )}
+                            {!account &&
+	                            <span className="fw-bold">
+	                                {"Please connect your wallet..."}
+	                            </span>
+                            }
+                            {account && !isOnCorrectChain &&
+				                <Button
+									variant="info"
+									onClick={actions.connectToBase}>
+									{'Switch to Base'}
+								</Button>
+                            }
                             {account && isOnCorrectChain && (
                                 <Transaction
                                     address={account}
