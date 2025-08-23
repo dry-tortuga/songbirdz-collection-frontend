@@ -4,6 +4,8 @@ import { Container, Nav, Navbar } from "react-bootstrap";
 
 import ConnectWalletButton from "./ConnectWalletButton";
 
+import homeImage1 from "../images/home1.png";
+
 import "./Navbar.css";
 
 const NavbarHeader = () => {
@@ -59,9 +61,16 @@ const NavbarHeader = () => {
 			expand="md"
 			expanded={expanded}>
 			<Container>
-				<Navbar.Brand href="/">
-					<img src="/logo.png" alt="Songbirdz Logo" className="logo" />
-					{"Songbirdz"}
+				<Navbar.Brand
+					className="d-flex align-items-center"
+					href="/">
+					<img
+						className="logo me-1"
+						src={homeImage1}
+						style={{ width: 30, height: 30 }} />
+					<span>
+						{"Songbirdz"}
+					</span>
 				</Navbar.Brand>
 				<Navbar.Toggle
 					aria-controls="basic-navbar-nav"

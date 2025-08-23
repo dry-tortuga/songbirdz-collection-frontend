@@ -30,11 +30,6 @@ const HomeContainer = () => {
 										href="/collection?number=9&hide_already_identified=true">
 										{"Explore Collection"}
 									</a>
-									<a
-										className="btn btn-secondary"
-										href="/memory-match">
-										{"Play Memory Match Game"}
-									</a>
 								</div>
 							</div>
 						</div>
