@@ -22,18 +22,13 @@ const HomeContainer = () => {
 									{"Songbirdz"}
 								</h1>
 								<p className="lead fw-normal mb-md-5">
-									{"An onchain bird watching game"}
+									{"Bird watching onchain"}
 								</p>
 								<div className="d-flex flex-column flex-lg-row gap-3 align-items-center justify-content-center">
 									<a
 										className="btn btn-secondary"
 										href="/collection?number=8&hide_already_identified=true">
 										{"Explore Collection"}
-									</a>
-									<a
-										className="btn btn-secondary"
-										href="/memory-match">
-										{"Play Memory Match Game"}
 									</a>
 								</div>
 							</div>
