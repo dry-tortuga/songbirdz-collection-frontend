@@ -8,15 +8,10 @@ import {
 	TransactionStatusLabel,
 } from "@coinbase/onchainkit/transaction";
 import PropTypes from "prop-types";
-<<<<<<< HEAD
-import { Form, Modal, Button } from "react-bootstrap";
-=======
 import { Button, Form, Modal } from "react-bootstrap";
->>>>>>> main
 
 import AccountOwner from "./AccountOwner";
 import BirdAudioFile from "./BirdAudioFile";
-import ConnectWalletButton from "./ConnectWalletButton";
 
 import {
 	ANSWER_CHOICES_FLOCK_2,
@@ -65,11 +60,7 @@ const BirdIdentificationModal = (props) => {
 		actions,
 	} = context;
 
-<<<<<<< HEAD
 	const handleInputChange = (value) => {
-=======
-    const handleInputChange = (value) => {
->>>>>>> main
 		setFormData({ species: value });
 	};
 
@@ -183,89 +174,11 @@ const BirdIdentificationModal = (props) => {
 
 	}, [bird?.owner, fPopulateUsers]);
 
-<<<<<<< HEAD
-	/*
-	useEffect(() => {
-
-		const button = document.querySelector('button[data-testid="ockConnectButton"]');
-
-		console.debug('button-listener');
-		console.debug(button);
-
-		// Close the modal
-		const handleClick = () => { onToggle(); };
-
-		button?.addEventListener('click', handleClick);
-
-		return () => {
-			button?.removeEventListener('click', handleClick);
-		};
-
-	}, [account, isOnCorrectChain]);
-	*/
-
-=======
->>>>>>> main
 	// Extra safety check here to prevent users from submitting invalid transactions...
 	if (!bird) {
 		return null;
 	}
 
-<<<<<<< HEAD
-	return (
-		<Modal
-			className="bird-identification-modal"
-			show={isOpen}
-			onHide={onToggle}>
-				<Modal.Header
-					style={{ padding: "0.5rem 1rem" }}
-					closeButton>
-					<Modal.Title>
-						{bird.owner ? bird.name : `Identify ${bird.name}`}
-					</Modal.Title>
-				</Modal.Header>
-			<Modal.Body>
-				<Form>
-					<Form.Group className="mb-3">
-						<img
-							style={{
-								width: "50%",
-								height: "auto",
-								marginLeft: "auto",
-								marginRight: "auto",
-							}}
-							src={bird.image} />
-					</Form.Group>
-					<Form.Group
-						className="mb-3"
-						controlId="song-audio">
-						<Form.Label className="d-block fw-bold">
-							{"Song Audio"}
-						</Form.Label>
-						<BirdAudioFile
-							className="w-100"
-							birdId={bird.id} />
-					</Form.Group>
-					{bird.owner &&
-						<>
-							<Form.Group
-								className="mb-3"
-								controlId="bird-species">
-								<Form.Label className="d-block fw-bold">
-									{"Species"}
-								</Form.Label>
-								<div>
-									{bird.species}
-								</div>
-							</Form.Group>
-							<Form.Group
-								className="mb-3"
-								controlId="bird-owner"
-								style={{ position: 'relative' }}>
-								<Form.Label className="d-block fw-bold">
-									{"Owner"}
-								</Form.Label>
-=======
     return (
         <Modal
             className="bird-identification-modal"
@@ -315,7 +228,6 @@ const BirdIdentificationModal = (props) => {
                                 <Form.Label className="d-block fw-bold">
                                     {"Owner"}
                                 </Form.Label>
->>>>>>> main
 								{birdOwner ? (
 									<AccountOwner
 										className="w-100"
@@ -324,7 +236,6 @@ const BirdIdentificationModal = (props) => {
 								) : (
 									<span><i className="fa-solid fa-spinner fa-spin" /></span>
 								)}
-<<<<<<< HEAD
 								<span
 									style={{
 										position: 'absolute',
@@ -348,35 +259,6 @@ const BirdIdentificationModal = (props) => {
 							<Form.Group className="mb-3" controlId="species">
 								<Form.Label className="fw-bold">{"Choose Species"}</Form.Label>
 								<div className="d-grid gap-2">
-=======
-                                <span
-                                    style={{
-                                        position: 'absolute',
-                                        bottom: 5,
-                                        right: 5,
-                                    }}>
-                                    <a
-                                        href={`/collection/${bird.id}`}
-                                        target="_blank"
-                                        rel="noopener noreferrer nofollow">
-                                        <i
-                                            className="fa-solid fa-arrow-up-right-from-square"
-                                            style={{ fontSize: "18px" }} />
-                                    </a>
-                                </span>
-                            </Form.Group>
-                        </>
-                    }
-                    {!bird.owner &&
-                        <>
-                            <Form.Group
-	                            className="mb-3"
-	                            controlId="species">
-                                <Form.Label className="fw-bold">
-                                	{"Choose Species"}
-                                </Form.Label>
-                                <div className="d-grid gap-2">
->>>>>>> main
 									{options.map((option, index) => (
 										<Button
 											key={index}
@@ -386,7 +268,6 @@ const BirdIdentificationModal = (props) => {
 										</Button>
 									))}
 								</div>
-<<<<<<< HEAD
 							</Form.Group>
 							<Form.Group className="mb-3">
 								<Form.Text className="d-block">
@@ -400,18 +281,18 @@ const BirdIdentificationModal = (props) => {
 									</span>
 								</Form.Text>
 							</Form.Group>
-							{(!account || !isOnCorrectChain) && (
-								<>
-									{!account &&
-										<span className="fw-bold">
-											{"Please connect your wallet..."}
-										</span>
-									}
-									{account && !isOnCorrectChain &&
-										<WalletConnectionStatus />
-									}
-								</>
-							)}
+							{!account &&
+								<span className="fw-bold">
+									{"Please connect your wallet..."}
+								</span>
+							}
+							{account && !isOnCorrectChain &&
+								<Button
+									variant="info"
+									onClick={actions.connectToBase}>
+									{'Switch to Base'}
+								</Button>
+							}
 							{account && isOnCorrectChain && (
 								<Transaction
 									address={account}
@@ -437,62 +318,7 @@ const BirdIdentificationModal = (props) => {
 			</Modal.Body>
 		</Modal>
 	);
-=======
-                            </Form.Group>
-                            <Form.Group className="mb-3">
-                                <Form.Text className="d-block">
-                                    <span className="fw-bold me-2">
-                                    	{"PRICE: "}
-                                    </span>
-                                    <span>{"0.0015 ETH"}</span>
-                                </Form.Text>
-                                <Form.Text className="text-muted d-block">
-                                    <span className="fw-bold me-2">
-                                    	{"NOTE: "}
-                                    </span>
-                                    <span>
-                                        {"If you submit an incorrect species answer, you will be automatically refunded 0.00125 ETH."}
-                                    </span>
-                                </Form.Text>
-                            </Form.Group>
-                            {!account &&
-	                            <span className="fw-bold">
-	                                {"Please connect your wallet..."}
-	                            </span>
-                            }
-                            {account && !isOnCorrectChain &&
-				                <Button
-									variant="info"
-									onClick={actions.connectToBase}>
-									{'Switch to Base'}
-								</Button>
-                            }
-                            {account && isOnCorrectChain && (
-                                <Transaction
-                                    address={account}
-                                    className="bird-identification-transaction-container"
-                                    chainId={expectedChainId}
-                                    calls={callsCallback}
-                                    isSponsored={isPaymasterSupported}
-                                    onStatus={handleOnStatus}>
-                                    <TransactionButton
-                                        className="btn btn-info w-100"
-                                        disabled={!formData.species}
-                                        text="Submit" />
-                                    <TransactionSponsor text="SongBirdz" />
-                                    <TransactionStatus>
-                                        <TransactionStatusLabel />
-                                        <TransactionStatusAction />
-                                    </TransactionStatus>
-                                </Transaction>
-                            )}
-                        </>
-                    }
-                </Form>
-            </Modal.Body>
-        </Modal>
-    );
->>>>>>> main
+
 };
 
 const propTypes = {
