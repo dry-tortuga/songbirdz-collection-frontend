@@ -245,10 +245,7 @@ const BirdIdentificationModal = (props) => {
                                     }}>
                                     <Link
                                         to={`/collection/${bird.id}`}
-                                        onClick={(event) => {
-                                            fOpenExternalURL(event);
-											onToggle();
-                                        }}>
+                                        onClick={() => { onToggle(); }}>
                                         <i
                                             className="fa-solid fa-arrow-up-right-from-square"
                                             style={{ fontSize: "18px" }} />
