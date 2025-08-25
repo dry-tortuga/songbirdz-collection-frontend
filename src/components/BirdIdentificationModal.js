@@ -9,10 +9,10 @@ import {
 } from "@coinbase/onchainkit/transaction";
 import PropTypes from "prop-types";
 import { Button, Form, Modal } from "react-bootstrap";
+import { Link } from "react-router-dom";
 
 import AccountOwner from "./AccountOwner";
 import BirdAudioFile from "./BirdAudioFile";
-import ConnectWalletButton from "./ConnectWalletButton";
 
 import {
     ANSWER_CHOICES_FLOCK_2,
@@ -43,7 +43,7 @@ const BirdIdentificationModal = (props) => {
         onToggle,
     } = props;
 
-   	const { fPopulateUsers } = useFarcasterContext();
+   	const { fPopulateUsers, fOpenExternalURL } = useFarcasterContext();
     const context = useWalletContext();
 
     const [bird] = useBird({ id, cached, context });
@@ -243,14 +243,16 @@ const BirdIdentificationModal = (props) => {
                                         bottom: 5,
                                         right: 5,
                                     }}>
-                                    <a
-                                        href={`/collection/${bird.id}`}
-                                        target="_blank"
-                                        rel="noopener noreferrer nofollow">
+                                    <Link
+                                        to={`/collection/${bird.id}`}
+                                        onClick={(event) => {
+                                            fOpenExternalURL(event);
+											onToggle();
+                                        }}>
                                         <i
                                             className="fa-solid fa-arrow-up-right-from-square"
                                             style={{ fontSize: "18px" }} />
-                                    </a>
+                                    </Link>
                                 </span>
                             </Form.Group>
                         </>

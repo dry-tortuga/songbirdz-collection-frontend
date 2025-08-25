@@ -6,7 +6,7 @@ import { useFarcasterContext } from "../contexts/farcaster";
 
 const About = () => {
 
-	const { fContext, fOpenExternalURL, fOpenLinkToOwner } = useFarcasterContext();
+	const { fOpenExternalURL, fOpenLinkToOwner } = useFarcasterContext();
 
     return (
         <div className="about-page">
@@ -40,14 +40,16 @@ const About = () => {
                             <a
                                 href="https://openai.com/dall-e-3"
                                 target="_blank"
-                                rel="noopener noreferrer nofollow">
+                                rel="noopener noreferrer nofollow"
+                               	onClick={fOpenExternalURL}>
                                 <b>{"DALL·E 3"}</b>
                             </a>
                             {" and audio from "}
                             <a
                                 href="https://www.macaulaylibrary.org/guide-to-bird-sounds"
                                 target="_blank"
-                                rel="noopener noreferrer nofollow">
+                                rel="noopener noreferrer nofollow"
+                               	onClick={fOpenExternalURL}>
                                 <b>
                                     {"The Cornell Guide to Bird Sounds: United States and Canada (v2021)"}
                                 </b>
@@ -68,100 +70,73 @@ const About = () => {
                         <h2>{"Flocks in the Wild"}</h2>
                         <ul style={{ listStyle: "disc" }}>
                             <li>
-                                <a
-                                    href="https://songbirdz.cc/collection?number=0"
-                                    target="_blank"
-                                    rel="noopener noreferrer nofollow">
+                                <Link to="/collection?number=0">
                                     <b>{"Picasso Genesis:"}</b>
-                                </a>
+                                </Link>
                                 <span className="ms-1">
                                     {"SOLD OUT: The 1st flock of 1,000 birds in the Songbirdz collection (0-999). Features 200 new species, with exactly 5 birds of each species."}
                                 </span>
                             </li>
                             <li>
-                                <a
-                                    href="https://songbirdz.cc/collection?number=1"
-                                    target="_blank"
-                                    rel="noopener noreferrer nofollow">
+                            	<Link to="/collection?number=1">
                                     <b>{"Deep Blue:"}</b>
-                                </a>
+                                </Link>
                                 <span className="ms-1">
                                     {"SOLD OUT:  The 2nd flock of 1,000 birds in the Songbirdz collection (1000-1999). Features 50 new species, with various amounts of birds per species of either 1, 5, 10, 20, 30 or 50. Includes 5 \"1 of 1\" birds that are the only one of their species! This flock of birds live and breath all things water day in and day out, they make their home on the rivers, streams, ponds, lakes, and oceans near you."}
                                 </span>
                             </li>
                             <li>
-                                <a
-                                    href="https://songbirdz.cc/collection?number=2&hide_already_identified=true"
-                                    target="_blank"
-                                    rel="noopener noreferrer nofollow">
+                            	<Link to="/collection?number=2">
                                     <b>{"Small & Mighty:"}</b>
-                                </a>
+                                </Link>
                                 <span className="ms-1">
                                     {"NOW MINTING:  The 3rd flock of 1,000 birds in the Songbirdz collection (2000-2999). Features 50 new species, with various amounts of birds per species of either 1, 5, 10, 20, 30 or 50. Includes 5 \"1 of 1\" birds that are the only one of their species! This flock of birds are some of the tiniest in the avian world, with most having wing spans < 30cm, but they sing the most quintessential songs you'll hear in the wild."}
                                 </span>
                             </li>
                             <li>
-                                <a
-                                    href="https://songbirdz.cc/collection?number=3&hide_already_identified=true"
-                                    target="_blank"
-                                    rel="noopener noreferrer nofollow">
+                                <Link to="/collection?number=3&hide_already_identified=true">
                                     <b>{"Night & Day:"}</b>
-                                </a>
+                                </Link>
                                 <span className="ms-1">
                                     {"NOW MINTING:  The 4th flock of 1,000 birds in the Songbirdz collection (3000-3999). Features 50 new species, with various amounts of birds per species of either 1, 5, 10, 20, 30 or 50. Includes 4 \"1 of 1\" birds that are the only one of their species! This flock features some of our most mysterious and intriguing birds. Discover the birds that rule the night and those who break the silence at dawn. As the seasons change and the nights grow longer, there’s still plenty of them out there waiting to be seen."}
                                 </span>
                             </li>
                             <li>
-                                <a
-                                    href="https://songbirdz.cc/collection?number=4&hide_already_identified=true"
-                                    target="_blank"
-                                    rel="noopener noreferrer nofollow">
+                                <Link to="/collection?number=4&hide_already_identified=true">
                                     <b>{"Fire & Ice:"}</b>
-                                </a>
+                                </Link>
                                 <span className="ms-1">
                                     {"NOW MINTING:  The 5th flock of 1,000 birds in the Songbirdz collection (4000-4999). Features 50 new species, with various amounts of birds per species of either 1, 5, 10, 20, 30 or 50. Includes 4 \"1 of 1\" birds that are the only one of their species! This flock features birds that don’t just survive brutal conditions — they thrive in them, even without air conditioning, parkas, or winter hats. In the coldest nights of winter and the harshest heat of summer, no matter the conditions, they adapt to their environment."}
                                 </span>
                             </li>
                             <li>
-                                <a
-                                    href="https://songbirdz.cc/collection?number=5&hide_already_identified=true"
-                                    target="_blank"
-                                    rel="noopener noreferrer nofollow">
+                                <Link to="/collection?number=5&hide_already_identified=true">
                                     <b>{"Predator & Prey:"}</b>
-                                </a>
+                                </Link>
                                 <span className="ms-1">
                                     {"NOW MINTING:  The 6th flock of 1,000 birds in the Songbirdz collection (5000-5999). Features 50 new species, with various amounts of birds per species of either 1, 5, 10, 20, 25, 30, etc. Includes 4 \"1 of 1\" birds that are the only one of their species! This flock features birds at the top of the food chain and also those in the bottom. It's about the eternal dance of survival and the constant fight to stay alive for both predator and prey. The hunter and the hunted."}
                                 </span>
                             </li>
                             <li>
-                                <a
-                                    href="https://songbirdz.cc/collection?number=6&hide_already_identified=true"
-                                    target="_blank"
-                                    rel="noopener noreferrer nofollow">
+                                <Link to="/collection?number=6&hide_already_identified=true">
                                     <b>{"Lovebirds:"}</b>
-                                </a>
+                                </Link>
                                 <span className="ms-1">
                                     {"NOW MINTING:  The 7th flock of 1,000 birds in the Songbirdz collection (6000-6999). Features 50 new species, with various amounts of birds per species of either 1, 5, 10, 20, 30, 50 etc. Includes 4 \"1 of 1\" birds that are the only one of their species! This flock is in tribute to your partner in crime, bff, ride or die, main squeeze, better-half, whatever you want to call it... life is just better surrounded by the people you love."}
                                 </span>
                             </li>
                             <li>
-                                <a
-                                    href="https://songbirdz.cc/collection?number=7&hide_already_identified=true"
-                                    target="_blank"
-                                    rel="noopener noreferrer nofollow">
+                                <Link to="/collection?number=7&hide_already_identified=true">
                                     <b>{"Hatchlings:"}</b>
-                                </a>
+                                </Link>
                                 <span className="ms-1">
                                     {"NOW MINTING:  The 8th flock of 1,000 birds in the Songbirdz collection (7000-7999). Features 50 new species, with various amounts of birds per species of either 1, 5, 10, 20, 30, 50 etc. Includes 4 \"1 of 1\" birds that are the only one of their species! This flock celebrates birds that symbolize rebirth, new beginnings, and the beauty of eggs. From those with striking egg-like plumage to famous nest-builders, it highlights the wonders of avian reproduction and the spirit of springtime."}
                                 </span>
                             </li>
                             <li>
-                                <a
-                                    href="https://songbirdz.cc/collection?number=8&hide_already_identified=true"
-                                    target="_blank"
-                                    rel="noopener noreferrer nofollow">
+                                <Link to="/collection?number=8&hide_already_identified=true">
                                     <b>{"Masters of Disguise:"}</b>
-                                </a>
+                                </Link>
                                 <span className="ms-1">
                                     {"NOW MINTING:  The 9th flock of 1,000 birds in the Songbirdz collection (8000-8999). Features 50 new species, with various amounts of birds per species of either 1, 5, 10, 20, 30, 50 etc. Includes 4 \"1 of 1\" birds that are the only one of their species! This flock honors those that master the art of camouflage, each blending seamlessly into nature's earthy canvas. From leaf-littered forests to windswept rocky shores, these stealthy species are nature’s hidden wonders."}
                                 </span>
@@ -176,7 +151,8 @@ const About = () => {
                                 <a
                                     href="https://endaoment.org/"
                                     target="_blank"
-                                    rel="noopener noreferrer nofollow">
+                                    rel="noopener noreferrer nofollow"
+                                   	onClick={fOpenExternalURL}>
                                     <b>{"Endaoment"}</b>
                                 </a>
                                 {"."}
@@ -193,7 +169,8 @@ const About = () => {
                                 <a
                                     href="https://twitter.com/songbirdz_cc"
                                     target="_blank"
-                                    rel="noopener noreferrer nofollow">
+                                    rel="noopener noreferrer nofollow"
+                                   	onClick={fOpenExternalURL}>
                                     <b>{"Twitter"}</b>
                                 </a>
                             </li>
@@ -201,7 +178,8 @@ const About = () => {
                                 <a
                                     href="https://t.me/songbirdz_cc"
                                     target="_blank"
-                                    rel="noopener noreferrer nofollow">
+                                    rel="noopener noreferrer nofollow"
+                                   	onClick={fOpenExternalURL}>
                                     <b>{"Telegram"}</b>
                                 </a>
                             </li>
@@ -226,7 +204,8 @@ const About = () => {
                                     style={{
                                         wordBreak: "break-word",
                                         wordWrap: "break-word",
-                                    }}>
+                                    }}
+                                   	onClick={fOpenExternalURL}>
                                     <b>{"Deployed Contract on Base - 0x7C3B795e2174C5E0C4F7d563A2FB34F024C8390B"}</b>
                                 </a>
                             </li>
@@ -234,7 +213,8 @@ const About = () => {
                                 <a
                                     href="https://github.com/dry-tortuga/songbirdz-collection-backend/blob/main/contracts/SongBirdz.sol"
                                     target="_blank"
-                                    rel="noopener noreferrer nofollow">
+                                    rel="noopener noreferrer nofollow"
+                                   	onClick={fOpenExternalURL}>
                                     <b>{"Solidity Contract"}</b>
                                 </a>
                             </li>
@@ -242,7 +222,8 @@ const About = () => {
                                 <a
                                     href="https://github.com/dry-tortuga/songbirdz-collection-backend"
                                     target="_blank"
-                                    rel="noopener noreferrer nofollow">
+                                    rel="noopener noreferrer nofollow"
+                                   	onClick={fOpenExternalURL}>
                                     <b>{"Back-End Server"}</b>
                                 </a>
                             </li>
@@ -250,7 +231,8 @@ const About = () => {
                                 <a
                                     href="https://github.com/dry-tortuga/songbirdz-collection-frontend"
                                     target="_blank"
-                                    rel="noopener noreferrer nofollow">
+                                    rel="noopener noreferrer nofollow"
+                                   	onClick={fOpenExternalURL}>
                                     <b>{"Front-End Application"}</b>
                                 </a>
                             </li>
@@ -258,7 +240,8 @@ const About = () => {
                                 <a
                                     href="https://github.com/dry-tortuga/songbirdz-collection-media"
                                     target="_blank"
-                                    rel="noopener noreferrer nofollow">
+                                    rel="noopener noreferrer nofollow"
+                                   	onClick={fOpenExternalURL}>
                                     <b>{"Media & Metadata"}</b>
                                 </a>
                             </li>
@@ -266,7 +249,8 @@ const About = () => {
                                 <a
                                     href="https://opensea.io/collection/songbirdz-hall-of-fame"
                                     target="_blank"
-                                    rel="noopener noreferrer nofollow">
+                                    rel="noopener noreferrer nofollow"
+                                   	onClick={fOpenExternalURL}>
                                     <b>{"Hall of Fame"}</b>
                                 </a>
                             </li>
@@ -274,12 +258,15 @@ const About = () => {
                                 <a
                                     href="https://www.redbubble.com/people/drytortuga/shop"
                                     target="_blank"
-                                    rel="noopener noreferrer nofollow">
+                                    rel="noopener noreferrer nofollow"
+                                   	onClick={fOpenExternalURL}>
                                     <b>{"Songbirdz Merch"}</b>
                                 </a>
                             </li>
                         </ul>
-                        <h1 className="mb-3">{"The Aviary"}</h1>
+                        <h1 className="mb-3">
+                        	{"The Aviary"}
+                        </h1>
                         <div
 	                        style={{
 	                            display: "flex",
@@ -309,10 +296,13 @@ const About = () => {
                                     <a
                                         href="https://x.com/dry_tortuga"
                                         target="_blank"
-                                        rel="noopener noreferrer nofollow">
+                                        rel="noopener noreferrer nofollow"
+                                       	onClick={fOpenExternalURL}>
                                         <b>{"X"}</b>
                                     </a>
-                                    <span>|</span>
+									<span>
+										{"|"}
+									</span>
 									<a
 										href="https://farcaster.xyz/dry-tortuga"
 										target="_blank"
@@ -344,7 +334,8 @@ const About = () => {
                                     <a
                                         href="https://x.com/paesan5"
                                         target="_blank"
-                                        rel="noopener noreferrer nofollow">
+                                        rel="noopener noreferrer nofollow"
+                                       	onClick={fOpenExternalURL}>
                                         <b>{"X"}</b>
                                     </a>
                                 </div>
@@ -371,14 +362,12 @@ const About = () => {
                                     <a
                                         href="https://x.com/Arcturus_TA"
                                         target="_blank"
-                                        rel="noopener noreferrer nofollow">
+                                        rel="noopener noreferrer nofollow"
+                                       	onClick={fOpenExternalURL}>
                                         <b>{"X"}</b>
                                     </a>
                                 </div>
                             </div>
-							{/*<p>
-                            	{fContext ? JSON.stringify(fContext) : "missing fContext"}
-                            </p>*/}
                         </div>
                     </Col>
                 </Row>
