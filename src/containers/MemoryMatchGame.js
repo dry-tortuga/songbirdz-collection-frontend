@@ -15,13 +15,10 @@ import useMemoryMatchGameLeaderboard from "../hooks/useMemoryMatchGameLeaderboar
 
 import { storeMemoryMatchGameResult } from "../utils/data";
 
+import baseLogo from "../images/base-logo-blue.svg";
 import farcasterLogo from "../images/farcaster-logo.png";
 
 import "./MemoryMatchGame.css";
-
-// TODO: Allow 3 games per day in each difficulty mode
-// TODO: Neynar API for rendering farcaster user pfps and names???
-// TODO: Check if inside the farcaster frame and update/hide share links
 
 /*
 
@@ -53,7 +50,13 @@ const MemoryMatchGame = () => {
 
 	const context = useWalletContext();
 
-	const { fAddMiniApp, fComposeCast } = useFarcasterContext();
+	const {
+		isBaseApp,
+		isFarcasterApp,
+		fAddMiniApp,
+		fComposeCast,
+		fOpenExternalURL,
+	} = useFarcasterContext();
 
 	const { account, currentUser } = context;
 
@@ -381,12 +384,10 @@ const MemoryMatchGame = () => {
 		}
 	}, [isFinished]);
 
-	// TODO: How to check if inside the farcaster frame???
-	console.log(window.sdk);
-	console.log(window.frame);
-
 	return (
-		<div id="game" className={`container ${isFinished ? "game-over" : ""}`}>
+		<div
+			id="game"
+			className={`container ${isFinished ? "game-over" : ""}`}>
 			{gamesPlayedToday >= 3 && (
 				<Alert
 					variant="warning"
@@ -412,7 +413,9 @@ const MemoryMatchGame = () => {
 					</h1>
 					<div className="d-flex align-items-center justify-content-center mb-2 mb-md-3">
 						{showLeaderboard &&
-							<h3 className="mb-0 me-4">{"Leaderboard"}</h3>
+							<h3 className="mb-0 me-4">
+								{"Leaderboard"}
+							</h3>
 						}
 						{!showLeaderboard &&
 							<>
@@ -496,34 +499,68 @@ const MemoryMatchGame = () => {
 										onClick={() => setHasStarted(true)}>
 										{"Start Game"}
 									</Button>
-									<a
-										href={`https://farcaster.xyz/~/compose?text=${encodeURIComponent('Join me for a game of memory match from /songbirdz on @base!\n\nThink you\'ve got what it takes to beat me?')}&embeds[]=${encodeURIComponent('https://songbirdz.cc/memory-match')}`}
-										className="btn btn-dark w-100 d-flex align-items-center justify-content-center"
-										target="_blank"
-										rel="noopener noreferrer"
-										onClick={(event) => fComposeCast(event, {
-											text: `Join me for a game of Songbirdz memory match!\n\nThink you've got what it takes to beat me?`,
-											embeds: ['https://songbirdz.cc/memory-match'],
-											channelKey: 'songbirdz',
-										})}>
-										<img
-											className="farcaster-logo me-2"
-											src={farcasterLogo}
-											alt=""
-											style={{ height: 20, width: 20 }} />
-										{"Share on Farcaster"}
-									</a>
-									<a
-										href={`https://twitter.com/intent/tweet?text=${encodeURIComponent('Join me for a game of memory match from @songbirdz_cc on @base!\n\nThink you can beat me?\n\nPlay at https://songbirdz.cc/memory-match')}`}
-										className="btn btn-dark w-100"
-										target="_blank"
-										rel="noopener noreferrer">
-										<i className="fa-brands fa-x-twitter me-2" />
-										{"Share on X"}
-									</a>
+									{(isBaseApp || isFarcasterApp) &&
+										<Button
+											className="w-100"
+											as="a"
+											href={`https://farcaster.xyz/~/compose?text=${encodeURIComponent('Join me for a game of Songbirdz (/songbirdz) memory match!\n\nThink you\'ve got what it takes to beat me?')}&embeds[]=${encodeURIComponent('https://songbirdz.cc/memory-match')}`}
+											target="_blank"
+											rel="noopener noreferrer"
+											variant="outline-primary"
+											onClick={(event) => fComposeCast(event, {
+												text: `Join me for a game of Songbirdz memory match!\n\nThink you've got what it takes to beat me?`,
+												embeds: ['https://songbirdz.cc/memory-match'],
+												channelKey: 'songbirdz',
+											})}>
+											<div className="d-flex align-items-center justify-content-center">
+												{isBaseApp &&
+													<>
+														<img
+															className="me-2"
+															src={baseLogo}
+															alt=""
+															style={{ width: "20px", height: "20px" }} />
+														<span>
+															{'Share on Base App'}
+														</span>
+													</>
+												}
+												{isFarcasterApp &&
+													<>
+														<img
+															className="farcaster-logo me-2"
+															src={farcasterLogo}
+															alt=""
+															style={{ width: "20px", height: "20px" }} />
+														<span>
+															{"Share on Farcaster"}
+														</span>
+													</>
+												}
+											</div>
+										</Button>
+									}
 									<Button
 										className="w-100"
-										variant="secondary"
+										as="a"
+										href={`https://twitter.com/intent/tweet?text=${encodeURIComponent('Join me for a game of memory match from @songbirdz_cc on @base!\n\nThink you can beat me?\n\nPlay at https://songbirdz.cc/memory-match')}`}
+										target="_blank"
+										rel="noopener noreferrer"
+										variant="outline-primary"
+										onClick={fOpenExternalURL}>
+										<div className="d-flex align-items-center justify-content-center">
+											<i
+												className="fa-brands fa-x-twitter me-2"
+												style={{
+													fontSize: "20px",
+													marginTop: "-1px",
+												}} />
+											{'Share on X'}
+										</div>
+									</Button>
+									<Button
+										className="w-100"
+										variant="outline-primary"
 										onClick={() => setShowLeaderboard(true)}>
 										<i className="fas fa-trophy me-2" />
 										{"View Leaderboard"}
@@ -540,34 +577,68 @@ const MemoryMatchGame = () => {
 								onClick={() => handleResetGame(difficultyMode, true)}>
 								{"New Game"}
 							</Button>
-							<a
-								href={`https://farcaster.xyz/~/compose?text=${encodeURIComponent(`I just scored ${finalScore}/1000 in the Songbirdz memory match game (${difficultyMode} mode)!\n\nThink you can you beat me?`)}&channelKey=songbirdz&embeds[]=${encodeURIComponent('https://songbirdz.cc/memory-match')}`}
-								className="btn btn-dark w-100 d-flex align-items-center justify-content-center"
-								target="_blank"
-								rel="noopener noreferrer"
-								onClick={(event) => fComposeCast(event, {
-									text: `I just scored ${finalScore}/1000 in the Songbirdz memory match game (${difficultyMode} mode)!\n\nThink you can you beat me?`,
-									embeds: ['https://songbirdz.cc/memory-match'],
-									channelKey: 'songbirdz',
-								})}>
-								<img
-									className="farcaster-logo me-2"
-									src={farcasterLogo}
-									alt=""
-									style={{ height: 20, width: 20 }} />
-								{"Share on Farcaster"}
-							</a>
-							<a
-								href={`https://twitter.com/intent/tweet?text=${encodeURIComponent(`I just scored ${finalScore}/1000 in the memory match game (${difficultyMode} mode) from @songbirdz_cc on @base!\n\nThink you can beat me?\n\nPlay at https://songbirdz.cc/memory-match`)}`}
-								className="btn btn-dark w-100"
-								target="_blank"
-								rel="noopener noreferrer">
-								<i className="fa-brands fa-x-twitter me-2" />
-								{"Share on X"}
-							</a>
+							{(isBaseApp || isFarcasterApp) &&
+								<Button
+									className="w-100"
+									as="a"
+									href={`https://farcaster.xyz/~/compose?text=${encodeURIComponent(`I just scored ${finalScore}/1000 in the Songbirdz memory match game (${difficultyMode} mode)!\n\nThink you can you beat me?`)}&channelKey=songbirdz&embeds[]=${encodeURIComponent('https://songbirdz.cc/memory-match')}`}
+									target="_blank"
+									rel="noopener noreferrer"
+									variant="outline-primary"
+									onClick={(event) => fComposeCast(event, {
+										text: `I just scored ${finalScore}/1000 in the Songbirdz memory match game (${difficultyMode} mode)!\n\nThink you can you beat me?`,
+										embeds: ['https://songbirdz.cc/memory-match'],
+										channelKey: 'songbirdz',
+									})}>
+									<div className="d-flex align-items-center justify-content-center">
+										{isBaseApp &&
+											<>
+												<img
+													className="me-2"
+													src={baseLogo}
+													alt=""
+													style={{ width: "20px", height: "20px" }} />
+												<span>
+													{'Share on Base App'}
+												</span>
+											</>
+										}
+										{isFarcasterApp &&
+											<>
+												<img
+													className="farcaster-logo me-2"
+													src={farcasterLogo}
+													alt=""
+													style={{ width: "20px", height: "20px" }} />
+												<span>
+													{"Share on Farcaster"}
+												</span>
+											</>
+										}
+									</div>
+								</Button>
+							}
 							<Button
 								className="w-100"
-								variant="secondary"
+								as="a"
+								href={`https://twitter.com/intent/tweet?text=${encodeURIComponent(`I just scored ${finalScore}/1000 in the memory match game (${difficultyMode} mode) from @songbirdz_cc on @base!\n\nThink you can beat me?\n\nPlay at https://songbirdz.cc/memory-match`)}`}
+								target="_blank"
+								rel="noopener noreferrer"
+								variant="outline-primary"
+								onClick={fOpenExternalURL}>
+								<div className="d-flex align-items-center justify-content-center">
+									<i
+										className="fa-brands fa-x-twitter me-2"
+										style={{
+											fontSize: "20px",
+											marginTop: "-1px",
+										}} />
+									{'Share on X'}
+								</div>
+							</Button>
+							<Button
+								className="w-100"
+								variant="outline-primary"
 								onClick={() => setShowLeaderboard(true)}>
 								<i className="fas fa-trophy me-2" />
 								{"View Leaderboard"}

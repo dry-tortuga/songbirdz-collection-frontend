@@ -1,8 +1,6 @@
 import React, { createContext, useContext, useCallback, useEffect, useState } from "react";
+import PropTypes from "prop-types";
 import { sdk } from "@farcaster/frame-sdk";
-
-// TODO: Update index.html to launch into correct url based on the cast
-// TODO: Add webhook handler + receive notifications when users install/uninstall the frame
 
 const FarcasterContext = createContext()
 
@@ -114,9 +112,6 @@ export function FarcasterProvider({ children }) {
 
 				fetchedData = await response.json();
 
-				console.debug('Fetched farcaster user data:');
-				console.debug(fetchedData);
-
 			}
 
 			// Loop through each user and populate with farcaster data (if any)
@@ -177,8 +172,13 @@ export function FarcasterProvider({ children }) {
 
 	}, []);
 
+	const isBaseApp = context?.client?.clientFid === 309857;
+	const isFarcasterApp = context?.client?.clientFid === 1 || context?.client?.clientFid === 9152;
+
 	return (
 		<FarcasterContext.Provider value={{
+			isBaseApp,
+			isFarcasterApp,
 			fContext: context,
 			fAddMiniApp: addMiniApp,
 			fComposeCast: composeCast,
@@ -192,6 +192,10 @@ export function FarcasterProvider({ children }) {
 		</FarcasterContext.Provider>
 	)
 }
+
+FarcasterProvider.propTypes = {
+	children: PropTypes.node.isRequired
+};
 
 export function useFarcasterContext() {
 	const context = useContext(FarcasterContext);

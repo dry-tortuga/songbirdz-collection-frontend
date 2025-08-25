@@ -15,7 +15,12 @@ const LeaderboardTabSeason5 = (props) => {
 
 	const { account } = useWalletContext();
 
-	const { fComposeCast, fOpenLinkToOwner } = useFarcasterContext();
+	const {
+		fComposeCast,
+		fOpenExternalURL,
+		fOpenLinkToChannel,
+		fOpenLinkToOwner,
+	} = useFarcasterContext();
 
 	// Get the list of users in the top 50
 	const { data } = usePointsLeaderboard({ account, season: 5 });
@@ -79,14 +84,16 @@ const LeaderboardTabSeason5 = (props) => {
 									<a
 										href="https://dexscreener.com/base/0x79fbc3a197cd9dba844c07e4449315d49a1e8343"
 										target="_blank"
-										rel="noopener noreferrer nofollow">
+										rel="noopener noreferrer nofollow"
+										onClick={fOpenExternalURL}>
 										<b>{"KIBBLE"}</b>
 									</a>
 									{" from "}
 									<a
 										href="https://x.com/cattownbase/"
 										target="_blank"
-										rel="noopener noreferrer nofollow">
+										rel="noopener noreferrer nofollow"
+										onClick={fOpenExternalURL}>
 										<b>{"Cat Town"}</b>
 									</a>
 								</li>
@@ -96,7 +103,8 @@ const LeaderboardTabSeason5 = (props) => {
 									<a
 										href="https://opensea.io/collection/songbirdz-hall-of-fame"
 										target="_blank"
-										rel="noopener noreferrer nofollow">
+										rel="noopener noreferrer nofollow"
+										onClick={fOpenExternalURL}>
 										<b>{"Hall of Fame"}</b>
 									</a>
 								</li>
@@ -154,14 +162,16 @@ const LeaderboardTabSeason5 = (props) => {
 									<a
 										href="https://opensea.io/collection/songbirdz"
 										target="_blank"
-										rel="noopener noreferrer nofollow">
+										rel="noopener noreferrer nofollow"
+										onClick={fOpenExternalURL}>
 										<b>{"OpenSea"}</b>
 									</a>
 									{" or "}
 									<a
 										href="https://magiceden.io/collections/base/songbirdz"
 										target="_blank"
-										rel="noopener noreferrer nofollow">
+										rel="noopener noreferrer nofollow"
+										onClick={fOpenExternalURL}>
 										<b>{"Magic Eden"}</b>
 									</a>
 									{" above the minting price of 0.0015 ETH"}
@@ -203,7 +213,8 @@ const LeaderboardTabSeason5 = (props) => {
 											<a
 												href="https://x.com/dry_tortuga"
 												target="_blank"
-												rel="noopener noreferrer nofollow">
+												rel="noopener noreferrer nofollow"
+												onClick={fOpenExternalURL}>
 												{"@dry_tortuga"}
 											</a>
 										</li>
@@ -212,7 +223,8 @@ const LeaderboardTabSeason5 = (props) => {
 											<a
 												href="https://x.com/songbirdz_cc"
 												target="_blank"
-												rel="noopener noreferrer nofollow">
+												rel="noopener noreferrer nofollow"
+												onClick={fOpenExternalURL}>
 												{"@songbirdz_cc"}
 											</a>
 										</li>
@@ -229,7 +241,8 @@ const LeaderboardTabSeason5 = (props) => {
 												data-via="songbirdz_cc"
 												data-url={
 													"https://songbirdz.cc/collection?number=8&hide_already_identified=true"
-												}>
+												}
+												onClick={fOpenExternalURL}>
 												{"Share on X"}
 											</a>
 										</li>
@@ -272,7 +285,8 @@ const LeaderboardTabSeason5 = (props) => {
 									<a
 										href="https://t.me/songbirdz_cc"
 										target="_blank"
-										rel="noopener noreferrer nofollow">
+										rel="noopener noreferrer nofollow"
+										onClick={fOpenExternalURL}>
 										{"https://t.me/songbirdz_cc"}
 									</a>
 								</li>
@@ -281,7 +295,8 @@ const LeaderboardTabSeason5 = (props) => {
 									<a
 										href="https://farcaster.xyz/~/channel/songbirdz"
 										target="_blank"
-										rel="noopener noreferrer nofollow">
+										rel="noopener noreferrer nofollow"
+										onClick={fOpenLinkToChannel}>
 										{"https://farcaster.xyz/~/channel/songbirdz"}
 									</a>
 								</li>
