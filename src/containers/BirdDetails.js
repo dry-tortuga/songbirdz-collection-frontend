@@ -57,9 +57,6 @@ const BirdDetails = () => {
 
     const [birdOwner, setBirdOwner] = useState(null);
 
-    // Keep track of the state of the info alert
-    const [showInfoAlert, setShowInfoAlert] = useState(true);
-
     // Keep track of the state of the transfer modal
     const [showTransferModal, setShowTransferModal] = useState(false);
 
@@ -116,46 +113,26 @@ const BirdDetails = () => {
                     <>
                         <Row className="mb-3">
                             <Col className="d-flex align-items-center flex-wrap">
-                                <h1 className="d-flex align-items-center">
-                                    {bird.name}
-                                </h1>
-                                {bird.id > 0 && (
-                                    <Link
-                                        className="btn btn-outline-primary ms-3"
-                                        to={`/collection/${bird.id - 1}`}>
-                                        <svg
-                                            xmlns="http://www.w3.org/2000/svg"
-                                            width="16"
-                                            height="16"
-                                            fill="currentColor"
-                                            className="bi bi-arrow-left"
-                                            viewBox="0 0 16 16">
-                                            <path
-                                                fillRule="evenodd"
-                                                d="M15 8a.5.5 0 0 0-.5-.5H2.707l3.147-3.146a.5.5 0 1 0-.708-.708l-4 4a.5.5 0 0 0 0 .708l4 4a.5.5 0 0 0 .708-.708L2.707 8.5H14.5A.5.5 0 0 0 15 8" />
-                                        </svg>
-                                    </Link>
-                                )}
-                                {bird.id < (NUM_BIRDS_TOTAL - 1) && (
-                                    <Link
-                                        className="btn btn-outline-primary ms-3"
-                                        to={`/collection/${bird.id + 1}`}>
-                                        <svg
-                                            xmlns="http://www.w3.org/2000/svg"
-                                            width="16"
-                                            height="16"
-                                            fill="currentColor"
-                                            className="bi bi-arrow-right"
-                                            viewBox="0 0 16 16">
-                                            <path
-                                                fillRule="evenodd"
-                                                d="M1 8a.5.5 0 0 1 .5-.5h11.793l-3.147-3.146a.5.5 0 0 1 .708-.708l4 4a.5.5 0 0 1 0 .708l-4 4a.5.5 0 0 1-.708-.708L13.293 8.5H1.5A.5.5 0 0 1 1 8" />
-                                        </svg>
-                                    </Link>
-                                )}
+	                           	{bird.id > 0 && (
+	                                <Link
+	                                    className="btn btn-outline-primary ms-3"
+	                                    to={`/collection/${bird.id - 1}`}>
+	                                    <svg
+	                                        xmlns="http://www.w3.org/2000/svg"
+	                                        width="16"
+	                                        height="16"
+	                                        fill="currentColor"
+	                                        className="bi bi-arrow-left"
+	                                        viewBox="0 0 16 16">
+	                                        <path
+	                                            fillRule="evenodd"
+	                                            d="M15 8a.5.5 0 0 0-.5-.5H2.707l3.147-3.146a.5.5 0 1 0-.708-.708l-4 4a.5.5 0 0 0 0 .708l4 4a.5.5 0 0 0 .708-.708L2.707 8.5H14.5A.5.5 0 0 0 15 8" />
+	                                    </svg>
+	                                </Link>
+	                            )}
                                 {bird.owner && (
                                     <div
-                                        className="flex align-items-center ms-auto"
+                                        className="flex align-items-center ms-auto me-auto"
                                         key={bird.id}>
                                         <a
                                             href={`https://twitter.com/intent/tweet?text=${encodeURIComponent(`Check out this ${bird.species} in the @songbirdz_cc collection on @base!\n\n`)}`}
@@ -237,31 +214,25 @@ const BirdDetails = () => {
                                         )}
                                     </div>
                                 )}
+                                {bird.id < (NUM_BIRDS_TOTAL - 1) && (
+	                                <Link
+	                                    className="btn btn-outline-primary ms-3"
+	                                    to={`/collection/${bird.id + 1}`}>
+	                                    <svg
+	                                        xmlns="http://www.w3.org/2000/svg"
+	                                        width="16"
+	                                        height="16"
+	                                        fill="currentColor"
+	                                        className="bi bi-arrow-right"
+	                                        viewBox="0 0 16 16">
+	                                        <path
+	                                            fillRule="evenodd"
+	                                            d="M1 8a.5.5 0 0 1 .5-.5h11.793l-3.147-3.146a.5.5 0 0 1 .708-.708l4 4a.5.5 0 0 1 0 .708l-4 4a.5.5 0 0 1-.708-.708L13.293 8.5H1.5A.5.5 0 0 1 1 8" />
+	                                    </svg>
+	                                </Link>
+	                            )}
                             </Col>
                         </Row>
-                        {!bird.owner && showInfoAlert && (
-                            <Row className="mb-3">
-                                <Col>
-                                    <Alert
-                                        variant="info"
-                                        dismissible
-                                        onClose={() => setShowInfoAlert(false)}>
-                                        <p className="mb-1">
-                                            <b>{"1. "}</b>
-                                            {"View the image and listen to the audio recording of the bird's song."}
-                                        </p>
-                                        <p className="mb-1">
-                                            <b>{"2. "}</b>
-                                            {"Click on the \"Identify\" button and submit your guess for the correct species of the bird from a list of 5 answer choices."}
-                                        </p>
-                                        <p className="mb-0">
-                                            <b>{"3. "}</b>
-                                            {"If you're correct, you'll be the new owner of the bird!"}
-                                        </p>
-                                    </Alert>
-                                </Col>
-                            </Row>
-                        )}
                         <Row>
                             <Col>
                                 <Card>

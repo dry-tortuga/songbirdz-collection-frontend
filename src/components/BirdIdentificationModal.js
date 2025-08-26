@@ -9,6 +9,7 @@ import {
 } from "@coinbase/onchainkit/transaction";
 import PropTypes from "prop-types";
 import { Button, Form, Modal } from "react-bootstrap";
+import { Link } from "react-router-dom";
 
 import AccountOwner from "./AccountOwner";
 import BirdAudioFile from "./BirdAudioFile";
@@ -242,22 +243,25 @@ const BirdIdentificationModal = (props) => {
 										bottom: 5,
 										right: 5,
 									}}>
-									<a
-										href={`/collection/${bird.id}`}
-										target="_blank"
-										rel="noopener noreferrer nofollow">
+									<Link
+										to={`/collection/${bird.id}`}
+										onClick={() => { onToggle(); }}>
 										<i
 											className="fa-solid fa-arrow-up-right-from-square"
 											style={{ fontSize: "18px" }} />
-									</a>
+									</Link>
 								</span>
 							</Form.Group>
 						</>
 					}
 					{!bird.owner &&
 						<>
-							<Form.Group className="mb-3" controlId="species">
-								<Form.Label className="fw-bold">{"Choose Species"}</Form.Label>
+							<Form.Group
+								className="mb-3"
+								controlId="species">
+								<Form.Label className="fw-bold">
+									{"Choose Species"}
+								</Form.Label>
 								<div className="d-grid gap-2">
 									{options.map((option, index) => (
 										<Button
@@ -271,13 +275,19 @@ const BirdIdentificationModal = (props) => {
 							</Form.Group>
 							<Form.Group className="mb-3">
 								<Form.Text className="d-block">
-									<span className="fw-bold me-2">{"PRICE: "}</span>
-									<span>{"0.0015 ETH"}</span>
+									<span className="fw-bold me-2">
+										{"PRICE: "}
+									</span>
+									<span>
+										{"0.0015 ETH"}
+									</span>
 								</Form.Text>
 								<Form.Text className="text-muted d-block">
-									<span className="fw-bold me-2">{"NOTE: "}</span>
+									<span className="fw-bold me-2">
+										{"NOTE: "}
+									</span>
 									<span>
-										{"If you submit an incorrect answer, you will be automatically refunded 0.00125 ETH."}
+										{"If you submit an incorrect species answer, you will be automatically refunded 0.00125 ETH and can try again."}
 									</span>
 								</Form.Text>
 							</Form.Group>

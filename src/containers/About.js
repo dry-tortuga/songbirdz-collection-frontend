@@ -6,10 +6,7 @@ import { useFarcasterContext } from "../contexts/farcaster";
 
 const About = () => {
 
-	const {
-		fOpenExternalURL,
-		fOpenLinkToOwner,
-	} = useFarcasterContext();
+	const { fOpenExternalURL, fOpenLinkToOwner } = useFarcasterContext();
 
     return (
         <div className="about-page">
@@ -22,7 +19,7 @@ const About = () => {
                 <Row>
                     <Col>
                         <p>
-                            {"The Songbirdz project is bringing bird watching onchain to Base. Each bird (i.e. NFT) is hidden until the species is successfully identified (i.e. minted) based on that bird's image and song. The species verification happens fully onchain during the minting process."}
+                            {"The Songbirdz project is bringing bird watching onchain to Base. Each bird (i.e. NFT) is hidden until the species is successfully identified (i.e. minted) based on the bird's image/song."}
                         </p>
                         <p>
                             {"This project was one of "}
@@ -36,21 +33,23 @@ const About = () => {
                             {" chosen in the \"GAMING with thirdweb: Gaming\" category at the Onchain Summer Buildathon in June 2024."}
                         </p>
                         <p>
-                            {"There is a total of 10,000 birds to identify, split into 10 unique \"flocks\". Each flock consists of exactly 1,000 birds and each flock was rolled out one-at-a-time, with a distinct set of species, song audio, and images. There are a total of 800 unique species of birds to collect across the entire collection."}
+                            {"There are 10,000 birds to identify, split into 10 themed \"flocks\". Each flock consists of exactly 1,000 birds and each flock was rolled out one-at-a-time, with a distinct set of species, song audio, and images. There are a total of 800 unique species of birds to collect across the entire collection."}
                         </p>
                         <p>
                             {"Curated by a life-long birder, using images from "}
                             <a
                                 href="https://openai.com/dall-e-3"
                                 target="_blank"
-                                rel="noopener noreferrer nofollow">
+                                rel="noopener noreferrer nofollow"
+                               	onClick={fOpenExternalURL}>
                                 <b>{"DALL·E 3"}</b>
                             </a>
                             {" and audio from "}
                             <a
                                 href="https://www.macaulaylibrary.org/guide-to-bird-sounds"
                                 target="_blank"
-                                rel="noopener noreferrer nofollow">
+                                rel="noopener noreferrer nofollow"
+                               	onClick={fOpenExternalURL}>
                                 <b>
                                     {"The Cornell Guide to Bird Sounds: United States and Canada (v2021)"}
                                 </b>
@@ -58,7 +57,7 @@ const About = () => {
                             {"."}
                         </p>
                         <p>
-							{"The contract uses merkle trees to store onchain hashes of the species names, images, and song audio for each flock in the collection."}
+							{"The contract uses merkle trees to store onchain hashes of the species names, images, and song audio for each flock in the collection, and the species verification happens fully onchain during the minting transaction."}
                         </p>
                         <p>
                         	{"The long-term goal for this project is to be a community-driven ecosystem for bird enthusiasts, fostering a deeper connection with nature and promoting conservation efforts, while also providing a platform for users to engage with and learn about birds (and web3) in a fun and interactive way."}
@@ -152,7 +151,7 @@ const About = () => {
 	                                <b>{"Final Migration:"}</b>
 	                            </Link>
                                 <span className="ms-1">
-                                    {"NOW MINTING:  The 10th (and final) flock of 1,000 birds in the Songbirdz collection (9000-9999). Features 200 new species, with exactly 5 birds per species. This flock honors the chain and the community that made it all possible, and is a homage to our first genesis flock. The birds have now finished their long journey onchain and have arrived safely home to rest on Base."}
+                                    {"NOW MINTING:  The 10th (and final) flock of 1,000 birds in the Songbirdz collection (9000-9999). Features 200 new species, with exactly 5 birds per species. This flock honors the chain and the community that made it all possible, and is a throwback to our first genesis flock which launched April of 2024. The birds are finishing their long journey onchain and will arrive safely home to rest on Base."}
                                 </span>
                             </li>
                         </ul>
@@ -165,7 +164,8 @@ const About = () => {
                                 <a
                                     href="https://endaoment.org/"
                                     target="_blank"
-                                    rel="noopener noreferrer nofollow">
+                                    rel="noopener noreferrer nofollow"
+                                   	onClick={fOpenExternalURL}>
                                     <b>{"Endaoment"}</b>
                                 </a>
                                 {"."}
@@ -182,7 +182,8 @@ const About = () => {
                                 <a
                                     href="https://twitter.com/songbirdz_cc"
                                     target="_blank"
-                                    rel="noopener noreferrer nofollow">
+                                    rel="noopener noreferrer nofollow"
+                                   	onClick={fOpenExternalURL}>
                                     <b>{"Twitter"}</b>
                                 </a>
                             </li>
@@ -190,7 +191,8 @@ const About = () => {
                                 <a
                                     href="https://t.me/songbirdz_cc"
                                     target="_blank"
-                                    rel="noopener noreferrer nofollow">
+                                    rel="noopener noreferrer nofollow"
+                                   	onClick={fOpenExternalURL}>
                                     <b>{"Telegram"}</b>
                                 </a>
                             </li>
@@ -215,7 +217,8 @@ const About = () => {
                                     style={{
                                         wordBreak: "break-word",
                                         wordWrap: "break-word",
-                                    }}>
+                                    }}
+                                   	onClick={fOpenExternalURL}>
                                     <b>{"Deployed Contract on Base - 0x7C3B795e2174C5E0C4F7d563A2FB34F024C8390B"}</b>
                                 </a>
                             </li>
@@ -223,7 +226,8 @@ const About = () => {
                                 <a
                                     href="https://github.com/dry-tortuga/songbirdz-collection-backend/blob/main/contracts/SongBirdz.sol"
                                     target="_blank"
-                                    rel="noopener noreferrer nofollow">
+                                    rel="noopener noreferrer nofollow"
+                                   	onClick={fOpenExternalURL}>
                                     <b>{"Solidity Contract"}</b>
                                 </a>
                             </li>
@@ -231,7 +235,8 @@ const About = () => {
                                 <a
                                     href="https://github.com/dry-tortuga/songbirdz-collection-backend"
                                     target="_blank"
-                                    rel="noopener noreferrer nofollow">
+                                    rel="noopener noreferrer nofollow"
+                                   	onClick={fOpenExternalURL}>
                                     <b>{"Back-End Server"}</b>
                                 </a>
                             </li>
@@ -239,7 +244,8 @@ const About = () => {
                                 <a
                                     href="https://github.com/dry-tortuga/songbirdz-collection-frontend"
                                     target="_blank"
-                                    rel="noopener noreferrer nofollow">
+                                    rel="noopener noreferrer nofollow"
+                                   	onClick={fOpenExternalURL}>
                                     <b>{"Front-End Application"}</b>
                                 </a>
                             </li>
@@ -247,7 +253,8 @@ const About = () => {
                                 <a
                                     href="https://github.com/dry-tortuga/songbirdz-collection-media"
                                     target="_blank"
-                                    rel="noopener noreferrer nofollow">
+                                    rel="noopener noreferrer nofollow"
+                                   	onClick={fOpenExternalURL}>
                                     <b>{"Media & Metadata"}</b>
                                 </a>
                             </li>
@@ -255,7 +262,8 @@ const About = () => {
                                 <a
                                     href="https://opensea.io/collection/songbirdz-hall-of-fame"
                                     target="_blank"
-                                    rel="noopener noreferrer nofollow">
+                                    rel="noopener noreferrer nofollow"
+                                   	onClick={fOpenExternalURL}>
                                     <b>{"Hall of Fame"}</b>
                                 </a>
                             </li>
@@ -263,12 +271,15 @@ const About = () => {
                                 <a
                                     href="https://www.redbubble.com/people/drytortuga/shop"
                                     target="_blank"
-                                    rel="noopener noreferrer nofollow">
+                                    rel="noopener noreferrer nofollow"
+                                   	onClick={fOpenExternalURL}>
                                     <b>{"Songbirdz Merch"}</b>
                                 </a>
                             </li>
                         </ul>
-                        <h1 className="mb-3">{"The Aviary"}</h1>
+                        <h1 className="mb-3">
+                        	{"The Aviary"}
+                        </h1>
                         <div
 	                        style={{
 	                            display: "flex",
@@ -298,10 +309,13 @@ const About = () => {
                                     <a
                                         href="https://x.com/dry_tortuga"
                                         target="_blank"
-                                        rel="noopener noreferrer nofollow">
+                                        rel="noopener noreferrer nofollow"
+                                       	onClick={fOpenExternalURL}>
                                         <b>{"X"}</b>
                                     </a>
-                                    <span>|</span>
+									<span>
+										{"|"}
+									</span>
 									<a
 										href="https://farcaster.xyz/dry-tortuga"
 										target="_blank"
@@ -333,7 +347,8 @@ const About = () => {
                                     <a
                                         href="https://x.com/paesan5"
                                         target="_blank"
-                                        rel="noopener noreferrer nofollow">
+                                        rel="noopener noreferrer nofollow"
+                                       	onClick={fOpenExternalURL}>
                                         <b>{"X"}</b>
                                     </a>
                                 </div>
@@ -360,7 +375,8 @@ const About = () => {
                                     <a
                                         href="https://x.com/Arcturus_TA"
                                         target="_blank"
-                                        rel="noopener noreferrer nofollow">
+                                        rel="noopener noreferrer nofollow"
+                                       	onClick={fOpenExternalURL}>
                                         <b>{"X"}</b>
                                     </a>
                                 </div>
