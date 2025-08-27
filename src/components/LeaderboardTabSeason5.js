@@ -82,13 +82,13 @@ const LeaderboardTabSeason5 = (props) => {
 									<strong>{"Top 5 -> "}</strong>
 									{"1986.5 "}
 									<a
-										href="https://dexscreener.com/base/0x79fbc3a197cd9dba844c07e4449315d49a1e8343"
+										href="https://dexscreener.com/base/0x64cc19a52f4d631ef5be07947caba14ae00c52eb"
 										target="_blank"
 										rel="noopener noreferrer nofollow"
 										onClick={fOpenExternalURL}>
 										<b>{"KIBBLE"}</b>
 									</a>
-									{" from "}
+									{" (~$10 each) from "}
 									<a
 										href="https://x.com/cattownbase/"
 										target="_blank"
@@ -136,7 +136,7 @@ const LeaderboardTabSeason5 = (props) => {
 								{" is a competition among birders to identify as many species of birds as possible by sight/sound, within a single calendar year and specific geographic area. The North American Big Year record is 840 species, set by John Weigel in 2019!"}
 							</p>
 							<p>
-								{"Now, we all know onchain has no geographic limits, so we'll recreate this competition using the 600 species of birds in the Songbirdz collection that are out in the wild right now on Base."}
+								{"Now, we all know onchain has no geographic limits, so we'll recreate this competition using the 800 species of birds in the Songbirdz collection that are out in the wild right now on Base."}
 							</p>
 							<h3>{"1. Onchain Bird Watching"}</h3>
 							<p>

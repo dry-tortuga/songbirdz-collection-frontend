@@ -209,7 +209,7 @@ const LeaderboardTabSpeciesRanks = ({ onUserClick }) => {
 						{"Keep track of your progress towards identifying (i.e. owning) each unique species in the Songbirdz collection!"}
 					</p>
 					<p>
-						{`As of now, there are ${NUM_SPECIES_TOTAL} unique species to identify, with a final total of 800 once all the flocks are released into the wild!`}
+						{`There are ${NUM_SPECIES_TOTAL} unique species to identify, with varying rarity levels associated with each species (i.e. the number of birds for that species, ranges from 1 to 50).`}
 					</p>
 					<p>
 						{"Once you identify (i.e. own) a species, it will be permanently stored in the Life List for your address, so you are free to sell or trade with others. No need to hoard all your birds :)"}

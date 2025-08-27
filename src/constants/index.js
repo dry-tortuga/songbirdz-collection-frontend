@@ -5,12 +5,13 @@ import ANSWER_CHOICES_FLOCK_5 from './answer-choices/predator-and-prey-5-options
 import ANSWER_CHOICES_FLOCK_6 from './answer-choices/love-birds-6-options.json';
 import ANSWER_CHOICES_FLOCK_7 from './answer-choices/hatchlings-7-options.json';
 import ANSWER_CHOICES_FLOCK_8 from './answer-choices/masters-of-disguise-8-options.json';
+import ANSWER_CHOICES_FLOCK_9 from './answer-choices/final-migration-9-options.json';
 
 import FAMILIES from './families';
 
-const NUM_BIRDS_TOTAL = 9000;
+const NUM_BIRDS_TOTAL = 10000;
 
-const NUM_SPECIES_TOTAL = 600;
+const NUM_SPECIES_TOTAL = 800;
 
 const COLLECTION_BIRD_SIZE = 1000;
 
@@ -61,6 +62,11 @@ const COLLECTIONS = [{
 	count: 1000,
 	min_id: 8000,
 	max_id: 8999
+}, {
+	name: "Final Migration",
+	count: 1000,
+	min_id: 9000,
+	max_id: 9999
 }];
 
 const EVENTS = {
@@ -86,6 +92,7 @@ export {
 	ANSWER_CHOICES_FLOCK_6,
 	ANSWER_CHOICES_FLOCK_7,
 	ANSWER_CHOICES_FLOCK_8,
+	ANSWER_CHOICES_FLOCK_9,
 	FAMILIES,
 	NUM_BIRDS_TOTAL,
 	NUM_SPECIES_TOTAL,

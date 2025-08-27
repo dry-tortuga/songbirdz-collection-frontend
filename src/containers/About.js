@@ -19,7 +19,7 @@ const About = () => {
                 <Row>
                     <Col>
                         <p>
-                            {"The Songbirdz project is bringing bird watching onchain to Base. Each species is hidden until successfully identified based on its image and song."}
+                            {"The Songbirdz project is bringing bird watching onchain to Base. Each bird (i.e. NFT) is hidden until the species is successfully identified (i.e. minted) based on the bird's image/song."}
                         </p>
                         <p>
                             {"This project was one of "}
@@ -33,7 +33,7 @@ const About = () => {
                             {" chosen in the \"GAMING with thirdweb: Gaming\" category at the Onchain Summer Buildathon in June 2024."}
                         </p>
                         <p>
-                            {"There will be a total of 10 flocks, each consisting of 1,000 birds, which each flock rolled out one-at-a-time and with a distinct set of species, song audio, and images. Starting with the first flock of 1,000 (i.e. the Picasso Genesis flock), and ending once we've reached 10,000 total birds in the wild. The next flock of 1,000 birds won't be released until all birds in the previous flock have been successfully identified. Future flocks will introduce new species of birds, with input from the community."}
+                            {"There are 10,000 birds to identify, split into 10 themed \"flocks\". Each flock consists of exactly 1,000 birds and each flock was rolled out one-at-a-time, with a distinct set of species, song audio, and images. There are a total of 800 unique species of birds to collect across the entire collection."}
                         </p>
                         <p>
                             {"Curated by a life-long birder, using images from "}
@@ -57,7 +57,10 @@ const About = () => {
                             {"."}
                         </p>
                         <p>
-                            {"The contract uses merkle trees to store onchain hashes of the species names, images, and song audio for each flock in the collection. Once all 10,000 in the wild have been identified this data will be uploaded to ipfs. The back-end web server will be shut down in favor of a 2nd smart contract to manage the points system and life list. The long-term goal for this project is to be a community-driven ecosystem for bird enthusiasts, fostering a deeper connection with nature and promoting conservation efforts, while also providing a platform for users to engage with and learn about birds (and web3) in a fun and interactive way."}
+							{"The contract uses merkle trees to store onchain hashes of the species names, images, and song audio for each flock in the collection, and the species verification happens fully onchain during the minting transaction."}
+                        </p>
+                        <p>
+                        	{"The long-term goal for this project is to be a community-driven ecosystem for bird enthusiasts, fostering a deeper connection with nature and promoting conservation efforts, while also providing a platform for users to engage with and learn about birds (and web3) in a fun and interactive way."}
                         </p>
                         <p>
                             {"The smart contract governing the NFTs, the back-end code for the web server, and the front-end code for the web application are all open-source (MIT License). The images (and species metadata) associated with each NFT in the collection is released under the Creative Commons Zero (CC0) license, granting users freedom to use, remix, and share the artworks without any restrictions. "}
@@ -65,9 +68,11 @@ const About = () => {
                             {" If you wish to use the audio mp3 files in your own project, you must purchase them for $20.00 from \"The Cornell Guide to Bird Sounds: United States and Canada (v2021)\". See link above."}
                         </p>
                         <p>
-                            {"As a new onchain developer and an avid appreciator of birds, I hope you find this project interesting, useful, and enjoyable. I invite you to join the community and contribute to the project. Thank you!"}
+                            {"As avid appreciators of birds, we hope you find this project interesting, useful, and enjoyable. We invite you to join the community and contribute to the project. Thank you!"}
                         </p>
-                        <h2>{"Flocks in the Wild"}</h2>
+                        <h2>
+                        	{"Flocks in the Wild"}
+                        </h2>
                         <ul style={{ listStyle: "disc" }}>
                             <li>
                                 <Link to="/collection?number=0">
@@ -78,67 +83,75 @@ const About = () => {
                                 </span>
                             </li>
                             <li>
-                            	<Link to="/collection?number=1">
-                                    <b>{"Deep Blue:"}</b>
-                                </Link>
+	                            <Link to="/collection?number=1">
+	                                <b>{"Deep Blue:"}</b>
+	                            </Link>
                                 <span className="ms-1">
                                     {"SOLD OUT:  The 2nd flock of 1,000 birds in the Songbirdz collection (1000-1999). Features 50 new species, with various amounts of birds per species of either 1, 5, 10, 20, 30 or 50. Includes 5 \"1 of 1\" birds that are the only one of their species! This flock of birds live and breath all things water day in and day out, they make their home on the rivers, streams, ponds, lakes, and oceans near you."}
                                 </span>
                             </li>
                             <li>
-                            	<Link to="/collection?number=2">
-                                    <b>{"Small & Mighty:"}</b>
-                                </Link>
+	                           	<Link to="/collection?number=2&hide_already_identified=true">
+	                                <b>{"Small & Mighty:"}</b>
+	                            </Link>
                                 <span className="ms-1">
                                     {"NOW MINTING:  The 3rd flock of 1,000 birds in the Songbirdz collection (2000-2999). Features 50 new species, with various amounts of birds per species of either 1, 5, 10, 20, 30 or 50. Includes 5 \"1 of 1\" birds that are the only one of their species! This flock of birds are some of the tiniest in the avian world, with most having wing spans < 30cm, but they sing the most quintessential songs you'll hear in the wild."}
                                 </span>
                             </li>
                             <li>
-                                <Link to="/collection?number=3&hide_already_identified=true">
-                                    <b>{"Night & Day:"}</b>
-                                </Link>
+                            	<Link to="/collection?number=3&hide_already_identified=true">
+	                                <b>{"Night & Day:"}</b>
+	                            </Link>
                                 <span className="ms-1">
                                     {"NOW MINTING:  The 4th flock of 1,000 birds in the Songbirdz collection (3000-3999). Features 50 new species, with various amounts of birds per species of either 1, 5, 10, 20, 30 or 50. Includes 4 \"1 of 1\" birds that are the only one of their species! This flock features some of our most mysterious and intriguing birds. Discover the birds that rule the night and those who break the silence at dawn. As the seasons change and the nights grow longer, there’s still plenty of them out there waiting to be seen."}
                                 </span>
                             </li>
                             <li>
-                                <Link to="/collection?number=4&hide_already_identified=true">
-                                    <b>{"Fire & Ice:"}</b>
-                                </Link>
+                            	<Link to="/collection?number=4&hide_already_identified=true">
+	                                <b>{"Fire & Ice:"}</b>
+	                            </Link>
                                 <span className="ms-1">
                                     {"NOW MINTING:  The 5th flock of 1,000 birds in the Songbirdz collection (4000-4999). Features 50 new species, with various amounts of birds per species of either 1, 5, 10, 20, 30 or 50. Includes 4 \"1 of 1\" birds that are the only one of their species! This flock features birds that don’t just survive brutal conditions — they thrive in them, even without air conditioning, parkas, or winter hats. In the coldest nights of winter and the harshest heat of summer, no matter the conditions, they adapt to their environment."}
                                 </span>
                             </li>
                             <li>
-                                <Link to="/collection?number=5&hide_already_identified=true">
-                                    <b>{"Predator & Prey:"}</b>
-                                </Link>
+                            	<Link to="/collection?number=5&hide_already_identified=true">
+	                                <b>{"Predator & Prey:"}</b>
+	                            </Link>
                                 <span className="ms-1">
                                     {"NOW MINTING:  The 6th flock of 1,000 birds in the Songbirdz collection (5000-5999). Features 50 new species, with various amounts of birds per species of either 1, 5, 10, 20, 25, 30, etc. Includes 4 \"1 of 1\" birds that are the only one of their species! This flock features birds at the top of the food chain and also those in the bottom. It's about the eternal dance of survival and the constant fight to stay alive for both predator and prey. The hunter and the hunted."}
                                 </span>
                             </li>
                             <li>
-                                <Link to="/collection?number=6&hide_already_identified=true">
-                                    <b>{"Lovebirds:"}</b>
-                                </Link>
+                            	<Link to="/collection?number=6&hide_already_identified=true">
+	                                <b>{"Lovebirds:"}</b>
+	                            </Link>
                                 <span className="ms-1">
                                     {"NOW MINTING:  The 7th flock of 1,000 birds in the Songbirdz collection (6000-6999). Features 50 new species, with various amounts of birds per species of either 1, 5, 10, 20, 30, 50 etc. Includes 4 \"1 of 1\" birds that are the only one of their species! This flock is in tribute to your partner in crime, bff, ride or die, main squeeze, better-half, whatever you want to call it... life is just better surrounded by the people you love."}
                                 </span>
                             </li>
                             <li>
-                                <Link to="/collection?number=7&hide_already_identified=true">
-                                    <b>{"Hatchlings:"}</b>
-                                </Link>
+                            	<Link to="/collection?number=7&hide_already_identified=true">
+	                                <b>{"Hatchlings:"}</b>
+	                            </Link>
                                 <span className="ms-1">
                                     {"NOW MINTING:  The 8th flock of 1,000 birds in the Songbirdz collection (7000-7999). Features 50 new species, with various amounts of birds per species of either 1, 5, 10, 20, 30, 50 etc. Includes 4 \"1 of 1\" birds that are the only one of their species! This flock celebrates birds that symbolize rebirth, new beginnings, and the beauty of eggs. From those with striking egg-like plumage to famous nest-builders, it highlights the wonders of avian reproduction and the spirit of springtime."}
                                 </span>
                             </li>
                             <li>
-                                <Link to="/collection?number=8&hide_already_identified=true">
-                                    <b>{"Masters of Disguise:"}</b>
-                                </Link>
+                            	<Link to="/collection?number=8&hide_already_identified=true">
+	                                <b>{"Masters of Disguise:"}</b>
+	                            </Link>
                                 <span className="ms-1">
                                     {"NOW MINTING:  The 9th flock of 1,000 birds in the Songbirdz collection (8000-8999). Features 50 new species, with various amounts of birds per species of either 1, 5, 10, 20, 30, 50 etc. Includes 4 \"1 of 1\" birds that are the only one of their species! This flock honors those that master the art of camouflage, each blending seamlessly into nature's earthy canvas. From leaf-littered forests to windswept rocky shores, these stealthy species are nature’s hidden wonders."}
+                                </span>
+                            </li>
+                            <li>
+                            	<Link to="/collection?number=9&hide_already_identified=true">
+	                                <b>{"Final Migration:"}</b>
+	                            </Link>
+                                <span className="ms-1">
+                                    {"NOW MINTING:  The 10th (and final) flock of 1,000 birds in the Songbirdz collection (9000-9999). Features 200 new species, with exactly 5 birds per species. This flock honors the chain and the community that made it all possible, and is a throwback to our first genesis flock which launched April of 2024. The birds are finishing their long journey onchain and will arrive safely home to rest on Base."}
                                 </span>
                             </li>
                         </ul>
@@ -159,7 +172,7 @@ const About = () => {
                             </li>
                             <li>
                                 <span className="ms-1">
-                                    {"Once the 10k collection is fully minted, the community will vote on whether to keep royalties as is or set them permanently to 0%."}
+                                    {"Once the 10k collection is fully minted, the royalties will be used to support the community, the project, and charities. They may be lowered to 0.5% or 0.25%."}
                                 </span>
                             </li>
                         </ul>

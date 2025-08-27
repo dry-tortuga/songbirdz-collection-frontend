@@ -248,7 +248,7 @@ const BirdGallery = () => {
 						}
 						{birds?.length === 0 &&
 						  <span>
-							{`All birdz in the ${collection.name} flock have been successfully identified... early bird gets the worm :)`}
+							{`All birds in the ${collection.name} flock have been successfully identified... early bird gets the worm :)`}
 						</span>
 						}
 						{birds &&

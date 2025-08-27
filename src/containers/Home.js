@@ -27,7 +27,7 @@ const HomeContainer = () => {
 								<div className="d-flex flex-column flex-lg-row gap-3 align-items-center justify-content-center">
 									<a
 										className="btn btn-secondary"
-										href="/collection?number=8&hide_already_identified=true">
+										href="/collection?number=9&hide_already_identified=true">
 										{"Explore Collection"}
 									</a>
 								</div>
@@ -49,15 +49,29 @@ const HomeContainer = () => {
 				<div className="container px-5">
 					<div className="row gx-5 justify-content-center">
 						<div className="col-xs-12">
-							<div className="h2 fs-3 text-white mb-4">
-								{"The Songbirdz collection on Base consists of 10,000 birds who love nothing more than to sing a sweet tune. Each bird starts as an unidentified species with its name hidden. Listen to the bird's song, identify it as the correct species, and add it to your birding life list!"}
+							<div className="h2 fs-4 text-white mb-4">
+								{"The Songbirdz collection consists of 10,000 birds who love nothing more than to sing a sweet tune."}
+							</div>
+						</div>
+					</div>
+					<div className="row gx-5 justify-content-center">
+						<div className="col-xs-12">
+							<div className="h2 fs-4 text-white mb-4">
+								{"For each bird, you must try to identify the correct species using only the bird's image and song."}
+							</div>
+						</div>
+					</div>
+					<div className="row gx-5 justify-content-center">
+						<div className="col-xs-12">
+							<div className="h2 fs-4 text-white mb-4">
+								{"There are 800 unique species of birds for you to collect."}
 							</div>
 						</div>
 					</div>
 					<div className="d-flex flex-column flex-lg-row align-items-center justify-content-center">
 						<Link
 							className="btn btn-outline-light me-lg-3 mb-4 mb-lg-0 py-3 px-4 rounded-pill"
-							to="/collection?number=8&hide_already_identified=true">
+							to="/collection?number=9&hide_already_identified=true">
 							{"Get Started"}
 						</Link>
 					</div>

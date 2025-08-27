@@ -8,7 +8,7 @@ import homeImage1 from "../images/home1.png";
 
 import "./Navbar.css";
 
-const NavbarHeader = () => {
+const NavbarSB = () => {
 
 	const [expanded, setExpanded] = useState(false);
 
@@ -38,7 +38,7 @@ const NavbarHeader = () => {
 					<Nav className="w-100 align-items-center">
 						<Link
 							className={`nav-item nav-link ${pathname === "/collection" ? "active" : ""} `}
-							to="/collection?number=8&hide_already_identified=true"
+							to="/collection?number=9&hide_already_identified=true"
 							onClick={() => setExpanded(false)}>
 							{"Collection"}
 						</Link>
@@ -71,4 +71,4 @@ const NavbarHeader = () => {
 
 };
 
-export default NavbarHeader;
+export default NavbarSB;

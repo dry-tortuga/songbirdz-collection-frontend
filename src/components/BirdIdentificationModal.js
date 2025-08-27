@@ -1,11 +1,11 @@
 import React, { useCallback, useEffect, useMemo, useState } from "react";
 import {
-    Transaction,
-    TransactionButton,
-    TransactionSponsor,
-    TransactionStatus,
-    TransactionStatusAction,
-    TransactionStatusLabel,
+	Transaction,
+	TransactionButton,
+	TransactionSponsor,
+	TransactionStatus,
+	TransactionStatusAction,
+	TransactionStatusLabel,
 } from "@coinbase/onchainkit/transaction";
 import PropTypes from "prop-types";
 import { Button, Form, Modal } from "react-bootstrap";
@@ -15,14 +15,15 @@ import AccountOwner from "./AccountOwner";
 import BirdAudioFile from "./BirdAudioFile";
 
 import {
-    ANSWER_CHOICES_FLOCK_2,
-    ANSWER_CHOICES_FLOCK_3,
-    ANSWER_CHOICES_FLOCK_4,
-    ANSWER_CHOICES_FLOCK_5,
-    ANSWER_CHOICES_FLOCK_6,
-    ANSWER_CHOICES_FLOCK_7,
-    ANSWER_CHOICES_FLOCK_8,
-    COLLECTIONS,
+	ANSWER_CHOICES_FLOCK_2,
+	ANSWER_CHOICES_FLOCK_3,
+	ANSWER_CHOICES_FLOCK_4,
+	ANSWER_CHOICES_FLOCK_5,
+	ANSWER_CHOICES_FLOCK_6,
+	ANSWER_CHOICES_FLOCK_7,
+	ANSWER_CHOICES_FLOCK_8,
+	ANSWER_CHOICES_FLOCK_9,
+	COLLECTIONS,
 } from "../constants";
 
 import { useFarcasterContext } from "../contexts/farcaster";
@@ -34,128 +35,127 @@ import "./BirdIdentificationModal.css";
 
 const BirdIdentificationModal = (props) => {
 
-    const {
-        id,
-        cached,
-        isOpen,
-        onError,
-        onSuccess,
-        onToggle,
-    } = props;
+	const {
+		id,
+		cached,
+		isOpen,
+		onError,
+		onSuccess,
+		onToggle,
+	} = props;
 
-   	const { fPopulateUsers, fOpenExternalURL } = useFarcasterContext();
-    const context = useWalletContext();
+	const { fPopulateUsers } = useFarcasterContext();
+	const context = useWalletContext();
 
-    const [bird] = useBird({ id, cached, context });
+	const [bird] = useBird({ id, cached, context });
 
-    const [formData, setFormData] = useState({ species: "" });
+	const [formData, setFormData] = useState({ species: "" });
 
-    const [birdOwner, setBirdOwner] = useState(null);
+	const [birdOwner, setBirdOwner] = useState(null);
 
-    const {
-        account,
-        expectedChainId,
-        isOnCorrectChain,
-        isPaymasterSupported,
-        actions,
-    } = context;
+	const {
+		account,
+		expectedChainId,
+		isOnCorrectChain,
+		isPaymasterSupported,
+		actions,
+	} = context;
 
-    const handleInputChange = (value) => {
+	const handleInputChange = (value) => {
 		setFormData({ species: value });
 	};
 
-    const handleOnStatus = useCallback((status) => {
+	const handleOnStatus = useCallback((status) => {
 
-        if (status.statusName === "success") {
+		if (status.statusName === "success") {
 
-            // Handle and parse the successful response
-            onSuccess(bird, status.statusData);
+			// Handle and parse the successful response
+			onSuccess(bird, status.statusData);
 
-            // Close the modal
-            onToggle();
+			// Close the modal
+			onToggle();
 
-        } else if (status.statusName === "error") {
+		} else if (status.statusName === "error") {
 
-            console.error(status);
-            onError(bird, status.statusData);
+			console.error(status);
+			onError(bird, status.statusData);
 
-        }
+		}
 
-    }, [bird]);
+	}, [bird]);
 
-    const options = useMemo(() => {
+	const options = useMemo(() => {
 
-        if (!bird || bird.id < 2000) { return []; }
+		if (!bird || bird.id < 2000) { return []; }
 
-        const collection = COLLECTIONS.find(
-            (temp) => bird.id >= temp.min_id && bird.id <= temp.max_id,
-        );
+		const collection = COLLECTIONS.find(
+			(temp) => bird.id >= temp.min_id && bird.id <= temp.max_id,
+		);
 
-        let answerChoices;
+		let answerChoices;
 
-        if (bird.id >= 2000 && bird.id <= 2999) {
-            answerChoices = ANSWER_CHOICES_FLOCK_2;
-        } else if (bird.id >= 3000 && bird.id <= 3999) {
-            answerChoices = ANSWER_CHOICES_FLOCK_3;
-        } else if (bird.id >= 4000 && bird.id <= 4999) {
-            answerChoices = ANSWER_CHOICES_FLOCK_4;
-        } else if (bird.id >= 5000 && bird.id <= 5999) {
-            answerChoices = ANSWER_CHOICES_FLOCK_5;
-        } else if (bird.id >= 6000 && bird.id <= 6999) {
-            answerChoices = ANSWER_CHOICES_FLOCK_6;
-        } else if (bird.id >= 7000 && bird.id <= 7999) {
-            answerChoices = ANSWER_CHOICES_FLOCK_7;
-        } else if (bird.id >= 8000 && bird.id <= 8999) {
-            answerChoices = ANSWER_CHOICES_FLOCK_8;
-        }
+		if (bird.id >= 2000 && bird.id <= 2999) {
+			answerChoices = ANSWER_CHOICES_FLOCK_2;
+		} else if (bird.id >= 3000 && bird.id <= 3999) {
+			answerChoices = ANSWER_CHOICES_FLOCK_3;
+		} else if (bird.id >= 4000 && bird.id <= 4999) {
+			answerChoices = ANSWER_CHOICES_FLOCK_4;
+		} else if (bird.id >= 5000 && bird.id <= 5999) {
+			answerChoices = ANSWER_CHOICES_FLOCK_5;
+		} else if (bird.id >= 6000 && bird.id <= 6999) {
+			answerChoices = ANSWER_CHOICES_FLOCK_6;
+		} else if (bird.id >= 7000 && bird.id <= 7999) {
+			answerChoices = ANSWER_CHOICES_FLOCK_7;
+		} else if (bird.id >= 8000 && bird.id <= 8999) {
+			answerChoices = ANSWER_CHOICES_FLOCK_8;
+		} else if (bird.id >= 9000 && bird.id <= 9999) {
+			answerChoices = ANSWER_CHOICES_FLOCK_9;
+		}
 
-        // Get the bird's final index relative to ONLY the current collection
-        const finalIndex = bird.id - collection.min_id;
+		// Get the bird's final index relative to ONLY the current collection
+		const finalIndex = bird.id - collection.min_id;
 
-        const result = answerChoices[finalIndex].options.map((name) => ({
-            label: name,
-            value: name,
-        }));
+		const result = answerChoices[finalIndex].options.map((name) => ({
+			label: name,
+			value: name,
+		}));
 
-        result.sort((a, b) => {
+		result.sort((a, b) => {
 
-            if (a.value < b.value) {
-                return -1;
-            }
+			if (a.value < b.value) {
+				return -1;
+			}
 
-            if (a.value > b.value) {
-                return 1;
-            }
+			if (a.value > b.value) {
+				return 1;
+			}
 
-            return 0;
+			return 0;
 
-        });
+		});
 
-        return result;
+		return result.slice(0, 5);
 
-    }, [bird?.id]);
+	}, [bird?.id]);
 
-    // Reset the selected species to use as the guess so we can wait for the result
-    // of the async API call to fetch the merkle proof for the "publicMint" contract call
+	// Reset the selected species to use as the guess so we can wait for the result
+	// of the async API call to fetch the merkle proof for the "publicMint" contract call
 
-    const callsCallback = useMemo(() => {
+	const callsCallback = useMemo(() => {
 
-        const mint = async () => {
+		const mint = async () => {
 
-            const result = await actions.publicMint(
-                bird.id,
-                formData.species,
-            );
+			const result = await actions.publicMint(bird.id, formData.species);
 
-            return [result];
+			return [result];
 
-        };
+		};
 
-        return mint;
+		return mint;
 
-    }, [formData.species]);
+	}, [formData.species]);
 
-    // Add farcaster user data for the bird's current owner
+	// Add farcaster user data for the bird's current owner
 	useEffect(() => {
 
 		const populate = async () => {
@@ -237,32 +237,32 @@ const BirdIdentificationModal = (props) => {
 								) : (
 									<span><i className="fa-solid fa-spinner fa-spin" /></span>
 								)}
-                                <span
-                                    style={{
-                                        position: 'absolute',
-                                        bottom: 5,
-                                        right: 5,
-                                    }}>
-                                    <Link
-                                        to={`/collection/${bird.id}`}
-                                        onClick={() => { onToggle(); }}>
-                                        <i
-                                            className="fa-solid fa-arrow-up-right-from-square"
-                                            style={{ fontSize: "18px" }} />
-                                    </Link>
-                                </span>
-                            </Form.Group>
-                        </>
-                    }
-                    {!bird.owner &&
-                        <>
-                            <Form.Group
-	                            className="mb-3"
-	                            controlId="species">
-                                <Form.Label className="fw-bold">
-                                	{"Choose Species"}
-                                </Form.Label>
-                                <div className="d-grid gap-2">
+								<span
+									style={{
+										position: 'absolute',
+										bottom: 5,
+										right: 5,
+									}}>
+									<Link
+										to={`/collection/${bird.id}`}
+										onClick={() => { onToggle(); }}>
+										<i
+											className="fa-solid fa-arrow-up-right-from-square"
+											style={{ fontSize: "18px" }} />
+									</Link>
+								</span>
+							</Form.Group>
+						</>
+					}
+					{!bird.owner &&
+						<>
+							<Form.Group
+								className="mb-3"
+								controlId="species">
+								<Form.Label className="fw-bold">
+									{"Choose Species"}
+								</Form.Label>
+								<div className="d-grid gap-2">
 									{options.map((option, index) => (
 										<Button
 											key={index}
@@ -272,60 +272,63 @@ const BirdIdentificationModal = (props) => {
 										</Button>
 									))}
 								</div>
-                            </Form.Group>
-                            <Form.Group className="mb-3">
-                                <Form.Text className="d-block">
-                                    <span className="fw-bold me-2">
-                                    	{"PRICE: "}
-                                    </span>
-                                    <span>{"0.0015 ETH"}</span>
-                                </Form.Text>
-                                <Form.Text className="text-muted d-block">
-                                    <span className="fw-bold me-2">
-                                    	{"NOTE: "}
-                                    </span>
-                                    <span>
-                                        {"If you submit an incorrect species answer, you will be automatically refunded 0.00125 ETH."}
-                                    </span>
-                                </Form.Text>
-                            </Form.Group>
-                            {!account &&
-	                            <span className="fw-bold">
-	                                {"Please connect your wallet..."}
-	                            </span>
-                            }
-                            {account && !isOnCorrectChain &&
-				                <Button
+							</Form.Group>
+							<Form.Group className="mb-3">
+								<Form.Text className="d-block">
+									<span className="fw-bold me-2">
+										{"PRICE: "}
+									</span>
+									<span>
+										{"0.0015 ETH"}
+									</span>
+								</Form.Text>
+								<Form.Text className="text-muted d-block">
+									<span className="fw-bold me-2">
+										{"NOTE: "}
+									</span>
+									<span>
+										{"If you submit an incorrect species answer, you will be automatically refunded 0.00125 ETH and can try again."}
+									</span>
+								</Form.Text>
+							</Form.Group>
+							{!account &&
+								<span className="fw-bold">
+									{"Please connect your wallet..."}
+								</span>
+							}
+							{account && !isOnCorrectChain &&
+								<Button
 									variant="info"
 									onClick={actions.connectToBase}>
 									{'Switch to Base'}
 								</Button>
-                            }
-                            {account && isOnCorrectChain && (
-                                <Transaction
-                                    address={account}
-                                    className="bird-identification-transaction-container"
-                                    chainId={expectedChainId}
-                                    calls={callsCallback}
-                                    isSponsored={isPaymasterSupported}
-                                    onStatus={handleOnStatus}>
-                                    <TransactionButton
-                                        className="btn btn-info w-100"
-                                        disabled={!formData.species}
-                                        text="Submit" />
-                                    <TransactionSponsor text="SongBirdz" />
-                                    <TransactionStatus>
-                                        <TransactionStatusLabel />
-                                        <TransactionStatusAction />
-                                    </TransactionStatus>
-                                </Transaction>
-                            )}
-                        </>
-                    }
-                </Form>
-            </Modal.Body>
-        </Modal>
-    );
+							}
+							{account && isOnCorrectChain && (
+								<Transaction
+									address={account}
+									className="bird-identification-transaction-container"
+									chainId={expectedChainId}
+									calls={callsCallback}
+									isSponsored={isPaymasterSupported}
+									onStatus={handleOnStatus}>
+									<TransactionButton
+										className="btn btn-info w-100"
+										disabled={!formData.species}
+										text="Submit" />
+									<TransactionSponsor text="SongBirdz" />
+									<TransactionStatus>
+										<TransactionStatusLabel />
+										<TransactionStatusAction />
+									</TransactionStatus>
+								</Transaction>
+							)}
+						</>
+					}
+				</Form>
+			</Modal.Body>
+		</Modal>
+	);
+
 };
 
 const propTypes = {
