@@ -64,7 +64,7 @@ const LeaderboardTabSeason2 = ({ onUserClick }) => {
                         </li>
                     </ul>
                     <p>
-                        {"This competition was mostly just for fun. Not financial advice. DYOR :)"}
+                        {"This competition was just for fun. Not financial advice. DYOR :)"}
                     </p>
                 </Col>
             </Row>

@@ -57,14 +57,14 @@ const HomeContainer = () => {
 					<div className="row gx-5 justify-content-center">
 						<div className="col-xs-12">
 							<div className="h2 fs-4 text-white mb-4">
-								{"For each bird, you must try to identify the correct species using only the bird's image and song."}
+								{"For each bird, try to identify the correct species using only the bird's image and song."}
 							</div>
 						</div>
 					</div>
 					<div className="row gx-5 justify-content-center">
 						<div className="col-xs-12">
 							<div className="h2 fs-4 text-white mb-4">
-								{"There are 800 unique species of birds for you to collect."}
+								{"There are 800 unique species of birds to collect."}
 							</div>
 						</div>
 					</div>

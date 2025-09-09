@@ -4,7 +4,7 @@ import { ADRESSES_TO_IGNORE } from "../constants";
 
 import { fetchLifeListLeaderboard } from "../utils/data";
 
-const TOTAL_SIZE = 54;
+const TOTAL_SIZE = 55;
 
 const useLifeListLeaderboard = ({ account }) => {
 

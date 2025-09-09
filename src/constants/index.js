@@ -15,7 +15,7 @@ const NUM_SPECIES_TOTAL = 800;
 
 const COLLECTION_BIRD_SIZE = 1000;
 
-const FIRST_ID_TO_IDENTIFY = 2402;
+const FIRST_ID_TO_IDENTIFY = 2434;
 
 const COLLECTIONS = [{
 	name: "Picasso Genesis",
@@ -77,11 +77,16 @@ const EVENTS = {
 const ALREADY_IDENTIFIED_BIRDS = {};
 
 const ADRESSES_TO_IGNORE = [
-	"0x3fb4920e09493b2bc7e9b7e14ea7585ca8babf21",
-	"0x585d3ef48e12cb1be6837109b0853afe78b5ebe3",
-	"0x2d437771f6fbedf3d83633cbd3a31b6c6bdba2b1",
-	"0x30f0aef010e5f3e33bdd2eb555d4e02377b9cad5",
-	"0x13918a541e129a7ef210183e5e9c54486da3fb04", // Based Media X contract
+	"0x3fb4920e09493b2bc7e9b7e14ea7585ca8babf21", // SB Owner
+	"0x61d082120f622e22e491e6eb42dcc7fb0e39288e", // SB Prizes
+	"0x585d3ef48e12cb1be6837109b0853afe78b5ebe3", // DT #1
+	"0x2d437771f6fbedf3d83633cbd3a31b6c6bdba2b1", // DT #2
+	"0x30f0aef010e5f3e33bdd2eb555d4e02377b9cad5", // DT #3
+	"0x13918a541e129a7ef210183e5e9c54486da3fb04", // Carousel #1
+	"0xbd9bbd45478259f513908c42ddf66de959fbdeea", // Carousel #2
+	"0x4ed9e7512d68a84509da222f1c18c8150accd449", // Carousel #3
+	"0xb61bc2db9268239f7712e3aca3215d4dfd37c952", // Carousel #4
+	"0xb3bac132dd16fd7471c2f585222ef188f702fbc2", // Carousel #5
 ];
 
 export {

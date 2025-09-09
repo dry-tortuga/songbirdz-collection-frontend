@@ -84,8 +84,6 @@ const LeaderboardTabSpeciesRanks = ({ onUserClick }) => {
 		setCurrentPage(pageNumber);
 	};
 
-	console.log(farcasterUsers);
-
     return (
         <>
             <Row className="mb-4">
@@ -139,7 +137,9 @@ const LeaderboardTabSpeciesRanks = ({ onUserClick }) => {
 											<tr
 												key={paginationState.startIndex + index}
 												className={user.address === account?.toLowerCase() ? 'table-primary' : ''}>
-												<td>{user.rank}</td>
+												<td>
+													{paginationState.startIndex + index + 1}
+												</td>
 												<td>
 													<a
 														href="#"
@@ -164,8 +164,12 @@ const LeaderboardTabSpeciesRanks = ({ onUserClick }) => {
 														</Badge>
 													}
 												</td>
-												<td>{user.count}</td>
-												<td>{`${((user.count / NUM_SPECIES_TOTAL) * 100).toFixed(0)}%`}</td>
+												<td>
+													{user.count}
+												</td>
+												<td>
+													{`${((user.count / NUM_SPECIES_TOTAL) * 100).toFixed(0)}%`}
+												</td>
 											</tr>
 										</>
 									);
