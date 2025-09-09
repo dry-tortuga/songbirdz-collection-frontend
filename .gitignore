@@ -35,3 +35,5 @@ public/audio/
 # builds
 /static-dist
 /static-staging
+
+audit.js
