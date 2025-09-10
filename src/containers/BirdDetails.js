@@ -1,7 +1,6 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import {
-    Alert,
     Button,
     Card,
     Col,
@@ -23,6 +22,7 @@ import { useWalletContext } from "../contexts/wallet";
 
 import useBird from "../hooks/useBird";
 
+import baseLogo from "../images/base-logo-blue.svg";
 import etherscanLogo from "../images/etherscan-logo-circle.svg";
 import openseaLogo from "../images/opensea-logomark-blue.svg";
 import farcasterLogo from "../images/farcaster-logo.png";
@@ -31,34 +31,196 @@ import "./BirdDetails.css";
 
 const BirdDetails = () => {
 
-    const params = useParams();
+	const params = useParams();
 
-    const context = useWalletContext();
+	const context = useWalletContext();
 
-	const { fComposeCast, fPopulateUsers } = useFarcasterContext();
+	const { isBaseApp, isFarcasterApp, fComposeCast, fPopulateUsers } = useFarcasterContext();
 
-    const { setBirdToGift } = useGiftContext();
+	const { setBirdToGift } = useGiftContext();
 
-    const {
-        isIdentifyingBird,
-        txMint,
-        setIsIdentifyingBird,
-        setBirdToID,
-    } = useIdentificationContext();
+	const {
+		isIdentifyingBird,
+		txMint,
+		setIsIdentifyingBird,
+		setBirdToID,
+	} = useIdentificationContext();
 
-    const { account } = context;
+	const { account } = context;
 
-    // Get the bird details
-    const [bird] = useBird({
-        context,
-        id: parseInt(params.id, 10),
-        cached: true,
-    });
+	// Get the bird details
+	const [bird] = useBird({
+		context,
+		id: parseInt(params.id, 10),
+		cached: true,
+	});
 
-    const [birdOwner, setBirdOwner] = useState(null);
+	const [birdOwner, setBirdOwner] = useState(null);
 
-    // Keep track of the state of the transfer modal
-    const [showTransferModal, setShowTransferModal] = useState(false);
+	// Keep track of the state of the transfer modal
+	const [showTransferModal, setShowTransferModal] = useState(false);
+
+	const isOwner = (account && bird) ? bird?.owner?.toLowerCase() === account?.toLowerCase() : false;
+	const isAdmin = isOwner && account?.toLowerCase() === "0x2d437771f6fbedf3d83633cbd3a31b6c6bdba2b1";
+
+	const renderLeftArrowBtn = useCallback((rBird, btnClassName) => {
+
+		if (rBird.id === 0) { return null; }
+
+		return (
+			<Link
+				className={`btn btn-outline-primary ${btnClassName}`}
+				to={`/collection/${rBird.id - 1}`}>
+				<svg
+					xmlns="http://www.w3.org/2000/svg"
+					width="16"
+					height="16"
+					fill="currentColor"
+					className="bi bi-arrow-left"
+					viewBox="0 0 16 16">
+					<path
+						fillRule="evenodd"
+						d="M15 8a.5.5 0 0 0-.5-.5H2.707l3.147-3.146a.5.5 0 1 0-.708-.708l-4 4a.5.5 0 0 0 0 .708l4 4a.5.5 0 0 0 .708-.708L2.707 8.5H14.5A.5.5 0 0 0 15 8" />
+				</svg>
+			</Link>
+		);
+
+    }, []);
+
+	const renderRightArrowBtn = useCallback((rBird, btnClassName) => {
+
+		if (rBird.id === (NUM_BIRDS_TOTAL - 1)) { return null; }
+
+		return (
+			<Link
+				className={`btn btn-outline-primary ${btnClassName}`}
+				to={`/collection/${rBird.id + 1}`}>
+				<svg
+					xmlns="http://www.w3.org/2000/svg"
+					width="16"
+					height="16"
+					fill="currentColor"
+					className="bi bi-arrow-right"
+					viewBox="0 0 16 16">
+					<path
+						fillRule="evenodd"
+						d="M1 8a.5.5 0 0 1 .5-.5h11.793l-3.147-3.146a.5.5 0 0 1 .708-.708l4 4a.5.5 0 0 1 0 .708l-4 4a.5.5 0 0 1-.708-.708L13.293 8.5H1.5A.5.5 0 0 1 1 8" />
+				</svg>
+			</Link>
+		);
+
+	}, []);
+
+	const renderSocialButtons = useCallback((rBird) => {
+
+		return (
+			<>
+				<a
+					href={`https://twitter.com/intent/tweet?text=${encodeURIComponent(`Check out this ${rBird.species} in the @songbirdz_cc collection on @base!\n\n`)}`}
+					className="twitter-share-button"
+					data-show-count="false"
+					data-size="large"
+					data-hashtags="birds,birdwatching,nfts">
+					{"X"}
+				</a>
+				{(isBaseApp || isFarcasterApp) &&
+					<a
+						className="farcaster-share-button ms-4"
+						href={`https://farcaster.xyz/~/compose?text=${encodeURIComponent(`Check out this ${rBird.species} in the Songbirdz collection!\n\nhttps://songbirdz.cc/collection/${rBird.id}\n\n`)}&channelKey=songbirdz&embeds[]=${encodeURIComponent(rBird.imageLg)}&embeds[]=${encodeURIComponent(`https://songbirdz.cc/collection/${rBird.id}`)})}`}
+						target="_blank"
+						rel="noopener noreferrer"
+						onClick={(event) => fComposeCast(event, {
+							text: `Check out this ${rBird.species} in the Songbirdz collection!\n\nhttps://songbirdz.cc/collection/${rBird.id}\n\n`,
+							embeds: [
+								rBird.imageLg,
+								`https://songbirdz.cc/collection/${rBird.id}`,
+							],
+							channelKey: 'songbirdz',
+						})}>
+						<div className="d-flex align-items-center justify-content-center">
+							{isBaseApp &&
+								<img
+									className="me-2"
+									src={baseLogo}
+									alt=""
+									style={{ width: "30px", height: "30px" }} />
+							}
+							{isFarcasterApp &&
+								<img
+									className="farcaster-logo me-2"
+									src={farcasterLogo}
+									alt=""
+									style={{ width: "30px", height: "30px" }} />
+							}
+						</div>
+					</a>
+				}
+				{isOwner &&
+					<button
+						className="gift-button ms-3"
+						title={`Send ${rBird.name} as a gift`}
+						onClick={() => setBirdToGift(rBird)}>
+						<i
+							className="fa-solid fa-gift"
+							style={{ fontSize: "25px", verticalAlign: "middle" }} />
+					</button>
+				}
+				<a
+					className="btn btn-clear ms-3"
+					href={`https://opensea.io/assets/base/${context.contractAddress}/${rBird.id}`}
+					rel="noopener noreferrer nofollow"
+					target="_blank"
+					title={`View ${rBird.name} on OpenSea`}>
+					<img
+						alt=""
+						src={openseaLogo}
+						style={{
+							width: "30px",
+							height: "auto",
+						}} />
+				</a>
+				<a
+					className="btn btn-clear"
+					href={`https://basescan.org/token/${context.contractAddress}?a=${rBird.id}`}
+					rel="noopener noreferrer nofollow"
+					target="_blank"
+					title={`View ${rBird.name} on BaseScan`}>
+					<img
+						alt=""
+						src={etherscanLogo}
+						style={{
+							width: "30px",
+							height: "auto",
+						}} />
+				</a>
+				{isAdmin && (
+					<>
+						<Button onClick={() => setShowTransferModal(true)}>
+							{"Send"}
+						</Button>
+						{showTransferModal && (
+							<BirdTransferModal
+								context={context}
+								bird={rBird}
+								isOpen
+								onToggle={() => setShowTransferModal(false)} />
+						)}
+					</>
+				)}
+			</>
+		);
+
+	}, [
+		context,
+		isBaseApp,
+		isFarcasterApp,
+		isAdmin,
+		isOwner,
+		showTransferModal,
+		fComposeCast,
+		setBirdToGift,
+		setShowTransferModal,
+	]);
 
     // Re-load the twitter share button if the bird ID or species changes
     useEffect(() => {
@@ -89,17 +251,14 @@ const BirdDetails = () => {
 
 	}, [bird?.owner, fPopulateUsers]);
 
-    const collection = bird ? COLLECTIONS[bird.collection] : null;
+	const collection = bird ? COLLECTIONS[bird.collection] : null;
 
-    if (
-        bird &&
-        (bird.id < 0 || bird.id >= NUM_BIRDS_TOTAL)
-    ) {
-        return null;
-    }
-
-    const isOwner = (account && bird) ? bird.owner?.toLowerCase() === account.toLowerCase() : false;
-    const isAdmin = isOwner && account?.toLowerCase() === "0x2d437771f6fbedf3d83633cbd3a31b6c6bdba2b1";
+	if (
+		bird &&
+		(bird.id < 0 || bird.id >= NUM_BIRDS_TOTAL)
+	) {
+		return null;
+	}
 
     return (
         <div
@@ -112,126 +271,31 @@ const BirdDetails = () => {
                 {bird && (
                     <>
                         <Row className="mb-3">
-                            <Col className="d-flex align-items-center flex-wrap">
-	                           	{bird.id > 0 && (
-	                                <Link
-	                                    className="btn btn-outline-primary ms-3"
-	                                    to={`/collection/${bird.id - 1}`}>
-	                                    <svg
-	                                        xmlns="http://www.w3.org/2000/svg"
-	                                        width="16"
-	                                        height="16"
-	                                        fill="currentColor"
-	                                        className="bi bi-arrow-left"
-	                                        viewBox="0 0 16 16">
-	                                        <path
-	                                            fillRule="evenodd"
-	                                            d="M15 8a.5.5 0 0 0-.5-.5H2.707l3.147-3.146a.5.5 0 1 0-.708-.708l-4 4a.5.5 0 0 0 0 .708l4 4a.5.5 0 0 0 .708-.708L2.707 8.5H14.5A.5.5 0 0 0 15 8" />
-	                                    </svg>
-	                                </Link>
-	                            )}
-                                {bird.owner && (
-                                    <div
-                                        className="flex align-items-center ms-auto me-auto"
-                                        key={bird.id}>
-                                        <a
-                                            href={`https://twitter.com/intent/tweet?text=${encodeURIComponent(`Check out this ${bird.species} in the @songbirdz_cc collection on @base!\n\n`)}`}
-                                            className="twitter-share-button"
-                                            data-show-count="false"
-                                            data-size="large"
-                                            data-hashtags="birds,birding,nfts,based">
-                                            {"Tweet"}
-                                        </a>
-                                        <a
-                                            href={`https://farcaster.xyz/~/compose?text=${encodeURIComponent(`Check out this ${bird.species} in the Songbirdz collection!\n\nhttps://songbirdz.cc/collection/${bird.id}\n\n`)}&channelKey=songbirdz&embeds[]=${encodeURIComponent(bird.imageLg)}&embeds[]=${encodeURIComponent(`https://songbirdz.cc/collection/${bird.id}`)})}`}
-                                            className="farcaster-share-button ms-4"
-                                            target="_blank"
-                                            rel="noopener noreferrer nofollow"
-                                            onClick={(event) => fComposeCast(event, {
-                                            	text: `Check out this ${bird.species} in the Songbirdz collection!\n\nhttps://songbirdz.cc/collection/${bird.id}\n\n`,
-                                            	embeds: [
-                                            		bird.imageLg,
-                                            		`https://songbirdz.cc/collection/${bird.id}`,
-                                            	],
-                                            	channelKey: 'songbirdz',
-                                            })}>
-                                            <img
-                                                src={farcasterLogo}
-                                                alt="Farcaster"
-                                                style={{ width: "30px", height: "30px" }} />
-                                        </a>
-                                        {isOwner &&
-                                            <button
-                                                className="gift-button ms-3"
-                                                title={`Send ${bird.name} as a gift`}
-                                                onClick={() => setBirdToGift(bird)}>
-                                                <i
-                                                    className="fa-solid fa-gift"
-                                                    style={{ fontSize: "25px", verticalAlign: "middle" }} />
-                                            </button>
-                                        }
-                                        <a
-                                            className="btn btn-clear ms-3"
-                                            href={`https://opensea.io/assets/base/${context.contractAddress}/${bird.id}`}
-                                            rel="noopener noreferrer nofollow"
-                                            target="_blank"
-                                            title={`View ${bird.name} on OpenSea`}>
-                                            <img
-                                                alt=""
-                                                src={openseaLogo}
-                                                style={{
-                                                    width: "30px",
-                                                    height: "auto",
-                                                }} />
-                                        </a>
-                                        <a
-                                            className="btn btn-clear"
-                                            href={`https://basescan.org/token/${context.contractAddress}?a=${bird.id}`}
-                                            rel="noopener noreferrer nofollow"
-                                            target="_blank"
-                                            title={`View ${bird.name} on BaseScan`}>
-                                            <img
-                                                alt=""
-                                                src={etherscanLogo}
-                                                style={{
-                                                    width: "30px",
-                                                    height: "auto",
-                                                }} />
-                                        </a>
-                                        {isAdmin && (
-                                            <>
-                                                <Button onClick={() => setShowTransferModal(true)}>
-                                                    {"Send"}
-                                                </Button>
-                                                {showTransferModal && (
-                                                    <BirdTransferModal
-                                                        context={context}
-                                                        bird={bird}
-                                                        isOpen
-                                                        onToggle={() => setShowTransferModal(false)} />
-                                                )}
-                                            </>
-                                        )}
-                                    </div>
-                                )}
-                                {bird.id < (NUM_BIRDS_TOTAL - 1) && (
-	                                <Link
-	                                    className="btn btn-outline-primary ms-3"
-	                                    to={`/collection/${bird.id + 1}`}>
-	                                    <svg
-	                                        xmlns="http://www.w3.org/2000/svg"
-	                                        width="16"
-	                                        height="16"
-	                                        fill="currentColor"
-	                                        className="bi bi-arrow-right"
-	                                        viewBox="0 0 16 16">
-	                                        <path
-	                                            fillRule="evenodd"
-	                                            d="M1 8a.5.5 0 0 1 .5-.5h11.793l-3.147-3.146a.5.5 0 0 1 .708-.708l4 4a.5.5 0 0 1 0 .708l-4 4a.5.5 0 0 1-.708-.708L13.293 8.5H1.5A.5.5 0 0 1 1 8" />
-	                                    </svg>
-	                                </Link>
-	                            )}
-                            </Col>
+	                        <Col>
+								{/* Mobile devices */}
+								{bird.owner &&
+									<div className="d-flex d-sm-none justify-content-center align-items-center mb-3">
+										{renderSocialButtons(bird)}
+									</div>
+								}
+								{/* Mobile devices */}
+								<div className="d-flex d-sm-none justify-content-between">
+									{bird.id > 0 ? renderLeftArrowBtn(bird, "") : <div />}
+									{bird.id < (NUM_BIRDS_TOTAL - 1) ? renderRightArrowBtn(bird, "") : <div />}
+								</div>
+								{/* Non-mobile devices */}
+								<div className="d-none d-sm-flex align-items-center flex-wrap">
+									{renderLeftArrowBtn(bird, "me-auto")}
+									{bird.owner &&
+										<div
+											className="flex align-items-center ms-auto me-auto"
+											key={bird.id}>
+											{renderSocialButtons(bird)}
+										</div>
+									}
+									{renderRightArrowBtn(bird, "ms-auto")}
+								</div>
+	                        </Col>
                         </Row>
                         <Row>
                             <Col>
