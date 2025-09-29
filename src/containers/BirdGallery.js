@@ -20,18 +20,19 @@ import './BirdGallery.css';
 // Ensure that this stays out of the component,
 // Otherwise the grid will remount with each render due to new component instances.
 const gridComponents = {
-    List: forwardRef(({ style, children, ...props }, ref) => (
-        <div
-            ref={ref}
-            {...props}
-            style={{
-                display: "flex",
-                flexWrap: "wrap",
-                ...style,
-            }}>
-                {children}
-        </div>
-    )),
+	// eslint-disable-next-line react/display-name
+	List: forwardRef(({ style, children, ...props }, ref) => (
+		<div
+			ref={ref}
+			{...props}
+			style={{
+				display: "flex",
+				flexWrap: "wrap",
+				...style,
+			}}>
+			{children}
+		</div>
+	)),
     Item: ({ children, ...props }) => (
         <div
             {...props}
