@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import { Link, useLocation } from "react-router-dom";
-import { Container, Nav, Navbar } from "react-bootstrap";
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import { Button, Container, Nav, Navbar } from "react-bootstrap";
 
 import ConnectWalletButton from "./ConnectWalletButton";
 
@@ -12,7 +12,11 @@ const NavbarSB = () => {
 
 	const [expanded, setExpanded] = useState(false);
 
-	const { pathname } = useLocation();
+	const { key, pathname } = useLocation();
+	const navigate = useNavigate();
+
+	// Check if there's a previous entry in the history stack
+	const hasPreviousHistory = key !== "default";
 
 	return (
 		<Navbar
@@ -20,6 +24,18 @@ const NavbarSB = () => {
 			expand="md"
 			expanded={expanded}>
 			<Container>
+				{hasPreviousHistory &&
+					<Nav className="d-flex d-sm-none">
+						<Button
+							className="me-2"
+							variant="outline"
+							onClick={() => navigate(-1)}>
+							<i
+								aria-hidden="true"
+								className="fa-solid fa-arrow-left me-2" />
+						</Button>
+					</Nav>
+				}
 				<Navbar.Brand
 					className="d-flex align-items-center"
 					href="/">

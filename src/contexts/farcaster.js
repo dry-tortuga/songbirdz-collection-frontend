@@ -156,8 +156,8 @@ export function FarcasterProvider({ children }) {
 
 				setContext(fContext);
 
-				// Hide the splash screen
-				await sdk.actions.ready();
+				// Hide the splash screen (and disable native gestures for scrolling back up)
+				await sdk.actions.ready({ disableNativeGestures: true });
 
 				// Integrate with a back navigation control provided by the Farcaster client
 				await sdk.back.enableWebNavigation();
@@ -181,6 +181,7 @@ export function FarcasterProvider({ children }) {
 		<FarcasterContext.Provider value={{
 			isBaseApp,
 			isFarcasterApp,
+			isMiniApp: Boolean(context),
 			fContext: context,
 			fAddMiniApp: addMiniApp,
 			fComposeCast: composeCast,
