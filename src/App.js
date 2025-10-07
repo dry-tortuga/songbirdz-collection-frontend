@@ -38,6 +38,9 @@ const router = createBrowserRouter(
 				path="about"
 				lazy={() => import("./routes/about")} />
 			<Route
+				path="bird-of-the-week"
+				lazy={() => import("./routes/birdOfTheWeek")} />
+			<Route
 				path="collection"
 				lazy={() => import("./routes/gallery")} />
 			<Route
