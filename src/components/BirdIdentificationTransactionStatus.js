@@ -161,7 +161,7 @@ const BirdIdentificationTransactionStatus = (props) => {
 							alt="" />
 						<div className="d-grid gap-2">
 							<Button
-								href={`https://twitter.com/intent/tweet?text=${encodeURIComponent(`I just identified this ${tx.bird.species} in the @songbirdz_cc collection on @base!\n\nhttps://songbirdz.cc/collection/${tx.bird.id}\n\nThink you have what it takes to identify a new bird onchain?`)}&url=${encodeURIComponent(tx.bird.imageLg)}`}
+								href={`https://twitter.com/intent/tweet?text=${encodeURIComponent(`I just identified this ${tx.bird.species} in the @songbirdz_cc collection on @base!\n\nhttps://songbirdz.cc/collection/${tx.bird.id}\n\nThink you have what it takes to identify a new bird?`)}&url=${encodeURIComponent(tx.bird.imageLg)}`}
 								variant="outline-primary"
 								as="a"
 								target="_blank"

@@ -19,7 +19,7 @@ const About = () => {
                 <Row>
                     <Col>
                         <p>
-                            {"The Songbirdz project is bringing bird watching onchain to Base. Each bird (i.e. NFT) is hidden until the species is successfully identified (i.e. minted) based on the bird's image/song."}
+                            {"The Songbirdz project is bringing bird watching to Base. Each bird (i.e. NFT digital collectible) is hidden until the species is successfully identified (i.e. minted) based on the bird's image/song."}
                         </p>
                         <p>
                             {"This project was one of "}

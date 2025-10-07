@@ -119,7 +119,7 @@ const LeaderboardTabSeason6 = (props) => {
 							<p>
 								{"Now, we all know onchain has no geographic limits, so we'll recreate this competition using the 800 species of birds in the Songbirdz collection that are out in the wild right now on Base."}
 							</p>
-							<h3>{"1. Onchain Bird Watching"}</h3>
+							<h3>{"1. Bird Watching on Base"}</h3>
 							<p>
 								{"For each "}
 								<strong>{"unique species"}</strong>
@@ -218,7 +218,7 @@ const LeaderboardTabSeason6 = (props) => {
 												className="twitter-share-button"
 												data-show-count="false"
 												data-size="large"
-												data-hashtags="birds,birding,onchain,nfts,gaming,based"
+												data-hashtags="birds,birding,birdwatching,nfts,gaming"
 												data-via="songbirdz_cc"
 												data-url={
 													"https://songbirdz.cc/collection?number=9&hide_already_identified=true"

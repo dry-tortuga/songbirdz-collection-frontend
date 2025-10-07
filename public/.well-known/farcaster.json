@@ -14,13 +14,13 @@
     "iconUrl": "https://songbirdz.cc/android-chrome-192x192.png",
     "splashImageUrl": "https://songbirdz.cc/android-chrome-192x192.png",
     "splashBackgroundColor": "#f8f9fa",
-    "subtitle": "An onchain bird watching game",
-    "description": "A community-driven ecosystem to learn about birds (and web3) in a fun and interactive way. Identify new species, earn birder points, and build your onchain life list.",
-    "tagline": "Bird watching onchain",
+    "subtitle": "A bird watching collectible game",
+    "description": "A community-driven ecosystem to learn about birds (and web3) in a fun and interactive way. Identify new species, earn birder points, and build your life list.",
+    "tagline": "Bird watching collectible game",
     "screenshotUrls": [
-       "https://songbirdz.cc/app-preview-screenshot-1.jpeg",
-       "https://songbirdz.cc/app-preview-screenshot-2.jpeg",
-       "https://songbirdz.cc/app-preview-screenshot-3.jpeg"
+       "https://songbirdz.cc/app-preview-1-2025-10-01.png",
+       "https://songbirdz.cc/app-preview-2-2025-10-01.png",
+       "https://songbirdz.cc/app-preview-3-2025-10-01.png"
     ],
     "primaryCategory": "games",
     "tags": [
@@ -31,8 +31,8 @@
       "gaming"
     ],
     "heroImageUrl": "https://songbirdz.cc/songbirdz-banner-img-1200x630.png",
-    "ogTitle": "Bird watching onchain",
-    "ogDescription": "Identify new species, earn birder points, and build your onchain life list.",
+    "ogTitle": "Bird watching collectible game",
+    "ogDescription": "Identify new species, earn birder points, and build your life list.",
     "ogImageUrl": "https://songbirdz.cc/songbirdz-banner-img-1200x630.png",
     "imageUrl": "https://songbirdz.cc/android-chrome-192x192.png",
     "buttonTitle": "Play",
