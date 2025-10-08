@@ -351,6 +351,34 @@ async function storeMemoryMatchGameResult(address, mode, result) {
 
 }
 
+async function fetchBirdOfTheWeek() {
+
+	let finalData;
+
+	try {
+
+		const url = `${process.env.REACT_APP_SONGBIRDZ_BACKEND_URL}/birds/bird-of-the-week`;
+
+		// Fetch the data from the back-end server
+		const response = await fetch(url);
+
+		// Parse the data
+		if (response.status === 200) {
+			finalData = await response.json();
+		}
+
+	} catch (error) {
+
+		console.debug("----- ERROR FETCHING BIRD OF THE WEEK DATA ------");
+		console.debug(error);
+		console.debug("-------------------------------------------------");
+
+	}
+
+	return finalData;
+
+}
+
 export {
 	fetchBird,
 	fetchPointsLeaderboard,
@@ -363,4 +391,5 @@ export {
 	populateMetadata,
 	getMemoryMatchGamesPlayedToday,
 	storeMemoryMatchGameResult,
+	fetchBirdOfTheWeek,
 };

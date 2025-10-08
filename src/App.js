@@ -17,14 +17,15 @@ import Footer from "./components/Footer";
 const AppWrapper = () => {
 
 	return (
-        <WalletProvider>
-            <GiftProvider>
-                <IdentificationProvider>
-                    <Navbar />
-                    <Outlet />
-                </IdentificationProvider>
-            </GiftProvider>
-        </WalletProvider>
+		<WalletProvider>
+			<GiftProvider>
+				<IdentificationProvider>
+					<Navbar />
+					<Outlet />
+					<Footer />
+				</IdentificationProvider>
+			</GiftProvider>
+		</WalletProvider>
 	);
 
 };
@@ -37,6 +38,9 @@ const router = createBrowserRouter(
 			<Route
 				path="about"
 				lazy={() => import("./routes/about")} />
+			<Route
+				path="bird-of-the-week"
+				lazy={() => import("./routes/birdOfTheWeek")} />
 			<Route
 				path="collection"
 				lazy={() => import("./routes/gallery")} />
@@ -64,7 +68,6 @@ const App = () => {
 	return (
 		<div className="app">
 			<RouterProvider router={router} />
-			<Footer />
 		</div>
 	);
 
