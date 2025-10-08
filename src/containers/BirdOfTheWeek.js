@@ -92,7 +92,7 @@ const BirdOfTheWeek = () => {
 						<h2 className="text-center text-primary mb-4">
 							{`${data.species} (${data.family})`}
 						</h2>
-						<p className="justify-content-center d-flex align-items-center">
+						<p className="justify-content-center d-flex align-items-center flex-wrap">
 							<span>
 								{'Featured weekly on Mondays, presented by'}
 							</span>
@@ -125,25 +125,28 @@ const BirdOfTheWeek = () => {
 									onClick={() => {
 										navigate(`/collection/${birdId}`);
 									}}>
-									<div
-										className="grid-bird-card"
-										title={`View Songbird #${birdId}`}
-										style={{
-											position: 'relative',
-											width: '100%',
-											height: '280px',
-										}}>
 										<div
+											className="grid-bird-card"
+											title={`View Songbird #${birdId}`}
 											style={{
 												position: 'relative',
 												width: '100%',
-												height: '230px',
-												borderTopLeftRadius: 8,
-												borderTopRightRadius: 8,
-												backgroundImage: `url(${process.env.REACT_APP_SONGBIRDZ_STATIC_URL}/images/${birdId}-lg.jpg)`,
-												backgroundPosition: 'center',
-												backgroundSize: 'contain',
-											}} />
+												height: '100%',
+												maxWidth: '320px',
+												marginLeft: 'auto',
+												marginRight: 'auto',
+											}}>
+											<div
+												style={{
+													position: 'relative',
+													width: '100%',
+													aspectRatio: '1 / 1',
+													borderTopLeftRadius: 8,
+													borderTopRightRadius: 8,
+													backgroundImage: `url(${process.env.REACT_APP_SONGBIRDZ_STATIC_URL}/images/${birdId}-lg.jpg)`,
+													backgroundPosition: 'center',
+													backgroundSize: 'cover',
+												}} />
 										<div
 											style={{
 												textAlign: 'center',
@@ -261,7 +264,8 @@ const BirdOfTheWeek = () => {
 										• <a
 											href={link}
 											target="_blank"
-											rel="noopener noreferrer">
+											rel="noopener noreferrer"
+											onClick={fOpenExternalURL}>
 											{link}
 										</a>
 									</p>

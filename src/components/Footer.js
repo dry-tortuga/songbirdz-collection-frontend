@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
 import { useFarcasterContext } from "../contexts/farcaster";
 
@@ -45,12 +46,11 @@ const Footer = () => {
 							}
 						</div>
 						<div className="icons-row d-flex align-items-center justify-content-center">
-							<a
+							<Link
 								className="btn btn-clear text-white me-md-2"
-								href="/bird-of-the-week"
-								onClick={fOpenExternalURL}>
+								to="/bird-of-the-week">
 								<i className="fa fa-solid fa-feather" />
-							</a>
+							</Link>
 							<a
 								className="btn btn-clear text-white me-md-2"
 								href="https://twitter.com/songbirdz_cc"

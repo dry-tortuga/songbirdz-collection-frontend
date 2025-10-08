@@ -17,14 +17,15 @@ import Footer from "./components/Footer";
 const AppWrapper = () => {
 
 	return (
-        <WalletProvider>
-            <GiftProvider>
-                <IdentificationProvider>
-                    <Navbar />
-                    <Outlet />
-                </IdentificationProvider>
-            </GiftProvider>
-        </WalletProvider>
+		<WalletProvider>
+			<GiftProvider>
+				<IdentificationProvider>
+					<Navbar />
+					<Outlet />
+					<Footer />
+				</IdentificationProvider>
+			</GiftProvider>
+		</WalletProvider>
 	);
 
 };
@@ -67,7 +68,6 @@ const App = () => {
 	return (
 		<div className="app">
 			<RouterProvider router={router} />
-			<Footer />
 		</div>
 	);
 
