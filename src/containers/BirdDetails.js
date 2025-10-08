@@ -371,8 +371,8 @@ const BirdDetails = () => {
                                                         {"Song Audio"}
                                                     </span>
                                                     <BirdAudioFile
-                                                        className="w-50 text-center"
-                                                        birdId={bird.id} />
+                                                        className="w-50 text-center py-1"
+                                                        bird={bird} />
                                                 </ListGroup.Item>
                                             </ListGroup>
                                             {!bird.owner && (

@@ -1,4 +1,4 @@
-import { COLLECTION_BIRD_SIZE } from "../constants";
+import { AUDIO_FILE_CONTRIBUTORS, COLLECTION_BIRD_SIZE } from "../constants";
 
 async function fetchBird(id, owner, cached) {
 
@@ -8,6 +8,7 @@ async function fetchBird(id, owner, cached) {
 		owner,
 		species: null,
 		audio: `${process.env.REACT_APP_SONGBIRDZ_STATIC_URL}/audio/${id}.mp3`,
+		audio_contributor_name: AUDIO_FILE_CONTRIBUTORS[id],
 		image: `${process.env.REACT_APP_SONGBIRDZ_STATIC_URL}/images/${id}.jpg`,
 		imageLg: `${process.env.REACT_APP_SONGBIRDZ_STATIC_URL}/images/${id}-lg.jpg`,
 		collection: Math.floor(id / COLLECTION_BIRD_SIZE),

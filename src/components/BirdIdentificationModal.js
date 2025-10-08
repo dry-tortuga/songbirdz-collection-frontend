@@ -208,7 +208,9 @@ const BirdIdentificationModal = (props) => {
                         <Form.Label className="d-block fw-bold">
                             {"Song Audio"}
                         </Form.Label>
-                        <BirdAudioFile className="w-100" birdId={bird.id} />
+                        <BirdAudioFile
+                        	className="w-100"
+                        	bird={bird} />
                     </Form.Group>
                     {bird.owner &&
                         <>
@@ -293,7 +295,7 @@ const BirdIdentificationModal = (props) => {
 							</Form.Group>
 							{!account &&
 								<span className="fw-bold">
-									{"Please connect your wallet..."}
+									{"Please sign in..."}
 								</span>
 							}
 							{account && !isOnCorrectChain &&
