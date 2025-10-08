@@ -35,7 +35,13 @@ const BirdDetails = () => {
 
 	const context = useWalletContext();
 
-	const { isBaseApp, isFarcasterApp, fComposeCast, fPopulateUsers } = useFarcasterContext();
+	const {
+		isBaseApp,
+		isFarcasterApp,
+		fComposeCast,
+		fOpenExternalURL,
+		fPopulateUsers,
+	} = useFarcasterContext();
 
 	const { setBirdToGift } = useGiftContext();
 
@@ -170,7 +176,8 @@ const BirdDetails = () => {
 					href={`https://opensea.io/assets/base/${context.contractAddress}/${rBird.id}`}
 					rel="noopener noreferrer nofollow"
 					target="_blank"
-					title={`View ${rBird.name} on OpenSea`}>
+					title={`View ${rBird.name} on OpenSea`}
+					onClick={fOpenExternalURL}>
 					<img
 						alt=""
 						src={openseaLogo}
@@ -184,7 +191,8 @@ const BirdDetails = () => {
 					href={`https://basescan.org/token/${context.contractAddress}?a=${rBird.id}`}
 					rel="noopener noreferrer nofollow"
 					target="_blank"
-					title={`View ${rBird.name} on BaseScan`}>
+					title={`View ${rBird.name} on BaseScan`}
+					onClick={fOpenExternalURL}>
 					<img
 						alt=""
 						src={etherscanLogo}
@@ -363,8 +371,8 @@ const BirdDetails = () => {
                                                         {"Song Audio"}
                                                     </span>
                                                     <BirdAudioFile
-                                                        className="w-50 text-center"
-                                                        birdId={bird.id} />
+                                                        className="w-50 text-center py-1"
+                                                        bird={bird} />
                                                 </ListGroup.Item>
                                             </ListGroup>
                                             {!bird.owner && (

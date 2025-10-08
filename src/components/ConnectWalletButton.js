@@ -106,7 +106,7 @@ const ConnectWalletButton = ({ className, showDailyStreak = false }) => {
 				</div>
 			}
 			<Wallet>
-				<ConnectWallet>
+				<ConnectWallet text="Sign-in">
 					<Avatar />
 					<Name />
 				</ConnectWallet>
