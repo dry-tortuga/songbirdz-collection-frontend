@@ -47,6 +47,12 @@ const Footer = () => {
 						<div className="icons-row d-flex align-items-center justify-content-center">
 							<a
 								className="btn btn-clear text-white me-md-2"
+								href="/bird-of-the-week"
+								onClick={fOpenExternalURL}>
+								<i className="fa fa-solid fa-feather" />
+							</a>
+							<a
+								className="btn btn-clear text-white me-md-2"
 								href="https://twitter.com/songbirdz_cc"
 								target="_blank"
 								rel="noopener noreferrer nofollow"

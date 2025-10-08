@@ -1,5 +1,5 @@
 import React, { useCallback, useState } from 'react';
-import { Button, Container, Row, Col, Card, ListGroup } from 'react-bootstrap';
+import { Button, Container, Row, Col, Card } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 
 import { useFarcasterContext } from "../contexts/farcaster";
@@ -18,7 +18,6 @@ const BirdOfTheWeek = () => {
 		isFarcasterApp,
 		fComposeCast,
 		fOpenExternalURL,
-		fPopulateUsers,
 	} = useFarcasterContext();
 
 	const { data, loading, error } = useBirdOfTheWeek();
@@ -81,11 +80,37 @@ const BirdOfTheWeek = () => {
 				<Row>
 					<Col>
 						<h1 className="text-center mb-4">
-							Bird of the Week - {new Date().toLocaleDateString()}
+							Bird of the Week - {(() => {
+								const now = new Date();
+								const dayOfWeek = now.getDay();
+								const daysToMonday = dayOfWeek === 0 ? -6 : 1 - dayOfWeek;
+								const monday = new Date(now);
+								monday.setDate(now.getDate() + daysToMonday);
+								return monday.toLocaleDateString();
+							})()}
 						</h1>
 						<h2 className="text-center text-primary mb-4">
-							{data.species}
+							{`${data.species} (${data.family})`}
 						</h2>
+						<p className="justify-content-center d-flex align-items-center">
+							<span>
+								{'Featured weekly on Mondays, presented by'}
+							</span>
+							<span className="d-flex align-items-center ms-1">
+                                <img
+                                    src="https://songbirdz.cc/images/1077-lg.jpg"
+                                    className="rounded me-2"
+                                    title="King Eider (1 of 1)"
+                                    style={{ width: "25px", height: "25px", objectFit: "cover" }} />
+                                <a
+                                    href="https://x.com/paesan5"
+                                    target="_blank"
+                                    rel="noopener noreferrer nofollow"
+                                   	onClick={fOpenExternalURL}>
+                                    <b>{"Paesan"}</b>
+                                </a>
+                            </span>
+						</p>
 					</Col>
 				</Row>
 				<Row>
@@ -171,12 +196,12 @@ const BirdOfTheWeek = () => {
 									<Button
 										className="w-100 mt-3 py-2"
 										as="a"
-										href={`https://farcaster.xyz/~/compose?text=${encodeURIComponent(`Check out the latest "Bird of the Week" from Songbirdz!\n\n${data.species}\n\nhttps://songbirdz.cc/bird-of-the-week\n\n`)}&channelKey=songbirdz&embeds[]=${encodeURIComponent(`https://songbirdz.cc/bird-of-the-week`)}`}
+										href={`https://farcaster.xyz/~/compose?text=${encodeURIComponent(`Check out the "Bird of the Week" from Songbirdz!\n\nSpecies: ${data.species}\nFamily: ${data.family}\nFlock: ${data.flock}\n\n${data.facts?.[0]}..\n\nhttps://songbirdz.cc/bird-of-the-week\n\n`)}&channelKey=songbirdz&embeds[]=${encodeURIComponent(`https://songbirdz.cc/bird-of-the-week`)}&embeds[]=${encodeURIComponent(`${process.env.REACT_APP_SONGBIRDZ_STATIC_URL}/images/${data.ids[0]}-lg.jpg`)}`}
 										target="_blank"
 										rel="noopener noreferrer"
 										variant="outline-primary"
 										onClick={(event) => fComposeCast(event, {
-											text: `Check out the latest "Bird of the Week" from Songbirdz!\n\n${data.species}\n\nhttps://songbirdz.cc/bird-of-the-week\n\n`,
+											text: `Check out the "Bird of the Week" from Songbirdz!\n\nSpecies: ${data.species}\nFamily: ${data.family}\nFlock: ${data.flock}\n\n${data.facts?.[0]}..\n\nhttps://songbirdz.cc/bird-of-the-week\n\n`,
 											embeds: [
 												`https://songbirdz.cc/bird-of-the-week`,
 												`${process.env.REACT_APP_SONGBIRDZ_STATIC_URL}/images/${data.ids[0]}-lg.jpg`,
@@ -215,13 +240,15 @@ const BirdOfTheWeek = () => {
 						</Card>
 					</Col>
 				</Row>
-				<Row className="mb-4">
-					<Col
-						lg={8}
-						className="mx-auto">
-						<iframe src="https://macaulaylibrary.org/asset/643099636/embed" height="530" width="800" frameborder="0" allowfullscreen></iframe>
-					</Col>
-				</Row>
+				{/*
+					<Row className="mb-4">
+						<Col
+							lg={8}
+							className="mx-auto">
+							<iframe src="https://macaulaylibrary.org/asset/643099636/embed" height="530" width="800" frameborder="0" allowfullscreen></iframe>
+						</Col>
+					</Row>
+				*/}
 				<Row className="mb-4">
 					<Col lg={8} className="mx-auto">
 						<Card>
