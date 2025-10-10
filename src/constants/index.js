@@ -7,7 +7,7 @@ import ANSWER_CHOICES_FLOCK_7 from './answer-choices/hatchlings-7-options.json';
 import ANSWER_CHOICES_FLOCK_8 from './answer-choices/masters-of-disguise-8-options.json';
 import ANSWER_CHOICES_FLOCK_9 from './answer-choices/final-migration-9-options.json';
 
-import AUDIO_FILE_CONTRIBUTORS from './audio-file-contributors';
+import AUDIO_CONTRIBUTORS from './audio-contributors';
 import FAMILIES from './families';
 
 const NUM_BIRDS_TOTAL = 10000;
@@ -108,5 +108,5 @@ export {
 	EVENTS,
 	ALREADY_IDENTIFIED_BIRDS,
 	ADRESSES_TO_IGNORE,
-	AUDIO_FILE_CONTRIBUTORS,
+	AUDIO_CONTRIBUTORS,
 };

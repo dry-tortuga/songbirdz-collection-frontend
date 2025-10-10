@@ -466,8 +466,8 @@ const MemoryMatchGame = () => {
 							style={{ maxWidth: "100px" }}
 							onChange={(event) => setDifficultyMode(event.target.value)}>
 							<option value="easy">Easy</option>
-							<option value="medium">Medium</option>
-							<option value="hard">Hard</option>
+							{/*<option value="medium">Medium</option>*/}
+							{/*<option value="hard">Hard</option>*/}
 						</Form.Select>
 						{showLeaderboard &&
 							<Button
