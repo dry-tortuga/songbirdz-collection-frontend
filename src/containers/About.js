@@ -46,12 +46,12 @@ const About = () => {
                             </a>
                             {" and audio from "}
                             <a
-                                href="https://www.macaulaylibrary.org/guide-to-bird-sounds"
+                                href="https://www.macaulaylibrary.org"
                                 target="_blank"
                                 rel="noopener noreferrer nofollow"
                                	onClick={fOpenExternalURL}>
                                 <b>
-                                    {"The Cornell Guide to Bird Sounds: United States and Canada (v2021)"}
+                                    {"The Macaulay Library"}
                                 </b>
                             </a>
                             {"."}
@@ -64,8 +64,15 @@ const About = () => {
                         </p>
                         <p>
                             {"The smart contract governing the NFTs, the back-end code for the web server, and the front-end code for the web application are all open-source (MIT License). The images (and species metadata) associated with each NFT in the collection is released under the Creative Commons Zero (CC0) license, granting users freedom to use, remix, and share the artworks without any restrictions. "}
-                            <b>{"NOTE:"}</b>
-                            {" If you wish to use the audio mp3 files in your own project, you must purchase them for $20.00 from \"The Cornell Guide to Bird Sounds: United States and Canada (v2021)\". See link above."}
+                            <b>{"NOTE: "}</b>
+                            {"If you wish to use the audio mp3 files in your own project or for any other purpose, you must reach out to The Macaulay Library and "}
+                            <a
+                            	href="https://support.ebird.org/en/support/solutions/articles/48001064551-requesting-and-downloading-media"
+                            	target="_blank"
+                            	rel="noopener noreferrer nofollow">
+                            	<b>{"request permission"}</b>
+                            </a>
+                             {" to do so."}
                         </p>
                         <p>
                             {"As avid appreciators of birds, we hope you find this project interesting, useful, and enjoyable. We invite you to join the community and contribute to the project. Thank you!"}
