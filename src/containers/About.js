@@ -258,7 +258,7 @@ const About = () => {
                             </li>
                             <li>
                                 <a
-                                    href="https://github.com/dry-tortuga/songbirdz-collection-media"
+                                    href="https://github.com/dry-tortuga/songbirdz-collection-media-cc0"
                                     target="_blank"
                                     rel="noopener noreferrer nofollow"
                                    	onClick={fOpenExternalURL}>
