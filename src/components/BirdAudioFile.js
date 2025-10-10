@@ -15,7 +15,7 @@ const BirdAudioFile = (props) => {
 			<p
 				className="text-muted text-center mt-1"
 				style={{ fontSize: '0.85rem' }}>
-				{bird.owner ? bird.species : ''} © {bird.audio_contributor_name}; Cornell Lab of Ornithology | Macaulay Library
+				{bird.owner ? bird.audio_contributor_species : ''} © {bird.audio_contributor_name}; Cornell Lab of Ornithology | Macaulay Library
 			</p>
 		</div>
 	);

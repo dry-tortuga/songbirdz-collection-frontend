@@ -65,7 +65,7 @@ const About = () => {
                         <p>
                             {"The smart contract governing the NFTs, the back-end code for the web server, and the front-end code for the web application are all open-source (MIT License). The images (and species metadata) associated with each NFT in the collection is released under the Creative Commons Zero (CC0) license, granting users freedom to use, remix, and share the artworks without any restrictions. "}
                             <b>{"NOTE: "}</b>
-                            {"If you wish to use the audio mp3 files in your own project or for any other purpose, you must reach out to The Macaulay Library and "}
+                            {"If you wish to use the audio mp3 files in your own project or for any other purpose whatsoever, you must reach out to The Macaulay Library and "}
                             <a
                             	href="https://support.ebird.org/en/support/solutions/articles/48001064551-requesting-and-downloading-media"
                             	target="_blank"
