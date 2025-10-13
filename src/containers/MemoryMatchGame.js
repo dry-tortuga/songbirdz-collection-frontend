@@ -80,10 +80,12 @@ const MemoryMatchGame = () => {
 	const [timeUsed, setTimeUsed] = useState(0);
 	const [timeUsedSlow, setTimeUsedSlow] = useState(0);
 
+	/*
 	const [activeAudio, setActiveAudio] = useState({
 		index: -1,
 		audioPlayer: null,
 	});
+	*/
 
 	const [hasLoggedResult, setHasLoggedResult] = useState(false);
 	const [showConnectWallet, setShowConnectWallet] = useState(false);
@@ -138,6 +140,7 @@ const MemoryMatchGame = () => {
 
 		if (selected.firstGuess === -1) {
 
+			/*
 			// Start playing the audio for the first bird...
 			const selectedFirstBird = birds[index];
 
@@ -145,6 +148,7 @@ const MemoryMatchGame = () => {
 				selectedFirstBird.audioPlayer.loop = true;
 				selectedFirstBird.audioPlayer.play();
 			}
+			*/
 
 			setSelected((prev) => ({ ...prev, firstGuess: index }));
 
@@ -155,6 +159,7 @@ const MemoryMatchGame = () => {
 		if (selected.secondGuess === -1) {
 
 			// Stop playing the audio (if any) for the first bird...
+			/*
 			const selectedFirstBird = birds[selected.firstGuess];
 
 			if (selectedFirstBird.audioPlayer) {
@@ -168,6 +173,7 @@ const MemoryMatchGame = () => {
 				selectedSecondBird.audioPlayer.loop = true;
 				selectedSecondBird.audioPlayer.play();
 			}
+			*/
 
 			setSelected((prev) => ({ ...prev, secondGuess: index }));
 
@@ -190,7 +196,7 @@ const MemoryMatchGame = () => {
 		setTimeUsedSlow(0);
 		setSelected({ firstGuess: -1, secondGuess: -1 });
 		setMatched([]);
-		setActiveAudio({ index: -1, audioPlayer: null })
+		// setActiveAudio({ index: -1, audioPlayer: null })
 		setHasLoggedResult(false);
 		setShowConnectWallet(false);
 
@@ -201,6 +207,7 @@ const MemoryMatchGame = () => {
 
 	};
 
+	/*
 	const handlePlayBirdSong = (bird, index) => {
 
 		if (activeAudio?.audioPlayer) {
@@ -223,6 +230,7 @@ const MemoryMatchGame = () => {
 		});
 
 	};
+	*/
 
 	// Load the birds on initial load
 	useEffect(() => { handleResetGame(difficultyMode, false) }, [difficultyMode]);
@@ -674,6 +682,7 @@ const MemoryMatchGame = () => {
 													{bird.species}
 												</span>
 												<div className="icon-buttons flex align-items-center gap-4">
+													{/*
 													<button
 														className="icon-btn"
 														style={{ cursor: "pointer" }}
@@ -682,6 +691,7 @@ const MemoryMatchGame = () => {
 															className={`fa-solid fa-music ${activeAudio?.index === index ? 'fa-beat' : ''}`}
 															style={{ color: "#ffffff" }} />
 													</button>
+													*/}
 													{bird.species === "UNIDENTIFIED" ? (
 														<button
 															className="icon-btn"
@@ -781,7 +791,7 @@ async function loadGameCards(numBirds, difficulty) {
 		id: parseInt(bird.name.split("#")[1], 10),
 		name: bird.name,
 		image: bird.image,
-		audio: bird.animation_url,
+		// audio: bird.animation_url,
 		species: bird.species,
 		cached: false,
 	}));
@@ -801,7 +811,7 @@ async function loadGameCards(numBirds, difficulty) {
 			...gameCardsOriginal,
 			...gameCardsCopy.map((bird) => ({
 				...bird,
-				audioPlayer: new Audio(bird.audio),
+				// audioPlayer: new Audio(bird.audio),
 			})),
 		];
 
@@ -810,11 +820,11 @@ async function loadGameCards(numBirds, difficulty) {
 		result = [
 			...gameCardsOriginal.map((bird) => ({
 				...bird,
-				audioPlayer: new Audio(bird.audio),
+				// audioPlayer: new Audio(bird.audio),
 			})),
 			...gameCardsCopy.map((bird) => ({
 				...bird,
-				audioPlayer: new Audio(bird.audio),
+				// audioPlayer: new Audio(bird.audio),
 			})),
 		];
 

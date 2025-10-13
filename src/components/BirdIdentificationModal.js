@@ -12,7 +12,7 @@ import { Button, Form, Modal } from "react-bootstrap";
 import { Link } from "react-router-dom";
 
 import AccountOwner from "./AccountOwner";
-import BirdAudioFile from "./BirdAudioFile";
+// import BirdAudioFile from "./BirdAudioFile";
 
 import {
 	ANSWER_CHOICES_FLOCK_2,
@@ -202,6 +202,7 @@ const BirdIdentificationModal = (props) => {
                             }}
                             src={bird.image} />
                     </Form.Group>
+					{/*
                     <Form.Group
                     	className="mb-3"
                     	controlId="song-audio">
@@ -212,6 +213,7 @@ const BirdIdentificationModal = (props) => {
                         	className="w-100"
                         	bird={bird} />
                     </Form.Group>
+                    */}
                     {bird.owner &&
                         <>
                             <Form.Group

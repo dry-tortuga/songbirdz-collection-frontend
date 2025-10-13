@@ -50,14 +50,15 @@ const HomeContainer = () => {
 					<div className="row gx-5 justify-content-center">
 						<div className="col-xs-12">
 							<div className="h2 fs-4 text-white mb-4">
-								{"The Songbirdz collection consists of 10,000 birds who love nothing more than to sing a sweet tune."}
+								{/* "The Songbirdz collection consists of 10,000 birds who love nothing more than to sing a sweet tune." */}
+								{"The Songbirdz collection consists of 10,000 birds."}
 							</div>
 						</div>
 					</div>
 					<div className="row gx-5 justify-content-center">
 						<div className="col-xs-12">
 							<div className="h2 fs-4 text-white mb-4">
-								{"For each bird, try to identify the correct species using only the bird's image and song."}
+								{"For each bird, try to identify the correct species using only the bird's image."}
 							</div>
 						</div>
 					</div>

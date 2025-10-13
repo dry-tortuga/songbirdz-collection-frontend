@@ -52,9 +52,9 @@ const GridBirdCard = (props) => {
 
     const {
         bird,
-        activeAudio,
+        // activeAudio,
         onClick,
-        onPlaySong,
+        // onPlaySong,
         ...restProps
     } = props;
 
@@ -91,6 +91,7 @@ const GridBirdCard = (props) => {
                 }}>
                 {bird.name}
             </div>
+			{/*
             <button
                 className="icon-btn"
                 title={`Listen to ${bird.name}'s song`}
@@ -110,6 +111,7 @@ const GridBirdCard = (props) => {
                         verticalAlign: 'text-bottom',
                     }} />
             </button>
+            */}
         </div>
     );
 
@@ -131,7 +133,7 @@ const BirdGallery = () => {
 	const hideAlreadyIdentifiedParam = queryParams.get("hide_already_identified") === "true";
 
     // Keep track of the active bird song to play
-    const [activeAudio, setActiveAudio] = useState({ id: -1,  audioPlayer: null });
+    // const [activeAudio, setActiveAudio] = useState({ id: -1,  audioPlayer: null });
 
 	// Get the list of "already identified" birds in the available collection
 	const {
@@ -151,6 +153,7 @@ const BirdGallery = () => {
 		alreadyIdentifiedList,
 	});
 
+	/*
 	const handlePlaySong = useCallback((event, bird) => {
 
         event.preventDefault();
@@ -189,6 +192,7 @@ const BirdGallery = () => {
         }
 
     }, [activeAudio]);
+    */
 
 	// Get the collection data
 	const collection = COLLECTIONS[filters.collectionId];
@@ -213,7 +217,7 @@ const BirdGallery = () => {
 								value={filters.collectionId < 0 ? "-1" : filters.collectionId.toString()}
                                 onChange={(event) => {
 
-                                    handleStopSong();
+                                    // handleStopSong();
                                     onChangeFilter("collectionId", parseInt(event.target.value, 10));
 
                                 }}>
@@ -234,7 +238,7 @@ const BirdGallery = () => {
 									checked={showOnlyUnidentifiedBirds}
                                     onChange={(event) => {
 
-                                        handleStopSong();
+                                        // handleStopSong();
                                         setShowOnlyUnidentifiedBirds(event.target.checked);
 
                                     }} />
@@ -248,9 +252,9 @@ const BirdGallery = () => {
 							<i className="fa-solid fa-spinner fa-spin fa-xl me-2" />
 						}
 						{birds?.length === 0 &&
-						  <span>
-							{`All birds in the ${collection.name} flock have been successfully identified... early bird gets the worm :)`}
-						</span>
+							<span>
+								{`All birds in the ${collection.name} flock have been successfully identified... early bird gets the worm :)`}
+							</span>
 						}
 						{birds &&
     						<VirtuosoGrid
@@ -266,16 +270,16 @@ const BirdGallery = () => {
     							itemContent={(index) => (
     							    <GridBirdCard
                                         bird={birds[index]}
-                                        activeAudio={activeAudio}
+                                        // activeAudio={activeAudio}
+                                        // onPlaySong={handlePlaySong}
                                         onClick={(bird) => {
 
-                                            handleStopSong();
+                                            // handleStopSong();
 
                                             setIsIdentifyingBird(true);
                                             setBirdToID(bird);
 
-                                        }}
-                                        onPlaySong={handlePlaySong} />
+                                        }} />
     							)} />
 						 }
 					</Col>

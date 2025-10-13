@@ -10,7 +10,7 @@ import {
 } from "react-bootstrap";
 
 import AccountOwner from "../components/AccountOwner";
-import BirdAudioFile from "../components/BirdAudioFile";
+// import BirdAudioFile from "../components/BirdAudioFile";
 import BirdTransferModal from "../components/BirdTransferModal";
 
 import { COLLECTIONS, NUM_BIRDS_TOTAL } from "../constants";
@@ -366,6 +366,7 @@ const BirdDetails = () => {
                                                             "ERROR"}
                                                     </span>
                                                 </ListGroup.Item>
+												{/*
                                                 <ListGroup.Item className="list-group-item-song-audio">
                                                     <span className="w-50 fw-bold">
                                                         {"Song Audio"}
@@ -374,6 +375,7 @@ const BirdDetails = () => {
                                                         className="w-50 text-center py-1"
                                                         bird={bird} />
                                                 </ListGroup.Item>
+                                                */}
                                             </ListGroup>
                                             {!bird.owner && (
                                                 <div className="d-grid gap-2">

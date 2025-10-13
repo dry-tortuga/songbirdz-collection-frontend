@@ -23,8 +23,9 @@ const BirdOfTheWeek = () => {
 	const { data, loading, error } = useBirdOfTheWeek();
 
 	// Keep track of the active bird song to play
-	const [activeAudio, setActiveAudio] = useState({ id: -1,  audioPlayer: null });
+	// const [activeAudio, setActiveAudio] = useState({ id: -1,  audioPlayer: null });
 
+	/*
 	const handlePlaySong = useCallback((event, birdId) => {
 
 		event.preventDefault();
@@ -51,6 +52,7 @@ const BirdOfTheWeek = () => {
 		setActiveAudio({ id: birdId, audioPlayer });
 
 	}, [activeAudio]);
+	*/
 
 	if (loading) {
 		return (
@@ -159,6 +161,7 @@ const BirdOfTheWeek = () => {
 											}}>
 											{`Songbird #${birdId}`}
 										</div>
+										{/*
 										<button
 											className="icon-btn"
 											title="Listen to the bird's song"
@@ -178,6 +181,7 @@ const BirdOfTheWeek = () => {
 													verticalAlign: 'text-bottom',
 												}} />
 										</button>
+										*/}
 									</div>
 								</Col>
 							))}
@@ -186,7 +190,9 @@ const BirdOfTheWeek = () => {
 				</Row>
 
 				<Row className="mb-4">
-					<Col lg={8} className="mx-auto">
+					<Col
+						lg={8}
+						className="mx-auto">
 						<Card>
 							<Card.Header>
 								<h3>Fun Facts</h3>
@@ -243,15 +249,6 @@ const BirdOfTheWeek = () => {
 						</Card>
 					</Col>
 				</Row>
-				{/*
-					<Row className="mb-4">
-						<Col
-							lg={8}
-							className="mx-auto">
-							<iframe src="https://macaulaylibrary.org/asset/643099636/embed" height="530" width="800" frameborder="0" allowfullscreen></iframe>
-						</Col>
-					</Row>
-				*/}
 				<Row className="mb-4">
 					<Col lg={8} className="mx-auto">
 						<Card>
