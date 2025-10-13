@@ -19,7 +19,7 @@ const About = () => {
                 <Row>
                     <Col>
                         <p>
-                            {"The Songbirdz project is bringing bird watching to Base. Each bird (i.e. NFT digital collectible) is hidden until the species is successfully identified (i.e. minted) based on the bird's image/song."}
+                            {"The Songbirdz project is bringing bird watching to Base. Each bird (i.e. NFT digital collectible) is hidden until the species is successfully identified (i.e. minted) based on the bird's image."}
                         </p>
                         <p>
                             {"This project was one of "}
@@ -33,7 +33,7 @@ const About = () => {
                             {" chosen in the \"GAMING with thirdweb: Gaming\" category at the Onchain Summer Buildathon in June 2024."}
                         </p>
                         <p>
-                            {"There are 10,000 birds to identify, split into 10 themed \"flocks\". Each flock consists of exactly 1,000 birds and each flock was rolled out one-at-a-time, with a distinct set of species, song audio, and images. There are a total of 800 unique species of birds to collect across the entire collection."}
+                            {"There are 10,000 birds to identify, split into 10 themed \"flocks\". Each flock consists of exactly 1,000 birds and each flock was rolled out one-at-a-time, with a distinct set of species and images. There are a total of 800 unique species of birds to collect across the entire collection."}
                         </p>
                         <p>
                             {"Curated by a life-long birder, using images from "}
@@ -44,35 +44,16 @@ const About = () => {
                                	onClick={fOpenExternalURL}>
                                 <b>{"DALL·E 3"}</b>
                             </a>
-                            {" and audio from "}
-                            <a
-                                href="https://www.macaulaylibrary.org"
-                                target="_blank"
-                                rel="noopener noreferrer nofollow"
-                               	onClick={fOpenExternalURL}>
-                                <b>
-                                    {"The Macaulay Library"}
-                                </b>
-                            </a>
                             {"."}
                         </p>
                         <p>
-							{"The contract uses merkle trees to store onchain hashes of the species names, images, and song audio for each flock in the collection, and the species verification happens fully onchain during the minting transaction."}
+							{"The species verification happens fully onchain (in a smart contract on Base) during the minting transaction."}
                         </p>
                         <p>
-                        	{"The long-term goal for this project is to be a community-driven ecosystem for bird enthusiasts, fostering a deeper connection with nature and promoting conservation efforts, while also providing a platform for users to engage with and learn about birds (and web3) in a fun and interactive way."}
+                        	{"The long-term goal for this project is to be a community-driven ecosystem for bird enthusiasts, providing a platform for users to engage with and learn about birds (and web3) in a fun and interactive way."}
                         </p>
                         <p>
                             {"The smart contract governing the NFTs, the back-end code for the web server, and the front-end code for the web application are all open-source (MIT License). The images (and species metadata) associated with each NFT in the collection is released under the Creative Commons Zero (CC0) license, granting users freedom to use, remix, and share the artworks without any restrictions. "}
-                            <b>{"NOTE: "}</b>
-                            {"If you wish to use the audio mp3 files in your own project or for any other purpose whatsoever, you must reach out to The Macaulay Library and "}
-                            <a
-                            	href="https://support.ebird.org/en/support/solutions/articles/48001064551-requesting-and-downloading-media"
-                            	target="_blank"
-                            	rel="noopener noreferrer nofollow">
-                            	<b>{"request permission"}</b>
-                            </a>
-                             {" to do so."}
                         </p>
                         <p>
                             {"As avid appreciators of birds, we hope you find this project interesting, useful, and enjoyable. We invite you to join the community and contribute to the project. Thank you!"}
@@ -210,11 +191,6 @@ const About = () => {
                                     rel="noopener noreferrer nofollow">
                                     <b>{"AMA #1 (10/09/2024)"}</b>
                                 </a>
-                            </li>
-                            <li>
-                                <Link  to="/sounds-of-summer-2024">
-                                    <b>{"Sounds of Summer (Free Mint)"}</b>
-                                </Link>
                             </li>
                             <li>
                                 <a

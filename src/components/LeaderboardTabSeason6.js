@@ -68,7 +68,7 @@ const LeaderboardTabSeason6 = (props) => {
 					<Row>
 						<Col>
 							<p>
-								{"Runs from September 1st, 2025 to November 30th, 2025 (11 PM UTC). Points should update in real-time, but will be manually confirmed on a weekly basis. Last confirmed at September 9th, 2025 (1 PM UTC)."}
+								{"Runs from September 1st, 2025 to November 30th, 2025 (11 PM UTC). Points should update in real-time, but will be manually confirmed on a weekly basis. Last confirmed on October 13th, 2025 (1 PM UTC)."}
 							</p>
 							<p>
 								{"Accounts with the most Birder Points will receive:"}
