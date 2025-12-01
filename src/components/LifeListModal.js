@@ -230,13 +230,13 @@ const LifeListModal = (props) => {
 
 		} else if (filter === "6") {
 
-			results = { ...speciesByIDSeason6 };
+            results = { ...speciesByIDSeason6 };
 
-			Object.values(speciesByIDSeason6).forEach((data) => {
+            Object.values(speciesByIDSeason6).forEach((data) => {
 				total += data.amount;
 			});
 
-		} else if (filter === "7") {
+        } else if (filter === "7") {
 
             results = { ...speciesByIDSeason7 };
 
