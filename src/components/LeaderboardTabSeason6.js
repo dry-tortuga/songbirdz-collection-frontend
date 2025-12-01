@@ -86,3 +86,5 @@ const LeaderboardTabSeason6 = ({ onUserClick }) => {
 LeaderboardTabSeason6.propTypes = {
 	onUserClick: PropTypes.func.isRequired,
 };
+
+export default LeaderboardTabSeason6;
