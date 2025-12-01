@@ -13,6 +13,7 @@ const LeaderboardTabSeason3 = lazy(() => import("../components/LeaderboardTabSea
 const LeaderboardTabSeason4 = lazy(() => import("../components/LeaderboardTabSeason4"));
 const LeaderboardTabSeason5 = lazy(() => import("../components/LeaderboardTabSeason5"));
 const LeaderboardTabSeason6 = lazy(() => import("../components/LeaderboardTabSeason6"));
+const LeaderboardTabSeason7 = lazy(() => import("../components/LeaderboardTabSeason7"));
 const LeaderboardTabSpeciesRanks = lazy(() => import("../components/LeaderboardTabSpeciesRanks"));
 const LeaderboardTabDailyStreakActive = lazy(() => import("../components/LeaderboardTabDailyStreakActive"));
 const LifeListModal = lazy(() => import("../components/LifeListModal"));
@@ -23,12 +24,13 @@ const TAB_SEASON_3 = "season-3";
 const TAB_SEASON_4 = "season-4";
 const TAB_SEASON_5 = "season-5";
 const TAB_SEASON_6 = "season-6";
+const TAB_SEASON_7 = "season-7";
 const TAB_LIFE_LIST_SPECIES_RANKS = "life-list-species-ranks";
 const TAB_DAILY_STREAK_ACTIVE = "daily-streak-active";
 
 const Leaderboard = () => {
 
-	const [activeTab, setActiveTab] = useState(TAB_SEASON_6);
+	const [activeTab, setActiveTab] = useState(TAB_SEASON_7);
 	const [lifeListModalAddress, setLifeListModalAddress] = useState(null);
 
 	return (
@@ -51,11 +53,11 @@ const Leaderboard = () => {
 					activeKey={activeTab}
 					onSelect={setActiveTab}>
 					<Tab
-						eventKey={TAB_SEASON_6}
-						title="Season 6 (Active)">
-						{activeTab === TAB_SEASON_6 &&
+						eventKey={TAB_SEASON_7}
+						title="Season 7 (Active)">
+						{activeTab === TAB_SEASON_7 &&
 							<Suspense fallback={<div />}>
-								<LeaderboardTabSeason6 onUserClick={setLifeListModalAddress} />
+								<LeaderboardTabSeason7 onUserClick={setLifeListModalAddress} />
 							</Suspense>
 						}
 					</Tab>
@@ -74,6 +76,15 @@ const Leaderboard = () => {
 						{activeTab === TAB_DAILY_STREAK_ACTIVE &&
 							<Suspense fallback={<div />}>
 								<LeaderboardTabDailyStreakActive onUserClick={setLifeListModalAddress} />
+							</Suspense>
+						}
+					</Tab>
+					<Tab
+						eventKey={TAB_SEASON_6}
+						title="Season 6">
+						{activeTab === TAB_SEASON_6 &&
+							<Suspense fallback={<div />}>
+								<LeaderboardTabSeason6 onUserClick={setLifeListModalAddress} />
 							</Suspense>
 						}
 					</Tab>

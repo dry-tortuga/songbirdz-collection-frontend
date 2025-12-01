@@ -15,7 +15,7 @@ const NUM_SPECIES_TOTAL = 800;
 
 const COLLECTION_BIRD_SIZE = 1000;
 
-const FIRST_ID_TO_IDENTIFY = 2434;
+const FIRST_ID_TO_IDENTIFY = 2443;
 
 const COLLECTIONS = [{
 	name: "Picasso Genesis",
