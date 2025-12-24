@@ -18,7 +18,6 @@ const LeaderboardTabSeason7 = (props) => {
 	const {
 		fComposeCast,
 		fOpenExternalURL,
-		fOpenLinkToChannel,
 		fOpenLinkToOwner,
 	} = useFarcasterContext();
 
@@ -68,7 +67,7 @@ const LeaderboardTabSeason7 = (props) => {
 					<Row>
 						<Col>
 							<p>
-								{"Runs from December 1st, 2025 to February 28th, 2026 (11 PM UTC). Points should update in real-time, but will be manually confirmed on a weekly basis. Last confirmed on December 1st, 2025 (8 PM UTC)."}
+								{"Runs from December 1st, 2025 to February 28th, 2026 (11 PM UTC). Points should update in real-time, but will be manually confirmed on a weekly basis. Last confirmed on December 24th, 2025 (8 PM UTC)."}
 							</p>
 							<p>
 								{"Accounts with the most Birder Points will receive:"}
@@ -186,11 +185,15 @@ const LeaderboardTabSeason7 = (props) => {
 							</p>
 							<ul style={{ listStyle: "disc" }}>
 								<li>
+									<b>{"50 points (X Pfp): "}</b>
+									{" Use one of your Songbirdz as your profile picture on X."}
+								</li>
+								<li>
 									<b>{"25 points (X Campaign):"}</b>
 									{" Share a bird that you own on X and tell us, in your own words, why you think the Songbirdz project is interesting!"}
 									<ul style={{ listStyle: "disc" }}>
 										<li>
-											{"You must follow "}
+											{"You must follow and tag "}
 											<a
 												href="https://x.com/dry_tortuga"
 												target="_blank"
@@ -230,7 +233,11 @@ const LeaderboardTabSeason7 = (props) => {
 									</ul>
 								</li>
 								<li>
-									<b>{"25 points (Base App):"}</b>
+									<b>{"50 points (Base App Pfp): "}</b>
+									{" Use one of your Songbirdz as your profile picture on the Base App."}
+								</li>
+								<li>
+									<b>{"25 points (Base App Campaign):"}</b>
 									{" Share a bird that you own on the Base App and tell us, in your own words, why you think the Songbirdz project is interesting!"}
 									<ul style={{ listStyle: "disc" }}>
 										<li>
@@ -256,7 +263,7 @@ const LeaderboardTabSeason7 = (props) => {
 													text: `Check out the Songbirdz project, bird watching is cool!\n\nYOUR OWN WORDS HERE\n\n@dry-tortuga @base`,
 													embeds: ['https://songbirdz.cc'],
 												})}>
-												{"Share on Farcaster :)"}
+												{"Share on Base App"}
 											</a>
 										</li>
 									</ul>
@@ -269,16 +276,6 @@ const LeaderboardTabSeason7 = (props) => {
 										rel="noopener noreferrer nofollow"
 										onClick={fOpenExternalURL}>
 										{"https://t.me/songbirdz_cc"}
-									</a>
-								</li>
-								<li>
-									<b>{"10 points (Join Farcaster Channel): "}</b>
-									<a
-										href="https://farcaster.xyz/~/channel/songbirdz"
-										target="_blank"
-										rel="noopener noreferrer nofollow"
-										onClick={fOpenLinkToChannel}>
-										{"https://farcaster.xyz/~/channel/songbirdz"}
 									</a>
 								</li>
 							</ul>
