@@ -52,9 +52,9 @@ const GridBirdCard = (props) => {
 
     const {
         bird,
-        // activeAudio,
+        activeAudio,
         onClick,
-        // onPlaySong,
+        onPlaySong,
         ...restProps
     } = props;
 
@@ -91,27 +91,27 @@ const GridBirdCard = (props) => {
                 }}>
                 {bird.name}
             </div>
-			{/*
-            <button
-                className="icon-btn"
-                title={`Listen to ${bird.name}'s song`}
-                style={{
-                    position: 'absolute',
-                    right: '0.5rem',
-                    bottom: 'calc(0.5rem + 20%)',
-                    padding: '0.25rem 0.5rem',
-                    backgroundColor: '#000000b0',
-                    borderRadius: 8,
-                }}
-                onClick={(event) => onPlaySong(event, bird)}>
-                <i
-                    className={`fa-solid fa-music ${activeAudio?.id === bird.id ? 'fa-beat' : ''}`}
-                    style={{
-                        color: "#ffffff",
-                        verticalAlign: 'text-bottom',
-                    }} />
-            </button>
-            */}
+            {bird.audioMetadata &&
+	            <button
+	                className="icon-btn"
+	                title={`Listen to ${bird.name}'s song`}
+	                style={{
+	                    position: 'absolute',
+	                    right: '0.5rem',
+	                    bottom: 'calc(0.5rem + 20%)',
+	                    padding: '0.25rem 0.5rem',
+	                    backgroundColor: '#000000b0',
+	                    borderRadius: 8,
+	                }}
+	                onClick={(event) => onPlaySong(event, bird)}>
+	                <i
+	                    className={`fa-solid fa-music ${activeAudio?.id === bird.id ? 'fa-beat' : ''}`}
+	                    style={{
+	                        color: "#ffffff",
+	                        verticalAlign: 'text-bottom',
+	                    }} />
+	            </button>
+            }
         </div>
     );
 
@@ -133,7 +133,7 @@ const BirdGallery = () => {
 	const hideAlreadyIdentifiedParam = queryParams.get("hide_already_identified") === "true";
 
     // Keep track of the active bird song to play
-    // const [activeAudio, setActiveAudio] = useState({ id: -1,  audioPlayer: null });
+    const [activeAudio, setActiveAudio] = useState({ id: -1,  audioPlayer: null });
 
 	// Get the list of "already identified" birds in the available collection
 	const {
@@ -153,7 +153,6 @@ const BirdGallery = () => {
 		alreadyIdentifiedList,
 	});
 
-	/*
 	const handlePlaySong = useCallback((event, bird) => {
 
         event.preventDefault();
@@ -192,7 +191,6 @@ const BirdGallery = () => {
         }
 
     }, [activeAudio]);
-    */
 
 	// Get the collection data
 	const collection = COLLECTIONS[filters.collectionId];
@@ -217,7 +215,7 @@ const BirdGallery = () => {
 								value={filters.collectionId < 0 ? "-1" : filters.collectionId.toString()}
                                 onChange={(event) => {
 
-                                    // handleStopSong();
+                                    handleStopSong();
                                     onChangeFilter("collectionId", parseInt(event.target.value, 10));
 
                                 }}>
@@ -238,7 +236,7 @@ const BirdGallery = () => {
 									checked={showOnlyUnidentifiedBirds}
                                     onChange={(event) => {
 
-                                        // handleStopSong();
+                                        handleStopSong();
                                         setShowOnlyUnidentifiedBirds(event.target.checked);
 
                                     }} />
@@ -270,11 +268,11 @@ const BirdGallery = () => {
     							itemContent={(index) => (
     							    <GridBirdCard
                                         bird={birds[index]}
-                                        // activeAudio={activeAudio}
-                                        // onPlaySong={handlePlaySong}
+                                        activeAudio={activeAudio}
+                                        onPlaySong={handlePlaySong}
                                         onClick={(bird) => {
 
-                                            // handleStopSong();
+                                            handleStopSong();
 
                                             setIsIdentifyingBird(true);
                                             setBirdToID(bird);
