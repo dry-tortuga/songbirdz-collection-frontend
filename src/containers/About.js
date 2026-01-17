@@ -19,7 +19,7 @@ const About = () => {
                 <Row>
                     <Col>
                         <p>
-                            {"The Songbirdz project is bringing bird watching to Base. Each bird (i.e. NFT digital collectible) is hidden until the species is successfully identified (i.e. minted) based on the bird's image."}
+                            {"The Songbirdz project is bringing bird watching to Base. Each bird (i.e. NFT digital collectible) is hidden until the species is successfully identified (i.e. minted) based on its image and song."}
                         </p>
                         <p>
                             {"This project was one of "}
@@ -43,6 +43,14 @@ const About = () => {
                                 rel="noopener noreferrer nofollow"
                                	onClick={fOpenExternalURL}>
                                 <b>{"DALL·E 3"}</b>
+                            </a>
+                            {" and audio recordings uploaded by our own community members and also sourced from "}
+                            <a
+                                href="https://xeno-canto.org/"
+                                target="_blank"
+                                rel="noopener noreferrer nofollow"
+                               	onClick={fOpenExternalURL}>
+                                <b>{"Xeno-canto"}</b>
                             </a>
                             {"."}
                         </p>

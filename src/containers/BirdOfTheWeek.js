@@ -23,43 +23,47 @@ const BirdOfTheWeek = () => {
 	const { data, loading, error } = useBirdOfTheWeek();
 
 	// Keep track of the active bird song to play
-	// const [activeAudio, setActiveAudio] = useState({ id: -1,  audioPlayer: null });
+	const [activeAudio, setActiveAudio] = useState({ id: -1,  audioPlayer: null });
 
-	/*
 	const handlePlaySong = useCallback((event, birdId) => {
 
-		event.preventDefault();
-		event.stopPropagation();
+		try {
 
-		if (activeAudio?.audioPlayer) {
+			event.preventDefault();
+			event.stopPropagation();
 
-			activeAudio.audioPlayer.pause();
+			if (activeAudio?.audioPlayer) {
 
-			if (birdId === activeAudio?.id) {
+				activeAudio.audioPlayer.pause();
 
-				setActiveAudio({ id: -1, audioPlayer: null });
-				return;
+				if (birdId === activeAudio?.id) {
+
+					setActiveAudio({ id: -1, audioPlayer: null });
+					return;
+
+				}
 
 			}
 
+			const audioPlayer = new Audio(`${process.env.REACT_APP_SONGBIRDZ_STATIC_URL}/audio/${birdId}.mp3`,);
+
+			audioPlayer.loop = true;
+			audioPlayer.play();
+
+			setActiveAudio({ id: birdId, audioPlayer });
+
+		} catch (error) {
+			console.error(error);
 		}
 
-		const audioPlayer = new Audio(`${process.env.REACT_APP_SONGBIRDZ_STATIC_URL}/audio/${birdId}.mp3`,);
-
-		audioPlayer.loop = true;
-		audioPlayer.play();
-
-		setActiveAudio({ id: birdId, audioPlayer });
-
 	}, [activeAudio]);
-	*/
 
 	if (loading) {
 		return (
 			<Container className="text-center py-5">
 				<h2>
 					<i className="fas fa-spinner fa-spin fa-2x mb-3"></i>
-					Loading Bird of the Week...
+					{"Loading Bird of the Week..."}
 				</h2>
 			</Container>
 		);
@@ -73,8 +77,6 @@ const BirdOfTheWeek = () => {
 			</Container>
 		);
 	}
-
-	console.log(data);
 
 	return (
 		<div className="bird-of-the-week-page">
@@ -161,7 +163,6 @@ const BirdOfTheWeek = () => {
 											}}>
 											{`Songbird #${birdId}`}
 										</div>
-										{/*
 										<button
 											className="icon-btn"
 											title="Listen to the bird's song"
@@ -181,7 +182,6 @@ const BirdOfTheWeek = () => {
 													verticalAlign: 'text-bottom',
 												}} />
 										</button>
-										*/}
 									</div>
 								</Col>
 							))}

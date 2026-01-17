@@ -134,8 +134,14 @@ const SEASON_7_BONUS_POINT_SPECIES = [{
 	id: 1042,
 	label: 'Joined Telegram',
 }, {
-	id: 1043,
-	label: 'Joined Farcaster Channel',
+	id: 1048,
+	label: 'Pfp on X',
+}, {
+	id: 1049,
+	label: 'Pfp on Base App',
+//}, {
+//	id: 1043,
+//	label: 'Joined Farcaster Channel',
 }, {
 	id: 1044,
 	label: 'Hit 7 Day Streak',

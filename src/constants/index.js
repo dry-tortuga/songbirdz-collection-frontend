@@ -6,6 +6,7 @@ import ANSWER_CHOICES_FLOCK_6 from './answer-choices/love-birds-6-options.json';
 import ANSWER_CHOICES_FLOCK_7 from './answer-choices/hatchlings-7-options.json';
 import ANSWER_CHOICES_FLOCK_8 from './answer-choices/masters-of-disguise-8-options.json';
 import ANSWER_CHOICES_FLOCK_9 from './answer-choices/final-migration-9-options.json';
+import AUDIO_METADATA from './audio-metadata.json';
 
 import FAMILIES from './families';
 
@@ -98,6 +99,7 @@ export {
 	ANSWER_CHOICES_FLOCK_7,
 	ANSWER_CHOICES_FLOCK_8,
 	ANSWER_CHOICES_FLOCK_9,
+	AUDIO_METADATA,
 	FAMILIES,
 	NUM_BIRDS_TOTAL,
 	NUM_SPECIES_TOTAL,
