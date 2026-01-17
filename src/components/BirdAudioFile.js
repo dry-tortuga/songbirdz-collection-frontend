@@ -15,7 +15,6 @@ const BirdAudioFile = (props) => {
 			{bird.audioMetadata ? (
 				<>
 					<audio
-						// src={`${process.env.PUBLIC_URL}/audio/${bird.id}.mp3`}
 						src={bird.audio}
 						style={{ width: '100%' }}
 						controlsList="nodownload"
