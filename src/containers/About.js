@@ -61,7 +61,7 @@ const About = () => {
                         	{"The long-term goal for this project is to be a community-driven ecosystem for bird enthusiasts, providing a platform for users to engage with and learn about birds (and web3) in a fun and interactive way."}
                         </p>
                         <p>
-                            {"The smart contract governing the NFTs, the back-end code for the web server, and the front-end code for the web application are all open-source (MIT License). The images (and species metadata) associated with each NFT in the collection is released under the Creative Commons Zero (CC0) license, granting users freedom to use, remix, and share the artworks without any restrictions. "}
+                            {"The smart contract governing the NFTs, the back-end code for the web server, and the front-end code for the web application are all open-source (MIT License). The images associated with each NFT in the collection is released under the Creative Commons Zero (CC0) license, granting users freedom to use, remix, and share the artworks without any restrictions. The audio associated with each NFT in the collection has its own license, so be sure to follow the restrictions for each in accordance with xeno-canto's upload policy."}
                         </p>
                         <p>
                             {"As avid appreciators of birds, we hope you find this project interesting, useful, and enjoyable. We invite you to join the community and contribute to the project. Thank you!"}

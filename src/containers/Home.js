@@ -22,7 +22,7 @@ const HomeContainer = () => {
 									{"Songbirdz"}
 								</h1>
 								<p className="lead fw-normal mb-md-5">
-									{"Bird Watching on Base"}
+									{"A Bird Watching Collectible Game"}
 								</p>
 								<div className="d-flex flex-column flex-lg-row gap-3 align-items-center justify-content-center">
 									<Link

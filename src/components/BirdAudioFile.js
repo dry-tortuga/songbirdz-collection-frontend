@@ -4,10 +4,10 @@ const BirdAudioFile = (props) => {
 
 	const { bird, ...restProps } = props;
 
-	let filename = `XC${bird.audioMetadata.id} · ${bird.audioMetadata.en} · ${bird.audioMetadata.gen} ${bird.audioMetadata.sp}`;
+	let filename = `XC${bird.audioMetadata?.id} · ${bird.audioMetadata?.en} · ${bird.audioMetadata?.gen} ${bird.audioMetadata?.sp}`;
 
 	if (!bird.owner) {
-		filename = `XC${bird.audioMetadata.id}`;
+		filename = `XC${bird.audioMetadata?.id}`;
 	}
 
 	return (
