@@ -13,14 +13,14 @@ let chains = [];
 let transports = {};
 
 if (process.env.REACT_APP_NODE_ENV === "development") {
-    chains.push(hardhat);
-    transports[hardhat.id] = http(rpcNetworkURL);
+	chains.push(hardhat);
+	transports[hardhat.id] = http(rpcNetworkURL);
 } else if (process.env.REACT_APP_NODE_ENV === "staging") {
-    chains.push(baseSepolia);
-    transports[baseSepolia.id] = http(rpcNetworkURL);
+	chains.push(baseSepolia);
+	transports[baseSepolia.id] = http(rpcNetworkURL);
 } else if (process.env.REACT_APP_NODE_ENV === "production") {
-    chains.push(base);
-    transports[base.id] = http(rpcNetworkURL);
+	chains.push(base);
+	transports[base.id] = http(rpcNetworkURL);
 }
 
 console.debug(process.env.REACT_APP_NODE_ENV);

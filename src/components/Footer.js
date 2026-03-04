@@ -1,11 +1,9 @@
 import React from "react";
-import { Link } from "react-router-dom";
 
 import { useFarcasterContext } from "../contexts/farcaster";
 
 import openseaLogo from "../images/opensea-logomark-blue.svg";
 import farcasterLogo from "../images/farcaster-logo-white.png";
-import magicedenLogo from "../images/magiceden-logo.png";
 
 import "./Footer.css";
 
@@ -33,7 +31,7 @@ const Footer = () => {
 									target="_blank"
 									rel="noopener noreferrer nofollow"
 									onClick={fOpenLinkToOwner}>
-									<b>{"drytortuga.base.eth"}</b>
+									<b>{"drytortuga"}</b>
 								</a>
 							}
 							{!fContext &&
@@ -41,16 +39,11 @@ const Footer = () => {
 									href="https://twitter.com/dry_tortuga"
 									target="_blank"
 									rel="noopener noreferrer nofollow">
-									{"drytortuga.base.eth"}
+									{"drytortuga"}
 								</a>
 							}
 						</div>
 						<div className="icons-row d-flex align-items-center justify-content-center">
-							<Link
-								className="btn btn-clear text-white me-md-2"
-								to="/bird-of-the-week">
-								<i className="fa fa-solid fa-feather" />
-							</Link>
 							<a
 								className="btn btn-clear text-white me-md-2"
 								href="https://twitter.com/songbirdz_cc"
@@ -90,20 +83,6 @@ const Footer = () => {
 								<img
 									alt=""
 									src={openseaLogo}
-									style={{
-										width: "1.5rem",
-										height: "auto",
-									}} />
-							</a>
-							<a
-								className="btn btn-clear"
-								href="https://magiceden.io/collections/base/0x7c3b795e2174c5e0c4f7d563a2fb34f024c8390b"
-								rel="noopener noreferrer nofollow"
-								target="_blank"
-								onClick={fOpenExternalURL}>
-								<img
-									alt=""
-									src={magicedenLogo}
 									style={{
 										width: "1.5rem",
 										height: "auto",

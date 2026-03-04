@@ -52,8 +52,6 @@ root.render(
 						paymaster: process.env.REACT_APP_COINBASE_PAYMASTER_AND_BUNDLER_ENDPOINT,
 						wallet: {
 							display: 'modal',
-							// termsUrl: 'https://...',
-							// privacyUrl: 'https://...',
 						},
 					}}
 					rpcUrl={RPC_NETWORK_URL}>

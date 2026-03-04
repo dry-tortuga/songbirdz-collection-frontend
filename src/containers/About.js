@@ -168,7 +168,7 @@ const About = () => {
                             </li>
                             <li>
                                 <span className="ms-1">
-                                    {"Once the 10k collection is fully minted, the royalties will be used to support the community, the project, and charities. They may be lowered to 0.5% or 0.25%."}
+                                    {"Once the 10k collection is fully minted, the royalties will be used to support the community, the project, and charities."}
                                 </span>
                             </li>
                         </ul>
@@ -190,14 +190,6 @@ const About = () => {
                                     rel="noopener noreferrer nofollow"
                                    	onClick={fOpenExternalURL}>
                                     <b>{"Telegram"}</b>
-                                </a>
-                            </li>
-                            <li>
-                                <a
-                                    href="https://x.com/BitHomepage/status/1844090067876548734"
-                                    target="_blank"
-                                    rel="noopener noreferrer nofollow">
-                                    <b>{"AMA #1 (10/09/2024)"}</b>
                                 </a>
                             </li>
                             <li>

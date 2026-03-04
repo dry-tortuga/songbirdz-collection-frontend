@@ -14,9 +14,13 @@ The pages for the application are:
 
 - `/about` -> An about page describing the project.
 
+- `/bird-of-the-week` -> A page featuring a new species in the project each week.
+
 - `/collection` -> A listing page for all birds in the NFT collection.
 
 - `/collection/:id` -> Details page for an individual bird in the NFT collection.
+
+- `/leaderboard` -> A leaderboard page.
 
 The application requires an active connection to a web3 wallet in order to view and interact with the NFT. It currently supports only MetaMask and Coinbase Wallet.
 

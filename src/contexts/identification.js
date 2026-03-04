@@ -8,7 +8,6 @@ import DailyStreakStatus from "../components/DailyStreakStatus";
 import useMintAPI from "../hooks/useMintAPI";
 
 import { useFarcasterContext } from "./farcaster";
-import { useGiftContext } from "./gift";
 import { useWalletContext } from "./wallet";
 
 const IdentificationContext = createContext({});
@@ -16,7 +15,6 @@ const IdentificationContext = createContext({});
 export const IdentificationProvider = ({ children }) => {
 
     const context = useWalletContext();
-    const { setBirdToGift } = useGiftContext();
 	const { fAddMiniApp } = useFarcasterContext();
 
     // True, if the modal is open
@@ -95,8 +93,7 @@ export const IdentificationProvider = ({ children }) => {
                     txMint?.error) && (
                     <BirdIdentificationTransactionStatus
                         tx={txMint}
-                        onClose={resetTxMint}
-                        onSendGift={(bird) => setBirdToGift(bird)} />
+                        onClose={resetTxMint} />
                 )}
                 {(currentUser?.dailyStreakTracker?.status ===
                     "created" ||

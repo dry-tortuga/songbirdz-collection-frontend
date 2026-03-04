@@ -18,7 +18,6 @@ const BirdIdentificationTransactionStatus = (props) => {
 	const {
 		tx,
 		onClose,
-		// onSendGift,
 	} = props;
 
 	const {
@@ -259,7 +258,6 @@ BirdIdentificationTransactionStatus.propTypes = {
 		}),
 	}),
 	onClose: PropTypes.func.isRequired,
-	onSendGift: PropTypes.func,
 };
 
 export default BirdIdentificationTransactionStatus;

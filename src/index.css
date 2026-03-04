@@ -43,8 +43,7 @@ code {
 .gallery-page,
 .leaderboard-page,
 .about-page,
-.bird-of-the-week-page,
-#game {
+.bird-of-the-week-page {
     padding-bottom: 60px;
 }
 
@@ -102,8 +101,7 @@ div[data-testid="ockModalOverlay"] > button {
     .gallery-page,
     .leaderboard-page,
     .about-page,
-    .bird-of-the-week-page,
-    #game {
+    .bird-of-the-week-page {
         padding-bottom: 85px;
     }
 

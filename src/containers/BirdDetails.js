@@ -16,7 +16,6 @@ import BirdTransferModal from "../components/BirdTransferModal";
 import { COLLECTIONS, NUM_BIRDS_TOTAL } from "../constants";
 
 import { useFarcasterContext } from "../contexts/farcaster";
-import { useGiftContext } from "../contexts/gift";
 import { useIdentificationContext } from "../contexts/identification";
 import { useWalletContext } from "../contexts/wallet";
 
@@ -42,8 +41,6 @@ const BirdDetails = () => {
 		fOpenExternalURL,
 		fPopulateUsers,
 	} = useFarcasterContext();
-
-	const { setBirdToGift } = useGiftContext();
 
 	const {
 		isIdentifyingBird,
@@ -161,16 +158,6 @@ const BirdDetails = () => {
 						</div>
 					</a>
 				}
-				{isOwner &&
-					<button
-						className="gift-button ms-3"
-						title={`Send ${rBird.name} as a gift`}
-						onClick={() => setBirdToGift(rBird)}>
-						<i
-							className="fa-solid fa-gift"
-							style={{ fontSize: "25px", verticalAlign: "middle" }} />
-					</button>
-				}
 				<a
 					className="btn btn-clear ms-3"
 					href={`https://opensea.io/assets/base/${context.contractAddress}/${rBird.id}`}
@@ -226,7 +213,6 @@ const BirdDetails = () => {
 		isOwner,
 		showTransferModal,
 		fComposeCast,
-		setBirdToGift,
 		setShowTransferModal,
 	]);
 

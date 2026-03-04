@@ -1,7 +1,6 @@
 import React, {
 	useCallback,
 	useContext,
-	useEffect,
 } from "react";
 import { Interface } from "ethers";
 import { useAccount, useSwitchChain } from "wagmi";
@@ -17,7 +16,6 @@ import useCurrentUser from "../hooks/useCurrentUser";
 
 const EXPECTED_CHAIN_ID = parseInt(process.env.REACT_APP_BASE_NETWORK_CHAIN_ID, 10);
 const SONGBIRDZ_CONTRACT_ADDRESS = process.env.REACT_APP_SONGBIRDZ_CONTRACT_ADDRESS;
-const ONCHAIN_GIFT_CONTRACT_ADDRESS = process.env.REACT_APP_ONCHAIN_GIFT_CONTRACT_ADDRESS;
 
 const MINT_PRICE = "0.0015"; // 0.0015 ETH
 
@@ -155,7 +153,6 @@ const WalletProvider = ({ children }) => {
 				isPaymasterSupported,
 				contractAddress: SONGBIRDZ_CONTRACT_ADDRESS,
 				contractInterface: new Interface(SongBirdzContract.abi),
-				onchainGiftContractAddress: ONCHAIN_GIFT_CONTRACT_ADDRESS,
 				actions: {
 					connectToBase,
 					ownerOf,

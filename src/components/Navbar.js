@@ -65,10 +65,10 @@ const NavbarSB = () => {
 							{"Leaderboard"}
 						</Link>
 						<Link
-							className={`nav-item nav-link ${pathname === "/memory-match" ? "active" : ""} `}
-							to="/memory-match"
+							className={`nav-item nav-link ${pathname === "/bird-of-the-week" ? "active" : ""} `}
+							to="/bird-of-the-week"
 							onClick={() => setExpanded(false)}>
-							{"Memory Match Game"}
+							{"Bird of the Week"}
 						</Link>
 						<Link
 							className={`nav-item nav-link ${pathname === "/about" ? "active" : ""} `}
