@@ -252,6 +252,15 @@ const About = () => {
                             </li>
                             <li>
                                 <a
+                                    href="https://opensea.io/collection/sounds-of-summer"
+                                    target="_blank"
+                                    rel="noopener noreferrer nofollow"
+                                   	onClick={fOpenExternalURL}>
+                                    <b>{"Sounds of Summer"}</b>
+                                </a>
+                            </li>
+                            <li>
+                                <a
                                     href="https://www.redbubble.com/people/drytortuga/shop"
                                     target="_blank"
                                     rel="noopener noreferrer nofollow"

@@ -525,23 +525,6 @@ const LifeListModal = (props) => {
 								: "Birder Points"
 							}
 						</Badge>
-						{(
-							filter === "1" ||
-							filter === "2" ||
-							filter === "3" ||
-							filter === "4" ||
-							filter === "5" ||
-							filter === "6" ||
-							filter === "7" ||
-							filter === "8"
-						) && address?.rank &&
-							<Badge
-								className="ms-sm-3"
-								bg="success">
-								{"#"}
-								{address.rank}
-							</Badge>
-						}
 					</div>
 				</Modal.Title>
 			</Modal.Header>
