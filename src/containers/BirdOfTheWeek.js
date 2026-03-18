@@ -2,6 +2,8 @@ import React, { useCallback, useState } from 'react';
 import { Button, Container, Row, Col, Card } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 
+import { AUDIO_METADATA } from "../constants";
+
 import { useFarcasterContext } from "../contexts/farcaster";
 
 import useBirdOfTheWeek from '../hooks/useBirdOfTheWeek';
@@ -163,25 +165,27 @@ const BirdOfTheWeek = () => {
 											}}>
 											{`Songbird #${birdId}`}
 										</div>
-										<button
-											className="icon-btn"
-											title="Listen to the bird's song"
-											style={{
-												position: 'absolute',
-												right: '0.5rem',
-												bottom: 'calc(0.5rem + 20%)',
-												padding: '0.25rem 0.5rem',
-												backgroundColor: '#000000b0',
-												borderRadius: 8,
-											}}
-											onClick={(event) => handlePlaySong(event, birdId)}>
-											<i
-												className={`fa-solid fa-music ${activeAudio?.id === birdId ? 'fa-beat' : ''}`}
+										{AUDIO_METADATA[birdId] &&
+											<button
+												className="icon-btn"
+												title="Listen to the bird's song"
 												style={{
-													color: "#ffffff",
-													verticalAlign: 'text-bottom',
-												}} />
-										</button>
+													position: 'absolute',
+													right: '0.5rem',
+													bottom: 'calc(0.5rem + 20%)',
+													padding: '0.25rem 0.5rem',
+													backgroundColor: '#000000b0',
+													borderRadius: 8,
+												}}
+												onClick={(event) => handlePlaySong(event, birdId)}>
+												<i
+													className={`fa-solid fa-music ${activeAudio?.id === birdId ? 'fa-beat' : ''}`}
+													style={{
+														color: "#ffffff",
+														verticalAlign: 'text-bottom',
+													}} />
+											</button>
+										}
 									</div>
 								</Col>
 							))}
