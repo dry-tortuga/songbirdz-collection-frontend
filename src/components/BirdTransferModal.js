@@ -1,7 +1,7 @@
 import React, { useCallback, useState } from "react";
 import { Form, Modal } from "react-bootstrap";
 
-import { TransactionForm } from "./TransactionForm.tsx";
+import { TransactionForm } from "./TransactionForm";
 
 const BirdTransferModal = (props) => {
 

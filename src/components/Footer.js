@@ -20,7 +20,7 @@ const Footer = () => {
 		<footer className="footer py-2">
 			<div className="container">
 				<div className="row align-items-center">
-					<div className="col-md-12 flex align-items-center flex-wrap">
+					<div className="col-md-12 d-flex align-items-center flex-wrap">
 						<div className="built-by-text text-center text-md-start me-md-auto">
 							{"Built with "}
 							&#9829;

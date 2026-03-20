@@ -282,7 +282,7 @@ const BirdDetails = () => {
 									{renderLeftArrowBtn(bird, "me-auto")}
 									{bird.owner &&
 										<div
-											className="flex align-items-center ms-auto me-auto"
+											className="d-flex align-items-center ms-auto me-auto"
 											key={bird.id}>
 											{renderSocialButtons(bird)}
 										</div>
@@ -330,7 +330,7 @@ const BirdDetails = () => {
                                                     	<>
 							                                {birdOwner ? (
 																<AccountOwner
-																	className="w-50 justify-center"
+																	className="w-50 justify-content-center"
 																	user={birdOwner}
 																	showLinkToProfile />
 															) : (

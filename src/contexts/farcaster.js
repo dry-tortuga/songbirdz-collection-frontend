@@ -171,7 +171,7 @@ export function FarcasterProvider({ children }) {
 		load();
 
 	}, []);
-
+// Detect environment where necessary using the Farcaster SDK’s isInMiniApp utility
 	const isFarcasterApp = context?.client?.clientFid === 1 || context?.client?.clientFid === 9152;
 	const isBaseApp = false;
 

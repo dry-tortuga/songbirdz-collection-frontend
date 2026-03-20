@@ -2,10 +2,11 @@ import React, { useCallback, useEffect, useMemo, useState } from "react";
 import PropTypes from "prop-types";
 import { Button, Form, Modal } from "react-bootstrap";
 import { Link } from "react-router-dom";
+import { ConnectButton } from "@rainbow-me/rainbowkit";
 
 import AccountOwner from "./AccountOwner";
 import BirdAudioFile from "./BirdAudioFile";
-import { TransactionForm } from "./TransactionForm.tsx";
+import { TransactionForm } from "./TransactionForm";
 
 import {
 	ANSWER_CHOICES_FLOCK_2,
@@ -174,7 +175,7 @@ const BirdIdentificationModal = (props) => {
             </Modal.Header>
             <Modal.Body>
                 <Form>
-                    <Form.Group className="mb-3">
+                    <Form.Group className="mb-3 d-flex justify-content-center">
                         <img
                             style={{
                                 width: "50%",
@@ -276,9 +277,7 @@ const BirdIdentificationModal = (props) => {
 								</Form.Text>
 							</Form.Group>
 							{!account &&
-								<span className="fw-bold">
-									{"Please sign in..."}
-								</span>
+								<ConnectButton />
 							}
 							{account && !isOnCorrectChain &&
 								<Button
@@ -287,7 +286,7 @@ const BirdIdentificationModal = (props) => {
 									{'Switch to Base'}
 								</Button>
 							}
-							{account && isOnCorrectChain && (
+							{account && isOnCorrectChain && pendingCalls && (
 								<TransactionForm
 									key={formData.species}
 									calls={pendingCalls}
