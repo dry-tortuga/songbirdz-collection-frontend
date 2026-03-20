@@ -173,9 +173,7 @@ export function FarcasterProvider({ children }) {
 	}, []);
 
 	const isFarcasterApp = context?.client?.clientFid === 1 || context?.client?.clientFid === 9152;
-
-	// TODO: Debug why this isn't working across all mini-app opens in the base app
-	const isBaseApp = context?.client?.clientFid === 309857;
+	const isBaseApp = false;
 
 	return (
 		<FarcasterContext.Provider value={{

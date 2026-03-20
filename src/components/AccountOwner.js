@@ -1,21 +1,9 @@
 import React from "react";
-import { Avatar, Name } from "@coinbase/onchainkit/identity";
 import PropTypes from "prop-types";
-import { base, baseSepolia, hardhat } from "viem/chains";
+import { base } from "viem/chains";
+import { useEnsName, useEnsAvatar } from "wagmi";
 
 import { useFarcasterContext } from "../contexts/farcaster";
-
-let chain = base;
-
-if (process.env.REACT_APP_NODE_ENV === "development") {
-
-	chain = hardhat;
-
-} else if (process.env.REACT_APP_NODE_ENV === "staging") {
-
-	chain = baseSepolia;
-
-}
 
 const AccountOwner = (props) => {
 
@@ -27,6 +15,18 @@ const AccountOwner = (props) => {
 	} = props;
 
 	const { fOpenLinkToUser } = useFarcasterContext();
+
+	const { data: name } = useEnsName({
+		address: user.address,
+		chainId: base.id,
+		universalResolverAddress: "0xC6d566A56A1aFf6508b41f6c90ff131615583c7",
+	});
+
+	const { data: avatar } = useEnsAvatar({
+		name,
+		chainId: base.id,
+		universalResolverAddress: "0xC6d566A56A1aFf6508b41f6c90ff131615583c7",
+	});
 
 	if (user.farcaster) {
 
@@ -63,13 +63,21 @@ const AccountOwner = (props) => {
 
 	return (
 		<div className={`flex h-10 items-center space-x-4 ${className || ""}`}>
-			<Avatar
-				address={user.address}
-				chain={chain} />
+			{avatar && (
+				<img
+					src={avatar.startsWith("ipfs://")
+						? avatar.replace("ipfs://", "https://ipfs.io/ipfs/")
+						: avatar}
+					alt={name ?? user.address}
+					style={{
+						width: 32,
+						height: 32,
+						borderRadius: "50%",
+						objectFit: "cover",
+					}} />
+			)}
 			<div className={`ms-1 flex flex-col ${size === "sm" ? "text-sm" : ""}`}>
-				<Name
-					address={user.address}
-					chain={chain} />
+				{name || user.address}
 			</div>
 		</div>
 	);

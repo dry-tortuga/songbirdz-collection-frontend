@@ -1,30 +1,11 @@
 import React, { useEffect, useState } from "react";
-// import { getOnrampBuyUrl } from "@coinbase/onchainkit/fund";
-import {
-	ConnectWallet,
-	Wallet,
-	WalletDropdown,
-	WalletDropdownBasename,
-	WalletDropdownDisconnect,
-	// WalletDropdownFundLink,
-} from "@coinbase/onchainkit/wallet";
-import {
-	Address,
-	Avatar,
-	Name,
-	Identity,
-	EthBalance,
-} from "@coinbase/onchainkit/identity";
-import { color } from "@coinbase/onchainkit/theme";
 
-import { useWalletContext } from "../contexts/wallet";
+import { useWalletContext } from "../../contexts/wallet";
 
-import binosOff from "../images/binos-off.svg";
-import binosOn from "../images/binos-on.svg";
+import binosOff from "../../images/binos-off.svg";
+import binosOn from "../../images/binos-on.svg";
 
-import "./ConnectWalletButton.css";
-
-// const CB_DEV_PLATFORM_PROJECT_ID = process.env.REACT_APP_COINBASE_DEV_PLATFORM_PROJECT_ID;
+import { WalletConnect } from "./WalletConnect.tsx";
 
 const ConnectWalletButton = ({ className, showDailyStreak = false }) => {
 
@@ -105,25 +86,7 @@ const ConnectWalletButton = ({ className, showDailyStreak = false }) => {
 					</span>
 				</div>
 			}
-			<Wallet>
-				<ConnectWallet text="Sign-in">
-					<Avatar />
-					<Name />
-				</ConnectWallet>
-				<WalletDropdown>
-					<Identity
-						className="px-4 pt-3 pb-2"
-						hasCopyAddressOnClick>
-						<Avatar />
-						<Name />
-						<Address className={color.foregroundMuted} />
-						<EthBalance />
-					</Identity>
-					{/* <WalletDropdownFundLink fundingUrl={onrampBuyUrl} /> */}
-					<WalletDropdownBasename />
-					<WalletDropdownDisconnect />
-				</WalletDropdown>
-			</Wallet>
+			<WalletConnect appName="Songbirdz" />
 		</div>
 	);
 
