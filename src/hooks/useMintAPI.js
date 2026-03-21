@@ -28,7 +28,12 @@ const useMintAPI = () => {
 		console.debug(receipt);
 		console.debug("-------------------------------------------");
 
-        const transactionHash = receipt.transactionHash;
+		const transactionHash = receipt?.transactionHash;
+
+		if (!transactionHash) {
+			console.error("Missing transactionHash in receipt");
+			return;
+		}
 
         const eventLogs =
             receipt?.logs?.filter(

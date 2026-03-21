@@ -1,10 +1,11 @@
 import { farcasterFrame } from "@farcaster/frame-wagmi-connector";
 import { connectorsForWallets } from "@rainbow-me/rainbowkit";
 import {
-  baseAccount,
-  metaMaskWallet,
-  injectedWallet,
-  rainbowWallet,
+	baseAccount,
+	metaMaskWallet,
+	injectedWallet,
+	rainbowWallet,
+	walletConnectWallet,
 } from "@rainbow-me/rainbowkit/wallets";
 import { Attribution } from "ox/erc8021";
 import { createConfig, http } from "wagmi";
@@ -46,13 +47,13 @@ const connectors = connectorsForWallets(
 	[
 		{
 			groupName: "Recommended",
-			wallets: [baseAccount, metaMaskWallet, rainbowWallet, injectedWallet],
+			wallets: [baseAccount, metaMaskWallet, rainbowWallet, walletConnectWallet, injectedWallet],
 		},
 	],
 	{
 		appName: "Songbirdz",
 		appLogoUrl: "https://songbirdz.cc/android-chrome-192x192.png",
-		projectId: process.env.REACT_APP_WALLETCONNECT_PROJECT_ID, // required for WalletConnect
+		projectId: process.env.REACT_APP_WALLETCONNECT_PROJECT_ID,
 	}
 );
 

@@ -152,15 +152,22 @@ export function FarcasterProvider({ children }) {
 
 			try {
 
-				const fContext = await sdk.context;
+				// Check if running in a Mini App
+				const isMiniApp = await sdk.isInMiniApp();
 
-				setContext(fContext);
+				if (isMiniApp) {
 
-				// Hide the splash screen (and disable native gestures for scrolling back up)
-				await sdk.actions.ready({ disableNativeGestures: true });
+					const fContext = await sdk.context;
 
-				// Integrate with a back navigation control provided by the Farcaster client
-				await sdk.back.enableWebNavigation();
+					setContext(fContext);
+
+					// Hide the splash screen (and disable native gestures for scrolling back up)
+					await sdk.actions.ready({ disableNativeGestures: true });
+
+					// Integrate with a back navigation control provided by the Farcaster client
+					await sdk.back.enableWebNavigation();
+
+				}
 
 			} catch (error) {
 				console.error(error);
@@ -171,15 +178,10 @@ export function FarcasterProvider({ children }) {
 		load();
 
 	}, []);
-// Detect environment where necessary using the Farcaster SDK’s isInMiniApp utility
-	const isFarcasterApp = context?.client?.clientFid === 1 || context?.client?.clientFid === 9152;
-	const isBaseApp = false;
 
 	return (
 		<FarcasterContext.Provider value={{
-			isBaseApp,
-			isFarcasterApp,
-			isMiniApp: Boolean(context),
+			isFarcasterApp: Boolean(context),
 			fContext: context,
 			fAddMiniApp: addMiniApp,
 			fComposeCast: composeCast,

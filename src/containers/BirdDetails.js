@@ -21,7 +21,6 @@ import { useWalletContext } from "../contexts/wallet";
 
 import useBird from "../hooks/useBird";
 
-import baseLogo from "../images/base-logo-blue.svg";
 import etherscanLogo from "../images/etherscan-logo-circle.svg";
 import openseaLogo from "../images/opensea-logomark-blue.svg";
 import farcasterLogo from "../images/farcaster-logo.png";
@@ -35,7 +34,6 @@ const BirdDetails = () => {
 	const context = useWalletContext();
 
 	const {
-		isBaseApp,
 		isFarcasterApp,
 		fComposeCast,
 		fOpenExternalURL,
@@ -126,7 +124,7 @@ const BirdDetails = () => {
 					data-hashtags="birds,birdwatching,nfts">
 					{"X"}
 				</a>
-				{(isBaseApp || isFarcasterApp) &&
+				{isFarcasterApp &&
 					<a
 						className="farcaster-share-button ms-4"
 						href={`https://farcaster.xyz/~/compose?text=${encodeURIComponent(`Check out this ${rBird.species} in the Songbirdz collection!\n\nhttps://songbirdz.cc/collection/${rBird.id}\n\n`)}&channelKey=songbirdz&embeds[]=${encodeURIComponent(rBird.imageLg)}&embeds[]=${encodeURIComponent(`https://songbirdz.cc/collection/${rBird.id}`)})}`}
@@ -141,20 +139,11 @@ const BirdDetails = () => {
 							channelKey: 'songbirdz',
 						})}>
 						<div className="d-flex align-items-center justify-content-center">
-							{isBaseApp &&
-								<img
-									className="me-2"
-									src={baseLogo}
-									alt=""
-									style={{ width: "30px", height: "30px" }} />
-							}
-							{isFarcasterApp &&
-								<img
-									className="farcaster-logo me-2"
-									src={farcasterLogo}
-									alt=""
-									style={{ width: "30px", height: "30px" }} />
-							}
+							<img
+								className="farcaster-logo me-2"
+								src={farcasterLogo}
+								alt=""
+								style={{ width: "30px", height: "30px" }} />
 						</div>
 					</a>
 				}
@@ -207,7 +196,6 @@ const BirdDetails = () => {
 
 	}, [
 		context,
-		isBaseApp,
 		isFarcasterApp,
 		isAdmin,
 		isOwner,
