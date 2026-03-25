@@ -27,9 +27,12 @@ if (process.env.REACT_APP_NODE_ENV === "development") {
 	transports[base.id] = http(rpcNetworkURL);
 }
 
-console.debug(process.env.REACT_APP_NODE_ENV);
+console.debug("------------------ WAGMI CONFIG --------------------");
+console.debug("Builder code: ", process.env.REACT_APP_BASE_DEV_BUILDER_CODE);
+console.debug("NODE_ENV: ", process.env.REACT_APP_NODE_ENV);
 console.debug(chains);
 console.debug(transports);
+console.debug("----------------------------------------------------");
 
 // Optional: configure paymaster for sponsorship
 baseAccount.paymasterUrls = {

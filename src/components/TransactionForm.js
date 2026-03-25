@@ -1,6 +1,7 @@
 "use client";
 import { useCallback, useEffect, useState } from "react";
 import { Button, Spinner } from "react-bootstrap";
+import { Attribution } from "ox/erc8021";
 import {
 	useAccount,
 	useWriteContract,
@@ -12,6 +13,10 @@ import {
 	useCallsStatus,
 	useCapabilities,
 } from "wagmi/experimental";
+
+const DATA_SUFFIX = Attribution.toDataSuffix({
+	codes: [process.env.REACT_APP_BASE_DEV_BUILDER_CODE],
+});
 
 export function TransactionForm({
 	calls,
@@ -156,6 +161,10 @@ export function TransactionForm({
 						paymasterService: {
 							url: process.env.REACT_APP_COINBASE_PAYMASTER_AND_BUNDLER_ENDPOINT,
 						},
+						dataSuffix: {
+							value: DATA_SUFFIX,
+							optional: true,
+						},
 					},
 				}, { onError: handleError });
 			} else {
@@ -168,6 +177,7 @@ export function TransactionForm({
 					args: call.args ?? [],
 					value: call.value,
 					chainId,
+					dataSuffix: DATA_SUFFIX,
 				}, { onError: handleError });
 			}
 		} catch (error) {
