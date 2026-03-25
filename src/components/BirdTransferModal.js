@@ -1,13 +1,7 @@
 import React, { useCallback, useState } from "react";
-import {
-	Transaction,
-	TransactionButton,
-	TransactionSponsor,
-	TransactionStatus,
-	TransactionStatusAction,
-	TransactionStatusLabel,
-} from "@coinbase/onchainkit/transaction";
 import { Form, Modal } from "react-bootstrap";
+
+import { TransactionForm } from "./TransactionForm";
 
 const BirdTransferModal = (props) => {
 
@@ -24,20 +18,24 @@ const BirdTransferModal = (props) => {
 		return null;
 	}
 
-    const handleOnStatus = useCallback((status) => {
+	const handleOnStatus = useCallback((status) => {
 
-        if (status.statusName === "success") {
+		if (status.statusName === "success") {
 
-            // Close the modal
-            onToggle();
+			// Close the modal
+			onToggle();
 
-        } else if (status.statusName === "error") {
+		} else if (status.statusName === "error") {
 
-            console.error(status);
+			console.error(status);
 
-        }
+		}
 
-    }, []);
+	}, []);
+
+	const calls = recipient
+		? [context.actions.safeTransferFrom(context.account, recipient, bird.id)]
+		: [];
 
 	return (
 		<Modal
@@ -64,25 +62,13 @@ const BirdTransferModal = (props) => {
 							onChange={(event) => setRecipient(event.target.value)} />
 					</Form.Group>
 				</Form>
-				<Transaction
+				<TransactionForm
 					key={recipient} // Re-mount when recipient changes
-					address={context.account}
-					calls={[context.actions.safeTransferFrom(
-						context.account,
-						recipient,
-						bird.id,
-					)]}
-					isSponsored
-					onStatus={handleOnStatus}>
-					<TransactionButton
-						className="btn btn-info mt-4"
-						text="Send" />
-					<TransactionSponsor text="SongBirdz" />
-					<TransactionStatus>
-						<TransactionStatusLabel />
-						<TransactionStatusAction />
-					</TransactionStatus>
-				</Transaction>
+					calls={calls}
+					chainId={context.expectedChainId}
+					buttonText="Send"
+					disabled={!recipient}
+					onStatus={handleOnStatus} />
 			</Modal.Body>
 		</Modal>
 

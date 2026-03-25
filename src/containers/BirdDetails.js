@@ -16,13 +16,11 @@ import BirdTransferModal from "../components/BirdTransferModal";
 import { COLLECTIONS, NUM_BIRDS_TOTAL } from "../constants";
 
 import { useFarcasterContext } from "../contexts/farcaster";
-import { useGiftContext } from "../contexts/gift";
 import { useIdentificationContext } from "../contexts/identification";
 import { useWalletContext } from "../contexts/wallet";
 
 import useBird from "../hooks/useBird";
 
-import baseLogo from "../images/base-logo-blue.svg";
 import etherscanLogo from "../images/etherscan-logo-circle.svg";
 import openseaLogo from "../images/opensea-logomark-blue.svg";
 import farcasterLogo from "../images/farcaster-logo.png";
@@ -36,14 +34,11 @@ const BirdDetails = () => {
 	const context = useWalletContext();
 
 	const {
-		isBaseApp,
 		isFarcasterApp,
 		fComposeCast,
 		fOpenExternalURL,
 		fPopulateUsers,
 	} = useFarcasterContext();
-
-	const { setBirdToGift } = useGiftContext();
 
 	const {
 		isIdentifyingBird,
@@ -129,7 +124,7 @@ const BirdDetails = () => {
 					data-hashtags="birds,birdwatching,nfts">
 					{"X"}
 				</a>
-				{(isBaseApp || isFarcasterApp) &&
+				{isFarcasterApp &&
 					<a
 						className="farcaster-share-button ms-4"
 						href={`https://farcaster.xyz/~/compose?text=${encodeURIComponent(`Check out this ${rBird.species} in the Songbirdz collection!\n\nhttps://songbirdz.cc/collection/${rBird.id}\n\n`)}&channelKey=songbirdz&embeds[]=${encodeURIComponent(rBird.imageLg)}&embeds[]=${encodeURIComponent(`https://songbirdz.cc/collection/${rBird.id}`)})}`}
@@ -144,32 +139,13 @@ const BirdDetails = () => {
 							channelKey: 'songbirdz',
 						})}>
 						<div className="d-flex align-items-center justify-content-center">
-							{isBaseApp &&
-								<img
-									className="me-2"
-									src={baseLogo}
-									alt=""
-									style={{ width: "30px", height: "30px" }} />
-							}
-							{isFarcasterApp &&
-								<img
-									className="farcaster-logo me-2"
-									src={farcasterLogo}
-									alt=""
-									style={{ width: "30px", height: "30px" }} />
-							}
+							<img
+								className="farcaster-logo me-2"
+								src={farcasterLogo}
+								alt=""
+								style={{ width: "30px", height: "30px" }} />
 						</div>
 					</a>
-				}
-				{isOwner &&
-					<button
-						className="gift-button ms-3"
-						title={`Send ${rBird.name} as a gift`}
-						onClick={() => setBirdToGift(rBird)}>
-						<i
-							className="fa-solid fa-gift"
-							style={{ fontSize: "25px", verticalAlign: "middle" }} />
-					</button>
 				}
 				<a
 					className="btn btn-clear ms-3"
@@ -220,13 +196,11 @@ const BirdDetails = () => {
 
 	}, [
 		context,
-		isBaseApp,
 		isFarcasterApp,
 		isAdmin,
 		isOwner,
 		showTransferModal,
 		fComposeCast,
-		setBirdToGift,
 		setShowTransferModal,
 	]);
 
@@ -296,7 +270,7 @@ const BirdDetails = () => {
 									{renderLeftArrowBtn(bird, "me-auto")}
 									{bird.owner &&
 										<div
-											className="flex align-items-center ms-auto me-auto"
+											className="d-flex align-items-center ms-auto me-auto"
 											key={bird.id}>
 											{renderSocialButtons(bird)}
 										</div>
@@ -344,7 +318,7 @@ const BirdDetails = () => {
                                                     	<>
 							                                {birdOwner ? (
 																<AccountOwner
-																	className="w-50 justify-center"
+																	className="w-50 justify-content-center"
 																	user={birdOwner}
 																	showLinkToProfile />
 															) : (

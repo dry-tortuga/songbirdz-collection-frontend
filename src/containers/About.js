@@ -61,7 +61,7 @@ const About = () => {
                         	{"The long-term goal for this project is to be a community-driven ecosystem for bird enthusiasts, providing a platform for users to engage with and learn about birds (and web3) in a fun and interactive way."}
                         </p>
                         <p>
-                            {"The smart contract governing the NFTs, the back-end code for the web server, and the front-end code for the web application are all open-source (MIT License). The images (and species metadata) associated with each NFT in the collection is released under the Creative Commons Zero (CC0) license, granting users freedom to use, remix, and share the artworks without any restrictions. "}
+                            {"The smart contract governing the NFTs, the back-end code for the web server, and the front-end code for the web application are all open-source (MIT License). The images associated with each NFT in the collection is released under the Creative Commons Zero (CC0) license, granting users freedom to use, remix, and share the artworks without any restrictions. The audio associated with each NFT in the collection has its own license, so be sure to follow the restrictions for each in accordance with xeno-canto's upload policy."}
                         </p>
                         <p>
                             {"As avid appreciators of birds, we hope you find this project interesting, useful, and enjoyable. We invite you to join the community and contribute to the project. Thank you!"}
@@ -168,7 +168,7 @@ const About = () => {
                             </li>
                             <li>
                                 <span className="ms-1">
-                                    {"Once the 10k collection is fully minted, the royalties will be used to support the community, the project, and charities. They may be lowered to 0.5% or 0.25%."}
+                                    {"Once the 10k collection is fully minted, the royalties will be used to support the community, the project, and charities."}
                                 </span>
                             </li>
                         </ul>
@@ -190,14 +190,6 @@ const About = () => {
                                     rel="noopener noreferrer nofollow"
                                    	onClick={fOpenExternalURL}>
                                     <b>{"Telegram"}</b>
-                                </a>
-                            </li>
-                            <li>
-                                <a
-                                    href="https://x.com/BitHomepage/status/1844090067876548734"
-                                    target="_blank"
-                                    rel="noopener noreferrer nofollow">
-                                    <b>{"AMA #1 (10/09/2024)"}</b>
                                 </a>
                             </li>
                             <li>
@@ -256,6 +248,15 @@ const About = () => {
                                     rel="noopener noreferrer nofollow"
                                    	onClick={fOpenExternalURL}>
                                     <b>{"Hall of Fame"}</b>
+                                </a>
+                            </li>
+                            <li>
+                                <a
+                                    href="https://opensea.io/collection/sounds-of-summer"
+                                    target="_blank"
+                                    rel="noopener noreferrer nofollow"
+                                   	onClick={fOpenExternalURL}>
+                                    <b>{"Sounds of Summer"}</b>
                                 </a>
                             </li>
                             <li>

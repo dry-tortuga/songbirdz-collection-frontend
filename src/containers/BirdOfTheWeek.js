@@ -2,11 +2,12 @@ import React, { useCallback, useState } from 'react';
 import { Button, Container, Row, Col, Card } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 
+import { AUDIO_METADATA } from "../constants";
+
 import { useFarcasterContext } from "../contexts/farcaster";
 
 import useBirdOfTheWeek from '../hooks/useBirdOfTheWeek';
 
-import baseLogo from "../images/base-logo-blue.svg";
 import farcasterLogo from "../images/farcaster-logo.png";
 
 const BirdOfTheWeek = () => {
@@ -14,7 +15,6 @@ const BirdOfTheWeek = () => {
 	const navigate = useNavigate();
 
 	const {
-		isBaseApp,
 		isFarcasterApp,
 		fComposeCast,
 		fOpenExternalURL,
@@ -163,25 +163,27 @@ const BirdOfTheWeek = () => {
 											}}>
 											{`Songbird #${birdId}`}
 										</div>
-										<button
-											className="icon-btn"
-											title="Listen to the bird's song"
-											style={{
-												position: 'absolute',
-												right: '0.5rem',
-												bottom: 'calc(0.5rem + 20%)',
-												padding: '0.25rem 0.5rem',
-												backgroundColor: '#000000b0',
-												borderRadius: 8,
-											}}
-											onClick={(event) => handlePlaySong(event, birdId)}>
-											<i
-												className={`fa-solid fa-music ${activeAudio?.id === birdId ? 'fa-beat' : ''}`}
+										{AUDIO_METADATA[birdId] &&
+											<button
+												className="icon-btn"
+												title="Listen to the bird's song"
 												style={{
-													color: "#ffffff",
-													verticalAlign: 'text-bottom',
-												}} />
-										</button>
+													position: 'absolute',
+													right: '0.5rem',
+													bottom: 'calc(0.5rem + 20%)',
+													padding: '0.25rem 0.5rem',
+													backgroundColor: '#000000b0',
+													borderRadius: 8,
+												}}
+												onClick={(event) => handlePlaySong(event, birdId)}>
+												<i
+													className={`fa-solid fa-music ${activeAudio?.id === birdId ? 'fa-beat' : ''}`}
+													style={{
+														color: "#ffffff",
+														verticalAlign: 'text-bottom',
+													}} />
+											</button>
+										}
 									</div>
 								</Col>
 							))}
@@ -201,7 +203,7 @@ const BirdOfTheWeek = () => {
 								{data.facts?.map((fact, index) => (
 									<p key={index} className="mb-2">• {fact}</p>
 								))}
-								{(isBaseApp || isFarcasterApp) && (
+								{isFarcasterApp &&
 									<Button
 										className="w-100 mt-3 py-2"
 										as="a"
@@ -218,33 +220,17 @@ const BirdOfTheWeek = () => {
 											channelKey: 'songbirdz',
 										})}>
 										<div className="d-flex align-items-center justify-content-center">
-											{isBaseApp &&
-												<>
-													<img
-														className="me-2"
-														src={baseLogo}
-														alt=""
-														style={{ width: "20px", height: "20px" }} />
-													<span>
-														{'Share on Base App'}
-													</span>
-												</>
-											}
-											{isFarcasterApp &&
-												<>
-													<img
-														className="farcaster-logo me-2"
-														src={farcasterLogo}
-														alt=""
-														style={{ width: "20px", height: "20px" }} />
-													<span>
-														{"Share on Farcaster"}
-													</span>
-												</>
-											}
+											<img
+												className="farcaster-logo me-2"
+												src={farcasterLogo}
+												alt=""
+												style={{ width: "20px", height: "20px" }} />
+											<span>
+												{"Share on Farcaster"}
+											</span>
 										</div>
 									</Button>
-								)}
+								}
 							</Card.Body>
 						</Card>
 					</Col>

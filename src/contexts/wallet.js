@@ -1,13 +1,12 @@
 import React, {
 	useCallback,
 	useContext,
-	useEffect,
 } from "react";
 import { Interface } from "ethers";
 import { useAccount, useSwitchChain } from "wagmi";
 import { useCapabilities } from "wagmi/experimental";
 import { readContract } from "@wagmi/core";
-import { encodeFunctionData, parseEther } from "viem";
+import { parseEther } from "viem";
 
 import SongBirdzContract from "../abi/SongBirdz.json";
 
@@ -17,7 +16,6 @@ import useCurrentUser from "../hooks/useCurrentUser";
 
 const EXPECTED_CHAIN_ID = parseInt(process.env.REACT_APP_BASE_NETWORK_CHAIN_ID, 10);
 const SONGBIRDZ_CONTRACT_ADDRESS = process.env.REACT_APP_SONGBIRDZ_CONTRACT_ADDRESS;
-const ONCHAIN_GIFT_CONTRACT_ADDRESS = process.env.REACT_APP_ONCHAIN_GIFT_CONTRACT_ADDRESS;
 
 const MINT_PRICE = "0.0015"; // 0.0015 ETH
 
@@ -89,13 +87,12 @@ const WalletProvider = ({ children }) => {
 			const responseData = await response.json();
 
 			return {
-                to: SONGBIRDZ_CONTRACT_ADDRESS,
-                value: parseEther(MINT_PRICE),
-                data: encodeFunctionData({
-                    abi: SongBirdzContract.abi,
-                    functionName: "publicMint",
-                    args: [BigInt(id), responseData.proof, responseData.species_guess],
-                }),
+				address: SONGBIRDZ_CONTRACT_ADDRESS,
+				abi: SongBirdzContract.abi,
+				functionName: "publicMint",
+				args: [BigInt(id), responseData.proof, responseData.species_guess],
+				value: parseEther(MINT_PRICE),
+				chainId: EXPECTED_CHAIN_ID,
 			};
 
 		} catch (error) {
@@ -155,7 +152,6 @@ const WalletProvider = ({ children }) => {
 				isPaymasterSupported,
 				contractAddress: SONGBIRDZ_CONTRACT_ADDRESS,
 				contractInterface: new Interface(SongBirdzContract.abi),
-				onchainGiftContractAddress: ONCHAIN_GIFT_CONTRACT_ADDRESS,
 				actions: {
 					connectToBase,
 					ownerOf,

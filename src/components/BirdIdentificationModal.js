@@ -1,18 +1,12 @@
 import React, { useCallback, useEffect, useMemo, useState } from "react";
-import {
-	Transaction,
-	TransactionButton,
-	TransactionSponsor,
-	TransactionStatus,
-	TransactionStatusAction,
-	TransactionStatusLabel,
-} from "@coinbase/onchainkit/transaction";
 import PropTypes from "prop-types";
 import { Button, Form, Modal } from "react-bootstrap";
 import { Link } from "react-router-dom";
+import { ConnectButton } from "@rainbow-me/rainbowkit";
 
 import AccountOwner from "./AccountOwner";
 import BirdAudioFile from "./BirdAudioFile";
+import { TransactionForm } from "./TransactionForm";
 
 import {
 	ANSWER_CHOICES_FLOCK_2,
@@ -52,17 +46,23 @@ const BirdIdentificationModal = (props) => {
 	const [formData, setFormData] = useState({ species: "" });
 
 	const [birdOwner, setBirdOwner] = useState(null);
+	const [pendingCalls, setPendingCalls] = useState(null);
 
 	const {
 		account,
 		expectedChainId,
 		isOnCorrectChain,
-		isPaymasterSupported,
+		// isPaymasterSupported,
 		actions,
 	} = context;
 
-	const handleInputChange = (value) => {
+	// Reset the selected species to use as the guess so we can wait for the result
+	// of the async API call to fetch the merkle proof for the "publicMint" contract call
+	const handleInputChange = async (value) => {
+		setPendingCalls(null);
 		setFormData({ species: value });
+		const newMintCall = await actions.publicMint(bird.id, value);
+		setPendingCalls([newMintCall]);
 	};
 
 	const handleOnStatus = useCallback((status) => {
@@ -82,7 +82,7 @@ const BirdIdentificationModal = (props) => {
 
 		}
 
-	}, [bird]);
+	}, [bird, onSuccess, onError, onToggle]);
 
 	const options = useMemo(() => {
 
@@ -138,23 +138,6 @@ const BirdIdentificationModal = (props) => {
 
 	}, [bird?.id]);
 
-	// Reset the selected species to use as the guess so we can wait for the result
-	// of the async API call to fetch the merkle proof for the "publicMint" contract call
-
-	const callsCallback = useMemo(() => {
-
-		const mint = async () => {
-
-			const result = await actions.publicMint(bird.id, formData.species);
-
-			return [result];
-
-		};
-
-		return mint;
-
-	}, [formData.species]);
-
 	// Add farcaster user data for the bird's current owner
 	useEffect(() => {
 
@@ -192,7 +175,7 @@ const BirdIdentificationModal = (props) => {
             </Modal.Header>
             <Modal.Body>
                 <Form>
-                    <Form.Group className="mb-3">
+                    <Form.Group className="mb-3 d-flex justify-content-center">
                         <img
                             style={{
                                 width: "50%",
@@ -294,9 +277,7 @@ const BirdIdentificationModal = (props) => {
 								</Form.Text>
 							</Form.Group>
 							{!account &&
-								<span className="fw-bold">
-									{"Please sign in..."}
-								</span>
+								<ConnectButton />
 							}
 							{account && !isOnCorrectChain &&
 								<Button
@@ -305,24 +286,14 @@ const BirdIdentificationModal = (props) => {
 									{'Switch to Base'}
 								</Button>
 							}
-							{account && isOnCorrectChain && (
-								<Transaction
-									address={account}
-									className="bird-identification-transaction-container"
+							{account && isOnCorrectChain && pendingCalls && (
+								<TransactionForm
+									key={formData.species}
+									calls={pendingCalls}
 									chainId={expectedChainId}
-									calls={callsCallback}
-									isSponsored={isPaymasterSupported}
-									onStatus={handleOnStatus}>
-									<TransactionButton
-										className="btn btn-info w-100"
-										disabled={!formData.species}
-										text="Submit" />
-									<TransactionSponsor text="SongBirdz" />
-									<TransactionStatus>
-										<TransactionStatusLabel />
-										<TransactionStatusAction />
-									</TransactionStatus>
-								</Transaction>
+									buttonText="Submit"
+									disabled={!formData.species || !pendingCalls}
+									onStatus={handleOnStatus} />
 							)}
 						</>
 					}

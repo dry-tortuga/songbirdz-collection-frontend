@@ -18,11 +18,9 @@ const BirdIdentificationTransactionStatus = (props) => {
 	const {
 		tx,
 		onClose,
-		// onSendGift,
 	} = props;
 
 	const {
-		isBaseApp,
 		isFarcasterApp,
 		fComposeCast,
 		fOpenExternalURL,
@@ -179,7 +177,7 @@ const BirdIdentificationTransactionStatus = (props) => {
 									{'Share on X'}
 								</div>
 							</Button>
-							{(isBaseApp || isFarcasterApp) &&
+							{isFarcasterApp &&
 								<Button
 									href={`https://farcaster.xyz/~/compose?text=${encodeURIComponent(`I just identified this ${tx.bird.species} in the Songbirdz collection!\n\nhttps://songbirdz.cc/collection/${tx.bird.id}\n\nThink you have what it takes to identify a new bird?`)}&channelKey=songbirdz&embeds[]=${encodeURIComponent(tx.bird.imageLg)}&embeds[]=${encodeURIComponent(`https://songbirdz.cc/collection/${tx.bird.id}`)}`}
 									variant="outline-primary"
@@ -196,30 +194,14 @@ const BirdIdentificationTransactionStatus = (props) => {
 										channelKey: 'songbirdz',
 									})}>
 									<div className="d-flex align-items-center justify-content-center">
-										{isBaseApp &&
-											<>
-												<img
-													className="me-2"
-													src={baseLogo}
-													alt=""
-													style={{ width: "20px", height: "20px" }} />
-												<span>
-													{'Share on Base App'}
-												</span>
-											</>
-										}
-										{isFarcasterApp &&
-											<>
-												<img
-													className="me-2"
-													src={farcasterLogo}
-													alt=""
-													style={{ width: "20px", height: "20px" }} />
-												<span>
-													{'Share on Farcaster'}
-												</span>
-											</>
-										}
+										<img
+											className="me-2"
+											src={farcasterLogo}
+											alt=""
+											style={{ width: "20px", height: "20px" }} />
+										<span>
+											{'Share on Farcaster'}
+										</span>
 									</div>
 								</Button>
 							}
@@ -259,7 +241,6 @@ BirdIdentificationTransactionStatus.propTypes = {
 		}),
 	}),
 	onClose: PropTypes.func.isRequired,
-	onSendGift: PropTypes.func,
 };
 
 export default BirdIdentificationTransactionStatus;

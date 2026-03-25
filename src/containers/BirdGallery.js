@@ -207,7 +207,7 @@ const BirdGallery = () => {
 								{"Collection"}
 							</span>
 						</h1>
-						<div className="flex flex-col flex-lg-row align-items-lg-center">
+						<div className="d-flex flex-col flex-wrap flex-lg-row align-items-lg-center">
 							<Form.Select
 								id="selected-flock-to-view"
 								className="mb-2 mb-lg-0 w-auto"

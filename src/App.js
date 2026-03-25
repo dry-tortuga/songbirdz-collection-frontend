@@ -7,7 +7,6 @@ import {
 	RouterProvider,
 } from "react-router-dom";
 
-import { GiftProvider } from "./contexts/gift";
 import { IdentificationProvider } from "./contexts/identification";
 import { WalletProvider } from "./contexts/wallet";
 
@@ -18,13 +17,11 @@ const AppWrapper = () => {
 
 	return (
 		<WalletProvider>
-			<GiftProvider>
-				<IdentificationProvider>
-					<Navbar />
-					<Outlet />
-					<Footer />
-				</IdentificationProvider>
-			</GiftProvider>
+			<IdentificationProvider>
+				<Navbar />
+				<Outlet />
+				<Footer />
+			</IdentificationProvider>
 		</WalletProvider>
 	);
 
@@ -50,9 +47,6 @@ const router = createBrowserRouter(
 			<Route
 				path="leaderboard"
 				lazy={() => import("./routes/leaderboard")} />
-			<Route
-				path="memory-match"
-				lazy={() => import("./routes/memoryMatchGame")} />
 			<Route
 				path=""
 				lazy={() => import("./routes/home")} />

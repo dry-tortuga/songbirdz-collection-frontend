@@ -10,25 +10,30 @@ import { populateMetadata, updateDailyStreak } from "../utils/data";
 
 const useMintAPI = () => {
 
-    const context = useWalletContext();
+	const context = useWalletContext();
 
-    // Keep track of the state of back-end transactions
-    const [txMint, setTxMint, resetTxMint] = useTransaction();
+	// Keep track of the state of back-end transactions
+	const [txMint, setTxMint, resetTxMint] = useTransaction();
 
-    const onMint = useCallback(async (bird, response) => {
+    const onMint = useCallback(async (bird, statusData) => {
 
-        const receipt = response.transactionReceipts?.[0];
+		const receipt = statusData?.receipt;
 
-        if (!receipt) {
-            return;
-        }
+		if (!receipt) {
+			return;
+		}
 
-        console.debug("------------ onMintSuccess (SW) -----------");
-        console.debug(`gasUsed=${receipt.gasUsed}`);
-        console.debug(response);
-        console.debug("-------------------------------------------");
+		console.debug("------------ onMintSuccess (SW) -----------");
+		console.debug(`gasUsed=${receipt.gasUsed}`);
+		console.debug(receipt);
+		console.debug("-------------------------------------------");
 
-        const transactionHash = receipt.transactionHash;
+		const transactionHash = receipt?.transactionHash;
+
+		if (!transactionHash) {
+			console.error("Missing transactionHash in receipt");
+			return;
+		}
 
         const eventLogs =
             receipt?.logs?.filter(
