@@ -1,4 +1,3 @@
-import { farcasterFrame } from "@farcaster/frame-wagmi-connector";
 import { connectorsForWallets } from "@rainbow-me/rainbowkit";
 import {
 	baseAccount,
@@ -62,7 +61,7 @@ const connectors = connectorsForWallets(
 
 const config = createConfig({
 	chains,
-	connectors: [...connectors, farcasterFrame()],
+	connectors,
 	transports,
 	dataSuffix: Attribution.toDataSuffix({
 		codes: [process.env.REACT_APP_BASE_DEV_BUILDER_CODE],

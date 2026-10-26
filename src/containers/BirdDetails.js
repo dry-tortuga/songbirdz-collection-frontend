@@ -15,7 +15,6 @@ import BirdTransferModal from "../components/BirdTransferModal";
 
 import { COLLECTIONS, NUM_BIRDS_TOTAL } from "../constants";
 
-import { useFarcasterContext } from "../contexts/farcaster";
 import { useIdentificationContext } from "../contexts/identification";
 import { useWalletContext } from "../contexts/wallet";
 
@@ -23,7 +22,6 @@ import useBird from "../hooks/useBird";
 
 import etherscanLogo from "../images/etherscan-logo-circle.svg";
 import openseaLogo from "../images/opensea-logomark-blue.svg";
-import farcasterLogo from "../images/farcaster-logo.png";
 
 import "./BirdDetails.css";
 
@@ -32,13 +30,6 @@ const BirdDetails = () => {
 	const params = useParams();
 
 	const context = useWalletContext();
-
-	const {
-		isFarcasterApp,
-		fComposeCast,
-		fOpenExternalURL,
-		fPopulateUsers,
-	} = useFarcasterContext();
 
 	const {
 		isIdentifyingBird,
@@ -55,8 +46,6 @@ const BirdDetails = () => {
 		id: parseInt(params.id, 10),
 		cached: true,
 	});
-
-	const [birdOwner, setBirdOwner] = useState(null);
 
 	// Keep track of the state of the transfer modal
 	const [showTransferModal, setShowTransferModal] = useState(false);
@@ -124,36 +113,12 @@ const BirdDetails = () => {
 					data-hashtags="birds,birdwatching,nfts">
 					{"X"}
 				</a>
-				{isFarcasterApp &&
-					<a
-						className="farcaster-share-button ms-4"
-						href={`https://farcaster.xyz/~/compose?text=${encodeURIComponent(`Check out this ${rBird.species} in the Songbirdz collection!\n\nhttps://songbirdz.cc/collection/${rBird.id}\n\n`)}&channelKey=songbirdz&embeds[]=${encodeURIComponent(rBird.imageLg)}&embeds[]=${encodeURIComponent(`https://songbirdz.cc/collection/${rBird.id}`)})}`}
-						target="_blank"
-						rel="noopener noreferrer"
-						onClick={(event) => fComposeCast(event, {
-							text: `Check out this ${rBird.species} in the Songbirdz collection!\n\nhttps://songbirdz.cc/collection/${rBird.id}\n\n`,
-							embeds: [
-								rBird.imageLg,
-								`https://songbirdz.cc/collection/${rBird.id}`,
-							],
-							channelKey: 'songbirdz',
-						})}>
-						<div className="d-flex align-items-center justify-content-center">
-							<img
-								className="farcaster-logo me-2"
-								src={farcasterLogo}
-								alt=""
-								style={{ width: "30px", height: "30px" }} />
-						</div>
-					</a>
-				}
 				<a
 					className="btn btn-clear ms-3"
 					href={`https://opensea.io/assets/base/${context.contractAddress}/${rBird.id}`}
 					rel="noopener noreferrer nofollow"
 					target="_blank"
-					title={`View ${rBird.name} on OpenSea`}
-					onClick={fOpenExternalURL}>
+					title={`View ${rBird.name} on OpenSea`}>
 					<img
 						alt=""
 						src={openseaLogo}
@@ -167,8 +132,7 @@ const BirdDetails = () => {
 					href={`https://basescan.org/token/${context.contractAddress}?a=${rBird.id}`}
 					rel="noopener noreferrer nofollow"
 					target="_blank"
-					title={`View ${rBird.name} on BaseScan`}
-					onClick={fOpenExternalURL}>
+					title={`View ${rBird.name} on BaseScan`}>
 					<img
 						alt=""
 						src={etherscanLogo}
@@ -196,11 +160,9 @@ const BirdDetails = () => {
 
 	}, [
 		context,
-		isFarcasterApp,
 		isAdmin,
 		isOwner,
 		showTransferModal,
-		fComposeCast,
 		setShowTransferModal,
 	]);
 
@@ -212,26 +174,6 @@ const BirdDetails = () => {
         }
 
     }, [bird?.id, bird?.species]);
-
-    // Add farcaster user data for the bird's current owner
-	useEffect(() => {
-
-		const populate = async () => {
-
-			if (!bird?.owner) {
-				setBirdOwner(null);
-				return;
-			}
-
-			const result = await fPopulateUsers([{ address: bird.owner }]);
-
-			setBirdOwner(result[0]);
-
-		}
-
-		populate();
-
-	}, [bird?.owner, fPopulateUsers]);
 
 	const collection = bird ? COLLECTIONS[bird.collection] : null;
 
@@ -316,14 +258,10 @@ const BirdDetails = () => {
                                                     </span>
                                                     {bird.owner ? (
                                                     	<>
-							                                {birdOwner ? (
-																<AccountOwner
-																	className="w-50 justify-content-center"
-																	user={birdOwner}
-																	showLinkToProfile />
-															) : (
-																<span><i className="fa-solid fa-spinner fa-spin" /></span>
-															)}
+															<AccountOwner
+																className="w-50 justify-content-center"
+																user={bird.owner}
+																showLinkToProfile />
                                                      	</>
                                                     ) : (
                                                         <span className="w-50 text-center">

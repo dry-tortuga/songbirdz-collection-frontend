@@ -7,7 +7,6 @@ import DailyStreakStatus from "../components/DailyStreakStatus";
 
 import useMintAPI from "../hooks/useMintAPI";
 
-import { useFarcasterContext } from "./farcaster";
 import { useWalletContext } from "./wallet";
 
 const IdentificationContext = createContext({});
@@ -15,7 +14,6 @@ const IdentificationContext = createContext({});
 export const IdentificationProvider = ({ children }) => {
 
     const context = useWalletContext();
-	const { fAddMiniApp } = useFarcasterContext();
 
     // True, if the modal is open
     const [isIdentifyingBird, setIsIdentifyingBird] = useState(false);
@@ -44,11 +42,9 @@ export const IdentificationProvider = ({ children }) => {
                 },
             }));
 
-           	fAddMiniApp();
-
         }
 
-    }, [onMint, fAddMiniApp]);
+    }, [onMint]);
 
     // Re-load the twitter share button if the identified bird changes
     useEffect(() => {

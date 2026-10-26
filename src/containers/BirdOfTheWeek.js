@@ -1,24 +1,14 @@
 import React, { useCallback, useState } from 'react';
-import { Button, Container, Row, Col, Card } from 'react-bootstrap';
+import { Container, Row, Col, Card } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 
 import { AUDIO_METADATA } from "../constants";
 
-import { useFarcasterContext } from "../contexts/farcaster";
-
 import useBirdOfTheWeek from '../hooks/useBirdOfTheWeek';
-
-import farcasterLogo from "../images/farcaster-logo.png";
 
 const BirdOfTheWeek = () => {
 
 	const navigate = useNavigate();
-
-	const {
-		isFarcasterApp,
-		fComposeCast,
-		fOpenExternalURL,
-	} = useFarcasterContext();
 
 	const { data, loading, error } = useBirdOfTheWeek();
 
@@ -109,8 +99,7 @@ const BirdOfTheWeek = () => {
                                 <a
                                     href="https://x.com/paesan5"
                                     target="_blank"
-                                    rel="noopener noreferrer nofollow"
-                                   	onClick={fOpenExternalURL}>
+                                    rel="noopener noreferrer nofollow">
                                     <b>{"Paesan"}</b>
                                 </a>
                             </span>
@@ -203,34 +192,6 @@ const BirdOfTheWeek = () => {
 								{data.facts?.map((fact, index) => (
 									<p key={index} className="mb-2">• {fact}</p>
 								))}
-								{isFarcasterApp &&
-									<Button
-										className="w-100 mt-3 py-2"
-										as="a"
-										href={`https://farcaster.xyz/~/compose?text=${encodeURIComponent(`Check out the "Bird of the Week" from Songbirdz!\n\nSpecies: ${data.species}\nFamily: ${data.family}\nFlock: ${data.flock}\n\n${data.facts?.[0]}..\n\nhttps://songbirdz.cc/bird-of-the-week\n\n`)}&channelKey=songbirdz&embeds[]=${encodeURIComponent(`https://songbirdz.cc/bird-of-the-week`)}&embeds[]=${encodeURIComponent(`${process.env.REACT_APP_SONGBIRDZ_STATIC_URL}/images/${data.ids[0]}-lg.jpg`)}`}
-										target="_blank"
-										rel="noopener noreferrer"
-										variant="outline-primary"
-										onClick={(event) => fComposeCast(event, {
-											text: `Check out the "Bird of the Week" from Songbirdz!\n\nSpecies: ${data.species}\nFamily: ${data.family}\nFlock: ${data.flock}\n\n${data.facts?.[0]}..\n\nhttps://songbirdz.cc/bird-of-the-week\n\n`,
-											embeds: [
-												`https://songbirdz.cc/bird-of-the-week`,
-												`${process.env.REACT_APP_SONGBIRDZ_STATIC_URL}/images/${data.ids[0]}-lg.jpg`,
-											],
-											channelKey: 'songbirdz',
-										})}>
-										<div className="d-flex align-items-center justify-content-center">
-											<img
-												className="farcaster-logo me-2"
-												src={farcasterLogo}
-												alt=""
-												style={{ width: "20px", height: "20px" }} />
-											<span>
-												{"Share on Farcaster"}
-											</span>
-										</div>
-									</Button>
-								}
 							</Card.Body>
 						</Card>
 					</Col>
@@ -247,8 +208,7 @@ const BirdOfTheWeek = () => {
 										• <a
 											href={link}
 											target="_blank"
-											rel="noopener noreferrer"
-											onClick={fOpenExternalURL}>
+											rel="noopener noreferrer">
 											{link}
 										</a>
 									</p>

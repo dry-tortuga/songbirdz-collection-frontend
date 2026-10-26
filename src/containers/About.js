@@ -2,11 +2,7 @@ import React from "react";
 import { Col, Container, Row } from "react-bootstrap";
 import { Link } from "react-router-dom";
 
-import { useFarcasterContext } from "../contexts/farcaster";
-
 const About = () => {
-
-	const { fOpenExternalURL, fOpenLinkToOwner } = useFarcasterContext();
 
     return (
         <div className="about-page">
@@ -26,8 +22,7 @@ const About = () => {
                             <a
 								href="https://onchain-summer.devfolio.co/projects?prizes=0ef9ac5fb88e4ed689def5674c73d2d0&show_winners=false"
 								target="_blank"
-								rel="noopener noreferrer nofollow"
-								onClick={fOpenExternalURL}>
+								rel="noopener noreferrer nofollow">
                                 <b>{"11 winners"}</b>
                             </a>
                             {" chosen in the \"GAMING with thirdweb: Gaming\" category at the Onchain Summer Buildathon in June 2024."}
@@ -40,16 +35,14 @@ const About = () => {
                             <a
                                 href="https://openai.com/dall-e-3"
                                 target="_blank"
-                                rel="noopener noreferrer nofollow"
-                               	onClick={fOpenExternalURL}>
+                                rel="noopener noreferrer nofollow">
                                 <b>{"DALL·E 3"}</b>
                             </a>
                             {" and audio recordings uploaded by our own community members and also sourced from "}
                             <a
                                 href="https://xeno-canto.org/"
                                 target="_blank"
-                                rel="noopener noreferrer nofollow"
-                               	onClick={fOpenExternalURL}>
+                                rel="noopener noreferrer nofollow">
                                 <b>{"Xeno-canto"}</b>
                             </a>
                             {"."}
@@ -160,8 +153,7 @@ const About = () => {
                                 <a
                                     href="https://endaoment.org/"
                                     target="_blank"
-                                    rel="noopener noreferrer nofollow"
-                                   	onClick={fOpenExternalURL}>
+                                    rel="noopener noreferrer nofollow">
                                     <b>{"Endaoment"}</b>
                                 </a>
                                 {"."}
@@ -176,10 +168,9 @@ const About = () => {
                         <ul style={{ listStyle: "disc" }}>
                             <li>
                                 <a
-                                    href="https://twitter.com/songbirdz_cc"
+                                    href="https://x.com/songbirdz_cc"
                                     target="_blank"
-                                    rel="noopener noreferrer nofollow"
-                                   	onClick={fOpenExternalURL}>
+                                    rel="noopener noreferrer nofollow">
                                     <b>{"Twitter"}</b>
                                 </a>
                             </li>
@@ -187,8 +178,7 @@ const About = () => {
                                 <a
                                     href="https://t.me/songbirdz_cc"
                                     target="_blank"
-                                    rel="noopener noreferrer nofollow"
-                                   	onClick={fOpenExternalURL}>
+                                    rel="noopener noreferrer nofollow">
                                     <b>{"Telegram"}</b>
                                 </a>
                             </li>
@@ -200,8 +190,7 @@ const About = () => {
                                     style={{
                                         wordBreak: "break-word",
                                         wordWrap: "break-word",
-                                    }}
-                                   	onClick={fOpenExternalURL}>
+                                    }}>
                                     <b>{"Deployed Contract on Base - 0x7C3B795e2174C5E0C4F7d563A2FB34F024C8390B"}</b>
                                 </a>
                             </li>
@@ -209,8 +198,7 @@ const About = () => {
                                 <a
                                     href="https://github.com/dry-tortuga/songbirdz-collection-backend/blob/main/contracts/SongBirdz.sol"
                                     target="_blank"
-                                    rel="noopener noreferrer nofollow"
-                                   	onClick={fOpenExternalURL}>
+                                    rel="noopener noreferrer nofollow">
                                     <b>{"Solidity Contract"}</b>
                                 </a>
                             </li>
@@ -218,8 +206,7 @@ const About = () => {
                                 <a
                                     href="https://github.com/dry-tortuga/songbirdz-collection-backend"
                                     target="_blank"
-                                    rel="noopener noreferrer nofollow"
-                                   	onClick={fOpenExternalURL}>
+                                    rel="noopener noreferrer nofollow">
                                     <b>{"Back-End Server"}</b>
                                 </a>
                             </li>
@@ -227,8 +214,7 @@ const About = () => {
                                 <a
                                     href="https://github.com/dry-tortuga/songbirdz-collection-frontend"
                                     target="_blank"
-                                    rel="noopener noreferrer nofollow"
-                                   	onClick={fOpenExternalURL}>
+                                    rel="noopener noreferrer nofollow">
                                     <b>{"Front-End Application"}</b>
                                 </a>
                             </li>
@@ -236,8 +222,7 @@ const About = () => {
                                 <a
                                     href="https://github.com/dry-tortuga/songbirdz-collection-media-cc0"
                                     target="_blank"
-                                    rel="noopener noreferrer nofollow"
-                                   	onClick={fOpenExternalURL}>
+                                    rel="noopener noreferrer nofollow">
                                     <b>{"Media & Metadata"}</b>
                                 </a>
                             </li>
@@ -245,8 +230,7 @@ const About = () => {
                                 <a
                                     href="https://opensea.io/collection/songbirdz-hall-of-fame"
                                     target="_blank"
-                                    rel="noopener noreferrer nofollow"
-                                   	onClick={fOpenExternalURL}>
+                                    rel="noopener noreferrer nofollow">
                                     <b>{"Hall of Fame"}</b>
                                 </a>
                             </li>
@@ -254,8 +238,7 @@ const About = () => {
                                 <a
                                     href="https://opensea.io/collection/sounds-of-summer"
                                     target="_blank"
-                                    rel="noopener noreferrer nofollow"
-                                   	onClick={fOpenExternalURL}>
+                                    rel="noopener noreferrer nofollow">
                                     <b>{"Sounds of Summer"}</b>
                                 </a>
                             </li>
@@ -263,8 +246,7 @@ const About = () => {
                                 <a
                                     href="https://www.redbubble.com/people/drytortuga/shop"
                                     target="_blank"
-                                    rel="noopener noreferrer nofollow"
-                                   	onClick={fOpenExternalURL}>
+                                    rel="noopener noreferrer nofollow">
                                     <b>{"Songbirdz Merch"}</b>
                                 </a>
                             </li>
@@ -301,20 +283,9 @@ const About = () => {
                                     <a
                                         href="https://x.com/dry_tortuga"
                                         target="_blank"
-                                        rel="noopener noreferrer nofollow"
-                                       	onClick={fOpenExternalURL}>
+                                        rel="noopener noreferrer nofollow">
                                         <b>{"X"}</b>
                                     </a>
-									<span>
-										{"|"}
-									</span>
-									<a
-										href="https://farcaster.xyz/dry-tortuga"
-										target="_blank"
-										rel="noopener noreferrer nofollow"
-										onClick={fOpenLinkToOwner}>
-										<b>{"Farcaster"}</b>
-									</a>
                                 </div>
                             </div>
                             <div
@@ -339,8 +310,7 @@ const About = () => {
                                     <a
                                         href="https://x.com/paesan5"
                                         target="_blank"
-                                        rel="noopener noreferrer nofollow"
-                                       	onClick={fOpenExternalURL}>
+                                        rel="noopener noreferrer nofollow">
                                         <b>{"X"}</b>
                                     </a>
                                 </div>
@@ -367,8 +337,7 @@ const About = () => {
                                     <a
                                         href="https://x.com/Arcturus_TA"
                                         target="_blank"
-                                        rel="noopener noreferrer nofollow"
-                                       	onClick={fOpenExternalURL}>
+                                        rel="noopener noreferrer nofollow">
                                         <b>{"X"}</b>
                                     </a>
                                 </div>

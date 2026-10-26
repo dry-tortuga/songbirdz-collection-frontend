@@ -1,163 +1,81 @@
-import React, { Suspense, useState, lazy } from "react";
-import {
-	Col,
-	Container,
-	Row,
-	Tab,
-	Tabs,
-} from "react-bootstrap";
+import React, { Suspense, lazy } from "react";
+import { Col, Container, Row, Tab, Tabs } from "react-bootstrap";
+import { useSearchParams } from "react-router-dom";
 
-const LeaderboardTabSeason1 = lazy(() => import("../components/LeaderboardTabSeason1"));
-const LeaderboardTabSeason2 = lazy(() => import("../components/LeaderboardTabSeason2"));
-const LeaderboardTabSeason3 = lazy(() => import("../components/LeaderboardTabSeason3"));
-const LeaderboardTabSeason4 = lazy(() => import("../components/LeaderboardTabSeason4"));
-const LeaderboardTabSeason5 = lazy(() => import("../components/LeaderboardTabSeason5"));
-const LeaderboardTabSeason6 = lazy(() => import("../components/LeaderboardTabSeason6"));
-const LeaderboardTabSeason7 = lazy(() => import("../components/LeaderboardTabSeason7"));
-const LeaderboardTabSeason8 = lazy(() => import("../components/LeaderboardTabSeason8"));
-const LeaderboardTabSpeciesRanks = lazy(() => import("../components/LeaderboardTabSpeciesRanks"));
+import { ARCHIVE_SEASONS, LATEST_ARCHIVE_SEASON } from "../constants/seasons";
+
+const LeaderboardTabLifeList = lazy(() => import("../components/LeaderboardTabLifeList"));
 const LeaderboardTabDailyStreakActive = lazy(() => import("../components/LeaderboardTabDailyStreakActive"));
-const LifeListModal = lazy(() => import("../components/LifeListModal"));
+const LeaderboardTabHallOfFame = lazy(() => import("../components/LeaderboardTabHallOfFame"));
 
-const TAB_SEASON_1 = "season-1";
-const TAB_SEASON_2 = "season-2";
-const TAB_SEASON_3 = "season-3";
-const TAB_SEASON_4 = "season-4";
-const TAB_SEASON_5 = "season-5";
-const TAB_SEASON_6 = "season-6";
-const TAB_SEASON_7 = "season-7";
-const TAB_SEASON_8 = "season-8";
-const TAB_LIFE_LIST_SPECIES_RANKS = "life-list-species-ranks";
-const TAB_DAILY_STREAK_ACTIVE = "daily-streak-active";
+const TAB_LIFE_LIST = "life-list";
+const TAB_DAILY_STREAK = "daily-streak";
+const TAB_HALL_OF_FAME = "hall-of-fame";
 
+const TABS = [TAB_LIFE_LIST, TAB_DAILY_STREAK, TAB_HALL_OF_FAME];
+
+// The active tab and archived season live in the URL (?tab=hall-of-fame&season=3) so they can be shared
 const Leaderboard = () => {
 
-	const [activeTab, setActiveTab] = useState(TAB_SEASON_8);
-	const [lifeListModalAddress, setLifeListModalAddress] = useState(null);
+	const [params, setParams] = useSearchParams();
+
+	const requestedTab = params.get("tab");
+	const activeTab = TABS.includes(requestedTab) ? requestedTab : TAB_LIFE_LIST;
+
+	const requestedSeason = parseInt(params.get("season"), 10);
+	const seasonId = ARCHIVE_SEASONS.some((season) => season.id === requestedSeason)
+		? requestedSeason
+		: LATEST_ARCHIVE_SEASON;
+
+	const handleSelectTab = (key) => {
+		setParams(key === TAB_LIFE_LIST ? {} : { tab: key });
+	};
+
+	const handleSeasonChange = (id) => {
+		setParams({ tab: TAB_HALL_OF_FAME, season: String(id) });
+	};
 
 	return (
-		<div
-			id="leaderboard-page"
-			className="leaderboard-page">
+		<div id="leaderboard-page" className="leaderboard-page">
 			<Container className="mt-4">
 				<Row className="mb-3">
 					<Col>
-						<h1 className="d-flex align-items-center">
-							<span className="me-auto">
-								{"Leaderboard"}
-							</span>
-						</h1>
+						<h1>{"Leaderboard"}</h1>
 					</Col>
 				</Row>
 				<Tabs
 					id="leaderboard-tabs"
 					className="mb-3"
 					activeKey={activeTab}
-					onSelect={setActiveTab}>
-					<Tab
-						eventKey={TAB_SEASON_8}
-						title="Season 8 (Active)">
-						{activeTab === TAB_SEASON_8 &&
+					onSelect={handleSelectTab}>
+					<Tab eventKey={TAB_LIFE_LIST} title="Life List">
+						{activeTab === TAB_LIFE_LIST &&
 							<Suspense fallback={<div />}>
-								<LeaderboardTabSeason8 onUserClick={setLifeListModalAddress} />
+								<LeaderboardTabLifeList />
 							</Suspense>
 						}
 					</Tab>
-					<Tab
-						eventKey={TAB_LIFE_LIST_SPECIES_RANKS}
-						title="Species (Active)">
-						{activeTab === TAB_LIFE_LIST_SPECIES_RANKS &&
+					<Tab eventKey={TAB_DAILY_STREAK} title="Daily Streak">
+						{activeTab === TAB_DAILY_STREAK &&
 							<Suspense fallback={<div />}>
-								<LeaderboardTabSpeciesRanks onUserClick={setLifeListModalAddress} />
+								<LeaderboardTabDailyStreakActive />
 							</Suspense>
 						}
 					</Tab>
-					<Tab
-						eventKey={TAB_DAILY_STREAK_ACTIVE}
-						title="Daily Streak (Active)">
-						{activeTab === TAB_DAILY_STREAK_ACTIVE &&
+					<Tab eventKey={TAB_HALL_OF_FAME} title="Hall of Fame">
+						{activeTab === TAB_HALL_OF_FAME &&
 							<Suspense fallback={<div />}>
-								<LeaderboardTabDailyStreakActive onUserClick={setLifeListModalAddress} />
-							</Suspense>
-						}
-					</Tab>
-					<Tab
-						eventKey={TAB_SEASON_7}
-						title="Season 7">
-						{activeTab === TAB_SEASON_7 &&
-							<Suspense fallback={<div />}>
-								<LeaderboardTabSeason7 onUserClick={setLifeListModalAddress} />
-							</Suspense>
-						}
-					</Tab>
-					<Tab
-						eventKey={TAB_SEASON_6}
-						title="Season 6">
-						{activeTab === TAB_SEASON_6 &&
-							<Suspense fallback={<div />}>
-								<LeaderboardTabSeason6 onUserClick={setLifeListModalAddress} />
-							</Suspense>
-						}
-					</Tab>
-					<Tab
-						eventKey={TAB_SEASON_5}
-						title="Season 5">
-						{activeTab === TAB_SEASON_5 &&
-							<Suspense fallback={<div />}>
-								<LeaderboardTabSeason5 onUserClick={setLifeListModalAddress} />
-							</Suspense>
-						}
-					</Tab>
-					<Tab
-						eventKey={TAB_SEASON_4}
-						title="Season 4">
-						{activeTab === TAB_SEASON_4 &&
-							<Suspense fallback={<div />}>
-								<LeaderboardTabSeason4 onUserClick={setLifeListModalAddress} />
-							</Suspense>
-						}
-					</Tab>
-					<Tab
-						eventKey={TAB_SEASON_3}
-						title="Season 3">
-						{activeTab === TAB_SEASON_3 &&
-							<Suspense fallback={<div />}>
-								<LeaderboardTabSeason3 onUserClick={setLifeListModalAddress} />
-							</Suspense>
-						}
-					</Tab>
-					<Tab
-						eventKey={TAB_SEASON_2}
-						title="Season 2">
-						{activeTab === TAB_SEASON_2 &&
-							<Suspense fallback={<div />}>
-								<LeaderboardTabSeason2 onUserClick={setLifeListModalAddress} />
-							</Suspense>
-						}
-					</Tab>
-					<Tab
-						eventKey={TAB_SEASON_1}
-						title="Season 1">
-						{activeTab === TAB_SEASON_1 &&
-							<Suspense fallback={<div />}>
-								<LeaderboardTabSeason1 onUserClick={setLifeListModalAddress} />
+								<LeaderboardTabHallOfFame
+									seasonId={seasonId}
+									onSeasonChange={handleSeasonChange} />
 							</Suspense>
 						}
 					</Tab>
 				</Tabs>
-				{Boolean(lifeListModalAddress) &&
-					<Suspense fallback={<div />}>
-						<LifeListModal
-							key={lifeListModalAddress}
-							address={lifeListModalAddress}
-							isOpen
-							onToggle={() => setLifeListModalAddress(null)}
-						/>
-					</Suspense>
-				}
 			</Container>
 		</div>
 	);
+
 };
 
 export default Leaderboard;

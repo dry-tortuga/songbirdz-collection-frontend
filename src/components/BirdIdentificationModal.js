@@ -20,7 +20,6 @@ import {
 	COLLECTIONS,
 } from "../constants";
 
-import { useFarcasterContext } from "../contexts/farcaster";
 import { useWalletContext } from "../contexts/wallet";
 
 import useBird from "../hooks/useBird";
@@ -38,14 +37,12 @@ const BirdIdentificationModal = (props) => {
 		onToggle,
 	} = props;
 
-	const { fPopulateUsers } = useFarcasterContext();
 	const context = useWalletContext();
 
 	const [bird] = useBird({ id, cached, context });
 
 	const [formData, setFormData] = useState({ species: "" });
 
-	const [birdOwner, setBirdOwner] = useState(null);
 	const [pendingCalls, setPendingCalls] = useState(null);
 
 	const {
@@ -138,26 +135,6 @@ const BirdIdentificationModal = (props) => {
 
 	}, [bird?.id]);
 
-	// Add farcaster user data for the bird's current owner
-	useEffect(() => {
-
-		const populate = async () => {
-
-			if (!bird?.owner) {
-				setBirdOwner(null);
-				return;
-			}
-
-			const result = await fPopulateUsers([{ address: bird.owner }]);
-
-			setBirdOwner(result[0]);
-
-		}
-
-		populate();
-
-	}, [bird?.owner, fPopulateUsers]);
-
 	// Extra safety check here to prevent users from submitting invalid transactions...
 	if (!bird) {
 		return null;
@@ -214,14 +191,10 @@ const BirdIdentificationModal = (props) => {
                                 <Form.Label className="d-block fw-bold">
                                     {"Owner"}
                                 </Form.Label>
-								{birdOwner ? (
-									<AccountOwner
-										className="w-100"
-										user={birdOwner}
-										showLinkToProfile />
-								) : (
-									<span><i className="fa-solid fa-spinner fa-spin" /></span>
-								)}
+								<AccountOwner
+									className="w-100"
+									user={bird.owner}
+									showLinkToProfile />
 								<span
 									style={{
 										position: 'absolute',

@@ -1,0 +1,9 @@
+.profile-page .profile-stat {
+	height: 100%;
+}
+
+.profile-page .profile-stat .stat-value {
+	font-size: 1.6rem;
+	font-weight: 700;
+	line-height: 1.2;
+}

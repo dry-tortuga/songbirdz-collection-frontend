@@ -18,6 +18,14 @@ const NavbarSB = () => {
 	// Check if there's a previous entry in the history stack
 	const hasPreviousHistory = key !== "default";
 
+	const links = [
+		{ to: "/collection?number=9&hide_already_identified=true", path: "/collection", label: "Collection" },
+		{ to: "/leaderboard", path: "/leaderboard", label: "Leaderboard" },
+		{ to: "/profile", path: "/profile", label: "My Profile" },
+		{ to: "/bird-of-the-week", path: "/bird-of-the-week", label: "Bird of the Week" },
+		{ to: "/about", path: "/about", label: "About" },
+	];
+
 	return (
 		<Navbar
 			bg="light"
@@ -29,6 +37,7 @@ const NavbarSB = () => {
 						<Button
 							className="me-2"
 							variant="outline"
+							aria-label="Go back"
 							onClick={() => navigate(-1)}>
 							<i
 								aria-hidden="true"
@@ -41,6 +50,7 @@ const NavbarSB = () => {
 					href="/">
 					<img
 						className="logo me-1"
+						alt=""
 						src={homeImage1}
 						style={{ width: 30, height: 30 }} />
 					<span>
@@ -52,30 +62,15 @@ const NavbarSB = () => {
 					onClick={() => setExpanded(!expanded)} />
 				<Navbar.Collapse id="basic-navbar-nav">
 					<Nav className="w-100 align-items-center">
-						<Link
-							className={`nav-item nav-link ${pathname === "/collection" ? "active" : ""} `}
-							to="/collection?number=9&hide_already_identified=true"
-							onClick={() => setExpanded(false)}>
-							{"Collection"}
-						</Link>
-						<Link
-							className={`nav-item nav-link ${pathname === "/leaderboard" ? "active" : ""} `}
-							to="/leaderboard"
-							onClick={() => setExpanded(false)}>
-							{"Leaderboard"}
-						</Link>
-						<Link
-							className={`nav-item nav-link ${pathname === "/bird-of-the-week" ? "active" : ""} `}
-							to="/bird-of-the-week"
-							onClick={() => setExpanded(false)}>
-							{"Bird of the Week"}
-						</Link>
-						<Link
-							className={`nav-item nav-link ${pathname === "/about" ? "active" : ""} `}
-							to="/about"
-							onClick={() => setExpanded(false)}>
-							{"About"}
-						</Link>
+						{links.map((link) => (
+							<Link
+								key={link.path}
+								className={`nav-item nav-link ${pathname.startsWith(link.path) ? "active" : ""} `}
+								to={link.to}
+								onClick={() => setExpanded(false)}>
+								{link.label}
+							</Link>
+						))}
 						<ConnectWalletButton
 							className="mt-3 mt-md-0 ms-md-auto"
 							showDailyStreak />

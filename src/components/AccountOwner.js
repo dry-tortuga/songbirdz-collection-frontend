@@ -1,12 +1,14 @@
 import React from "react";
 import PropTypes from "prop-types";
+import { Link } from "react-router-dom";
 import { base } from "viem/chains";
 import { useEnsName, useEnsAvatar } from "wagmi";
-import { useFarcasterContext } from "../contexts/farcaster";
+
+import { ENS_UNIVERSAL_RESOLVER, shortAddress } from "../utils/ens";
 
 const rowStyle = {
 	display: "flex",
-	height: "2.5rem",
+	minHeight: "2.5rem",
 	alignItems: "center",
 	gap: "0.5rem",
 };
@@ -19,92 +21,55 @@ const avatarStyle = {
 	flexShrink: 0,
 };
 
+// Shows an account's Base name / ENS (or short address) and links to its Profile page.
 const AccountOwner = (props) => {
-	const {
-		className,
-		user,
-		size = "sm",
-		showLinkToProfile = true,
-	} = props;
 
-	const { fOpenLinkToUser } = useFarcasterContext();
+	const { className, user, size = "sm", showLinkToProfile = true } = props;
 
 	const { data: name } = useEnsName({
 		address: user.address,
 		chainId: base.id,
-		universalResolverAddress: "0xC6d566A56A1aFf6508b41f6c90ff131615583c7",
+		universalResolverAddress: ENS_UNIVERSAL_RESOLVER,
 	});
 
 	const { data: avatar } = useEnsAvatar({
 		name,
 		chainId: base.id,
-		universalResolverAddress: "0xC6d566A56A1aFf6508b41f6c90ff131615583c7",
+		universalResolverAddress: ENS_UNIVERSAL_RESOLVER,
 	});
 
-	const textStyle = {
-		fontWeight: 600,
-		fontSize: size === "sm" ? "0.875rem" : "1rem",
-	};
+	const content = (
+		<div className={className || ""} style={rowStyle}>
+			{avatar &&
+				<img
+					src={avatar.startsWith("ipfs://")
+						? avatar.replace("ipfs://", "https://ipfs.io/ipfs/")
+						: avatar}
+					alt=""
+					style={avatarStyle} />
+			}
+			<span style={{ fontWeight: 600, fontSize: size === "sm" ? "0.875rem" : "1rem" }}>
+				{name || shortAddress(user.address)}
+			</span>
+		</div>
+	);
 
-  if (user.farcaster) {
-    return (
-      <div
-        className={className || ""}
-        style={{
-          ...rowStyle,
-          cursor: showLinkToProfile ? "pointer" : "default",
-        }}
-        onClick={
-          showLinkToProfile
-            ? () => fOpenLinkToUser(user.farcaster.fid)
-            : undefined
-        }
-      >
-        <img
-          src={user.farcaster.pfp_url}
-          alt={`${user.farcaster.display_name}'s profile picture`}
-          style={avatarStyle}
-        />
-        <span style={textStyle}>
-          {user.farcaster.display_name}
-        </span>
-      </div>
-    );
-  }
+	if (!showLinkToProfile) { return content; }
 
-  return (
-    <div
-      className={className || ""}
-      style={rowStyle}
-    >
-      {avatar && (
-        <img
-          src={
-            avatar.startsWith("ipfs://")
-              ? avatar.replace("ipfs://", "https://ipfs.io/ipfs/")
-              : avatar
-          }
-          alt={name ?? user.address}
-          style={avatarStyle}
-        />
-      )}
-      <span style={textStyle}>
-        {name || `${user.address.slice(0, 8)}...${user.address.slice(-3)}`}
-      </span>
-    </div>
-  );
+	return (
+		<Link
+			to={`/profile/${user.address.toLowerCase()}`}
+			style={{ textDecoration: "none" }}
+			title="View Life List">
+			{content}
+		</Link>
+	);
+
 };
 
 AccountOwner.propTypes = {
 	className: PropTypes.string,
-	user: PropTypes.shape({
-		address: PropTypes.string,
-		farcaster: PropTypes.shape({
-			fid: PropTypes.string,
-			pfp_url: PropTypes.string,
-			display_name: PropTypes.string,
-		}),
-	}).isRequired,
+	user: PropTypes.shape({ address: PropTypes.string.isRequired }).isRequired,
 	size: PropTypes.string,
 	showLinkToProfile: PropTypes.bool,
 };

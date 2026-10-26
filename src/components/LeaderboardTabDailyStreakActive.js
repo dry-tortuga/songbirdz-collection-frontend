@@ -1,161 +1,87 @@
-import React, { useEffect, useState } from "react";
-import PropTypes from "prop-types";
+import React from "react";
 import { Col, Row, Table } from "react-bootstrap";
 
-import { useFarcasterContext } from "../contexts/farcaster";
 import { useWalletContext } from "../contexts/wallet";
 
 import useDailyStreaksActive from "../hooks/useDailyStreaksActive";
 
 import AccountOwner from "./AccountOwner";
 
-const LeaderboardTabDailyStreakActive = ({ onUserClick }) => {
+const LeaderboardTabDailyStreakActive = () => {
 
-	const { fPopulateUsers } = useFarcasterContext();
 	const { account } = useWalletContext();
 
 	const { data } = useDailyStreaksActive({ account });
 
-	const [farcasterUsers, setFarcasterUsers] = useState(null);
-
-	// Add farcaster user data
-	useEffect(() => {
-
-		const populate = async () => {
-
-			if (!data) {
-				setFarcasterUsers(null);
-				return;
-			}
-
-			const result = await fPopulateUsers(data);
-
-			setFarcasterUsers(result);
-
-		}
-
-		populate();
-
-	}, [data, fPopulateUsers]);
+	const isCurrentUser = (user) => Boolean(
+		account && user.address.toLowerCase() === account.toLowerCase(),
+	);
 
 	return (
-		<Row className="mb-4">
-			<Col>
-				<Table
-					className="daily-streak-table fw-normal"
-					hover
-					responsive>
-					<thead>
-						<tr>
-							<th scope="col">
-								{"#"}
-							</th>
-							<th
-								className="ps-5"
-								scope="col">
-								{"Account"}
-							</th>
-							<th scope="col">
-								{"Daily Streak"}
-							</th>
-						</tr>
-					</thead>
-					{!farcasterUsers &&
-						<div className="mt-3">
-							<i className="fa-solid fa-spinner fa-spin fa-xl" />
-						</div>
+		<>
+			<Row className="mb-4">
+				<Col>
+					{!data &&
+						<i className="fa-solid fa-spinner fa-spin fa-xl" role="status" aria-label="Loading" />
 					}
-					{farcasterUsers?.length === 0 &&
-						<div className="mt-3">
-							{"Nothing to show here..."}
-						</div>
-					}
-					{farcasterUsers?.length > 0 &&
-						<tbody>
-							{farcasterUsers.map((user, index) => (
-								<tr
-									key={index}
-									className={
-										(account && user.address.toLowerCase() === account.toLowerCase()) ? "current-user" : ""}>
-									<td>
-										<span>
-											{index + 1}
-										</span>
-										{(account && user.address.toLowerCase() === account.toLowerCase()) &&
-											<span className="ms-3">
-												{"(You)"}
-											</span>
-										}
-									</td>
-									<td>
-										<a
-											href="#"
-											title="View Life List"
-											style={{ textDecoration: 'none' }}
-											onClick={() =>
-												onUserClick({
-													account: user.address,
-													rank: null,
-													farcaster: user.farcaster,
-												})
-											}>
-											<AccountOwner
-												user={{ address: user.address, farcaster: user.farcaster }}
-												showLinkToProfile={false} />
-										</a>
-									</td>
-									<td>
-										{user.login_streak}
-										{` (as of ${user.last_login})`}
-									</td>
+					{data &&
+						<Table className="daily-streak-table fw-normal" hover responsive>
+							<thead>
+								<tr>
+									<th scope="col">{"#"}</th>
+									<th scope="col">{"Account"}</th>
+									<th scope="col">{"Daily Streak"}</th>
 								</tr>
-							))}
-						</tbody>
+							</thead>
+							<tbody>
+								{data.length === 0 &&
+									<tr><td colSpan="3">{"Nothing to show here..."}</td></tr>
+								}
+								{data.map((user, index) => (
+									<tr
+										key={user.address}
+										className={isCurrentUser(user) ? "table-primary" : ""}>
+										<td>
+											{index + 1}
+											{isCurrentUser(user) &&
+												<span className="ms-3">{"(You)"}</span>
+											}
+										</td>
+										<td>
+											<AccountOwner user={{ address: user.address }} />
+										</td>
+										<td>
+											{user.login_streak}
+											{` (as of ${user.last_login})`}
+										</td>
+									</tr>
+								))}
+							</tbody>
+						</Table>
 					}
-				</Table>
-				<Row className="mt-3 mb-3">
-					<Col>
-						<h2 className="d-flex align-items-center">
-							<span className="me-auto">
-								{"How does the Daily Streak work?"}
-							</span>
-						</h2>
-					</Col>
-				</Row>
-				<Row>
-					<Col>
-						<p>
-							{"Identify a new bird every day (i.e. mint one for 0.0015 ETH). Days end at 8pm ET, midnight UTC!"}
-						</p>
-						<ul style={{ listStyle: 'disc' }}>
-							<li>
-								{"Once your active streak hits 7 days, you'll earn 50 bonus Birder Points in the current season."}
-							</li>
-							<li>
-								{"Once your active streak hits 14 days, you'll earn 125 bonus Birder Points in the current season."}
-							</li>
-							<li>
-								{"Once your active streak hits 30 days, you'll earn 300 bonus Birder Points in the current season."}
-							</li>
-							<li>
-								{"Once your active streak hits 75 days, you'll earn 1000 bonus Birder Points in the current season."}
-							</li>
-						</ul>
-						<p>
-							{"This competition is just for fun. Not financial advice. DYOR :)"}
-						</p>
-					</Col>
-				</Row>
-			</Col>
-		</Row>
+				</Col>
+			</Row>
+			<Row className="mt-3 mb-3">
+				<Col>
+					<h2>{"How does the Daily Streak work?"}</h2>
+				</Col>
+			</Row>
+			<Row>
+				<Col>
+					<p>
+						{"Identify a new bird every day (i.e. mint one for 0.0015 ETH). Days end at 8pm ET, midnight UTC!"}
+					</p>
+					<ul style={{ listStyle: "disc" }}>
+						<li>{"Once your active streak hits 7 days, you'll earn 50 bonus Birder Points."}</li>
+						<li>{"Once your active streak hits 14 days, you'll earn 125 bonus Birder Points."}</li>
+						<li>{"Once your active streak hits 30 days, you'll earn 300 bonus Birder Points."}</li>
+						<li>{"Once your active streak hits 75 days, you'll earn 1000 bonus Birder Points."}</li>
+					</ul>
+				</Col>
+			</Row>
+		</>
 	);
 
 };
-
-const propTypes = {
-	onUserClick: PropTypes.func.isRequired,
-};
-
-LeaderboardTabDailyStreakActive.propTypes = propTypes;
 
 export default LeaderboardTabDailyStreakActive;

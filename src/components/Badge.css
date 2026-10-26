@@ -1,0 +1,80 @@
+
+.badge-grid {
+	display: grid;
+	grid-template-columns: repeat(auto-fill, minmax(52px, 1fr));
+	gap: 0.5rem;
+}
+
+.badge-tile {
+	--badge-hue: 30;
+	position: relative;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 100%;
+	aspect-ratio: 1 / 1;
+	padding: 0;
+	border: 2px solid #333;
+	border-radius: 6px;
+	background: hsl(var(--badge-hue), 65%, 62%);
+	color: #fff;
+	cursor: pointer;
+}
+
+.badge-tile__glyph {
+	width: 50%;
+	height: 50%;
+	fill: currentColor;
+}
+
+.badge-tile__id {
+	position: absolute;
+	right: 2px;
+	bottom: 2px;
+	padding: 0 3px;
+	border-radius: 3px;
+	background: #333;
+	color: #fff;
+	font-size: 0.6rem;
+	line-height: 1.2;
+}
+
+/* Not recorded: silhouette */
+.badge-tile--missing {
+	background: #e6e6ec;
+	color: #333;
+}
+
+/* Held or claimable: faded with a dashed outline (shape, not just color) */
+.badge-tile--held,
+.badge-tile--legacy {
+	border-style: dashed;
+	background: hsla(var(--badge-hue), 65%, 62%, 0.35);
+	color: #333;
+}
+
+/* 1 of 1 species */
+.badge-tile--supply-1 {
+	border-color: #b8860b;
+	box-shadow: 0 0 0 2px #f2c94c;
+}
+
+.badge-tile--selected {
+	outline: 3px solid #4f46e5;
+	outline-offset: 2px;
+}
+
+.badge-tile:focus-visible {
+	outline: 3px solid #4f46e5;
+	outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+	.badge-tile {
+		transition: transform 0.1s ease;
+	}
+
+	.badge-tile:hover {
+		transform: translateY(-2px);
+	}
+}

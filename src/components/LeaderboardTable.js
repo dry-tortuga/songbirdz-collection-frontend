@@ -1,187 +1,72 @@
-import React, { useEffect, useMemo, useState } from "react";
+import React from "react";
 import PropTypes from "prop-types";
-import { Table, Pagination } from "react-bootstrap";
+import { Table } from "react-bootstrap";
 
-import { useFarcasterContext } from "../contexts/farcaster";
 import { useWalletContext } from "../contexts/wallet";
 
+import usePagination from "../hooks/usePagination";
+
 import AccountOwner from "./AccountOwner";
+import PaginationControls from "./PaginationControls";
 
 import "./LeaderboardTable.css";
 
-const PAGE_SIZE = 10;
+// Birder Points table (used by the read-only season archive)
+const LeaderboardTable = ({ users }) => {
 
-const LeaderboardTable = (props) => {
-
-	const { users, onUserClick } = props;
-
-	const { fPopulateUsers } = useFarcasterContext();
 	const { account } = useWalletContext();
 
-	const [currentPage, setCurrentPage] = useState(1);
+	const { page, totalPages, start, pageItems, setPage } = usePagination(users, 10);
 
-	const [farcasterUsers, setFarcasterUsers] = useState(null);
-
-	// Calculate pagination for raw users
-	const paginationInfo = useMemo(() => {
-
-		if (!users) { return null; }
-
-		const totalPages = Math.ceil(users.length / PAGE_SIZE);
-
-		const startIndex = (currentPage - 1) * PAGE_SIZE;
-		const endIndex = startIndex + PAGE_SIZE;
-
-		const currentUsers = users.slice(startIndex, endIndex);
-
-		return {
-			currentUsers,
-			totalPages,
-			startIndex,
-			endIndex,
-		};
-
-	}, [users, currentPage]);
-
-	// Add farcaster user data for current page only
-	useEffect(() => {
-
-		const populate = async () => {
-
-			if (!paginationInfo || !paginationInfo.currentUsers) {
-				setFarcasterUsers(null);
-				return;
-			}
-
-			const result = await fPopulateUsers(paginationInfo.currentUsers);
-
-			setFarcasterUsers(result);
-
-		}
-
-		populate();
-
-	}, [paginationInfo, fPopulateUsers]);
-
-	// Calculate final pagination state
-	const paginationState = useMemo(() => {
-
-		if (!farcasterUsers || !paginationInfo) { return null; }
-
-		return {
-			currentUsers: farcasterUsers,
-			totalPages: paginationInfo.totalPages,
-			startIndex: paginationInfo.startIndex,
-			endIndex: paginationInfo.endIndex,
-		};
-
-	}, [farcasterUsers, paginationInfo]);
-
-	const handlePageChange = (pageNumber) => {
-		setCurrentPage(pageNumber);
-	};
-
-	if (!paginationState || !paginationState.currentUsers) {
-		return <i className="fa-solid fa-spinner fa-spin fa-xl me-2" />;
-	}
+	const isCurrentUser = (user) => Boolean(
+		account && user.address.toLowerCase() === account.toLowerCase(),
+	);
 
 	return (
 		<>
-			<Table
-				className="leaderboard-table fw-normal"
-				hover
-				responsive>
+			<Table className="leaderboard-table fw-normal" hover responsive>
 				<thead>
 					<tr>
-						<th scope="col">
-							{"#"}
-						</th>
-						<th
-							className="ps-5"
-							scope="col">
-							{"Account"}
-						</th>
-						<th scope="col">
-							{"Birder Points"}
-						</th>
+						<th scope="col">{"#"}</th>
+						<th scope="col">{"Account"}</th>
+						<th scope="col">{"Birder Points"}</th>
 					</tr>
 				</thead>
 				<tbody>
-					{paginationState.currentUsers.length === 0 &&
-						<span>
-							{"Nothing to show here..."}
-						</span>
+					{pageItems.length === 0 &&
+						<tr>
+							<td colSpan="3">{"Nothing to show here..."}</td>
+						</tr>
 					}
-					{paginationState.currentUsers.map((user, index) => (
+					{pageItems.map((user, index) => (
 						<tr
-							key={paginationState.startIndex + index}
-							className={
-								(account && user.address.toLowerCase() === account.toLowerCase())
-									? "current-user"
-									: ""
-							}>
+							key={user.address}
+							className={isCurrentUser(user) ? "current-user" : ""}>
 							<td>
-								<span>
-									{paginationState.startIndex + index + 1}
-								</span>
-								{account && user.address.toLowerCase() === account.toLowerCase() && (
-									<span className="ms-3">
-										{"(You)"}
-									</span>
-								)}
+								{start + index + 1}
+								{isCurrentUser(user) &&
+									<span className="ms-3">{"(You)"}</span>
+								}
 							</td>
 							<td>
-								<a
-									href="#"
-									title="View Life List"
-									style={{ textDecoration: 'none' }}
-									onClick={() =>
-										onUserClick({
-											account: user.address,
-											rank: paginationState.startIndex + index + 1,
-											farcaster: user.farcaster,
-										})
-									}>
-									<AccountOwner
-										user={{ address: user.address, farcaster: user.farcaster }}
-										showLinkToProfile={false} />
-								</a>
+								<AccountOwner user={{ address: user.address }} />
 							</td>
-							<td>
-								{user.total}
-							</td>
+							<td>{user.total}</td>
 						</tr>
 					))}
 				</tbody>
 			</Table>
-			{paginationState.totalPages > 1 && (
-				<Pagination className="justify-content-center">
-					<Pagination.First
-						disabled={currentPage === 1}
-						onClick={() => handlePageChange(1)} />
-					{[...Array(paginationState.totalPages)].map((_, index) => (
-						<Pagination.Item
-							key={index + 1}
-							active={(index + 1) === currentPage}
-							onClick={() => handlePageChange(index + 1)}>
-							{index + 1}
-						</Pagination.Item>
-					))}
-					<Pagination.Last
-						disabled={currentPage === paginationState.totalPages}
-						onClick={() => handlePageChange(paginationState.totalPages)} />
-				</Pagination>
-			)}
+			<PaginationControls page={page} totalPages={totalPages} onChange={setPage} />
 		</>
 	);
+
 };
 
 LeaderboardTable.propTypes = {
 	users: PropTypes.arrayOf(PropTypes.shape({
 		address: PropTypes.string.isRequired,
 		total: PropTypes.number.isRequired,
-	})),
-	onUserClick: PropTypes.func.isRequired,
+	})).isRequired,
 };
 
 export default LeaderboardTable;

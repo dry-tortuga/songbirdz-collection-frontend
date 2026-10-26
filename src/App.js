@@ -48,6 +48,12 @@ const router = createBrowserRouter(
 				path="leaderboard"
 				lazy={() => import("./routes/leaderboard")} />
 			<Route
+				path="profile"
+				lazy={() => import("./routes/profile")} />
+			<Route
+				path="profile/:address"
+				lazy={() => import("./routes/profile")} />
+			<Route
 				path=""
 				lazy={() => import("./routes/home")} />
 		</Route>

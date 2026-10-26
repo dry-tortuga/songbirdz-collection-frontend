@@ -4,10 +4,7 @@ import { Button, Toast } from "react-bootstrap";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
 
-import { useFarcasterContext } from "../contexts/farcaster";
-
 import baseLogo from "../images/base-logo-blue.svg";
-import farcasterLogo from "../images/farcaster-logo.png";
 
 import "./BirdIdentificationTransactionStatus.css";
 
@@ -19,12 +16,6 @@ const BirdIdentificationTransactionStatus = (props) => {
 		tx,
 		onClose,
 	} = props;
-
-	const {
-		isFarcasterApp,
-		fComposeCast,
-		fOpenExternalURL,
-	} = useFarcasterContext();
 
 	const [isOpen, setIsOpen] = useState(true);
 
@@ -130,8 +121,7 @@ const BirdIdentificationTransactionStatus = (props) => {
 						<a
 							href={`${process.env.REACT_APP_BASESCAN_URL}/tx/${tx.transactionHash}`}
 							target="_blank"
-							rel="noopener noreferrer nofollow"
-							onClick={fOpenExternalURL}>
+							rel="noopener noreferrer nofollow">
 							{tx.transactionHash.slice(0, 8)}
 						</a>
 					</span>
@@ -165,8 +155,7 @@ const BirdIdentificationTransactionStatus = (props) => {
 								target="_blank"
 								rel="noopener noreferrer"
 								data-show-count="false"
-								data-hashtags="birds,birding,nfts,based"
-								onClick={fOpenExternalURL}>
+								data-hashtags="birds,birding,nfts,based">
 								<div className="d-flex align-items-center justify-content-center">
 									<i
 										className="fa-brands fa-x-twitter me-2"
@@ -177,34 +166,6 @@ const BirdIdentificationTransactionStatus = (props) => {
 									{'Share on X'}
 								</div>
 							</Button>
-							{isFarcasterApp &&
-								<Button
-									href={`https://farcaster.xyz/~/compose?text=${encodeURIComponent(`I just identified this ${tx.bird.species} in the Songbirdz collection!\n\nhttps://songbirdz.cc/collection/${tx.bird.id}\n\nThink you have what it takes to identify a new bird?`)}&channelKey=songbirdz&embeds[]=${encodeURIComponent(tx.bird.imageLg)}&embeds[]=${encodeURIComponent(`https://songbirdz.cc/collection/${tx.bird.id}`)}`}
-									variant="outline-primary"
-									className="farcaster-share-button"
-									as="a"
-									target="_blank"
-									rel="noopener noreferrer"
-									onClick={(event) => fComposeCast(event, {
-										text: `I just identified this ${tx.bird.species} in the Songbirdz collection!\n\nhttps://songbirdz.cc/collection/${tx.bird.id}\n\nThink you have what it takes to identify a new bird?`,
-										embeds: [
-											tx.bird.imageLg,
-											`https://songbirdz.cc/collection/${tx.bird.id}`,
-										],
-										channelKey: 'songbirdz',
-									})}>
-									<div className="d-flex align-items-center justify-content-center">
-										<img
-											className="me-2"
-											src={farcasterLogo}
-											alt=""
-											style={{ width: "20px", height: "20px" }} />
-										<span>
-											{'Share on Farcaster'}
-										</span>
-									</div>
-								</Button>
-							}
 						</div>
 					</>
 				)}
