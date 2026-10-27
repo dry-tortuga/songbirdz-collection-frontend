@@ -1,9 +1,276 @@
-.profile-page .profile-stat {
-	height: 100%;
+/* Profile page - V2 mockup styles (matches the Leaderboard page theme) */
+
+/* ---- Header ---- */
+
+.profile-header {
+	display: flex;
+	gap: 20px;
+	align-items: center;
+	flex-wrap: wrap;
 }
 
-.profile-page .profile-stat .stat-value {
-	font-size: 1.6rem;
+.profile-header__info {
+	flex: 1;
+	min-width: 240px;
+}
+
+.profile-name {
+	margin: 0;
+}
+
+.profile-subtitle {
+	color: #5f6670;
+}
+
+.profile-basescan-link {
+	font-size: 13px;
+	color: #4338ca;
+	text-decoration: none;
+}
+
+.profile-basescan-link:hover {
+	color: #4338ca;
+	text-decoration: underline;
+}
+
+.profile-share-btn {
+	display: inline-flex;
+	align-items: center;
+	font-size: 15px;
+	min-height: 44px;
+	padding: 0 16px;
+	border: 2px solid #333;
+	border-radius: 8px;
+	background: #fff;
+	color: #333;
+	text-decoration: none;
+}
+
+.profile-share-btn:hover,
+.profile-share-btn:focus {
+	background: #f4f4fb;
+	color: #333;
+}
+
+/* ---- Stat cards ---- */
+
+.profile-stats {
+	display: grid;
+	grid-template-columns: repeat(4, 1fr);
+	gap: 14px;
+	margin: 26px 0;
+}
+
+.profile-stat {
+	border: 2px solid #333;
+	border-radius: 10px;
+	padding: 14px;
+	background: #fff;
+}
+
+.profile-stat__label {
+	color: #5f6670;
+	font-size: 14px;
+}
+
+.profile-stat__value {
+	margin-top: 2px;
+	font-size: 1.5rem;
 	font-weight: 700;
 	line-height: 1.2;
+}
+
+/* ---- Life List & side column ---- */
+
+.profile-main-grid {
+	display: grid;
+	grid-template-columns: 2fr 1fr;
+	gap: 26px;
+	align-items: start;
+}
+
+.profile-pill-row {
+	display: flex;
+	gap: 8px;
+	margin-bottom: 12px;
+	flex-wrap: wrap;
+	align-items: center;
+}
+
+.profile-pill {
+	padding: 8px 14px;
+	border: 2px solid #333;
+	border-radius: 20px;
+	font-size: 14px;
+	background: #fff;
+	color: #333;
+	line-height: 1.2;
+}
+
+.profile-pill:hover {
+	color: #333;
+	background: #f4f4fb;
+}
+
+.profile-pill--active,
+.profile-pill--active:hover {
+	background: #4f46e5;
+	color: #fff;
+}
+
+.profile-search {
+	max-width: 200px;
+	padding: 8px 14px;
+	border: 2px solid #333;
+	border-radius: 20px;
+	font-size: 14px;
+}
+
+.profile-note {
+	font-size: 13px;
+	color: #5f6670;
+}
+
+/* ---- Ready to record box (Phase 2) ---- */
+
+.profile-ready-box {
+	border: 2px dashed #333;
+	border-radius: 10px;
+	padding: 14px;
+	background: #f4f4fb;
+	margin-bottom: 18px;
+}
+
+.profile-ready-text {
+	color: #5f6670;
+	font-size: 14px;
+	margin: 4px 0 10px;
+}
+
+.profile-ready-tiles {
+	display: flex;
+	gap: 8px;
+	flex-wrap: wrap;
+}
+
+.profile-ready-tile {
+	width: 44px;
+	height: 44px;
+	border: 2px dashed #333;
+	border-radius: 6px;
+	background: rgba(230, 230, 236, 0.6);
+	color: #333;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	font-weight: 700;
+}
+
+/* ---- Flock progress ---- */
+
+.profile-side-title {
+	display: block;
+	margin-bottom: 10px;
+}
+
+.flock-row {
+	margin-bottom: 10px;
+}
+
+.flock-row span {
+	font-size: 14px;
+}
+
+.flock-row .flock-score {
+	color: #5f6670;
+}
+
+.flock-bar {
+	height: 8px;
+	background: #e6e6ec;
+	border: 2px solid #333;
+	border-radius: 6px;
+	overflow: hidden;
+	margin-top: 3px;
+}
+
+.flock-bar-fill {
+	height: 100%;
+	background: #4f46e5;
+}
+
+/* ---- Bottom panels ---- */
+
+.profile-bottom-grid {
+	display: grid;
+	grid-template-columns: repeat(3, 1fr);
+	gap: 26px;
+	align-items: start;
+	margin-top: 26px;
+}
+
+.profile-panel-title {
+	display: block;
+	font-size: 1rem;
+	margin-bottom: 4px;
+}
+
+.profile-muted-list {
+	font-size: 14px;
+	color: #5f6670;
+	margin-top: 8px;
+	line-height: 1.9;
+}
+
+.profile-rare-tiles {
+	display: flex;
+	gap: 8px;
+	margin-top: 8px;
+}
+
+.rare-tile {
+	width: 56px;
+	height: 56px;
+	padding: 0;
+	overflow: hidden;
+	border: 2px solid #b8860b;
+	border-radius: 6px;
+	background: #e6e6ec;
+}
+
+.rare-tile img {
+	display: block;
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+}
+
+/* ---- Season history ---- */
+
+.season-table {
+	max-width: 480px;
+}
+
+/* ---- Responsive ---- */
+
+@media (max-width: 991px) {
+
+	.profile-main-grid,
+	.profile-bottom-grid,
+	.profile-stats {
+		grid-template-columns: 1fr;
+	}
+
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+
+	.profile-stats {
+		grid-template-columns: repeat(2, 1fr);
+	}
+
+	.profile-bottom-grid {
+		grid-template-columns: repeat(2, 1fr);
+	}
+
 }

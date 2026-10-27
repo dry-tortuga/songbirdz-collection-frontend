@@ -1,6 +1,5 @@
 import React, { useMemo } from "react";
 import PropTypes from "prop-types";
-import { ProgressBar } from "react-bootstrap";
 
 import { COLLECTIONS } from "../constants";
 import { ALL_SPECIES, SPECIES_STATE, flockIndexForSpecies } from "../utils/lifeList";
@@ -17,20 +16,24 @@ const FlockProgress = ({ states }) => {
 	}), [states]);
 
 	return (
-		<ul className="list-unstyled mb-0">
+		<div className="profile-flock-progress">
 			{rows.map((row) => (
-				<li key={row.name} className="mb-2">
+				<div key={row.name} className="flock-row">
 					<div className="d-flex justify-content-between">
 						<span>{row.name}</span>
-						<span className="text-muted">{`${row.done} / ${row.total}`}</span>
+						<span className="flock-score">{`${row.done}/${row.total}`}</span>
 					</div>
-					<ProgressBar
-						now={row.total ? (row.done / row.total) * 100 : 0}
-						style={{ height: "0.6rem" }}
-						aria-label={`${row.name}: ${row.done} of ${row.total} recorded`} />
-				</li>
+					<div
+						className="flock-bar"
+						role="progressbar"
+						aria-label={`${row.name}: ${row.done} of ${row.total} recorded`}>
+						<div
+							className="flock-bar-fill"
+							style={{ width: `${row.total ? (row.done / row.total) * 100 : 0}%` }} />
+					</div>
+				</div>
 			))}
-		</ul>
+		</div>
 	);
 
 };

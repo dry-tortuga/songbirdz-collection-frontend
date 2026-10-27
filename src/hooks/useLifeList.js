@@ -38,7 +38,11 @@ const useLifeList = ({ address }) => {
 			const entry = (board || []).find((user) => user.address === address);
 
 			setResult({
-				data: { ...buildLifeList(raw), rank: entry?.rank ?? null },
+				data: {
+					...buildLifeList(raw),
+					rank: entry?.rank ?? null,
+					rarestBirdId: entry?.rarest_bird_id ?? null,
+				},
 				loading: false,
 				error: false,
 			});

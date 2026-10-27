@@ -4,6 +4,8 @@ import { useSearchParams } from "react-router-dom";
 
 import { ARCHIVE_SEASONS, LATEST_ARCHIVE_SEASON } from "../constants/seasons";
 
+import "./Leaderboard.css";
+
 const LeaderboardTabLifeList = lazy(() => import("../components/LeaderboardTabLifeList"));
 const LeaderboardTabDailyStreakActive = lazy(() => import("../components/LeaderboardTabDailyStreakActive"));
 const LeaderboardTabHallOfFame = lazy(() => import("../components/LeaderboardTabHallOfFame"));

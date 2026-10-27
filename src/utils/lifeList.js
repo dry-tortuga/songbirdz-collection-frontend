@@ -39,10 +39,17 @@ export const buildLifeList = (raw) => {
 
 	const recorded = new Set();
 	const pointsBySeason = {};
+	const birdIds = {};
+	const events = [];
 
 	Object.entries(raw || {}).forEach(([key, logs]) => {
 
 		const season = parseInt(key.replace("season_", ""), 10);
+
+		// Ignore any non-season entries (e.g. extra metadata in the response)
+		if (Number.isNaN(season)) {
+			return;
+		}
 
 		let total = 0;
 
@@ -50,8 +57,27 @@ export const buildLifeList = (raw) => {
 
 			total += log.amount || 0;
 
-			if (log.species_id < NUM_SPECIES_TOTAL) {
-				recorded.add(log.species_id);
+			if (log.species_id >= NUM_SPECIES_TOTAL) {
+				return;
+			}
+
+			recorded.add(log.species_id);
+
+			// Keep a bird id for each recorded species (their first bird)
+			if (birdIds[log.species_id] === undefined &&
+				log.bird_id !== null && log.bird_id !== undefined) {
+				birdIds[log.species_id] = log.bird_id;
+			}
+
+			// Keep track of the log's date to show activity & join date
+			if (log.timestamp) {
+				events.push({
+					season,
+					speciesId: log.species_id,
+					birdId: log.bird_id ?? null,
+					points: log.amount || 0,
+					timestamp: log.timestamp,
+				});
 			}
 
 		});
@@ -59,6 +85,15 @@ export const buildLifeList = (raw) => {
 		pointsBySeason[season] = total;
 
 	});
+
+	// Most recent activity first
+	events.sort((a, b) =>
+		new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime());
+
+	// First log across all seasons approximates the join date
+	const memberSince = events.length > 0
+		? events[events.length - 1].timestamp
+		: null;
 
 	const states = {};
 
@@ -73,6 +108,9 @@ export const buildLifeList = (raw) => {
 		count: recorded.size,
 		pointsBySeason,
 		totalPoints: Object.values(pointsBySeason).reduce((sum, value) => sum + value, 0),
+		birdIds,
+		events,
+		memberSince,
 	};
 
 };

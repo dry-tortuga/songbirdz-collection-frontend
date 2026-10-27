@@ -2,13 +2,14 @@ import React from "react";
 import PropTypes from "prop-types";
 
 import { STATE_LABELS } from "../utils/lifeList";
+import { birdImage } from "../utils/data";
 
 import "./Badge.css";
 
 // One hue per flock so a full grid is easy to scan
 const FLOCK_HUES = [30, 205, 130, 260, 5, 45, 335, 160, 85, 285];
 
-// Placeholder glyph until the xPoli badge art is available (see getBadgeArt)
+// Placeholder glyph (bird silhouette) for missing / claimable tiles
 const GLYPH = [
 	"00000110", "00001111", "01111110", "11111100",
 	"01111110", "00111100", "00010100", "00110110",
@@ -33,7 +34,7 @@ const BadgeGlyph = () => (
 
 const BadgeTile = (props) => {
 
-	const { species, state, flockIndex, supply, selected, onSelect } = props;
+	const { species, state, birdId, flockIndex, supply, selected, onSelect } = props;
 
 	const classes = [
 		"badge-tile",
@@ -44,19 +45,21 @@ const BadgeTile = (props) => {
 
 	const label = `${species.label}, species ${species.id}, ${STATE_LABELS[state]}`;
 
+	const style = { "--badge-hue": FLOCK_HUES[flockIndex % FLOCK_HUES.length] };
+
 	return (
 		<button
 			type="button"
 			className={classes}
-			style={{ "--badge-hue": FLOCK_HUES[flockIndex % FLOCK_HUES.length] }}
+			style={style}
 			title={`${species.label} (${STATE_LABELS[state]})`}
 			aria-label={label}
 			aria-pressed={Boolean(selected)}
 			onClick={() => onSelect(species)}>
-			<BadgeGlyph />
-			<span className="badge-tile__id" aria-hidden="true">
-				{species.id}
-			</span>
+			{state === "recorded" && birdId !== undefined && birdId !== null
+				? <img className="badge-tile__img" src={birdImage(birdId)} alt="" loading="lazy" />
+				: <BadgeGlyph />
+			}
 		</button>
 	);
 
@@ -68,6 +71,7 @@ BadgeTile.propTypes = {
 		label: PropTypes.string.isRequired,
 	}).isRequired,
 	state: PropTypes.oneOf(["missing", "held", "legacy", "recorded"]).isRequired,
+	birdId: PropTypes.number,
 	flockIndex: PropTypes.number.isRequired,
 	supply: PropTypes.number,
 	selected: PropTypes.bool,

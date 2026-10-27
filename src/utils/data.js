@@ -1,5 +1,8 @@
 import { COLLECTION_BIRD_SIZE, AUDIO_METADATA } from "../constants";
 
+const birdImage = (birdId) =>
+	`${process.env.REACT_APP_SONGBIRDZ_STATIC_URL}/images/${birdId}.jpg`;
+
 async function fetchBird(id, owner, cached) {
 
 	const data = {
@@ -184,6 +187,31 @@ async function populateMetadata(data) {
 
 }
 
+async function fetchSpeciesSupply() {
+
+	// Fetch the supply (rarity) of every species, keyed by species ID
+	try {
+
+		const response = await fetch(
+			`${process.env.REACT_APP_SONGBIRDZ_BACKEND_URL}/birds/species-supply`
+		);
+
+		if (response.status === 200) {
+			return await response.json();
+		}
+
+	} catch (error) {
+
+		console.debug("---- ERROR FETCHING SPECIES SUPPLY DATA ----");
+		console.debug(error);
+		console.debug("---------------------------------------------");
+
+	}
+
+	return null;
+
+}
+
 async function fetchDailyStreaksActive(address, size) {
 
 	let finalData;
@@ -309,7 +337,9 @@ async function fetchBirdOfTheWeek() {
 }
 
 export {
+	birdImage,
 	fetchBird,
+	fetchSpeciesSupply,
 	fetchPointsLeaderboard,
 	fetchLifeListData,
 	fetchLifeListLeaderboard,
