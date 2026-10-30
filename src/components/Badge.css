@@ -35,17 +35,18 @@
 	fill: currentColor;
 }
 
-/* Not recorded: silhouette */
+/* Not recorded: white silhouette on a dark tint of the flock hue
+   (>= 7:1 contrast for the white glyph at any hue) */
 .badge-tile--missing {
-	background: #e6e6ec;
+	background: hsl(var(--badge-hue), 45%, 30%);
 	color: #fff;
 }
 
-/* Held or claimable: faded with a dashed outline (shape, not just color) */
+/* Held or claimable: dashed outline to distinguish from plain missing */
 .badge-tile--held,
 .badge-tile--legacy {
 	border-style: dashed;
-	background: hsla(var(--badge-hue), 65%, 62%, 0.35);
+	background: hsl(var(--badge-hue), 45%, 30%);
 	color: #fff;
 }
 

@@ -37,7 +37,7 @@ const groupSpecies = (species, groupBy) => {
 
 const BadgeGrid = (props) => {
 
-	const { species, states, birdIds, groupBy, selectedId, supplyById, onSelect } = props;
+	const { species, states, groupBy, selectedId, supplyById, onSelect } = props;
 
 	const groups = useMemo(() => groupSpecies(species, groupBy), [species, groupBy]);
 
@@ -72,7 +72,6 @@ const BadgeGrid = (props) => {
 									key={item.id}
 									species={item}
 									state={states[item.id] || SPECIES_STATE.MISSING}
-									birdId={birdIds?.[item.id]}
 									flockIndex={flockIndexForSpecies(item.id)}
 									supply={supplyById?.[item.id]}
 									selected={item.id === selectedId}
@@ -91,7 +90,6 @@ const BadgeGrid = (props) => {
 BadgeGrid.propTypes = {
 	species: PropTypes.arrayOf(PropTypes.shape({ id: PropTypes.number.isRequired })).isRequired,
 	states: PropTypes.objectOf(PropTypes.string).isRequired,
-	birdIds: PropTypes.objectOf(PropTypes.number),
 	groupBy: PropTypes.oneOf(["flock", "family", "none"]),
 	selectedId: PropTypes.number,
 	supplyById: PropTypes.objectOf(PropTypes.number),

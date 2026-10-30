@@ -3,6 +3,9 @@ import { COLLECTION_BIRD_SIZE, AUDIO_METADATA } from "../constants";
 const birdImage = (birdId) =>
 	`${process.env.REACT_APP_SONGBIRDZ_STATIC_URL}/images/${birdId}.jpg`;
 
+const speciesBadgeSrc = (speciesId) =>
+	`${process.env.PUBLIC_URL}/lifelist/${speciesId}.svg`;
+
 async function fetchBird(id, owner, cached) {
 
 	const data = {
@@ -338,6 +341,7 @@ async function fetchBirdOfTheWeek() {
 
 export {
 	birdImage,
+	speciesBadgeSrc,
 	fetchBird,
 	fetchSpeciesSupply,
 	fetchPointsLeaderboard,

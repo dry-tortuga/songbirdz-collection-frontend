@@ -1,15 +1,16 @@
 import React, { useMemo, useState } from "react";
-import { Alert, Card, Container, Form } from "react-bootstrap";
+import { Alert, Container, Form, Modal } from "react-bootstrap";
 import { Link, useParams } from "react-router-dom";
 import { ConnectButton } from "@rainbow-me/rainbowkit";
 import { base } from "viem/chains";
-import { useEnsAddress, useEnsName } from "wagmi";
+import { useEnsAddress, useEnsName, usePublicClient } from "wagmi";
 import dayjs from "dayjs";
 import PropTypes from "prop-types";
 
 import { AccountAvatar } from "../components/AccountOwner";
 import BadgeGrid from "../components/BadgeGrid";
 import FlockProgress from "../components/FlockProgress";
+import { FLOCK_HUES } from "../components/BadgeTile";
 
 import { NUM_SPECIES_TOTAL } from "../constants";
 import { ARCHIVE_SEASONS } from "../constants/seasons";
@@ -17,15 +18,20 @@ import { ARCHIVE_SEASONS } from "../constants/seasons";
 import { useWalletContext } from "../contexts/wallet";
 
 import useDailyStreak from "../hooks/useDailyStreak";
+import useBirdHistory from "../hooks/useBirdHistory";
 import useLifeList from "../hooks/useLifeList";
 import useSpeciesSupply from "../hooks/useSpeciesSupply";
 
+const SONGBIRDZ_CONTRACT_ADDRESS =
+	process.env.REACT_APP_SONGBIRDZ_CONTRACT_ADDRESS;
+
 import { ENS_UNIVERSAL_RESOLVER, isEvmAddress, shortAddress } from "../utils/ens";
-import { birdImage } from "../utils/data";
+import { birdImage, speciesBadgeSrc } from "../utils/data";
 import {
 	ALL_SPECIES,
 	SPECIES_STATE,
 	STATE_LABELS,
+	flockIndexForSpecies,
 	flockNameForSpecies,
 } from "../utils/lifeList";
 
@@ -60,6 +66,216 @@ StatCard.propTypes = {
 	children: PropTypes.node.isRequired,
 };
 
+const rarityLabel = (supply) => {
+
+	if (supply === 1) {
+		return { label: "Unique", detail: "1 of 1", variant: "unique" };
+	}
+
+	if (supply <= 5) {
+		return { label: "Very rare", detail: `${supply} birds exist`, variant: "rare" };
+	}
+
+	if (supply <= 20) {
+		return { label: "Rare", detail: `${supply} birds exist`, variant: "rare" };
+	}
+
+	return { label: "Common", detail: `${supply} birds exist`, variant: "common" };
+
+};
+
+const ACQUISITION_LABELS = {
+	10: { label: "Minted · identified", variant: "mint" },
+	3: { label: "Purchased on OpenSea", variant: "buy" },
+	1: { label: "Purchased or transferred", variant: "transfer" },
+};
+
+const acquisitionFor = (points) =>
+	ACQUISITION_LABELS[points === 10 ? 10 : points >= 3 ? 3 : 1];
+
+const SpeciesModal = ({ species, state, supply, birdId, events, onClose }) => {
+
+	const rarity = typeof supply === "number" ? rarityLabel(supply) : null;
+
+	const isRecorded = state === SPECIES_STATE.RECORDED;
+
+	const { available, loading, transfers } = useBirdHistory(
+		species && isRecorded ? birdId : undefined);
+
+	// BaseScan URL for the connected chain (undefined on other networks)
+	const explorer =
+		usePublicClient()?.chain?.blockExplorers?.default?.url;
+
+	const openSeaUrl =
+		SONGBIRDZ_CONTRACT_ADDRESS &&
+		birdId !== null && birdId !== undefined &&
+		`https://opensea.io/item/base/${SONGBIRDZ_CONTRACT_ADDRESS.toLowerCase()}/${birdId}`;
+
+	const stateVariant = state === SPECIES_STATE.RECORDED
+		? "recorded"
+		: state === SPECIES_STATE.MISSING
+			? "missing"
+			: "held";
+
+	// Scarcity meter: fewer birds = fuller bar
+	const fill = rarity ? `${Math.round((1 - (supply - 1) / 49) * 100)}%` : "0%";
+
+	return (
+		<Modal show={Boolean(species)} onHide={onClose} centered className="species-modal">
+			{species &&
+				<>
+					<Modal.Header
+						className="species-modal__header"
+						style={{ "--flock-hue": FLOCK_HUES[flockIndexForSpecies(species.id) % FLOCK_HUES.length] }}
+						closeButton>
+						<div className="species-modal__badge-box">
+							<img
+								className="species-modal__badge"
+								src={speciesBadgeSrc(species.id)}
+								alt=""
+								loading="lazy"
+								onError={(event) => { event.currentTarget.style.visibility = "hidden"; }} />
+						</div>
+						<div className="species-modal__heading">
+							<Modal.Title>
+								{species.label}
+							</Modal.Title>
+							<div className="species-modal__meta">
+								{`${species.family} · ${flockNameForSpecies(species.id)} flock`}
+							</div>
+						</div>
+					</Modal.Header>
+					<Modal.Body>
+
+						<div className="species-modal__row">
+							<span className={`species-modal__chip species-modal__chip--${stateVariant}`}>
+								{STATE_LABELS[state]}
+							</span>
+							{rarity &&
+								<span className={`species-modal__chip species-modal__chip--${rarity.variant}`}>
+									{`${rarity.label} · ${rarity.detail}`}
+								</span>
+							}
+						</div>
+
+						{rarity &&
+							<div className="species-modal__meter" aria-label="Species scarcity">
+								<span
+									className={`species-modal__meter-fill species-modal__meter-fill--${rarity.variant}`}
+									style={{ width: fill }} />
+							</div>
+						}
+
+						{isRecorded && birdId !== null && birdId !== undefined &&
+							<div className="species-modal__bird">
+								<img src={birdImage(birdId)} alt="" loading="lazy" />
+								<div className="species-modal__bird-info">
+									<span>{`Your Songbird #${birdId}`}</span>
+									{openSeaUrl &&
+										<a href={openSeaUrl} target="_blank" rel="noopener noreferrer nofollow">
+											{"View on OpenSea"}
+										</a>
+									}
+								</div>
+							</div>
+						}
+
+						<div className="species-modal__history">
+							<b>{"History"}</b>
+							<div className="species-modal__history-list">
+
+								{loading && (available && isRecorded && birdId !== null) &&
+									<div className="species-modal__history-row">
+										{"Loading on-chain transfers…"}
+									</div>
+								}
+
+								{!loading && transfers.length > 0 && transfers.map((transfer, index) => (
+									<div
+										key={`${transfer.txHash}-${index}`}
+										className="species-modal__history-row">
+										<span
+											className={`species-modal__method species-modal__method--${transfer.isMint ? "mint" : "trade"}`}>
+											{transfer.isMint ? "Minted" : "Traded"}
+										</span>
+										<time dateTime={dayjs(transfer.timestamp).format("YYYY-MM-DD")}>
+											{transfer.timestamp ?
+												dayjs(transfer.timestamp).format("MMM D, YYYY") :
+												`Block #${transfer.blockNumber}`}
+										</time>
+										{explorer && transfer.txHash &&
+											<a
+												href={`${explorer}/tx/${transfer.txHash}`}
+												target="_blank"
+												rel="noopener noreferrer nofollow">
+												{`tx ${transfer.txHash.slice(0, 8)}…${transfer.txHash.slice(-6)}`}
+											</a>
+										}
+									</div>
+								))}
+
+								{!loading && transfers.length === 0 && events.map((event, index) => {
+
+									const method = acquisitionFor(event.points);
+
+									return (
+										<div
+											key={`${event.birdId ?? "no-bird"}-${event.timestamp ?? index}-${index}`}
+											className="species-modal__history-row">
+											<span className={`species-modal__method species-modal__method--${method.variant}`}>
+												{method.label}
+											</span>
+											{event.timestamp &&
+												<time dateTime={dayjs(event.timestamp).format("YYYY-MM-DD")}>
+													{dayjs(event.timestamp).format("MMM D, YYYY")}
+												</time>
+											}
+											{event.birdId !== null &&
+												<span className="species-modal__history-muted">
+													{`Songbird #${event.birdId}`}
+												</span>
+											}
+										</div>
+									);
+
+								})}
+
+								{!loading && transfers.length === 0 && events.length === 0 &&
+									<div className="species-modal__history-row">
+										{"No history for this species yet."}
+									</div>
+								}
+
+							</div>
+						</div>
+
+					</Modal.Body>
+				</>
+			}
+		</Modal>
+	);
+
+};
+
+SpeciesModal.propTypes = {
+	species: PropTypes.shape({
+		id: PropTypes.number.isRequired,
+		label: PropTypes.string.isRequired,
+		family: PropTypes.string.isRequired,
+	}),
+	state: PropTypes.string,
+	supply: PropTypes.number,
+	birdId: PropTypes.number,
+	events: PropTypes.arrayOf(PropTypes.shape({
+		season: PropTypes.number,
+		speciesId: PropTypes.number,
+		birdId: PropTypes.number,
+		points: PropTypes.number,
+		timestamp: PropTypes.number,
+	})),
+	onClose: PropTypes.func.isRequired,
+};
+
 const RareTile = ({ birdId, label }) => (
 	<button
 		type="button"
@@ -76,6 +292,15 @@ RareTile.propTypes = {
 };
 
 // Public profile for any address, Base name, or ENS name. `/profile` shows the connected wallet.
+// Shareable deep-links: /profile/<addr>?species=<id> opens that species' details
+const deepLinkedSpeciesId = (() => {
+
+	const id = parseInt(new URLSearchParams(window.location.search).get("species"), 10);
+
+	return ALL_SPECIES.some((species) => species.id === id) ? id : null;
+
+})();
+
 const Profile = () => {
 
 	const { address: param } = useParams();
@@ -118,7 +343,8 @@ const Profile = () => {
 	const [filter, setFilter] = useState(FILTER_ALL);
 	const [groupBy, setGroupBy] = useState("flock");
 	const [search, setSearch] = useState("");
-	const [selected, setSelected] = useState(null);
+	const [selected, setSelected] = useState(() =>
+		ALL_SPECIES.find((species) => species.id === deepLinkedSpeciesId) || null);
 
 	const visibleSpecies = useMemo(() => {
 
@@ -326,9 +552,9 @@ const Profile = () => {
 									? `${tracker.login_streak} days (best ${tracker.longest_login_streak})`
 									: "0 days (best 0)"}
 							</StatCard>
-							<StatCard label="Birder Points">
-								{`Season ${latestSeason}: ${data.pointsBySeason[latestSeason] || 0}`}
-							</StatCard>
+						<StatCard label="Birder Points">
+							{data.totalPoints ?? data.pointsBySeason[latestSeason] ?? 0}
+						</StatCard>
 						</div>
 
 						<div className="profile-main-grid">
@@ -373,31 +599,17 @@ const Profile = () => {
 									{"Filled tiles are recorded. Silhouettes are not recorded yet."}
 								</p>
 
-								<div aria-live="polite" className="mb-3">
-									{selected &&
-										<Card>
-											<Card.Body>
-												<Card.Title as="h3" className="h5">
-													{selected.label}
-												</Card.Title>
-												<Card.Text className="mb-0">
-													{`Species ${selected.id} · ${selected.family} · ${flockNameForSpecies(selected.id)} flock`}
-													<br />
-													{STATE_LABELS[data.states[selected.id]]}
-													{supplyById?.[selected.id] === 1 && " · 1 of 1"}
-													{typeof supplyById?.[selected.id] === "number" &&
-														supplyById[selected.id] !== 1 &&
-														` · ${supplyById[selected.id]} birds exist`}
-												</Card.Text>
-											</Card.Body>
-										</Card>
-									}
-								</div>
+							<div aria-live="polite" className="mb-3">
+								{selected &&
+									<span className="visually-hidden">
+										{`Selected: ${selected.label}`}
+									</span>
+								}
+							</div>
 
-								<BadgeGrid
+							<BadgeGrid
 									species={visibleSpecies}
 									states={data.states}
-									birdIds={data.birdIds}
 									groupBy={groupBy}
 									selectedId={selected?.id}
 									supplyById={supplyById || undefined}
@@ -509,6 +721,18 @@ const Profile = () => {
 
 					</>
 				}
+
+				<SpeciesModal
+					species={selected}
+					state={selected ? data?.states?.[selected.id] : undefined}
+					supply={selected ? supplyById?.[selected.id] : undefined}
+					birdId={selected ? data?.birdIds?.[selected.id] : undefined}
+					events={
+						selected && data
+							? data.events.filter((event) => event.speciesId === selected.id)
+							: []
+					}
+					onClose={() => setSelected(null)} />
 			</Container>
 		</div>
 	);

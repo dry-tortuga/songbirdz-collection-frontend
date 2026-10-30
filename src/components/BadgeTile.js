@@ -1,13 +1,13 @@
-import React from "react";
+import React, { useState } from "react";
 import PropTypes from "prop-types";
 
 import { STATE_LABELS } from "../utils/lifeList";
-import { birdImage } from "../utils/data";
+import { speciesBadgeSrc } from "../utils/data";
 
 import "./Badge.css";
 
 // One hue per flock so a full grid is easy to scan
-const FLOCK_HUES = [30, 205, 130, 260, 5, 45, 335, 160, 85, 285];
+export const FLOCK_HUES = [30, 205, 130, 260, 5, 45, 335, 160, 85, 285];
 
 // Placeholder glyph (bird silhouette) for missing / claimable tiles
 const GLYPH = [
@@ -34,7 +34,9 @@ const BadgeGlyph = () => (
 
 const BadgeTile = (props) => {
 
-	const { species, state, birdId, flockIndex, supply, selected, onSelect } = props;
+	const { species, state, flockIndex, supply, selected, onSelect } = props;
+
+	const [imgFailed, setImgFailed] = useState(false);
 
 	const classes = [
 		"badge-tile",
@@ -43,7 +45,7 @@ const BadgeTile = (props) => {
 		selected ? "badge-tile--selected" : "",
 	].join(" ");
 
-	const label = `${species.label}, species ${species.id}, ${STATE_LABELS[state]}`;
+	const label = `${species.label}, ${STATE_LABELS[state]}`;
 
 	const style = { "--badge-hue": FLOCK_HUES[flockIndex % FLOCK_HUES.length] };
 
@@ -56,10 +58,17 @@ const BadgeTile = (props) => {
 			aria-label={label}
 			aria-pressed={Boolean(selected)}
 			onClick={() => onSelect(species)}>
-			{state === "recorded" && birdId !== undefined && birdId !== null
-				? <img className="badge-tile__img" src={birdImage(birdId)} alt="" loading="lazy" />
-				: <BadgeGlyph />
-			}
+	{state === "recorded" && !imgFailed
+		? (
+			<img
+				className="badge-tile__img"
+				src={speciesBadgeSrc(species.id)}
+				alt=""
+				loading="lazy"
+				onError={() => setImgFailed(true)} />
+		)
+		: <BadgeGlyph />
+	}
 		</button>
 	);
 
@@ -71,7 +80,6 @@ BadgeTile.propTypes = {
 		label: PropTypes.string.isRequired,
 	}).isRequired,
 	state: PropTypes.oneOf(["missing", "held", "legacy", "recorded"]).isRequired,
-	birdId: PropTypes.number,
 	flockIndex: PropTypes.number.isRequired,
 	supply: PropTypes.number,
 	selected: PropTypes.bool,
